@@ -1,2 +1,3 @@
 rootProject.name='SinchVerification'
-include ':app'
+include ':VerificationSample'
+include ':library:verification-core'
