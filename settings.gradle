@@ -1,3 +1,4 @@
 rootProject.name='SinchVerification'
 include ':VerificationSample'
 include ':library:verification-core'
+include ':library:verification-sms'
