@@ -39,7 +39,8 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":library:verification-core")
+    implementation project(':library:verification-core')
+    implementation project(':library:verification-sms')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
     implementation "androidx.core:core-ktx:${Versions.ktx}"
