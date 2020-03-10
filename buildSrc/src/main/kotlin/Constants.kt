@@ -16,4 +16,6 @@ object Versions {
     const val buildTools = "29.0.3"
     const val compileSdk = 29
     const val minSdk = 16
+
+    const val retrofit = "2.7.2"
 }
