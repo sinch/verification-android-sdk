@@ -18,4 +18,5 @@ object Versions {
     const val minSdk = 16
 
     const val retrofit = "2.7.2"
+    const val okhttp = "4.4.0"
 }

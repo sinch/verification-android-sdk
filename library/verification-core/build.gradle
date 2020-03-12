@@ -37,6 +37,8 @@ dependencies {
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
     implementation "androidx.core:core-ktx:${Versions.ktx}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
+    implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
 
     testImplementation "junit:junit:${Versions.jUnit}"
 
