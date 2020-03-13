@@ -1,6 +1,5 @@
-package com.sinch.verificationcore.networking
+package com.sinch.verificationcore.auth
 
-import com.sinch.verificationcore.auth.AuthorizationMethod
 import okhttp3.Interceptor
 import okhttp3.Response
 

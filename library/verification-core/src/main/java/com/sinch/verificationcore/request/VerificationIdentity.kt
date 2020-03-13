@@ -1,4 +1,3 @@
 package com.sinch.verificationcore.request
 
-data class VerificationIdentity(val type: String,
-                                val endpoint: String)
+data class VerificationIdentity(val endpoint: String, val type: String = "number")

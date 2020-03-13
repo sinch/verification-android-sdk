@@ -1,14 +1,14 @@
-package com.sinch.verificationcore.config
+package com.sinch.verificationcore.config.general
 
 import android.content.Context
+import com.sinch.verificationcore.auth.AuthorizationInterceptor
 import com.sinch.verificationcore.auth.AuthorizationMethod
-import com.sinch.verificationcore.networking.AuthorizationInterceptor
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SinchGlobalGeneralConfig private constructor(
+class SinchGeneralConfig private constructor(
     override val context: Context,
     override val retrofit: Retrofit
 ) : GeneralConfig {
@@ -19,20 +19,27 @@ class SinchGlobalGeneralConfig private constructor(
         private lateinit var apiHost: String
         private lateinit var authorizationMethod: AuthorizationMethod
 
-        private var interceptors: List<Interceptor> = emptyList()
+        private var additionalInterceptors: List<Interceptor> = emptyList()
 
         override fun build(): GeneralConfig {
             val okHttpClient =
                 OkHttpClient().newBuilder()
-                    .addInterceptor(AuthorizationInterceptor(authorizationMethod))
-                    .apply { interceptors().forEach { addInterceptor(it) } }
+                    .addInterceptor(
+                        AuthorizationInterceptor(
+                            authorizationMethod
+                        )
+                    )
+                    .apply { additionalInterceptors.forEach { addInterceptor(it) } }
                     .build()
             val retrofit = Retrofit.Builder()
                 .baseUrl(apiHost)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
-            return SinchGlobalGeneralConfig(context, retrofit)
+            return SinchGeneralConfig(
+                context,
+                retrofit
+            )
         }
 
         override fun context(context: Context): ConfigBuilder = apply { this.context = context }
@@ -43,7 +50,7 @@ class SinchGlobalGeneralConfig private constructor(
         override fun apiHost(apiHost: String): ConfigBuilder = apply { this.apiHost = apiHost }
 
         override fun interceptors(interceptors: List<Interceptor>): ConfigBuilder =
-            apply { this.interceptors = interceptors }
+            apply { this.additionalInterceptors = interceptors }
 
     }
 

@@ -1,4 +1,4 @@
-package com.sinch.verificationcore.config
+package com.sinch.verificationcore.config.general
 
 import android.content.Context
 import retrofit2.Retrofit

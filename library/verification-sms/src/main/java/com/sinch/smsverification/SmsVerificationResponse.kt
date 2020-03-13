@@ -1,0 +1,3 @@
+package com.sinch.smsverification
+
+class SmsVerificationResponse
