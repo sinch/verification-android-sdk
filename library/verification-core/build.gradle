@@ -6,6 +6,12 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
@@ -41,6 +47,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
 
     testImplementation "junit:junit:${Versions.jUnit}"
+    testImplementation "org.robolectric:robolectric:${Versions.robolectric}"
+    testImplementation "androidx.test:core:${Versions.androidXTestCore}"
+    testImplementation "com.nhaarman.mockitokotlin2:mockito-kotlin:${Versions.mockitoKotlin}"
 
     androidTestImplementation "androidx.test.ext:junit:${Versions.jUnitAndroidX}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
