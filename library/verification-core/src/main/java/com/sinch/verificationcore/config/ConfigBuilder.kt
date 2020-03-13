@@ -1,11 +1,13 @@
 package com.sinch.verificationcore.config
 
 import android.content.Context
-import com.sinch.verificationcore.auth.AuthMethod
+import com.sinch.verificationcore.auth.AuthorizationMethod
+import okhttp3.Interceptor
 
 interface ConfigBuilder {
     fun context(context: Context): ConfigBuilder
-    fun authMethod(authMethod: AuthMethod): ConfigBuilder
+    fun authMethod(authorizationMethod: AuthorizationMethod): ConfigBuilder
     fun apiHost(apiHost: String): ConfigBuilder
-    fun build(): Config
+    fun interceptors(interceptors: List<Interceptor>): ConfigBuilder
+    fun build(): GeneralConfig
 }

@@ -1,3 +1,0 @@
-package com.sinch.verificationcore.networking
-
-interface VerificationService
