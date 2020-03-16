@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.google.android.material.snackbar.Snackbar
-import com.sinch.smsverification.SmsVerificationConfig
 import com.sinch.smsverification.SmsVerificationMethod
+import com.sinch.smsverification.config.SmsVerificationConfig
+import com.sinch.smsverification.initialization.SmsInitializationListener
+import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
 import com.sinch.verificationcore.config.general.SinchGeneralConfig
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Interceptor
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +35,23 @@ class MainActivity : AppCompatActivity() {
             .interceptors(listOf<Interceptor>(FlipperOkhttpInterceptor(app.networkPlugin)))
             .authMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66")).build()
 
-        SmsVerificationMethod(SmsVerificationConfig(globalConfig, "+48509873255", "")).initiate()
+        val testListener = object : SmsInitializationListener {
+            override fun onInitiated(data: SmsInitiationResponseData) {
+                Timber.d("Test app onInitiated")
+            }
+
+            override fun onInitializationFailed(t: Throwable) {
+                Timber.d("Test app onInitializationFailed")
+            }
+        }
+
+        SmsVerificationMethod(
+            SmsVerificationConfig(
+                config = globalConfig,
+                number = "+48509873255"
+            ),
+            initializationListener = testListener
+        ).initiate()
     }
 
 }

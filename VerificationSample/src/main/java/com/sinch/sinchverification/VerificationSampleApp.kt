@@ -7,6 +7,8 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.soloader.SoLoader
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 
 
 class VerificationSampleApp : Application() {
@@ -16,6 +18,7 @@ class VerificationSampleApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initFlipper()
+        initLogger()
     }
 
     private fun initFlipper() {
@@ -30,6 +33,12 @@ class VerificationSampleApp : Application() {
                 )
                 addPlugin(networkPlugin)
             }.start()
+        }
+    }
+
+    private fun initLogger() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
         }
     }
 

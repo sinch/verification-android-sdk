@@ -49,7 +49,8 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
-    implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    implementation "com.jakewharton.timber:timber:${Versions.timber}"
 
     debugImplementation 'com.facebook.flipper:flipper:0.33.1'
     debugImplementation 'com.facebook.soloader:soloader:0.8.2'

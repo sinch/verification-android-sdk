@@ -8,6 +8,7 @@ object Versions {
     const val material = "1.1.0"
     const val constraintLayout = "1.1.3"
     const val navigation = "2.2.1"
+    const val timber = "4.7.1"
 
     const val jUnit = "4.12"
     const val jUnitAndroidX = "1.1.1"

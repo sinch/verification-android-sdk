@@ -1,4 +1,4 @@
-package com.sinch.smsverification
+package com.sinch.smsverification.initialization
 
 import com.sinch.verificationcore.initiation.VerificationIdentity
 import com.sinch.verificationcore.initiation.VerificationInitiationData
