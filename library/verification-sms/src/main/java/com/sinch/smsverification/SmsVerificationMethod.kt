@@ -28,7 +28,7 @@ class SmsVerificationMethod(
             SmsVerificationInitiationData(
                 VerificationIdentity(number),
                 true,
-                null
+                custom
             )
 
     override fun initiate() {

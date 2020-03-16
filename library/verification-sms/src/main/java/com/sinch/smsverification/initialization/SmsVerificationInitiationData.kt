@@ -8,5 +8,12 @@ import com.sinch.verificationcore.internal.VerificationMethodType
 class SmsVerificationInitiationData(
     identity: VerificationIdentity,
     honourEarlyReject: Boolean,
+    custom: String?,
     metadata: PhoneMetadata? = null
-) : VerificationInitiationData(VerificationMethodType.SMS, identity, honourEarlyReject, metadata)
+) : VerificationInitiationData(
+    VerificationMethodType.SMS,
+    identity,
+    honourEarlyReject,
+    custom,
+    metadata
+)
