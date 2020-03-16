@@ -1,6 +1,6 @@
-package com.sinch.verificationcore.request.metadata
+package com.sinch.verificationcore.initiation.metadata
 
-import com.sinch.verificationcore.request.metadata.sim.SimCardData
+import com.sinch.verificationcore.initiation.metadata.sim.SimCardData
 
 data class PhoneMetadata(
     val version: Int,

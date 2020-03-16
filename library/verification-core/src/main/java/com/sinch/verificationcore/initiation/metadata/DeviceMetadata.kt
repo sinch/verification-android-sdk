@@ -1,4 +1,4 @@
-package com.sinch.verificationcore.request.metadata
+package com.sinch.verificationcore.initiation.metadata
 
 data class DeviceMetadata(
     val model: String,

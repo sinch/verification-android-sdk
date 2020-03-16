@@ -7,6 +7,6 @@ import retrofit2.http.POST
 interface SmsVerificationService {
 
     @POST("verifications")
-    fun initializeVerification(@Body data: SmsVerificationRequestData): Call<SmsVerificationResponse>
+    fun initializeVerification(@Body data: SmsVerificationInitiationData): Call<SmsVerificationResponse>
 
 }

@@ -28,11 +28,11 @@ class MainActivity : AppCompatActivity() {
 
         val globalConfig = SinchGeneralConfig.Builder()
             .context(applicationContext)
-            .apiHost("https://verificationapi-v1-01.sinchlab.com/verification/v1/")
+            .apiHost("https://verificationapi-v1.sinch.com/verification/v1/")
             .interceptors(listOf<Interceptor>(FlipperOkhttpInterceptor(app.networkPlugin)))
-            .authMethod(AppKeyAuthorizationMethod("testKey")).build()
+            .authMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66")).build()
 
-        SmsVerificationMethod(SmsVerificationConfig(globalConfig, "", "")).initiate()
+        SmsVerificationMethod(SmsVerificationConfig(globalConfig, "+48509873255", "")).initiate()
     }
 
 }

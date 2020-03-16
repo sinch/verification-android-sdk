@@ -5,6 +5,6 @@ import com.sinch.verificationcore.config.general.GeneralConfig
 abstract class VerificationMethodConfig<ApiService>(
     val config: GeneralConfig,
     val number: String,
-    val custom: String,
+    val custom: String = "",
     val apiService: ApiService
 )
