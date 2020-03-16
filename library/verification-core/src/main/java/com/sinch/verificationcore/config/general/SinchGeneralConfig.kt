@@ -18,8 +18,9 @@ class SinchGeneralConfig private constructor(
         private lateinit var context: Context
         private lateinit var apiHost: String
         private lateinit var authorizationMethod: AuthorizationMethod
-
         private var additionalInterceptors: List<Interceptor> = emptyList()
+
+        private val baseUrl: String get() = "${apiHost}verification/v1/"
 
         override fun build(): GeneralConfig {
             val okHttpClient =
@@ -32,7 +33,7 @@ class SinchGeneralConfig private constructor(
                     .apply { additionalInterceptors.forEach { addInterceptor(it) } }
                     .build()
             val retrofit = Retrofit.Builder()
-                .baseUrl(apiHost)
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(okHttpClient)
                 .build()
