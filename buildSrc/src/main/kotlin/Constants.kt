@@ -15,7 +15,7 @@ object Versions {
     const val robolectric = "4.3.1"
     const val espresso = "3.2.0"
     const val androidXTestCore = "1.2.0"
-    const val mockitoKotlin = "2.2.0"
+    const val mockk = "1.8.13"
 
     const val buildTools = "29.0.3"
     const val compileSdk = 29

@@ -2,7 +2,7 @@ package com.sinch.verificationcore.config.general
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.nhaarman.mockitokotlin2.mock
+import io.mockk.mockk
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,7 +21,7 @@ class GeneralConfigBuilderTest {
         val apiHost = "http://localhost.com/"
         val config = SinchGeneralConfig.Builder()
             .context(ApplicationProvider.getApplicationContext())
-            .authMethod(mock())
+            .authMethod(mockk())
             .apiHost(apiHost).build()
 
         assertTrue(config.retrofit.baseUrl().toString().startsWith(apiHost))
