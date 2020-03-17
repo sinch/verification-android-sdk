@@ -48,5 +48,4 @@ class SmsVerificationMethod(
         TODO("Not yet implemented")
     }
 
-
 }
