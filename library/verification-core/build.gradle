@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdkVersion 29
@@ -40,11 +41,12 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
     implementation "androidx.core:core-ktx:${Versions.ktx}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${Versions.retrofit}"
-    implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     implementation "com.jakewharton.timber:timber:${Versions.timber}"
 
     testImplementation "junit:junit:${Versions.jUnit}"

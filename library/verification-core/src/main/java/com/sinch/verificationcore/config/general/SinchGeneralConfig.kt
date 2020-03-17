@@ -1,12 +1,15 @@
 package com.sinch.verificationcore.config.general
 
 import android.content.Context
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sinch.verificationcore.auth.AuthorizationInterceptor
 import com.sinch.verificationcore.auth.AuthorizationMethod
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class SinchGeneralConfig private constructor(
     override val context: Context,
@@ -32,9 +35,13 @@ class SinchGeneralConfig private constructor(
                     )
                     .apply { additionalInterceptors.forEach { addInterceptor(it) } }
                     .build()
+
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(
+                    Json(JsonConfiguration.Stable)
+                        .asConverterFactory("application/json".toMediaType())
+                )
                 .client(okHttpClient)
                 .build()
             return SinchGeneralConfig(

@@ -1,8 +1,10 @@
 package com.sinch.verificationcore.initiation
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 enum class VerificationIdentityType(val value: String) {
-    @SerializedName("number")
+    @SerialName("number")
     NUMBER("number")
 }
