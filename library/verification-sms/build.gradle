@@ -1,6 +1,7 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdkVersion 29
@@ -27,10 +28,18 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.core:core-ktx:1.2.0'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation project(':library:verification-core')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
+    implementation "androidx.core:core-ktx:${Versions.ktx}"
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
+    implementation("com.squareup.okhttp3:okhttp:${Versions.okhttp}")
+    implementation "com.jakewharton.timber:timber:${Versions.timber}"
+
+    testImplementation "junit:junit:${Versions.jUnit}"
+
+    androidTestImplementation "androidx.test.ext:junit:${Versions.jUnitAndroidX}"
+    androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
 }

@@ -8,14 +8,21 @@ object Versions {
     const val material = "1.1.0"
     const val constraintLayout = "1.1.3"
     const val navigation = "2.2.1"
+    const val timber = "4.7.1"
 
     const val jUnit = "4.12"
     const val jUnitAndroidX = "1.1.1"
+    const val robolectric = "4.3.1"
     const val espresso = "3.2.0"
+    const val androidXTestCore = "1.2.0"
+    const val mockk = "1.8.13"
 
     const val buildTools = "29.0.3"
     const val compileSdk = 29
     const val minSdk = 16
 
     const val retrofit = "2.7.2"
+    const val okhttp = "4.4.0"
+    const val xSerialization = "0.9.1"
+    const val kotlinXConverter = "0.5.0"
 }
