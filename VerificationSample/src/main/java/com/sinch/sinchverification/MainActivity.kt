@@ -48,7 +48,7 @@ class MainActivity : AppCompatActivity() {
         SmsVerificationMethod(
             SmsVerificationConfig(
                 config = globalConfig,
-                number = "48509873255",
+                number = "+48509873255",
                 custom = "testCustom"
             ),
             initializationListener = testListener

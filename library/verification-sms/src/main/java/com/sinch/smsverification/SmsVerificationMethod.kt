@@ -1,5 +1,6 @@
 package com.sinch.smsverification
 
+import com.sinch.metadata.model.PhoneMetadataFactory
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
@@ -22,13 +23,15 @@ class SmsVerificationMethod(
 
     private val number: String = config.number
     private val custom: String = config.custom
+    private val metadataFactory: PhoneMetadataFactory = config.metadataFactory
 
     private val requestDataData: SmsVerificationInitiationData
         get() =
             SmsVerificationInitiationData(
                 VerificationIdentity(number),
                 true,
-                custom
+                custom,
+                metadataFactory.create()
             )
 
     override fun initiate() {

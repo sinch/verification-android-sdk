@@ -7,8 +7,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SmsInitiationResponseData(
-    override val id: String,
+    @SerialName("id") override val id: String,
     @SerialName("sms") val details: SmsInitializationDetails
 ) : InitiationResponseData {
+    @SerialName("method")
     override val method: VerificationMethodType = VerificationMethodType.SMS
 }
