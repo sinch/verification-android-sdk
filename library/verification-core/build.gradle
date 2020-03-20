@@ -27,7 +27,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_URL", "https://verificationapi-v1-01.sinchlab.com/"
+            buildConfigField "String", "API_URL", "\"https://verificationapi-v1-01.sinchlab.com/\""
         }
 
         debug {
@@ -40,6 +40,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
+    implementation project(':library:metadata-collector')
+    implementation project(':library:utils')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"

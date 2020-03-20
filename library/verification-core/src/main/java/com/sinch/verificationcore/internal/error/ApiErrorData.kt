@@ -1,6 +1,11 @@
 package com.sinch.verificationcore.internal.error
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiErrorData(val errorCode: Int, val message: String, val reference: String)
+data class ApiErrorData(
+    @SerialName("errorCode") val errorCode: Int,
+    @SerialName("message") val message: String,
+    @SerialName("reference") val reference: String
+)

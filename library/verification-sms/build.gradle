@@ -29,6 +29,8 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library:verification-core')
+    implementation project(':library:metadata-collector')
+    implementation project(':library:utils')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
