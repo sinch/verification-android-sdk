@@ -31,9 +31,11 @@ class MainActivity : AppCompatActivity() {
 
         val globalConfig = SinchGeneralConfig.Builder()
             .context(applicationContext)
-            .apiHost("https://verificationapi-v1.sinch.com/")
+            //.apiHost("https://verificationapi-v1.sinch.com/")
+            .apiHost("https://verificationapi-v1-01.sinchlab.com/")
             .interceptors(listOf<Interceptor>(FlipperOkhttpInterceptor(app.networkPlugin)))
-            .authMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66")).build()
+            .authMethod(AppKeyAuthorizationMethod("de23e021-db44-4004-902c-5a7fc18e35e2")).build()
+        //.authMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66")).build()
 
         val testListener = object : SmsInitializationListener {
             override fun onInitiated(data: SmsInitiationResponseData) {
@@ -49,6 +51,7 @@ class MainActivity : AppCompatActivity() {
             SmsVerificationConfig(
                 config = globalConfig,
                 number = "+48509873255",
+                honourEarlyReject = true,
                 custom = "testCustom"
             ),
             initializationListener = testListener

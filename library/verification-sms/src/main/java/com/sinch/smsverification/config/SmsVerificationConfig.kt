@@ -9,11 +9,13 @@ import com.sinch.verificationcore.config.method.VerificationMethodConfig
 class SmsVerificationConfig(
     config: GeneralConfig,
     number: String,
+    honourEarlyReject: Boolean = true,
     custom: String = ""
 ) : VerificationMethodConfig<SmsVerificationService>(
-    config,
-    number,
-    custom,
+    config = config,
+    number = number,
+    honourEarlyReject = honourEarlyReject,
+    custom = custom,
     apiService = config.retrofit.create(SmsVerificationService::class.java),
     metadataFactory = AndroidMetadataFactory(
         config.context,

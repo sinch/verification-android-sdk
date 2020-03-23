@@ -8,5 +8,6 @@ abstract class VerificationMethodConfig<ApiService>(
     val number: String,
     val custom: String = "",
     val apiService: ApiService,
+    val honourEarlyReject: Boolean,
     val metadataFactory: PhoneMetadataFactory
 )
