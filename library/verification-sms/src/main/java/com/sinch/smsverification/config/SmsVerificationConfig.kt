@@ -5,7 +5,6 @@ import com.sinch.smsverification.BuildConfig
 import com.sinch.smsverification.SmsVerificationService
 import com.sinch.verificationcore.config.general.GeneralConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
-import com.sinch.verificationcore.internal.error.earlyreject.EarlyRejectData
 
 class SmsVerificationConfig(
     config: GeneralConfig,

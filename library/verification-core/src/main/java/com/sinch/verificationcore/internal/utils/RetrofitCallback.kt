@@ -8,7 +8,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
-class RetrofitCallback<T>(private val retrofit: Retrofit, private val apiCallback: ApiCallback<T>) :
+open class RetrofitCallback<T>(
+    private val retrofit: Retrofit,
+    private val apiCallback: ApiCallback<T>
+) :
     Callback<T> {
 
     override fun onFailure(call: Call<T>, t: Throwable) {
