@@ -14,23 +14,20 @@ import com.sinch.verificationcore.internal.utils.enqueue
 typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
 
 class SmsVerificationMethod(
-    config: SmsVerificationConfig,
+    private val config: SmsVerificationConfig,
     val initializationListener: SmsInitializationListener = EmptySmsInitializationListener()
 ) :
     VerificationMethod<SmsVerificationService>(config) {
 
     private val retrofit get() = generalConfig.retrofit
-
-    private val number: String = config.number
-    private val custom: String = config.custom
     private val metadataFactory: PhoneMetadataFactory = config.metadataFactory
 
     private val requestDataData: SmsVerificationInitiationData
         get() =
             SmsVerificationInitiationData(
-                VerificationIdentity(number),
-                true,
-                custom,
+                VerificationIdentity(config.number),
+                config.honourEarlyReject,
+                config.custom,
                 metadataFactory.create()
             )
 

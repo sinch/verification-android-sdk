@@ -5,15 +5,18 @@ import com.sinch.smsverification.BuildConfig
 import com.sinch.smsverification.SmsVerificationService
 import com.sinch.verificationcore.config.general.GeneralConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
+import com.sinch.verificationcore.internal.error.earlyreject.EarlyRejectData
 
 class SmsVerificationConfig(
     config: GeneralConfig,
     number: String,
+    honourEarlyReject: Boolean = true,
     custom: String = ""
 ) : VerificationMethodConfig<SmsVerificationService>(
-    config,
-    number,
-    custom,
+    config = config,
+    number = number,
+    honourEarlyReject = honourEarlyReject,
+    custom = custom,
     apiService = config.retrofit.create(SmsVerificationService::class.java),
     metadataFactory = AndroidMetadataFactory(
         config.context,
