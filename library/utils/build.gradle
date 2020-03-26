@@ -32,6 +32,8 @@ android {
 }
 
 dependencies {
+    implementation project(':library:logging')
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
