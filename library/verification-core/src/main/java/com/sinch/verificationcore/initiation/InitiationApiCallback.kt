@@ -4,7 +4,7 @@ import com.sinch.verificationcore.initiation.response.InitiationListener
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.utils.ApiCallback
 
-class SimpleInitiationApiCallback<T : InitiationResponseData>(private val listener: InitiationListener<T>) :
+open class InitiationApiCallback<T : InitiationResponseData>(private val listener: InitiationListener<T>) :
     ApiCallback<T> {
 
     override fun onSuccess(data: T) =

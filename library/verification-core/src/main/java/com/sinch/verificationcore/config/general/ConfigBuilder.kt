@@ -9,5 +9,5 @@ interface ConfigBuilder {
     fun authMethod(authorizationMethod: AuthorizationMethod): ConfigBuilder
     fun apiHost(apiHost: String): ConfigBuilder
     fun interceptors(interceptors: List<Interceptor>): ConfigBuilder
-    fun build(): GeneralConfig
+    fun build(): GlobalConfig
 }

@@ -1,0 +1,16 @@
+package com.sinch.verificationcore.verification
+
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+@Serializable
+enum class VerificationSourceType(val value: String) {
+    @SerialName("intercept")
+    INTERCEPTION("intercept"),
+    @SerialName("manual")
+    MANUAL("manual");
+
+    companion object {
+        fun forKey(value: String) = VerificationSourceType.values().first { it.value == value }
+    }
+}

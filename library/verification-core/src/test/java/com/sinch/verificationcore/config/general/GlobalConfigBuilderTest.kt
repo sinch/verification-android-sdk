@@ -14,12 +14,12 @@ import org.robolectric.annotation.Config
     RobolectricTestRunner::class
 )
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
-class GeneralConfigBuilderTest {
+class GlobalConfigBuilderTest {
 
     @Test
     fun shouldBaseUrlMatch() {
         val apiHost = "http://localhost.com/"
-        val config = SinchGeneralConfig.Builder()
+        val config = SinchGlobalConfig.Builder()
             .context(ApplicationProvider.getApplicationContext())
             .authMethod(mockk())
             .apiHost(apiHost).build()

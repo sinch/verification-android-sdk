@@ -12,7 +12,8 @@ class SmsVerificationInitiationData(
     @SerialName("identity") override val identity: VerificationIdentity,
     @SerialName("honourEarlyReject") override val honourEarlyReject: Boolean,
     @SerialName("custom") override val custom: String?,
-    @SerialName("metadata") override val metadata: PhoneMetadata?
+    @SerialName("metadata") override val metadata: PhoneMetadata?,
+    @SerialName("smsOptions") val smsOptions: SmsOptions
 ) : VerificationInitiationData {
     @SerialName("method")
     override val method: VerificationMethodType = VerificationMethodType.SMS
