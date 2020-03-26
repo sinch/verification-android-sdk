@@ -41,6 +41,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library:verification-core')
     implementation project(':library:verification-sms')
+    implementation project(':library:logging')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
@@ -50,7 +51,6 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
-    implementation "com.jakewharton.timber:timber:${Versions.timber}"
 
     debugImplementation 'com.facebook.flipper:flipper:0.33.1'
     debugImplementation 'com.facebook.soloader:soloader:0.8.2'

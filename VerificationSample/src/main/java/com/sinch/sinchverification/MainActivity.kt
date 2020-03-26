@@ -3,6 +3,7 @@ package com.sinch.sinchverification
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
+import com.sinch.logging.logger
 import com.sinch.smsverification.SmsVerificationMethod
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
@@ -12,12 +13,12 @@ import com.sinch.verificationcore.config.general.SinchGlobalConfig
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Interceptor
-import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
 
     private val app: VerificationSampleApp get() = application as VerificationSampleApp
+    private val logger = logger()
 
     private val globalConfig by lazy {
         SinchGlobalConfig.Builder()
@@ -31,21 +32,21 @@ class MainActivity : AppCompatActivity() {
 
     private val testListener = object : SmsInitializationListener {
         override fun onInitiated(data: SmsInitiationResponseData) {
-            Timber.d("Test app onInitiated")
+            logger.debug("Test app onInitiated")
         }
 
         override fun onInitializationFailed(t: Throwable) {
-            Timber.d("Test app onInitializationFailed")
+            logger.debug("Test app onInitializationFailed")
         }
     }
 
     private val testListenerVerification = object : VerificationListener {
         override fun onVerified() {
-            Timber.d("Test app onVerified")
+            logger.debug("Test app onVerified")
         }
 
         override fun onVerificationFailed(t: Throwable) {
-            Timber.d("Test app onVerificationFailed")
+            logger.debug("Test app onVerificationFailed")
         }
     }
 

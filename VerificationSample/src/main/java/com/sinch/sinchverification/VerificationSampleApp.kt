@@ -7,8 +7,8 @@ import com.facebook.flipper.plugins.inspector.DescriptorMapping
 import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
 import com.facebook.soloader.SoLoader
-import timber.log.Timber
-import timber.log.Timber.DebugTree
+import com.sinch.logging.Log
+import com.sinch.logging.LogcatAppender
 
 
 class VerificationSampleApp : Application() {
@@ -38,7 +38,7 @@ class VerificationSampleApp : Application() {
 
     private fun initLogger() {
         if (BuildConfig.DEBUG) {
-            Timber.plant(DebugTree())
+            Log.init(LogcatAppender())
         }
     }
 

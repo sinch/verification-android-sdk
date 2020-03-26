@@ -30,6 +30,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':library:utils')
+    implementation project(':library:logging')
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
     implementation "androidx.annotation:annotation:${Versions.appCompat}"
@@ -37,7 +39,6 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
-    implementation "com.jakewharton.timber:timber:${Versions.timber}"
 
     testImplementation "junit:junit:${Versions.jUnit}"
     testImplementation "org.robolectric:robolectric:${Versions.robolectric}"
