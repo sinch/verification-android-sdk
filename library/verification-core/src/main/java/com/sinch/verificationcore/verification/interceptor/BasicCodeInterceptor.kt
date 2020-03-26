@@ -26,6 +26,7 @@ abstract class BasicCodeInterceptor(
     private fun initializeCancelHandler() {
         maxTimeout?.let {
             cancelHandler.postDelayed({
+                stop()
                 interceptionListener.onCodeInterceptionError(CodeInterceptionTimeoutException())
                 onInterceptorTimedOut()
             }, it)

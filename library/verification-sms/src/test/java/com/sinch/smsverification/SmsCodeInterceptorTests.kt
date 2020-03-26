@@ -70,6 +70,8 @@ class SmsCodeInterceptorTests {
         verify(exactly = 0) { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
         Robolectric.getForegroundThreadScheduler().advanceBy(timeout, TimeUnit.MILLISECONDS)
         verify(exactly = 1) { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
+        Assert.assertFalse(shadowApplication.registeredReceivers.map { it.broadcastReceiver::class.simpleName }
+            .contains(SmsBroadcastReceiver::class.simpleName))
     }
 
     @Test
@@ -105,7 +107,33 @@ class SmsCodeInterceptorTests {
     }
 
     @Test
-    fun testListenerNotifiedWhenTimeoutStatusReached() {}
+    fun testListenerNotifiedWhenTimeoutStatusReached() {
+        createInterceptor().apply {
+            start()
+        }
+        context.sendBroadcast(
+            SmsBroadcastReceiverTests.mockedBroadcastIntent(
+                simpleTemplate.replace(CODE, exampleCode), Status.RESULT_TIMEOUT
+            )
+        )
+        verify(exactly = 0) { mockedInterceptionListener.onCodeIntercepted(any()) }
+        verify { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
+    }
+
+    @Test
+    fun testListenerNotifiedWhenMalformedMessageReceived() {
+        val malformedMessage = "1234 is your code"
+        createInterceptor().apply {
+            start()
+        }
+        context.sendBroadcast(
+            SmsBroadcastReceiverTests.mockedBroadcastIntent(
+                malformedMessage, Status.RESULT_SUCCESS
+            )
+        )
+        verify(exactly = 0) { mockedInterceptionListener.onCodeIntercepted(any()) }
+        verify { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
+    }
 
     private fun createInterceptor(
         template: String = simpleTemplate,
