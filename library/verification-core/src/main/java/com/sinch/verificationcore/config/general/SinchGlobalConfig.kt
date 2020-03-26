@@ -11,10 +11,10 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-class SinchGeneralConfig private constructor(
+class SinchGlobalConfig private constructor(
     override val context: Context,
     override val retrofit: Retrofit
-) : GeneralConfig {
+) : GlobalConfig {
 
     class Builder : ConfigBuilder {
 
@@ -25,7 +25,7 @@ class SinchGeneralConfig private constructor(
 
         private val baseUrl: String get() = "${apiHost}verification/v1/"
 
-        override fun build(): GeneralConfig {
+        override fun build(): GlobalConfig {
             val okHttpClient =
                 OkHttpClient().newBuilder()
                     .addInterceptor(
@@ -44,7 +44,7 @@ class SinchGeneralConfig private constructor(
                 )
                 .client(okHttpClient)
                 .build()
-            return SinchGeneralConfig(
+            return SinchGlobalConfig(
                 context,
                 retrofit
             )

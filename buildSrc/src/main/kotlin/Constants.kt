@@ -1,6 +1,8 @@
 object Versions {
 
-    const val kotlin = "1.3.70"
+    const val minSDK = 21
+
+    const val kotlin = "1.3.71"
     const val gradleBuildTools = "3.6.1"
 
     const val appCompat = "1.1.0"
@@ -23,6 +25,9 @@ object Versions {
 
     const val retrofit = "2.7.2"
     const val okhttp = "4.4.0"
-    const val xSerialization = "0.9.1"
+    const val xSerialization = "0.20.0"
     const val kotlinXConverter = "0.5.0"
+
+    const val playAuth = "17.0.0"
+    const val playAuthPhone = "17.4.0"
 }
