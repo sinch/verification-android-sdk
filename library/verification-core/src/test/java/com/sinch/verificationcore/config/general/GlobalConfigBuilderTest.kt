@@ -19,8 +19,7 @@ class GlobalConfigBuilderTest {
     @Test
     fun shouldBaseUrlMatch() {
         val apiHost = "http://localhost.com/"
-        val config = SinchGlobalConfig.Builder()
-            .context(ApplicationProvider.getApplicationContext())
+        val config = SinchGlobalConfig.Builder(ApplicationProvider.getApplicationContext())
             .authMethod(mockk())
             .apiHost(apiHost).build()
 

@@ -20,6 +20,7 @@ import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
+import retrofit2.Response
 
 typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
 typealias  SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>
@@ -46,21 +47,29 @@ class SmsVerificationMethod(
 
     private var smsCodeInterceptor: SmsCodeInterceptor? = null
 
-    override fun initiate() {
-        verificationService.initializeVerification(requestDataData)
-            .enqueue(retrofit, object : SimpleInitializationSmsApiCallback(initializationListener) {
-                override fun onSuccess(data: SmsInitiationResponseData) {
-                    super.onSuccess(data)
-                    initializeInterceptor(data.details.template)
-                }
-            })
+    override fun onInitiate() {
+        verificationService.initializeVerification(
+            requestDataData,
+            config.acceptedLanguages.asLanguagesString()
+        )
+            .enqueue(
+                retrofit,
+                object : SimpleInitializationSmsApiCallback(initializationListener, this) {
+                    override fun onSuccess(
+                        data: SmsInitiationResponseData,
+                        response: Response<SmsInitiationResponseData>
+                    ) {
+                        super.onSuccess(data, response)
+                        initializeInterceptor(data.details.template)
+                    }
+                })
     }
 
-    override fun verify(verificationCode: String, sourceType: VerificationSourceType) {
+    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
         verificationService.verifyNumber(
             number = config.number,
             data = SmsVerificationData(sourceType, SmsVerificationDetails(verificationCode))
-        ).enqueue(retrofit, VerificationApiCallback(verificationListener))
+        ).enqueue(retrofit, VerificationApiCallback(verificationListener, this))
     }
 
     override fun onCodeIntercepted(code: String) {
@@ -85,5 +94,8 @@ class SmsVerificationMethod(
             verificationListener.onVerificationFailed(e)
         }
     }
+
+    private fun List<String>.asLanguagesString() =
+        if (isEmpty()) null else reduce { acc, s -> "$acc,$s" }
 
 }

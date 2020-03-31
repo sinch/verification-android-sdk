@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 enum class VerificationSourceType(val value: String) {
     @SerialName("intercept")
     INTERCEPTION("intercept"),
+
     @SerialName("manual")
     MANUAL("manual");
 

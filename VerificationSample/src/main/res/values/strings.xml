@@ -5,4 +5,7 @@
     <string name="initialize">Initialize</string>
     <string name="verify">Verify</string>
 
+    <string name="testPhone">+48509873255</string>
+    <string name="enterNumberHint">Enter phone number</string>
+    <string name="verificationCodeHint">Enter code</string>
 </resources>

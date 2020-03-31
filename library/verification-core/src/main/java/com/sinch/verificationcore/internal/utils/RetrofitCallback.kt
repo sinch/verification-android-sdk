@@ -20,7 +20,7 @@ open class RetrofitCallback<T>(
 
     override fun onResponse(call: Call<T>, response: Response<T>) {
         if (response.isSuccessful) {
-            response.body()?.let { apiCallback.onSuccess(it) }
+            response.body()?.let { apiCallback.onSuccess(it, response) }
         } else {
             response.errorBody()?.convertToError()
         }
