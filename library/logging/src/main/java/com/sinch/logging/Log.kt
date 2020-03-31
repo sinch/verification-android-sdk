@@ -4,11 +4,15 @@ object Log {
 
     private val delegates = mutableSetOf<Appender>()
 
+    @JvmStatic
+    @JvmOverloads
     fun <T : Any> create(type: T, tagOverride: String? = null): Logger = DelegatingLogger(
         tagOverride
             ?: type::class.java.simpleName
     )
 
+    @JvmStatic
+    @JvmOverloads
     fun init(vararg appenders: Appender) {
         with(delegates) {
             clear()

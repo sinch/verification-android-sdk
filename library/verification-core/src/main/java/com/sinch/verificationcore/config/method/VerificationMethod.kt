@@ -3,6 +3,9 @@ package com.sinch.verificationcore.config.method
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.Verification
+import com.sinch.verificationcore.internal.VerificationStateListener
+import com.sinch.verificationcore.internal.VerificationStateStatus
+import com.sinch.verificationcore.internal.error.VerificationState
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
@@ -11,19 +14,40 @@ abstract class VerificationMethod<Service>(
     verificationServiceConfig: VerificationMethodConfig<Service>,
     protected val verificationListener: VerificationListener = EmptyVerificationListener()
 ) :
-    Verification {
+    Verification, VerificationStateListener {
 
     protected val globalConfig: GlobalConfig = verificationServiceConfig.globalConfig
     protected val verificationService: Service = verificationServiceConfig.apiService
 
     protected var initResponseData: InitiationResponseData? = null
 
+    var verificationState: VerificationState = VerificationState.IDLE
+        private set
+
     protected val id: String? get() = initResponseData?.id
 
-    override fun verify(verificationCode: String) {
+    final override fun verify(verificationCode: String) {
         verify(verificationCode, VerificationSourceType.MANUAL)
     }
 
-    protected abstract fun verify(verificationCode: String, sourceType: VerificationSourceType)
+    fun verify(verificationCode: String, sourceType: VerificationSourceType) {
+        if (verificationState.canVerify) {
+            verificationState = VerificationState.Verification(VerificationStateStatus.ONGOING)
+            onVerify(verificationCode, sourceType)
+        }
+    }
 
+    final override fun initiate() {
+        if (verificationState.canInitiate) {
+            verificationState = VerificationState.Initialization(VerificationStateStatus.ONGOING)
+            onInitiate()
+        }
+    }
+
+    override fun update(newState: VerificationState) {
+        this.verificationState = newState
+    }
+
+    protected abstract fun onInitiate()
+    protected abstract fun onVerify(verificationCode: String, sourceType: VerificationSourceType)
 }

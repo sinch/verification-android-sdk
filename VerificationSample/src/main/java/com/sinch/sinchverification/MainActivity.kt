@@ -2,6 +2,7 @@ package com.sinch.sinchverification
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.sinch.logging.logger
 import com.sinch.smsverification.SmsVerificationMethod
@@ -10,10 +11,10 @@ import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
 import com.sinch.verificationcore.config.general.SinchGlobalConfig
+import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Interceptor
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,8 +22,7 @@ class MainActivity : AppCompatActivity() {
     private val logger = logger()
 
     private val globalConfig by lazy {
-        SinchGlobalConfig.Builder()
-            .context(applicationContext)
+        SinchGlobalConfig.Builder(app)
             .apiHost("https://verificationapi-v1.sinch.com/")
             //.apiHost("https://verificationapi-v1-01.sinchlab.com/")
             .interceptors(listOf<Interceptor>(FlipperOkhttpInterceptor(app.networkPlugin)))
@@ -31,7 +31,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val testListener = object : SmsInitializationListener {
-        override fun onInitiated(data: SmsInitiationResponseData) {
+        override fun onInitiated(
+            data: SmsInitiationResponseData,
+            contentLanguage: String
+        ) {
             logger.debug("Test app onInitiated")
         }
 
@@ -50,11 +53,29 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val verification: SmsVerificationMethod by lazy {
-        SmsVerificationMethod(
+    private var verification: Verification? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+        initButton.setOnClickListener {
+            verification?.initiate()
+        }
+        verifyButton.setOnClickListener {
+            verification?.verify(codeEdit.text.toString())
+        }
+        phoneNumber.addTextChangedListener {
+            resetVerification()
+        }
+        resetVerification()
+    }
+
+    private fun resetVerification() {
+        verification = SmsVerificationMethod(
             SmsVerificationConfig(
                 config = globalConfig,
-                number = "+48509873255",
+                number = phoneNumber.text.toString(),
+                acceptedLanguages = listOf("es-ES"),
                 honourEarlyReject = true,
                 appHash = "0wjBaTjBink",
                 custom = "testCustom",
@@ -63,17 +84,6 @@ class MainActivity : AppCompatActivity() {
             initializationListener = testListener,
             verificationListener = testListenerVerification
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initButton.setOnClickListener {
-            verification.initiate()
-        }
-        verifyButton.setOnClickListener {
-            verification.verify(editText.text.toString())
-        }
     }
 
 }

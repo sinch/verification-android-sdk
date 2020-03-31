@@ -16,13 +16,13 @@ object Versions {
     const val robolectric = "4.3.1"
     const val espresso = "3.2.0"
     const val androidXTestCore = "1.2.0"
-    const val mockk = "1.8.13"
+    const val mockk = "1.9.3.kotlin12"
 
     const val buildTools = "29.0.3"
     const val compileSdk = 29
     const val minSdk = 16
 
-    const val retrofit = "2.7.2"
+    const val retrofit = "2.8.1"
     const val okhttp = "4.4.0"
     const val xSerialization = "0.20.0"
     const val kotlinXConverter = "0.5.0"

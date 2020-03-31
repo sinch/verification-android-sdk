@@ -16,9 +16,8 @@ class SinchGlobalConfig private constructor(
     override val retrofit: Retrofit
 ) : GlobalConfig {
 
-    class Builder : ConfigBuilder {
+    class Builder(private val context: Context) : ConfigBuilder {
 
-        private lateinit var context: Context
         private lateinit var apiHost: String
         private lateinit var authorizationMethod: AuthorizationMethod
         private var additionalInterceptors: List<Interceptor> = emptyList()
@@ -49,8 +48,6 @@ class SinchGlobalConfig private constructor(
                 retrofit
             )
         }
-
-        override fun context(context: Context): ConfigBuilder = apply { this.context = context }
 
         override fun authMethod(authorizationMethod: AuthorizationMethod): ConfigBuilder =
             apply { this.authorizationMethod = authorizationMethod }
