@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
             data: SmsInitiationResponseData,
             contentLanguage: String
         ) {
-            logger.debug("Test app onInitiated")
+            logger.debug("Test app onInitiated $data")
         }
 
         override fun onInitializationFailed(t: Throwable) {
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetVerification() {
-        verification = SmsVerificationMethod(
+        verification = SmsVerificationMethod.Builder.instance.config(
             SmsVerificationConfig(
                 config = globalConfig,
                 number = phoneNumber.text.toString(),
@@ -80,10 +80,11 @@ class MainActivity : AppCompatActivity() {
                 appHash = "0wjBaTjBink",
                 custom = "testCustom",
                 maxTimeout = null
-            ),
-            initializationListener = testListener,
-            verificationListener = testListenerVerification
+            )
         )
+            .initiationListener(testListener)
+            .verificationListener(testListenerVerification)
+            .build()
     }
 
 }

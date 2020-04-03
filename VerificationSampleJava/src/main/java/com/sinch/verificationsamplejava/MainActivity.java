@@ -15,6 +15,7 @@ import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod;
 import com.sinch.verificationcore.config.general.GlobalConfig;
 import com.sinch.verificationcore.config.general.SinchGlobalConfig;
 import com.sinch.verificationcore.initiation.response.InitiationListener;
+import com.sinch.verificationcore.internal.Verification;
 import com.sinch.verificationcore.verification.response.VerificationListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private InitiationListener<SmsInitiationResponseData> initiationListener;
     private VerificationListener verificationListener;
 
-    private SmsVerificationMethod smsVerificationMethod;
+    private Verification smsVerificationMethod;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +88,12 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        smsVerificationMethod = new SmsVerificationMethod(smsVerificationConfig, initiationListener, verificationListener);
+        smsVerificationMethod = SmsVerificationMethod.Builder.getInstance()
+                .config(smsVerificationConfig)
+                .initiationListener(initiationListener)
+                .verificationListener(verificationListener)
+                .build();
+
     }
 
     private VerificationJavaSampleApp getApp() {

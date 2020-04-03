@@ -11,9 +11,11 @@ import com.sinch.smsverification.verification.SmsVerificationDetails
 import com.sinch.smsverification.verification.extractor.SmsCodeExtractor
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verificationcore.config.method.VerificationMethod
+import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
 import com.sinch.verificationcore.initiation.VerificationIdentity
 import com.sinch.verificationcore.initiation.response.EmptyInitializationListener
+import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.utils.enqueue
 import com.sinch.verificationcore.verification.VerificationApiCallback
 import com.sinch.verificationcore.verification.VerificationSourceType
@@ -25,7 +27,7 @@ import retrofit2.Response
 typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
 typealias  SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>
 
-class SmsVerificationMethod(
+class SmsVerificationMethod private constructor(
     private val config: SmsVerificationConfig,
     private val initializationListener: SmsInitializationListener = EmptySmsInitializationListener(),
     verificationListener: VerificationListener = EmptyVerificationListener()
@@ -60,7 +62,7 @@ class SmsVerificationMethod(
                         response: Response<SmsInitiationResponseData>
                     ) {
                         super.onSuccess(data, response)
-                        initializeInterceptor(data.details.template)
+                        initializeInterceptorIfNeeded(data.details.template)
                     }
                 })
     }
@@ -80,6 +82,14 @@ class SmsVerificationMethod(
         verificationListener.onVerificationFailed(e)
     }
 
+    private fun initializeInterceptorIfNeeded(template: String) {
+        if (config.appHash.isNullOrBlank()) {
+            logger.info("App hash not provided, skipping initialization of interceptor")
+        } else {
+            initializeInterceptor(template)
+        }
+    }
+
     private fun initializeInterceptor(template: String) {
         try {
             val templateMatcher = SmsCodeExtractor(template)
@@ -97,5 +107,45 @@ class SmsVerificationMethod(
 
     private fun List<String>.asLanguagesString() =
         if (isEmpty()) null else reduce { acc, s -> "$acc,$s" }
+
+    class Builder private constructor() :
+        VerificationMethodCreator<SmsInitializationListener>, SmsVerificationMethodBuilder {
+
+        companion object {
+            @JvmStatic
+            val instance: SmsVerificationMethodBuilder
+                get() = Builder()
+        }
+
+        private var initializationListener: SmsInitializationListener =
+            EmptySmsInitializationListener()
+        private var verificationListener: VerificationListener = EmptyVerificationListener()
+
+        private lateinit var config: SmsVerificationConfig
+
+        override fun config(config: SmsVerificationConfig): VerificationMethodCreator<SmsInitializationListener> =
+            apply {
+                this.config = config
+            }
+
+        override fun verificationListener(verificationListener: VerificationListener): VerificationMethodCreator<SmsInitializationListener> =
+            apply {
+                this.verificationListener = verificationListener
+            }
+
+        override fun initiationListener(initiationListener: SmsInitializationListener): VerificationMethodCreator<SmsInitializationListener> =
+            apply {
+                this.initializationListener = initializationListener
+            }
+
+        override fun build(): Verification {
+            return SmsVerificationMethod(
+                config = config,
+                initializationListener = initializationListener,
+                verificationListener = verificationListener
+            )
+        }
+
+    }
 
 }

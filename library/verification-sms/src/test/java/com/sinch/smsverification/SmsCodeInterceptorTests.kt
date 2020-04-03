@@ -84,6 +84,16 @@ class SmsCodeInterceptorTests {
     }
 
     @Test
+    fun testReceiverUnregisteredAfterSuccessfulInterception() {
+        createInterceptor().apply {
+            start()
+            onMessageReceived(simpleTemplate.replace(CODE, exampleCode))
+        }
+        Assert.assertFalse(shadowApplication.registeredReceivers.map { it.broadcastReceiver::class.simpleName }
+            .contains(SmsBroadcastReceiver::class.simpleName))
+    }
+
+    @Test
     fun testListenerNotifiedAboutInterceptionError() {
         val exampleException = CodeInterceptionException("Example message")
         createInterceptor().apply {

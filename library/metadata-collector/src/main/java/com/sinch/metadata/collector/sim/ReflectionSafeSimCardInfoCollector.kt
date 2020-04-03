@@ -5,27 +5,24 @@ import android.content.Context
 import android.os.Build
 import android.telephony.SubscriptionManager
 import androidx.annotation.RequiresApi
+import com.sinch.metadata.collector.PermissionProtectedMetadataCollector
 import com.sinch.metadata.collector.SimCardInfoCollector
 import com.sinch.metadata.model.sim.OperatorInfo
 import com.sinch.metadata.model.sim.SimCardInfo
 import com.sinch.utils.api.ApiLevelUtils
 import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.runIfPermissionGranted
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
-class ReflectionSafeSimCardInfoCollector(private val context: Context) :
-    SimCardInfoCollector {
+class ReflectionSafeSimCardInfoCollector(context: Context) :
+    PermissionProtectedMetadataCollector<List<SimCardInfo>?>(context, Permission.READ_PHONE_STATE) {
 
     private val subscriptionManager: SubscriptionManager by lazy {
         context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
     }
 
-    override fun collect(): List<SimCardInfo>? {
-        return context.runIfPermissionGranted(
-            Permission.READ_PHONE_STATE,
-            this::collectOperatorSimCardData
-        )
-    }
+    override val metadataDescriptiveName: String = "Sim Card information"
+
+    override fun collectWithPermissionsGranted(): List<SimCardInfo>? = collectOperatorSimCardData()
 
     @Suppress("DEPRECATION")
     @SuppressLint("MissingPermission")

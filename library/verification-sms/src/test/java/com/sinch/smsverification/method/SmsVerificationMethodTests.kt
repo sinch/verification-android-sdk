@@ -3,15 +3,17 @@ package com.sinch.smsverification.method
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.smsverification.SmsVerificationMethod
-import com.sinch.smsverification.SmsVerificationService
+import com.google.android.gms.common.api.Status
+import com.sinch.smsverification.*
+import com.sinch.smsverification.SmsTemplates.CODE
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verificationcore.config.general.GlobalConfig
+import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateStatus
-import com.sinch.verificationcore.internal.error.VerificationState
 import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verificationcore.verification.response.VerificationResponseData
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert
@@ -27,6 +29,10 @@ import retrofit2.mock.Calls
 )
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class SmsVerificationMethodTests {
+
+    companion object {
+        const val VERIFICATION_CODE = VerCodes.simple1
+    }
 
     private val appContext = ApplicationProvider.getApplicationContext<Application>()
 
@@ -47,8 +53,9 @@ class SmsVerificationMethodTests {
 
     private val basicConfig: SmsVerificationConfig
         get() = SmsVerificationConfig(
-            mockedGlobalConfig,
-            "+48123456789"
+            config = mockedGlobalConfig,
+            number = Constants.phone,
+            appHash = Constants.appHash
         )
 
     private val basicSmsMethod: SmsVerificationMethod by lazy {
@@ -105,4 +112,95 @@ class SmsVerificationMethodTests {
         )
         verify { mockedInitListener.onInitializationFailed(error) }
     }
+
+    @Test
+    fun testCorrectManualFlow() {
+        prepareMocks()
+        basicSmsMethod.initiate()
+        basicSmsMethod.verify(VERIFICATION_CODE)
+
+        verify(exactly = 0) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 1) { mockedVerificationListener.onVerified() }
+    }
+
+    @Test
+    fun testWrongCodeNotifications() {
+        prepareMocks()
+        basicSmsMethod.initiate()
+        basicSmsMethod.verify("${VERIFICATION_CODE}WRONG")
+
+        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+    }
+
+    @Test
+    fun testMultipleVerificationNotifyListenerOnce() {
+        prepareMocks()
+        basicSmsMethod.initiate()
+        for (i in 0..10) {
+            basicSmsMethod.verify(VERIFICATION_CODE)
+        }
+
+        verify(exactly = 0) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 1) { mockedVerificationListener.onVerified() }
+    }
+
+    @Test
+    fun testAutomaticVerificationSuccess() {
+        prepareMocks()
+        basicSmsMethod.initiate()
+        val mockedBroadcastIntent = SmsBroadcastReceiverTests.mockedBroadcastIntent(
+            SmsTemplates.exampleSimple1.replace(
+                CODE,
+                VERIFICATION_CODE
+            ), Status.RESULT_SUCCESS
+        )
+        appContext.sendBroadcast(mockedBroadcastIntent)
+
+        verify(exactly = 0) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 1) { mockedVerificationListener.onVerified() }
+    }
+
+    @Test
+    fun testAutomaticFailureManualSuccess() {
+        prepareMocks()
+        basicSmsMethod.initiate()
+        val mockedBroadcastIntent = SmsBroadcastReceiverTests.mockedBroadcastIntent(
+            SmsTemplates.exampleSimple1.replace(
+                CODE,
+                VERIFICATION_CODE
+            ), Status.RESULT_TIMEOUT
+        )
+        appContext.sendBroadcast(mockedBroadcastIntent)
+        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+
+        basicSmsMethod.verify(VERIFICATION_CODE)
+        verify(exactly = 1) { mockedVerificationListener.onVerified() }
+    }
+
+    private fun prepareMocks() {
+        val mockedInitResponse = mockk<SmsInitiationResponseData>(relaxed = true).apply {
+            every {
+                details.template
+            }.returns(SmsTemplates.exampleSimple1)
+        }
+        val mockedVerResponse = mockk<VerificationResponseData>(relaxed = true)
+
+        every { mockedService.initializeVerification(any(), any()) }.returns(
+            Calls.response(mockedInitResponse)
+        )
+
+        every { mockedService.verifyNumber(any(), any()) }.returns(
+            Calls.failure(mockk())
+        )
+        every {
+            mockedService.verifyNumber(any(), match {
+                it.details.code == VERIFICATION_CODE
+            })
+        }.returns(
+            Calls.response(mockedVerResponse)
+        )
+    }
+
 }
