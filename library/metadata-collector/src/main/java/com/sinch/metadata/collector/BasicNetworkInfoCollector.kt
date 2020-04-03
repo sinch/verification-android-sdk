@@ -4,14 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.telephony.TelephonyManager
+import com.sinch.logging.logger
 import com.sinch.metadata.model.network.NetworkData
 import com.sinch.metadata.model.network.NetworkInfo
 import com.sinch.metadata.model.network.NetworkType
 import com.sinch.utils.api.ApiLevelUtils
 import com.sinch.utils.permission.Permission
+import com.sinch.utils.permission.PermissionUtils
 import com.sinch.utils.permission.runIfPermissionGranted
 
 class BasicNetworkInfoCollector(private val context: Context) : NetworkInfoCollector {
+
+    private val logger = logger()
 
     private val telephonyManager: TelephonyManager by lazy {
         context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -24,14 +28,24 @@ class BasicNetworkInfoCollector(private val context: Context) : NetworkInfoColle
         val isVoiceCapable = telephonyManager.isVoiceCapableSafe
         val networkData =
             context.runIfPermissionGranted(
-                Permission.ACCESS_NETWORK_STATE,
-                this::collectNetworkData
+                permission = Permission.ACCESS_NETWORK_STATE,
+                grantedBlock = this::collectNetworkData,
+                notGrantedBlock = this::emitPermissionWarning
             )
         return NetworkInfo(isVoiceCapable, networkData)
     }
 
     private fun collectNetworkData(): NetworkData {
         return NetworkData(connectivityManager.activeNetworkType)
+    }
+
+    private fun emitPermissionWarning() {
+        logger.warn(
+            PermissionUtils.permissionMetadataWarning(
+                Permission.ACCESS_NETWORK_STATE,
+                "NetworkData"
+            )
+        )
     }
 
     private val TelephonyManager.isVoiceCapableSafe: Boolean?

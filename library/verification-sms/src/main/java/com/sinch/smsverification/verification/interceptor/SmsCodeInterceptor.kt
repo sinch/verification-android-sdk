@@ -36,8 +36,7 @@ class SmsCodeInterceptor(
         context.unregisterReceiver(smsBroadcastReceiver)
     }
 
-    override fun onInterceptorTimedOut() {
-    }
+    override fun onInterceptorTimedOut() {}
 
     override fun onFailure(e: Exception) {
         stop()
@@ -54,6 +53,7 @@ class SmsCodeInterceptor(
         } else {
             interceptionListener.onCodeInterceptionError(CodeInterceptionException("Failed to extract code from message"))
         }
+        stop()
     }
 
     override fun onMessageFailedToReceive(e: Throwable) {

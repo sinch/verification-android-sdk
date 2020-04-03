@@ -4,7 +4,7 @@ import com.sinch.verificationcore.initiation.response.InitiationListener
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
-import com.sinch.verificationcore.internal.error.VerificationState
+import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.utils.ApiCallback
 import retrofit2.Response
 

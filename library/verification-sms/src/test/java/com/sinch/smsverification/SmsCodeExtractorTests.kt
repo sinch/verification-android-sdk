@@ -9,7 +9,7 @@ class SmsCodeExtractorTests {
 
     companion object {
         const val invalidTemplate = "Your code is CODE"
-        const val template1 = "Your code is {{CODE}}"
+        const val template1 = SmsTemplates.exampleSimple1
         const val template2 = "śś™™€€Ńįįį {{CODE}}."
         const val template3 = """Your code is 
             {{CODE}}"""
@@ -83,7 +83,6 @@ class SmsCodeExtractorTests {
             Assert.assertEquals(it.value, extractor.extract(it.key))
         }
     }
-
 
     @Test
     fun testEmptyCode() {

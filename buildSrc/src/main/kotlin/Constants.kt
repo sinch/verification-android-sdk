@@ -3,7 +3,7 @@ object Versions {
     const val minSDK = 21
 
     const val kotlin = "1.3.71"
-    const val gradleBuildTools = "3.6.1"
+    const val gradleBuildTools = "3.6.2"
 
     const val appCompat = "1.1.0"
     const val ktx = "1.2.0"

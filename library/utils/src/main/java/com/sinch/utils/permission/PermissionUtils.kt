@@ -15,6 +15,9 @@ object PermissionUtils {
         ) == PermissionChecker.PERMISSION_GRANTED
     }
 
+    fun permissionMetadataWarning(missingPermission: Permission, metadataName: String) =
+        "Missing $missingPermission to collect metadata: $metadataName"
+
 }
 
 fun Context.isPermissionGranted(permission: Permission): Boolean {
@@ -24,9 +27,14 @@ fun Context.isPermissionGranted(permission: Permission): Boolean {
     )
 }
 
-fun <T> Context.runIfPermissionGranted(permission: Permission, block: () -> T?): T? =
+fun <T> Context.runIfPermissionGranted(
+    permission: Permission,
+    grantedBlock: () -> T?,
+    notGrantedBlock: () -> Unit = {}
+): T? =
     if (isPermissionGranted(permission)) {
-        block()
+        grantedBlock()
     } else {
+        notGrantedBlock()
         null
     }

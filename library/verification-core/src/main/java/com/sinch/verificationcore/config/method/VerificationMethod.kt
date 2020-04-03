@@ -1,11 +1,12 @@
 package com.sinch.verificationcore.config.method
 
+import com.sinch.logging.logger
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
-import com.sinch.verificationcore.internal.error.VerificationState
+import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
@@ -16,13 +17,14 @@ abstract class VerificationMethod<Service>(
 ) :
     Verification, VerificationStateListener {
 
+    protected val logger = logger()
+
     protected val globalConfig: GlobalConfig = verificationServiceConfig.globalConfig
     protected val verificationService: Service = verificationServiceConfig.apiService
 
     protected var initResponseData: InitiationResponseData? = null
 
-    var verificationState: VerificationState = VerificationState.IDLE
-        private set
+    final override var verificationState: VerificationState = VerificationState.IDLE
 
     protected val id: String? get() = initResponseData?.id
 
