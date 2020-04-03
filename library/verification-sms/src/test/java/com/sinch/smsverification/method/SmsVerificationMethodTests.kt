@@ -10,6 +10,7 @@ import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verificationcore.config.general.GlobalConfig
+import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateStatus
 import com.sinch.verificationcore.verification.response.VerificationListener
@@ -58,12 +59,12 @@ class SmsVerificationMethodTests {
             appHash = Constants.appHash
         )
 
-    private val basicSmsMethod: SmsVerificationMethod by lazy {
-        SmsVerificationMethod(
-            basicConfig,
-            mockedInitListener,
-            mockedVerificationListener
-        )
+    private val basicSmsMethod: Verification by lazy {
+        SmsVerificationMethod.Builder.instance
+            .config(basicConfig)
+            .initiationListener(mockedInitListener)
+            .verificationListener(mockedVerificationListener)
+            .build()
     }
 
     @Before
