@@ -38,9 +38,9 @@ class PermissionUtilsTest {
     @Test
     fun testBlockNotExecuted() {
         shadowApplication.denyPermissions(examplePermission.androidValue)
-        val returned = context.runIfPermissionGranted(examplePermission) {
+        val returned = context.runIfPermissionGranted(examplePermission, {
             fail("Block should not be executed")
-        }
+        })
         assertNull(returned)
     }
 
@@ -48,9 +48,9 @@ class PermissionUtilsTest {
     fun testBlockExecuted() {
         var wasBlockExecuted = false
         shadowApplication.grantPermissions(examplePermission.androidValue)
-        context.runIfPermissionGranted(examplePermission) {
+        context.runIfPermissionGranted(examplePermission, {
             wasBlockExecuted = true
-        }
+        })
         assertTrue(wasBlockExecuted)
     }
 }

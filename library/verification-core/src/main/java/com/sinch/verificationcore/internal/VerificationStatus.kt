@@ -6,7 +6,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class VerificationStatus(val value: String) {
     @SerialName("SUCCESSFUL")
-    SUCCESSFUL("SUCCESSFUL");
+    SUCCESSFUL("SUCCESSFUL"),
+    @SerialName("FAIL")
+    FAILED("FAIL");
 
     companion object {
         fun forKey(value: String) = values().first { it.value == value }

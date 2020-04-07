@@ -3,6 +3,8 @@ package com.sinch.verificationcore.verification
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
+import com.sinch.verificationcore.internal.VerificationStatus
+import com.sinch.verificationcore.internal.error.VerificationException
 import com.sinch.verificationcore.internal.utils.ApiCallback
 import com.sinch.verificationcore.verification.response.VerificationListener
 import com.sinch.verificationcore.verification.response.VerificationResponseData
@@ -19,16 +21,32 @@ class VerificationApiCallback(
         response: Response<VerificationResponseData>
     ) {
         ifNotAlreadyVerified {
-            verificationStateListener.update(VerificationState.Verification(VerificationStateStatus.SUCCESS))
-            listener.onVerified()
+            if (data.status == VerificationStatus.SUCCESSFUL) {
+                handleSuccessfulVerification()
+            } else {
+                handleError(VerificationException(data.errorReason.orEmpty()))
+            }
         }
     }
 
     override fun onError(t: Throwable) {
         ifNotAlreadyVerified {
-            verificationStateListener.update(VerificationState.Verification(VerificationStateStatus.ERROR))
-            listener.onVerificationFailed(t)
+            handleError(t)
         }
+    }
+
+    private fun handleSuccessfulVerification() {
+        verificationStateListener.update(
+            VerificationState.Verification(
+                VerificationStateStatus.SUCCESS
+            )
+        )
+        listener.onVerified()
+    }
+
+    private fun handleError(t: Throwable) {
+        verificationStateListener.update(VerificationState.Verification(VerificationStateStatus.ERROR))
+        listener.onVerificationFailed(t)
     }
 
     private fun ifNotAlreadyVerified(f: () -> Unit) {

@@ -52,15 +52,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initVerification() {
-        globalConfig = new SinchGlobalConfig
-                .Builder(getApplicationContext())
+        globalConfig = SinchGlobalConfig.Builder.getInstance()
+                .applicationContext(getApplicationContext())
+                .authorizationMethod(new AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
                 .apiHost("https://verificationapi-v1.sinch.com/")
                 .interceptors(Collections.singletonList(new FlipperOkhttpInterceptor(getApp().networkFlipperPlugin)))
-                .authMethod(new AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
                 .build();
 
-        smsVerificationConfig = new SmsVerificationConfig
-                .Builder(globalConfig, "+48509873255")
+        smsVerificationConfig = SmsVerificationConfig.Builder.getInstance()
+                .globalConfig(globalConfig)
+                .number("+48509873255")
                 .appHash("3O5HNxhoSme")
                 .build();
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         smsVerificationMethod = SmsVerificationMethod.Builder.getInstance()
                 .config(smsVerificationConfig)
-                .initiationListener(initiationListener)
+                .initializationListener(initiationListener)
                 .verificationListener(verificationListener)
                 .build();
 
