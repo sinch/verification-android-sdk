@@ -11,5 +11,6 @@ data class VerificationResponseData(
     @SerialName("id") val id: String,
     @SerialName("method") val method: VerificationMethodType,
     @SerialName("source") val source: VerificationSourceType,
-    @SerialName("status") val status: VerificationStatus
+    @SerialName("status") val status: VerificationStatus,
+    @SerialName("reason") val errorReason: String? = null
 )

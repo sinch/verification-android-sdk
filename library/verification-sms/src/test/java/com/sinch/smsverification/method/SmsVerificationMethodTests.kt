@@ -13,6 +13,7 @@ import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateStatus
+import com.sinch.verificationcore.internal.VerificationStatus
 import com.sinch.verificationcore.verification.response.VerificationListener
 import com.sinch.verificationcore.verification.response.VerificationResponseData
 import io.mockk.*
@@ -53,16 +54,16 @@ class SmsVerificationMethodTests {
     lateinit var mockedVerificationListener: VerificationListener
 
     private val basicConfig: SmsVerificationConfig
-        get() = SmsVerificationConfig(
-            config = mockedGlobalConfig,
-            number = Constants.phone,
-            appHash = Constants.appHash
-        )
+        get() = SmsVerificationConfig.Builder.instance
+            .globalConfig(mockedGlobalConfig)
+            .number(Constants.phone)
+            .appHash(Constants.appHash)
+            .build()
 
     private val basicSmsMethod: Verification by lazy {
         SmsVerificationMethod.Builder.instance
             .config(basicConfig)
-            .initiationListener(mockedInitListener)
+            .initializationListener(mockedInitListener)
             .verificationListener(mockedVerificationListener)
             .build()
     }
@@ -180,13 +181,24 @@ class SmsVerificationMethodTests {
         verify(exactly = 1) { mockedVerificationListener.onVerified() }
     }
 
-    private fun prepareMocks() {
+    @Test
+    fun testFailureStatusNotifiesCorrectListener() {
+        prepareMocks(returnedStatus = VerificationStatus.FAILED)
+        basicSmsMethod.initiate()
+        basicSmsMethod.verify(VERIFICATION_CODE)
+        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+    }
+
+    private fun prepareMocks(returnedStatus: VerificationStatus = VerificationStatus.SUCCESSFUL) {
         val mockedInitResponse = mockk<SmsInitiationResponseData>(relaxed = true).apply {
             every {
                 details.template
             }.returns(SmsTemplates.exampleSimple1)
         }
-        val mockedVerResponse = mockk<VerificationResponseData>(relaxed = true)
+        val mockedVerResponse = mockk<VerificationResponseData>(relaxed = true){
+            every { status } returns returnedStatus
+        }
 
         every { mockedService.initializeVerification(any(), any()) }.returns(
             Calls.response(mockedInitResponse)

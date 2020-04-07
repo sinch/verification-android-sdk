@@ -32,7 +32,9 @@ class SmsVerificationConfigTests {
 
     @Test
     fun testDefaultConstructorMatches() {
-        val builtConfig = SmsVerificationConfig.Builder(globalConfig, testNumber).build()
+        val builtConfig = SmsVerificationConfig.Builder.instance.globalConfig(globalConfig).number(
+            testNumber
+        ).build()
         checkOptionalFieldsMatches(builtConfig, SmsVerificationConfig(globalConfig, testNumber))
     }
 
@@ -44,16 +46,22 @@ class SmsVerificationConfigTests {
         val appHash = "appHash"
 
         checkOptionalFieldsMatches(
-            config1 = SmsVerificationConfig.Builder(globalConfig, testNumber).appHash(appHash)
-                .maxTimeout(maxTimeout).custom(custom).honourEarlyReject(honourEarly).build(),
-            config2 = SmsVerificationConfig(
-                config = globalConfig,
-                number = testNumber,
-                honourEarlyReject = honourEarly,
-                custom = custom,
-                maxTimeout = maxTimeout,
-                appHash = appHash
-            )
+            config1 = SmsVerificationConfig.Builder.instance
+                .globalConfig(globalConfig)
+                .number(testNumber)
+                .appHash(appHash)
+                .maxTimeout(maxTimeout)
+                .custom(custom)
+                .honourEarlyReject(honourEarly)
+                .build(),
+            config2 = SmsVerificationConfig.Builder.instance
+                .globalConfig(globalConfig)
+                .number(testNumber)
+                .honourEarlyReject(honourEarly)
+                .custom(custom)
+                .maxTimeout(maxTimeout)
+                .appHash(appHash)
+                .build()
         )
     }
 

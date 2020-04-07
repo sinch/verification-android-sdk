@@ -4,6 +4,6 @@ import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 
-interface SmsVerificationMethodBuilder {
+interface SmsVerificationConfigSetter {
     fun config(config: SmsVerificationConfig): VerificationMethodCreator<SmsInitializationListener>
 }

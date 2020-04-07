@@ -16,10 +16,19 @@ class SinchGlobalConfig private constructor(
     override val retrofit: Retrofit
 ) : GlobalConfig {
 
-    class Builder(private val context: Context) : ConfigBuilder {
+    class Builder private constructor() : ApplicationContextSetter, AuthorizationMethodSetter,
+        GlobalConfigCreator {
+
+        companion object {
+            @JvmStatic
+            val instance: ApplicationContextSetter
+                get() = Builder()
+        }
+
+        private lateinit var context: Context
+        private lateinit var authorizationMethod: AuthorizationMethod
 
         private lateinit var apiHost: String
-        private lateinit var authorizationMethod: AuthorizationMethod
         private var additionalInterceptors: List<Interceptor> = emptyList()
 
         private val baseUrl: String get() = "${apiHost}verification/v1/"
@@ -49,12 +58,16 @@ class SinchGlobalConfig private constructor(
             )
         }
 
-        override fun authMethod(authorizationMethod: AuthorizationMethod): ConfigBuilder =
+        override fun applicationContext(applicationContext: Context): AuthorizationMethodSetter =
+            apply { this.context = applicationContext }
+
+        override fun authorizationMethod(authorizationMethod: AuthorizationMethod): GlobalConfigCreator =
             apply { this.authorizationMethod = authorizationMethod }
 
-        override fun apiHost(apiHost: String): ConfigBuilder = apply { this.apiHost = apiHost }
+        override fun apiHost(apiHost: String): GlobalConfigCreator =
+            apply { this.apiHost = apiHost }
 
-        override fun interceptors(interceptors: List<Interceptor>): ConfigBuilder =
+        override fun interceptors(interceptors: List<Interceptor>): GlobalConfigCreator =
             apply { this.additionalInterceptors = interceptors }
 
     }

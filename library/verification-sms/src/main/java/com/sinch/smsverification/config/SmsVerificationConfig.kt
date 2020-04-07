@@ -3,11 +3,13 @@ package com.sinch.smsverification.config
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.smsverification.BuildConfig
 import com.sinch.smsverification.SmsVerificationService
+import com.sinch.verificationcore.config.GlobalConfigSetter
+import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
 
-class SmsVerificationConfig @JvmOverloads constructor(
-    config: GlobalConfig,
+class SmsVerificationConfig constructor(
+    globalConfig: GlobalConfig,
     number: String,
     acceptedLanguages: List<String> = emptyList(),
     honourEarlyReject: Boolean = true,
@@ -15,24 +17,31 @@ class SmsVerificationConfig @JvmOverloads constructor(
     maxTimeout: Long? = null,
     val appHash: String? = null
 ) : VerificationMethodConfig<SmsVerificationService>(
-    globalConfig = config,
+    globalConfig = globalConfig,
     number = number,
     honourEarlyReject = honourEarlyReject,
     custom = custom,
-    apiService = config.retrofit.create(SmsVerificationService::class.java),
+    apiService = globalConfig.retrofit.create(SmsVerificationService::class.java),
     maxTimeout = maxTimeout,
     acceptedLanguages = acceptedLanguages,
     metadataFactory = AndroidMetadataFactory(
-        config.context,
+        globalConfig.context,
         BuildConfig.VERSION_NAME,
         BuildConfig.FLAVOR
     )
 ) {
 
-    class Builder(
-        private val config: GlobalConfig,
-        private val number: String
-    ) {
+    class Builder private constructor() : GlobalConfigSetter<SmsVerificationConfigCreator>,
+        NumberSetter<SmsVerificationConfigCreator>, SmsVerificationConfigCreator {
+
+        companion object {
+            @JvmStatic
+            val instance: GlobalConfigSetter<SmsVerificationConfigCreator>
+                get() = Builder()
+        }
+
+        private lateinit var globalConfig: GlobalConfig
+        private lateinit var number: String
 
         private var honourEarlyReject: Boolean = true
         private var custom: String? = null
@@ -40,9 +49,9 @@ class SmsVerificationConfig @JvmOverloads constructor(
         private var appHash: String? = null
         private var acceptedLanguages: List<String> = emptyList()
 
-        fun build(): SmsVerificationConfig =
+        override fun build(): SmsVerificationConfig =
             SmsVerificationConfig(
-                config = config,
+                globalConfig = globalConfig,
                 number = number,
                 acceptedLanguages = acceptedLanguages,
                 honourEarlyReject = honourEarlyReject,
@@ -51,24 +60,33 @@ class SmsVerificationConfig @JvmOverloads constructor(
                 appHash = appHash
             )
 
-        fun honourEarlyReject(honourEarlyReject: Boolean) = apply {
+        override fun honourEarlyReject(honourEarlyReject: Boolean) = apply {
             this.honourEarlyReject = honourEarlyReject
         }
 
-        fun custom(custom: String?) = apply {
+        override fun custom(custom: String?) = apply {
             this.custom = custom
         }
 
-        fun maxTimeout(maxTimeout: Long?) = apply {
+        override fun maxTimeout(maxTimeout: Long?) = apply {
             this.maxTimeout = maxTimeout
         }
 
-        fun appHash(appHash: String?) = apply {
+        override fun appHash(appHash: String?) = apply {
             this.appHash = appHash
         }
 
-        fun acceptedLanguages(languages: List<String>) = apply {
+        override fun acceptedLanguages(languages: List<String>) = apply {
             this.acceptedLanguages = languages
+        }
+
+        override fun globalConfig(globalConfig: GlobalConfig): NumberSetter<SmsVerificationConfigCreator> =
+            apply {
+                this.globalConfig = globalConfig
+            }
+
+        override fun number(number: String): SmsVerificationConfigCreator = apply {
+            this.number = number
         }
 
     }

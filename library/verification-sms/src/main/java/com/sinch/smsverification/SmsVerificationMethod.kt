@@ -109,11 +109,11 @@ class SmsVerificationMethod private constructor(
         if (isEmpty()) null else reduce { acc, s -> "$acc,$s" }
 
     class Builder private constructor() :
-        VerificationMethodCreator<SmsInitializationListener>, SmsVerificationMethodBuilder {
+        VerificationMethodCreator<SmsInitializationListener>, SmsVerificationConfigSetter {
 
         companion object {
             @JvmStatic
-            val instance: SmsVerificationMethodBuilder
+            val instance: SmsVerificationConfigSetter
                 get() = Builder()
         }
 
@@ -133,7 +133,7 @@ class SmsVerificationMethod private constructor(
                 this.verificationListener = verificationListener
             }
 
-        override fun initiationListener(initiationListener: SmsInitializationListener): VerificationMethodCreator<SmsInitializationListener> =
+        override fun initializationListener(initializationListener: SmsInitializationListener): VerificationMethodCreator<SmsInitializationListener> =
             apply {
                 this.initializationListener = initializationListener
             }

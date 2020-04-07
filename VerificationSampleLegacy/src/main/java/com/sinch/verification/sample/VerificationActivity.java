@@ -17,7 +17,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.sinch.smsverification.SmsVerificationMethod;
-import com.sinch.smsverification.SmsVerificationMethodBuilder;
 import com.sinch.smsverification.config.SmsVerificationConfig;
 import com.sinch.smsverification.initialization.SmsInitiationResponseData;
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod;
@@ -93,27 +92,28 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
                         .show();
             }
             ActivityCompat.requestPermissions(this,
-                                              missingPermissions.toArray(new String[missingPermissions.size()]),
-                                              0);
+                    missingPermissions.toArray(new String[missingPermissions.size()]),
+                    0);
         }
     }
 
     private void createVerification() {
-        GlobalConfig globalConfig = new SinchGlobalConfig
-                .Builder(getApplicationContext())
+        GlobalConfig globalConfig = SinchGlobalConfig.Builder.getInstance()
+                .applicationContext(getApplicationContext())
+                .authorizationMethod(new AppKeyAuthorizationMethod(APPLICATION_KEY))
                 .apiHost("https://verificationapi-v1.sinch.com/")
-                .authMethod(new AppKeyAuthorizationMethod(APPLICATION_KEY))
                 .build();
 
-        SmsVerificationConfig smsVerificationConfig = new SmsVerificationConfig
-                .Builder(globalConfig, mPhoneNumber)
+        SmsVerificationConfig smsVerificationConfig = SmsVerificationConfig.Builder.getInstance()
+                .globalConfig(globalConfig)
+                .number(mPhoneNumber)
                 .acceptedLanguages(Collections.singletonList("es-ES"))
                 .appHash(APPLICATION_HASH)
                 .build();
 
         mVerification = SmsVerificationMethod.Builder.getInstance()
                 .config(smsVerificationConfig)
-                .initiationListener(this)
+                .initializationListener(this)
                 .verificationListener(this)
                 .build();
 

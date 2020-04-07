@@ -22,12 +22,13 @@ class MainActivity : AppCompatActivity() {
     private val logger = logger()
 
     private val globalConfig by lazy {
-        SinchGlobalConfig.Builder(app)
+        SinchGlobalConfig.Builder.instance.applicationContext(app)
+            //.authorizationMethod(AppKeyAuthorizationMethod("de23e021-db44-4004-902c-5a7fc18e35e2"))
+            .authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
             .apiHost("https://verificationapi-v1.sinch.com/")
             //.apiHost("https://verificationapi-v1-01.sinchlab.com/")
             .interceptors(listOf<Interceptor>(FlipperOkhttpInterceptor(app.networkPlugin)))
-            //  .authMethod(AppKeyAuthorizationMethod("de23e021-db44-4004-902c-5a7fc18e35e2")).build()
-            .authMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66")).build()
+            .build()
     }
 
     private val testListener = object : SmsInitializationListener {
@@ -72,17 +73,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun resetVerification() {
         verification = SmsVerificationMethod.Builder.instance.config(
-            SmsVerificationConfig(
-                config = globalConfig,
-                number = phoneNumber.text.toString(),
-                acceptedLanguages = listOf("es-ES"),
-                honourEarlyReject = true,
-                appHash = "0wjBaTjBink",
-                custom = "testCustom",
-                maxTimeout = null
-            )
+            SmsVerificationConfig.Builder.instance
+                .globalConfig(globalConfig)
+                .number(phoneNumber.text.toString())
+                .acceptedLanguages(listOf("es-ES"))
+                .honourEarlyReject(true)
+                .appHash("0wjBaTjBink")
+                .custom("testCustom")
+                .maxTimeout(null)
+                .build()
         )
-            .initiationListener(testListener)
+            .initializationListener(testListener)
             .verificationListener(testListenerVerification)
             .build()
     }
