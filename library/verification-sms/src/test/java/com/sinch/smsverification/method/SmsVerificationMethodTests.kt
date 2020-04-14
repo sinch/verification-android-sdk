@@ -5,8 +5,11 @@ import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.common.api.Status
 import com.sinch.smsverification.*
+import com.sinch.smsverification.Constants.apiSmsTimeout
 import com.sinch.smsverification.SmsTemplates.CODE
+import com.sinch.smsverification.SmsTemplates.exampleSimple1
 import com.sinch.smsverification.config.SmsVerificationConfig
+import com.sinch.smsverification.initialization.SmsInitializationDetails
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verificationcore.config.general.GlobalConfig
@@ -14,6 +17,7 @@ import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateStatus
 import com.sinch.verificationcore.internal.VerificationStatus
+import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.response.VerificationListener
 import com.sinch.verificationcore.verification.response.VerificationResponseData
 import io.mockk.*
@@ -22,9 +26,11 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import retrofit2.mock.Calls
+import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class
@@ -53,19 +59,8 @@ class SmsVerificationMethodTests {
     @MockK
     lateinit var mockedVerificationListener: VerificationListener
 
-    private val basicConfig: SmsVerificationConfig
-        get() = SmsVerificationConfig.Builder.instance
-            .globalConfig(mockedGlobalConfig)
-            .number(Constants.phone)
-            .appHash(Constants.appHash)
-            .build()
-
     private val basicSmsMethod: Verification by lazy {
-        SmsVerificationMethod.Builder.instance
-            .config(basicConfig)
-            .initializationListener(mockedInitListener)
-            .verificationListener(mockedVerificationListener)
-            .build()
+        prepareVerification(userTimeout = null)
     }
 
     @Before
@@ -98,7 +93,7 @@ class SmsVerificationMethodTests {
             VerificationState.Initialization(VerificationStateStatus.SUCCESS),
             basicSmsMethod.verificationState
         )
-        verify { mockedInitListener.onInitiated(mockedResponse, any()) }
+        verify { mockedInitListener.onInitiated(any()) }
     }
 
     @Test
@@ -190,13 +185,41 @@ class SmsVerificationMethodTests {
         verify(exactly = 0) { mockedVerificationListener.onVerified() }
     }
 
+    @Test
+    fun testApiTimeout() {
+        prepareMocks()
+        basicSmsMethod.initiate()
+        Robolectric.getForegroundThreadScheduler().advanceBy(apiSmsTimeout * 2, TimeUnit.SECONDS)
+        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any<CodeInterceptionException>()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+    }
+
+    @Test
+    fun testUserDefinedTimeout() {
+        val verification = prepareVerification(userTimeout = (apiSmsTimeout * 1000L) / 3)
+        prepareMocks()
+        verification.initiate()
+        Robolectric.getForegroundThreadScheduler().advanceBy(apiSmsTimeout / 2, TimeUnit.SECONDS)
+        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any<CodeInterceptionException>()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+    }
+
+    @Test
+    fun testApiTimeoutUsedInsteadOfUser() {
+        val verification = prepareVerification(userTimeout = (apiSmsTimeout * 1000L) * 2)
+        prepareMocks()
+        verification.initiate()
+        Robolectric.getForegroundThreadScheduler().advanceBy(apiSmsTimeout + 1, TimeUnit.SECONDS)
+        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any<CodeInterceptionException>()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+    }
+
+
     private fun prepareMocks(returnedStatus: VerificationStatus = VerificationStatus.SUCCESSFUL) {
-        val mockedInitResponse = mockk<SmsInitiationResponseData>(relaxed = true).apply {
-            every {
-                details.template
-            }.returns(SmsTemplates.exampleSimple1)
-        }
-        val mockedVerResponse = mockk<VerificationResponseData>(relaxed = true){
+        val mockedInitResponse =
+            SmsInitiationResponseData("", SmsInitializationDetails(exampleSimple1, apiSmsTimeout))
+
+        val mockedVerResponse = mockk<VerificationResponseData>(relaxed = true) {
             every { status } returns returnedStatus
         }
 
@@ -215,5 +238,19 @@ class SmsVerificationMethodTests {
             Calls.response(mockedVerResponse)
         )
     }
+
+    private fun prepareVerification(userTimeout: Long? = null) =
+        SmsVerificationMethod.Builder.instance
+            .config(
+                SmsVerificationConfig.Builder.instance
+                    .globalConfig(mockedGlobalConfig)
+                    .number(Constants.phone)
+                    .maxTimeout(userTimeout)
+                    .appHash(Constants.appHash)
+                    .build()
+            )
+            .initializationListener(mockedInitListener)
+            .verificationListener(mockedVerificationListener)
+            .build()
 
 }

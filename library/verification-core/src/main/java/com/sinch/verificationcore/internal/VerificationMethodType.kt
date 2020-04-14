@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 enum class VerificationMethodType(val value: String) {
     @SerialName("sms")
-    SMS("sms")
+    SMS("sms"),
+    @SerialName("flashCall")
+    FLASHCALL("flashCall")
 }

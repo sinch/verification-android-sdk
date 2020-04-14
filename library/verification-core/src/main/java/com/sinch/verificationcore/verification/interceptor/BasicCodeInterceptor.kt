@@ -1,12 +1,14 @@
 package com.sinch.verificationcore.verification.interceptor
 
 import android.os.Handler
+import com.sinch.logging.logger
 
 abstract class BasicCodeInterceptor(
     override val maxTimeout: Long?,
     override val interceptionListener: CodeInterceptionListener
 ) : CodeInterceptor {
 
+    protected val logger = logger()
     private val cancelHandler = Handler()
 
     final override fun start() {

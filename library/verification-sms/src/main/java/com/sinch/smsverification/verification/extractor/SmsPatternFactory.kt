@@ -5,7 +5,7 @@ import com.sinch.verificationcore.internal.pattern.PatternFactory
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
-class SmsPatternFactory : PatternFactory {
+internal class SmsPatternFactory : PatternFactory {
 
     companion object {
         const val CODE_PATTERN = "{{CODE}}"

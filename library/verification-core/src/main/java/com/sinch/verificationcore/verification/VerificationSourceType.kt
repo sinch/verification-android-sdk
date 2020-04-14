@@ -9,7 +9,10 @@ enum class VerificationSourceType(val value: String) {
     INTERCEPTION("intercept"),
 
     @SerialName("manual")
-    MANUAL("manual");
+    MANUAL("manual"),
+
+    @SerialName ("log")
+    LOG("log");
 
     companion object {
         fun forKey(value: String) = VerificationSourceType.values().first { it.value == value }

@@ -17,8 +17,6 @@ class SmsCodeInterceptor(
 ) : BasicCodeInterceptor(maxTimeout, interceptionListener), OnFailureListener,
     SmsBroadcastListener {
 
-    private val logger = logger()
-
     private val smsRetrieverClient by lazy {
         SmsRetriever.getClient(context)
     }

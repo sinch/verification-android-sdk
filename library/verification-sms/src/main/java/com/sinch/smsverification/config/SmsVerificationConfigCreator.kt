@@ -1,10 +1,9 @@
 package com.sinch.smsverification.config
 
-interface SmsVerificationConfigCreator {
-    fun honourEarlyReject(honourEarlyReject: Boolean): SmsVerificationConfigCreator
-    fun custom(custom: String?): SmsVerificationConfigCreator
-    fun maxTimeout(maxTimeout: Long?): SmsVerificationConfigCreator
+import com.sinch.verificationcore.config.VerificationMethodConfigCreator
+
+interface SmsVerificationConfigCreator :
+    VerificationMethodConfigCreator<SmsVerificationConfigCreator, SmsVerificationConfig> {
     fun appHash(appHash: String?): SmsVerificationConfigCreator
     fun acceptedLanguages(acceptedLanguages: List<String>): SmsVerificationConfigCreator
-    fun build(): SmsVerificationConfig
 }

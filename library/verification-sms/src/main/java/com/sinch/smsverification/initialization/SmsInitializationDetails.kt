@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SmsInitializationDetails(
     @SerialName("template") val template: String,
-    @SerialName("interceptionTimeout") val interceptionTimeout: Int
+    @SerialName("interceptionTimeout") val interceptionTimeout: Long
 )
