@@ -8,7 +8,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class SmsVerificationInitiationData(
+data class SmsVerificationInitiationData(
     @SerialName("identity") override val identity: VerificationIdentity,
     @SerialName("honourEarlyReject") override val honourEarlyReject: Boolean,
     @SerialName("custom") override val custom: String?,

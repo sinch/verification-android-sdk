@@ -47,7 +47,7 @@ class SinchGlobalConfig private constructor(
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(
-                    Json(JsonConfiguration.Stable)
+                    Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
                         .asConverterFactory("application/json".toMediaType())
                 )
                 .client(okHttpClient)

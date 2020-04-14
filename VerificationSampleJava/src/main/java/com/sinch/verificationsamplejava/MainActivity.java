@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         initiationListener = new InitiationListener<SmsInitiationResponseData>() {
             @Override
-            public void onInitiated(@NotNull SmsInitiationResponseData data, @NotNull String contentLanguage) {
+            public void onInitiated(@NotNull SmsInitiationResponseData data) {
                 Log.d(TAG, "onInitiated: " + data);
             }
 

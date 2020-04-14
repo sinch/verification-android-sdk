@@ -22,7 +22,6 @@ import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
-import retrofit2.Response
 
 typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
 typealias  SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>
@@ -35,7 +34,6 @@ class SmsVerificationMethod private constructor(
     VerificationMethod<SmsVerificationService>(config, verificationListener),
     CodeInterceptionListener {
 
-    private val retrofit get() = globalConfig.retrofit
     private val metadataFactory: PhoneMetadataFactory = config.metadataFactory
     private val requestDataData: SmsVerificationInitiationData
         get() =
@@ -55,16 +53,14 @@ class SmsVerificationMethod private constructor(
             config.acceptedLanguages.asLanguagesString()
         )
             .enqueue(
-                retrofit,
-                object : SimpleInitializationSmsApiCallback(initializationListener, this) {
-                    override fun onSuccess(
-                        data: SmsInitiationResponseData,
-                        response: Response<SmsInitiationResponseData>
-                    ) {
-                        super.onSuccess(data, response)
-                        initializeInterceptorIfNeeded(data.details.template)
-                    }
-                })
+                retrofit = retrofit,
+                apiCallback = SimpleInitializationSmsApiCallback(
+                    listener = initializationListener,
+                    statusListener = this,
+                    dataModifier = { data, response -> data.copy(contentLanguage = response.headers()["Content-Language"].orEmpty()) },
+                    successCallback = { data -> initializeInterceptorIfNeeded(data) }
+                )
+            )
     }
 
     override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
@@ -74,29 +70,29 @@ class SmsVerificationMethod private constructor(
         ).enqueue(retrofit, VerificationApiCallback(verificationListener, this))
     }
 
-    override fun onCodeIntercepted(code: String) {
-        verify(code, VerificationSourceType.INTERCEPTION)
+    override fun onCodeIntercepted(code: String, source: VerificationSourceType) {
+        verify(code, source)
     }
 
     override fun onCodeInterceptionError(e: Throwable) {
         verificationListener.onVerificationFailed(e)
     }
 
-    private fun initializeInterceptorIfNeeded(template: String) {
+    private fun initializeInterceptorIfNeeded(data: SmsInitiationResponseData) {
         if (config.appHash.isNullOrBlank()) {
             logger.info("App hash not provided, skipping initialization of interceptor")
         } else {
-            initializeInterceptor(template)
+            initializeInterceptor(data)
         }
     }
 
-    private fun initializeInterceptor(template: String) {
+    private fun initializeInterceptor(data: SmsInitiationResponseData) {
         try {
-            val templateMatcher = SmsCodeExtractor(template)
+            val templateMatcher = SmsCodeExtractor(data.details.template)
             smsCodeInterceptor = SmsCodeInterceptor(
                 context = config.globalConfig.context,
                 smsCodeExtractor = templateMatcher,
-                maxTimeout = config.maxTimeout,
+                maxTimeout = chooseMaxTimeout(config.maxTimeout, data.details.interceptionTimeout),
                 interceptionListener = this
             )
             smsCodeInterceptor?.start()

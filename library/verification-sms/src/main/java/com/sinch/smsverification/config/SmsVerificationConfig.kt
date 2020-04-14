@@ -8,7 +8,7 @@ import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
 
-class SmsVerificationConfig constructor(
+class SmsVerificationConfig internal constructor(
     globalConfig: GlobalConfig,
     number: String,
     acceptedLanguages: List<String> = emptyList(),

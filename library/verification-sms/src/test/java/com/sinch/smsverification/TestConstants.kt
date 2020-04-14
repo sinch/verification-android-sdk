@@ -1,5 +1,8 @@
 package com.sinch.smsverification
 
+import com.sinch.smsverification.initialization.SmsInitializationDetails
+import com.sinch.smsverification.initialization.SmsInitiationResponseData
+
 internal object SmsTemplates {
     const val CODE = "{{CODE}}"
     const val exampleSimple1 = "Your code is {{CODE}}"
@@ -12,4 +15,5 @@ internal object VerCodes {
 internal object Constants {
     const val phone = "+48509873255"
     const val appHash = "appHash"
+    const val apiSmsTimeout = 10L
 }

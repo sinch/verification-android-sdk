@@ -9,6 +9,10 @@ import com.sinch.smsverification.SmsVerificationMethod
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
+import com.sinch.verification.flashcall.FlashCallVerificationMethod
+import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
+import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
+import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
 import com.sinch.verificationcore.config.general.SinchGlobalConfig
 import com.sinch.verificationcore.internal.Verification
@@ -33,8 +37,7 @@ class MainActivity : AppCompatActivity() {
 
     private val testListener = object : SmsInitializationListener {
         override fun onInitiated(
-            data: SmsInitiationResponseData,
-            contentLanguage: String
+            data: SmsInitiationResponseData
         ) {
             logger.debug("Test app onInitiated $data")
         }
@@ -44,13 +47,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val flashCallTestListener = object:  FlashCallInitializationListener {
+        override fun onInitiated(
+            data: FlashCallInitializationResponseData
+        ) {
+            logger.debug("Test app onInitiated $data")
+        }
+
+        override fun onInitializationFailed(t: Throwable) {
+            logger.debug("Test app onInitializationFailed $t")
+        }
+
+    }
+
     private val testListenerVerification = object : VerificationListener {
         override fun onVerified() {
             logger.debug("Test app onVerified")
         }
 
         override fun onVerificationFailed(t: Throwable) {
-            logger.debug("Test app onVerificationFailed")
+            logger.debug("Test app onVerificationFailed $t")
         }
     }
 
@@ -72,18 +88,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetVerification() {
-        verification = SmsVerificationMethod.Builder.instance.config(
-            SmsVerificationConfig.Builder.instance
+        verification = FlashCallVerificationMethod.Builder.instance.config(
+            FlashCallVerificationConfig.Builder.instance
                 .globalConfig(globalConfig)
                 .number(phoneNumber.text.toString())
-                .acceptedLanguages(listOf("es-ES"))
                 .honourEarlyReject(true)
-                .appHash("0wjBaTjBink")
                 .custom("testCustom")
+                //.appHash("0wjBaTjBink")
                 .maxTimeout(null)
                 .build()
         )
-            .initializationListener(testListener)
+            .initializationListener(flashCallTestListener)
             .verificationListener(testListenerVerification)
             .build()
     }

@@ -202,7 +202,7 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
     }
 
     @Override
-    public void onInitiated(@NotNull SmsInitiationResponseData data, @NotNull String contentLanguage) {
+    public void onInitiated(@NotNull SmsInitiationResponseData data) {
         Log.d(TAG, "Data is" + data);
     }
 
