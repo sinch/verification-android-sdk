@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
+import com.sinch.smsverification.SmsVerificationMethod
+import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
-import com.sinch.verification.flashcall.FlashCallVerificationMethod
-import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
