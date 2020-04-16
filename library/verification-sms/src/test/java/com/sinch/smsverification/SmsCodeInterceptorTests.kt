@@ -4,7 +4,6 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.common.api.Status
-import com.sinch.smsverification.verification.extractor.SmsCodeExtractor
 import com.sinch.smsverification.verification.interceptor.SmsBroadcastReceiver
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verificationcore.internal.error.CodeInterceptionException
@@ -150,9 +149,10 @@ class SmsCodeInterceptorTests {
         maxTimeout: Long? = null
     ): SmsCodeInterceptor = SmsCodeInterceptor(
         context = context,
-        smsCodeExtractor = SmsCodeExtractor(template),
         maxTimeout = maxTimeout,
         interceptionListener = mockedInterceptionListener
-    )
+    ).apply {
+        smsTemplate = template
+    }
 
 }

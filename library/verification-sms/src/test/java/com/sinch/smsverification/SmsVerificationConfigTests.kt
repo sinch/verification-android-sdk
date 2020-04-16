@@ -4,7 +4,9 @@ import android.os.Build
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.verificationcore.config.general.GlobalConfig
 import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -28,6 +30,9 @@ class SmsVerificationConfigTests {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
+        every { globalConfig.retrofit } returns mockk() {
+            every { create(SmsVerificationService::class.java) } returns mockk()
+        }
     }
 
     @Test

@@ -15,13 +15,14 @@ class SmsVerificationConfig internal constructor(
     honourEarlyReject: Boolean = true,
     custom: String? = null,
     maxTimeout: Long? = null,
+    apiService: SmsVerificationService = globalConfig.retrofit.create(SmsVerificationService::class.java),
     val appHash: String? = null
 ) : VerificationMethodConfig<SmsVerificationService>(
     globalConfig = globalConfig,
     number = number,
     honourEarlyReject = honourEarlyReject,
     custom = custom,
-    apiService = globalConfig.retrofit.create(SmsVerificationService::class.java),
+    apiService = apiService,
     maxTimeout = maxTimeout,
     acceptedLanguages = acceptedLanguages,
     metadataFactory = AndroidMetadataFactory(

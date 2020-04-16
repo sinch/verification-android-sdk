@@ -8,7 +8,6 @@ import com.sinch.smsverification.initialization.SmsOptions
 import com.sinch.smsverification.initialization.SmsVerificationInitiationData
 import com.sinch.smsverification.verification.SmsVerificationData
 import com.sinch.smsverification.verification.SmsVerificationDetails
-import com.sinch.smsverification.verification.extractor.SmsCodeExtractor
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verificationcore.config.method.VerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
@@ -45,9 +44,16 @@ class SmsVerificationMethod private constructor(
                 smsOptions = SmsOptions(config.appHash)
             )
 
-    private var smsCodeInterceptor: SmsCodeInterceptor? = null
+    private val smsCodeInterceptor by lazy {
+        SmsCodeInterceptor(
+            context = config.globalConfig.context,
+            maxTimeout = config.maxTimeout,
+            interceptionListener = this
+        )
+    }
 
     override fun onInitiate() {
+        initializeInterceptorIfNeeded()
         verificationService.initializeVerification(
             requestDataData,
             config.acceptedLanguages.asLanguagesString()
@@ -58,7 +64,7 @@ class SmsVerificationMethod private constructor(
                     listener = initializationListener,
                     statusListener = this,
                     dataModifier = { data, response -> data.copy(contentLanguage = response.headers()["Content-Language"].orEmpty()) },
-                    successCallback = { data -> initializeInterceptorIfNeeded(data) }
+                    successCallback = this::updateInterceptorWithApiData
                 )
             )
     }
@@ -78,26 +84,21 @@ class SmsVerificationMethod private constructor(
         verificationListener.onVerificationFailed(e)
     }
 
-    private fun initializeInterceptorIfNeeded(data: SmsInitiationResponseData) {
+    private fun initializeInterceptorIfNeeded() {
         if (config.appHash.isNullOrBlank()) {
             logger.info("App hash not provided, skipping initialization of interceptor")
         } else {
-            initializeInterceptor(data)
+            smsCodeInterceptor.start()
         }
     }
 
-    private fun initializeInterceptor(data: SmsInitiationResponseData) {
-        try {
-            val templateMatcher = SmsCodeExtractor(data.details.template)
-            smsCodeInterceptor = SmsCodeInterceptor(
-                context = config.globalConfig.context,
-                smsCodeExtractor = templateMatcher,
-                maxTimeout = chooseMaxTimeout(config.maxTimeout, data.details.interceptionTimeout),
-                interceptionListener = this
+    private fun updateInterceptorWithApiData(data: SmsInitiationResponseData) {
+        smsCodeInterceptor.apply {
+            maxTimeout = chooseMaxTimeout(
+                userDefined = config.maxTimeout,
+                apiResponseTimeout = data.details.interceptionTimeout
             )
-            smsCodeInterceptor?.start()
-        } catch (e: Exception) {
-            verificationListener.onVerificationFailed(e)
+            smsTemplate = data.details.template
         }
     }
 
@@ -143,5 +144,6 @@ class SmsVerificationMethod private constructor(
         }
 
     }
+
 
 }
