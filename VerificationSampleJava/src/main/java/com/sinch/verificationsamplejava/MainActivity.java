@@ -7,7 +7,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor;
 import com.sinch.smsverification.SmsVerificationMethod;
 import com.sinch.smsverification.config.SmsVerificationConfig;
 import com.sinch.smsverification.initialization.SmsInitiationResponseData;
@@ -56,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 .applicationContext(getApplicationContext())
                 .authorizationMethod(new AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
                 .apiHost("https://verificationapi-v1.sinch.com/")
-                .interceptors(Collections.singletonList(new FlipperOkhttpInterceptor(getApp().networkFlipperPlugin)))
+                .interceptors(FlipperInitializer.getOkHttpInterceptors())
                 .build();
 
         smsVerificationConfig = SmsVerificationConfig.Builder.getInstance()

@@ -1,4 +1,4 @@
-package com.sinch.utils
+package com.sinch.metadata.collector
 
 import android.app.Application
 import android.content.Context
