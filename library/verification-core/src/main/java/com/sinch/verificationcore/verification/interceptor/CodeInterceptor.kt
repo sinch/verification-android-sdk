@@ -1,8 +1,9 @@
 package com.sinch.verificationcore.verification.interceptor
 
 internal interface CodeInterceptor {
-    val maxTimeout: Long?
+    var maxTimeout: Long?
     val interceptionListener: CodeInterceptionListener
+    val state: InterceptorState
     fun start()
     fun stop()
 }

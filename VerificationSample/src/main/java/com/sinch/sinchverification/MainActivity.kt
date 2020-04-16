@@ -84,17 +84,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetVerification() {
-        verification = FlashCallVerificationMethod.Builder.instance.config(
-            FlashCallVerificationConfig.Builder.instance
+        verification = SmsVerificationMethod.Builder.instance.config(
+            SmsVerificationConfig.Builder.instance
                 .globalConfig(globalConfig)
                 .number(phoneNumber.text.toString())
                 .honourEarlyReject(true)
                 .custom("testCustom")
-                //.appHash("0wjBaTjBink")
+                .appHash("0wjBaTjBink")
                 .maxTimeout(null)
                 .build()
         )
-            .initializationListener(flashCallTestListener)
+            .initializationListener(testListener)
             .verificationListener(testListenerVerification)
             .build()
     }

@@ -1,8 +1,5 @@
 package com.sinch.smsverification
 
-import com.sinch.smsverification.initialization.SmsInitializationDetails
-import com.sinch.smsverification.initialization.SmsInitiationResponseData
-
 internal object SmsTemplates {
     const val CODE = "{{CODE}}"
     const val exampleSimple1 = "Your code is {{CODE}}"
