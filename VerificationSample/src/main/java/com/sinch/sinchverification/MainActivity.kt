@@ -3,10 +3,7 @@ package com.sinch.sinchverification
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
-import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.sinch.logging.logger
-import com.sinch.smsverification.SmsVerificationMethod
-import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verification.flashcall.FlashCallVerificationMethod
@@ -18,7 +15,6 @@ import com.sinch.verificationcore.config.general.SinchGlobalConfig
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.Interceptor
 
 class MainActivity : AppCompatActivity() {
 
@@ -31,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             .authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
             .apiHost("https://verificationapi-v1.sinch.com/")
             //.apiHost("https://verificationapi-v1-01.sinchlab.com/")
-            .interceptors(listOf<Interceptor>(FlipperOkhttpInterceptor(app.networkPlugin)))
+            .interceptors(FlipperInitializer.okHttpFlipperInterceptors)
             .build()
     }
 
@@ -47,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val flashCallTestListener = object:  FlashCallInitializationListener {
+    private val flashCallTestListener = object : FlashCallInitializationListener {
         override fun onInitiated(
             data: FlashCallInitializationResponseData
         ) {
