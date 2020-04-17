@@ -3,4 +3,4 @@ FROM 021785113572.dkr.ecr.eu-west-1.amazonaws.com/verification_android_gradle_bu
 WORKDIR .
 COPY . .
 
-RUN ./gradlew testRelease
+RUN gradle test
