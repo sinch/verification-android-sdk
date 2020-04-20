@@ -5,7 +5,7 @@ report_dir="./reports"
 containertag="androidcontainer"
 
 docker build -t $containertag .
-docker run --cidfile $file_id $containertag:latest
+docker run --cidfile $file_id $containertag
 
 container_id=$(cat $file_id)
 echo $container_id
