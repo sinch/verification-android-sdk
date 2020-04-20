@@ -12,7 +12,6 @@ object Log {
     )
 
     @JvmStatic
-    @JvmOverloads
     fun init(vararg appenders: Appender) {
         with(delegates) {
             clear()
