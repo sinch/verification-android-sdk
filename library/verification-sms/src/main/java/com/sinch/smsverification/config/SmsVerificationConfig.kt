@@ -77,8 +77,8 @@ class SmsVerificationConfig internal constructor(
             this.appHash = appHash
         }
 
-        override fun acceptedLanguages(languages: List<String>) = apply {
-            this.acceptedLanguages = languages
+        override fun acceptedLanguages(acceptedLanguages: List<String>) = apply {
+            this.acceptedLanguages = acceptedLanguages
         }
 
         override fun globalConfig(globalConfig: GlobalConfig): NumberSetter<SmsVerificationConfigCreator> =

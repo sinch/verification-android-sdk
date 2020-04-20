@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.sinch.metadata.model.network
 
 import android.net.ConnectivityManager
@@ -28,7 +30,6 @@ enum class NetworkType(val value: String) {
             else -> NONE
         }
 
-        @Suppress("DEPRECATION") //Below Android M there is no API to get NetworkCapabilities
         fun basedOn(networkInfo: NetworkInfo): NetworkType = when (networkInfo.type) {
             ConnectivityManager.TYPE_WIFI -> WIFI
             ConnectivityManager.TYPE_MOBILE -> MOBILE
