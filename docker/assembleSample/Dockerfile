@@ -1,6 +1,6 @@
 FROM 021785113572.dkr.ecr.eu-west-1.amazonaws.com/verification_android_gradle_build:15
 
 WORKDIR .
-COPY ../.. .
+COPY . .
 
-ENTRYPOINT ["gradle", "VerificationSampleJava:assembleDebug"]
+ENTRYPOINT ["gradle", "VerificationSampleLegacy:assembleDebug"]
