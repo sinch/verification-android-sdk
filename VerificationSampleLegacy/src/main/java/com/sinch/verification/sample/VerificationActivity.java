@@ -19,6 +19,9 @@ import androidx.core.content.ContextCompat;
 import com.sinch.smsverification.SmsVerificationMethod;
 import com.sinch.smsverification.config.SmsVerificationConfig;
 import com.sinch.smsverification.initialization.SmsInitiationResponseData;
+import com.sinch.verification.flashcall.FlashCallVerificationMethod;
+import com.sinch.verification.flashcall.config.FlashCallVerificationConfig;
+import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData;
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod;
 import com.sinch.verificationcore.config.general.GlobalConfig;
 import com.sinch.verificationcore.config.general.SinchGlobalConfig;
@@ -30,10 +33,9 @@ import com.sinch.verificationcore.verification.response.VerificationListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class VerificationActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback, InitiationListener<SmsInitiationResponseData>, VerificationListener {
+public class VerificationActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback, VerificationListener {
 
     private static final String TAG = "VerificationActivity";
 
@@ -42,8 +44,6 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
     private static final String[] SMS_PERMISSIONS = {Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE};
     private static final String[] FLASHCALL_PERMISSIONS = {Manifest.permission.INTERNET,
-            Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.CALL_PHONE,
             Manifest.permission.READ_CALL_LOG,
             Manifest.permission.ACCESS_NETWORK_STATE};
     private boolean mIsSmsVerification;
@@ -98,28 +98,48 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
     }
 
     private void createVerification() {
+        showProgress();
+
         GlobalConfig globalConfig = SinchGlobalConfig.Builder.getInstance()
                 .applicationContext(getApplicationContext())
                 .authorizationMethod(new AppKeyAuthorizationMethod(APPLICATION_KEY))
                 .apiHost("https://verificationapi-v1.sinch.com/")
                 .build();
 
+        if (mIsSmsVerification) {
+            createSmsVerification(globalConfig);
+        } else {
+            createFlashCallVerification(globalConfig);
+        }
+        mVerification.initiate();
+
+    }
+
+    private void createSmsVerification(GlobalConfig globalConfig) {
         SmsVerificationConfig smsVerificationConfig = SmsVerificationConfig.Builder.getInstance()
                 .globalConfig(globalConfig)
                 .number(mPhoneNumber)
-                .acceptedLanguages(Collections.singletonList("es-ES"))
                 .appHash(APPLICATION_HASH)
                 .build();
 
         mVerification = SmsVerificationMethod.Builder.getInstance()
                 .config(smsVerificationConfig)
-                .initializationListener(this)
+                .initializationListener(new MySmsInitListener())
                 .verificationListener(this)
                 .build();
+    }
 
-        mVerification.initiate();
+    private void createFlashCallVerification(GlobalConfig globalConfig) {
+        FlashCallVerificationConfig flashCallVerificationConfig = FlashCallVerificationConfig.Builder.getInstance()
+                .globalConfig(globalConfig)
+                .number(mPhoneNumber)
+                .build();
 
-        showProgress();
+        mVerification = FlashCallVerificationMethod.Builder.getInstance()
+                .config(flashCallVerificationConfig)
+                .initializationListener(new MyFlashCallInitListener())
+                .verificationListener(this)
+                .build();
     }
 
     private boolean needPermissionsRationale(List<String> permissions) {
@@ -202,17 +222,6 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
     }
 
     @Override
-    public void onInitiated(@NotNull SmsInitiationResponseData data) {
-        Log.d(TAG, "Data is" + data);
-    }
-
-    @Override
-    public void onInitializationFailed(@NotNull Throwable exception) {
-        Log.e(TAG, "Verification initialization failed: " + exception.getMessage());
-        hideProgressAndShowMessage(R.string.failed);
-    }
-
-    @Override
     public void onVerified() {
         mIsVerified = true;
         Log.d(TAG, "Verified!");
@@ -235,6 +244,34 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
             hideProgressAndShowMessage(R.string.failed);
         }
         enableInputField(true);
+    }
+
+    private class MySmsInitListener implements InitiationListener<SmsInitiationResponseData> {
+
+        @Override
+        public void onInitiated(@NotNull SmsInitiationResponseData data) {
+            Log.d(TAG, "Data is" + data);
+        }
+
+        @Override
+        public void onInitializationFailed(@NotNull Throwable t) {
+            Log.e(TAG, "Verification initialization failed: " + t.getMessage());
+            hideProgressAndShowMessage(R.string.failed);
+        }
+    }
+
+    private class MyFlashCallInitListener implements InitiationListener<FlashCallInitializationResponseData> {
+
+        @Override
+        public void onInitiated(@NotNull FlashCallInitializationResponseData data) {
+            Log.d(TAG, "Data is" + data);
+        }
+
+        @Override
+        public void onInitializationFailed(@NotNull Throwable t) {
+            Log.e(TAG, "Verification initialization failed: " + t.getMessage());
+            hideProgressAndShowMessage(R.string.failed);
+        }
     }
 
 }
