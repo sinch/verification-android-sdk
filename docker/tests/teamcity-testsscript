@@ -1,0 +1,25 @@
+docker --version
+
+file_id="cid"
+report_dir="./reports"
+containertag="androidcontainer"
+
+cd ../../
+
+docker build -t $containertag -f docker/tests/Dockerfile .
+docker run --cidfile $file_id $containertag
+
+container_id=$(cat $file_id)
+echo $container_id
+
+mkdir $report_dir
+
+docker cp $container_id:/library/verification-sms/build/reports/tests/testReleaseUnitTest $report_dir/sms
+docker cp $container_id:/library/verification-flashcall/build/reports/tests/testReleaseUnitTest $report_dir/flashcall
+docker cp $container_id:/library/verification-core/build/reports/tests/testReleaseUnitTest $report_dir/core
+docker cp $container_id:/library/metadata-collector/build/reports/tests/testReleaseUnitTest $report_dir/metadata
+docker cp $container_id:/library/utils/build/reports/tests/testReleaseUnitTest $report_dir/utils
+docker cp $container_id:/library/logging/build/reports/tests/testReleaseUnitTest $report_dir/logging
+
+docker container rm $container_id
+rm $file_id
