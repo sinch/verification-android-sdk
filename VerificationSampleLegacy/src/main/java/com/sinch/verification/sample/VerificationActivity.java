@@ -40,12 +40,13 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
     private static final String TAG = "VerificationActivity";
 
     private static final String APPLICATION_KEY = "9e556452-e462-4006-aab0-8165ca04de66";
-    private static final String APPLICATION_HASH = "nr83NUA+jrL";
     private static final String[] SMS_PERMISSIONS = {Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_NETWORK_STATE};
     private static final String[] FLASHCALL_PERMISSIONS = {Manifest.permission.INTERNET,
             Manifest.permission.READ_CALL_LOG,
             Manifest.permission.ACCESS_NETWORK_STATE};
+    private static String APPLICATION_HASH;
+
     private boolean mIsSmsVerification;
     private boolean mShouldFallback = true;
     private boolean mIsVerified;
@@ -56,7 +57,7 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_verification);
-
+        injectAppHash();
         Intent intent = getIntent();
         if (intent != null) {
             mPhoneNumber = intent.getStringExtra(MainActivity.INTENT_PHONENUMBER);
@@ -69,6 +70,10 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
         } else {
             Log.e(TAG, "The provided intent is null.");
         }
+    }
+
+    private void injectAppHash() {
+        APPLICATION_HASH = new AppSignatureHelper(this).getAppSignatures().get(0);
     }
 
     private void requestPermissions() {
