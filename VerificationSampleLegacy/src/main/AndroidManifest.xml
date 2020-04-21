@@ -11,6 +11,7 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/icon"
+        android:name=".LegacySampleApp"
         android:label="@string/app_name"
         android:theme="@style/SinchTheme">
         <activity
