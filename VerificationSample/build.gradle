@@ -12,6 +12,15 @@ android {
         }
     }
 
+    signingConfigs {
+        release {
+            keyAlias keyAliasSinch
+            keyPassword keyPasswordSinch
+            storeFile keyFileSinch
+            storePassword storePasswordSinch
+        }
+    }
+
     defaultConfig {
         applicationId "com.sinch.sinchverification"
         minSdkVersion "$Versions.minSDK"
@@ -24,7 +33,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable true
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }

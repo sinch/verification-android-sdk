@@ -4,8 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
-import com.sinch.smsverification.SmsVerificationMethod
-import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verification.flashcall.FlashCallVerificationMethod
@@ -30,7 +28,11 @@ class MainActivity : AppCompatActivity() {
             .authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
             .apiHost("https://verificationapi-v1.sinch.com/")
             //.apiHost("https://verificationapi-v1-01.sinchlab.com/")
-            .interceptors(FlipperInitializer.okHttpFlipperInterceptors + HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
+            .interceptors(FlipperInitializer.okHttpFlipperInterceptors + HttpLoggingInterceptor().apply {
+                setLevel(
+                    HttpLoggingInterceptor.Level.BODY
+                )
+            })
             .build()
     }
 
