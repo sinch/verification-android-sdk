@@ -9,7 +9,7 @@ object Versions {
     const val ktx = "1.2.0"
     const val material = "1.1.0"
     const val constraintLayout = "1.1.3"
-    const val navigation = "2.2.1"
+    const val navigation = "2.2.2"
 
     const val jUnit = "4.12"
     const val jUnitAndroidX = "1.1.1"
@@ -23,7 +23,7 @@ object Versions {
     const val minSdk = 16
 
     const val retrofit = "2.8.1"
-    const val okhttp = "4.4.0"
+    const val okhttp = "4.5.0"
     const val xSerialization = "0.20.0"
     const val kotlinXConverter = "0.5.0"
 

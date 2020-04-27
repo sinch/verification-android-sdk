@@ -9,6 +9,7 @@ import com.sinch.smsverification.initialization.SmsVerificationInitiationData
 import com.sinch.smsverification.verification.SmsVerificationData
 import com.sinch.smsverification.verification.SmsVerificationDetails
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
+import com.sinch.utils.MAX_TIMEOUT
 import com.sinch.verificationcore.config.method.VerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
@@ -47,7 +48,7 @@ class SmsVerificationMethod private constructor(
     private val smsCodeInterceptor by lazy {
         SmsCodeInterceptor(
             context = config.globalConfig.context,
-            maxTimeout = config.maxTimeout,
+            maxTimeout = config.maxTimeout ?: Long.MAX_TIMEOUT,
             interceptionListener = this
         )
     }

@@ -8,6 +8,7 @@ import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
 import com.sinch.verificationcore.verification.VerificationSourceType
+import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
 
@@ -15,7 +16,7 @@ abstract class VerificationMethod<Service>(
     verificationServiceConfig: VerificationMethodConfig<Service>,
     protected val verificationListener: VerificationListener = EmptyVerificationListener()
 ) :
-    Verification, VerificationStateListener {
+    Verification, VerificationStateListener, CodeInterceptionListener {
 
     protected val logger = logger()
 
@@ -52,20 +53,24 @@ abstract class VerificationMethod<Service>(
     }
 
     protected open fun onPreInitiate() = true
+    protected open fun report() = Unit
+
     protected abstract fun onInitiate()
     protected abstract fun onVerify(verificationCode: String, sourceType: VerificationSourceType)
 
-    protected fun chooseMaxTimeout(userDefined: Long?, apiResponseTimeout: Long?): Long? {
-        val apiResponseTimeoutMs = apiResponseTimeout?.times(1000) //API uses seconds in timeouts
-        if (userDefined == null) {
-            return apiResponseTimeoutMs
-        } else if (apiResponseTimeoutMs != null) {
-            if (apiResponseTimeoutMs < userDefined) {
+    override fun onCodeInterceptionStopped() {
+        report()
+    }
+
+    protected fun chooseMaxTimeout(userDefined: Long?, apiResponseTimeout: Long): Long {
+        return if (userDefined == null) {
+            apiResponseTimeout
+        } else {
+            if (apiResponseTimeout < userDefined) {
                 logger.warn("Using api response timeout instead of config timeout " +
                         "as it is greater then max timeout returned by the API")
             }
-            return minOf(apiResponseTimeoutMs, userDefined)
+            minOf(apiResponseTimeout, userDefined)
         }
-        return apiResponseTimeoutMs
     }
 }

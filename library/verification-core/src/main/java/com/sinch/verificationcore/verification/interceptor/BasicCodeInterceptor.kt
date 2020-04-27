@@ -5,23 +5,29 @@ import com.sinch.logging.logger
 import kotlin.properties.Delegates
 
 abstract class BasicCodeInterceptor(
-    maxTimeoutInitial: Long?,
+    maxTimeoutInitial: Long,
     override val interceptionListener: CodeInterceptionListener
 ) : CodeInterceptor {
 
+    protected val cancelHandler = Handler()
     protected val logger = logger()
-    private val cancelHandler = Handler()
 
     final override var state: InterceptorState = InterceptorState.IDLE
         private set
+    val isPastInterceptionTimeout: Boolean get() = !cancelHandler.hasCallbacks(delayedStopRunnable)
+
+    open val shouldInterceptorStopWhenTimedOut: Boolean = true
 
     private val delayedStopRunnable = Runnable {
-        stop()
+        if (shouldInterceptorStopWhenTimedOut) {
+            stop()
+        }
         interceptionListener.onCodeInterceptionError(CodeInterceptionTimeoutException())
         onInterceptorTimedOut()
     }
 
-    override var maxTimeout: Long? by Delegates.observable(maxTimeoutInitial) { _, _, _ ->
+
+    override var maxTimeout: Long by Delegates.observable(maxTimeoutInitial) { _, _, _ ->
         if (state == InterceptorState.STARTED) {
             initializeCancelHandler()
         }
@@ -37,6 +43,7 @@ abstract class BasicCodeInterceptor(
         state = InterceptorState.DONE
         cancelHandler.removeCallbacks(delayedStopRunnable)
         onInterceptorStopped()
+        interceptionListener.onCodeInterceptionStopped()
     }
 
     abstract fun onInterceptorStarted()
@@ -46,9 +53,7 @@ abstract class BasicCodeInterceptor(
     private fun initializeCancelHandler() {
         if (state != InterceptorState.DONE) {
             cancelHandler.removeCallbacks(delayedStopRunnable)
-            maxTimeout?.let {
-                cancelHandler.postDelayed(delayedStopRunnable, it)
-            }
+            cancelHandler.postDelayed(delayedStopRunnable, maxTimeout)
         }
     }
 }

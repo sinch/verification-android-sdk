@@ -8,6 +8,8 @@ import com.sinch.smsverification.SmsVerificationMethod
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
+import com.sinch.verification.flashcall.FlashCallVerificationMethod
+import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
@@ -15,6 +17,7 @@ import com.sinch.verificationcore.config.general.SinchGlobalConfig
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.logging.HttpLoggingInterceptor
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity() {
             .authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
             .apiHost("https://verificationapi-v1.sinch.com/")
             //.apiHost("https://verificationapi-v1-01.sinchlab.com/")
-            .interceptors(FlipperInitializer.okHttpFlipperInterceptors)
+            .interceptors(FlipperInitializer.okHttpFlipperInterceptors + HttpLoggingInterceptor().apply { setLevel(HttpLoggingInterceptor.Level.BODY) })
             .build()
     }
 
@@ -84,17 +87,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun resetVerification() {
-        verification = SmsVerificationMethod.Builder.instance.config(
-            SmsVerificationConfig.Builder.instance
+        verification = FlashCallVerificationMethod.Builder.instance.config(
+            FlashCallVerificationConfig.Builder.instance
                 .globalConfig(globalConfig)
                 .number(phoneNumber.text.toString())
                 .honourEarlyReject(true)
                 .custom("testCustom")
-                .appHash("0wjBaTjBink")
                 .maxTimeout(null)
                 .build()
         )
-            .initializationListener(testListener)
+            .initializationListener(flashCallTestListener)
             .verificationListener(testListenerVerification)
             .build()
     }

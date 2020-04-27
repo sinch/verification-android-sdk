@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class ApiErrorData(
-    @SerialName("errorCode") val errorCode: Int,
-    @SerialName("message") val message: String,
-    @SerialName("reference") val reference: String
+    @SerialName("errorCode") val errorCode: Int? = null,
+    @SerialName("message") val message: String? = null,
+    @SerialName("reference") val reference: String? = null
 )

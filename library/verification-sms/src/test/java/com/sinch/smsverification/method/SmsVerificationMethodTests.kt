@@ -48,7 +48,7 @@ class SmsVerificationMethodTests {
 
     private val mockedGlobalConfig = spyk<GlobalConfig> {
         every { context } returns (appContext)
-        every { retrofit } returns mockk() {
+        every { retrofit } returns mockk {
             every { create(SmsVerificationService::class.java) } returns mockedService
         }
     }
@@ -213,7 +213,6 @@ class SmsVerificationMethodTests {
         verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any<CodeInterceptionException>()) }
         verify(exactly = 0) { mockedVerificationListener.onVerified() }
     }
-
 
     private fun prepareMocks(returnedStatus: VerificationStatus = VerificationStatus.SUCCESSFUL) {
         val mockedInitResponse =
