@@ -13,7 +13,7 @@ import kotlin.properties.Delegates
 
 class SmsCodeInterceptor(
     private val context: Context,
-    maxTimeout: Long?,
+    maxTimeout: Long,
     interceptionListener: CodeInterceptionListener
 ) : BasicCodeInterceptor(maxTimeout, interceptionListener), OnFailureListener,
     SmsBroadcastListener, CodeExtractorListener {
@@ -43,7 +43,7 @@ class SmsCodeInterceptor(
         context.unregisterReceiver(smsBroadcastReceiver)
     }
 
-    override fun onInterceptorTimedOut() {}
+    override fun onInterceptorTimedOut() { }
 
     override fun onFailure(e: Exception) {
         stop()

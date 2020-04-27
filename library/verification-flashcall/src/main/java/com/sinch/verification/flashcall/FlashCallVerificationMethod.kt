@@ -6,9 +6,12 @@ import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData
 import com.sinch.verification.flashcall.initialization.FlashCallVerificationInitializationData
+import com.sinch.verification.flashcall.report.FlashCallReportData
+import com.sinch.verification.flashcall.report.FlashCallReportDetails
 import com.sinch.verification.flashcall.verification.FlashCallVerificationData
 import com.sinch.verification.flashcall.verification.FlashCallVerificationDetails
 import com.sinch.verification.flashcall.verification.callhistory.ContentProviderCallHistoryReader
+import com.sinch.verification.flashcall.verification.interceptor.CodeInterceptionState
 import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterceptor
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
 import com.sinch.verificationcore.config.method.VerificationMethod
@@ -19,9 +22,9 @@ import com.sinch.verificationcore.initiation.response.EmptyInitializationListene
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.error.VerificationException
 import com.sinch.verificationcore.internal.utils.enqueue
+import com.sinch.verificationcore.verification.IgnoredUnitApiCallback
 import com.sinch.verificationcore.verification.VerificationApiCallback
 import com.sinch.verificationcore.verification.VerificationSourceType
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
 import java.util.*
@@ -33,8 +36,7 @@ class FlashCallVerificationMethod private constructor(
     private val config: FlashCallVerificationConfig,
     private val initializationListener: FlashCallInitializationListener = EmptyFlashCallInitializationListener(),
     verificationListener: VerificationListener = EmptyVerificationListener()
-) : VerificationMethod<FlashCallVerificationService>(config, verificationListener),
-    CodeInterceptionListener {
+) : VerificationMethod<FlashCallVerificationService>(config, verificationListener) {
 
     private val requestDataData: FlashCallVerificationInitializationData
         get() =
@@ -77,11 +79,29 @@ class FlashCallVerificationMethod private constructor(
         ).enqueue(retrofit, VerificationApiCallback(verificationListener, this))
     }
 
+    override fun report() {
+        super.report()
+        flashCallInterceptor?.let {
+            verificationService.reportVerification(
+                config.number, FlashCallReportData(
+                    FlashCallReportDetails(
+                        isLateCall = it.codeInterceptionState == CodeInterceptionState.LATE,
+                        isNoCall = it.codeInterceptionState == CodeInterceptionState.NONE
+                    )
+                )
+            ).enqueue(retrofit, IgnoredUnitApiCallback())
+        }
+    }
+
     private fun initializeInterceptor(data: FlashCallInitializationResponseData) {
         try {
             flashCallInterceptor = FlashCallInterceptor(
                 context = config.globalConfig.context,
-                maxTimeout = chooseMaxTimeout(config.maxTimeout, data.details.interceptionTimeout),
+                interceptionTimeout = chooseMaxTimeout(
+                    userDefined = config.maxTimeout,
+                    apiResponseTimeout = data.details.interceptionTimeout
+                ),
+                reportTimeout = data.details.reportTimeout,
                 interceptionListener = this,
                 flashCallPatternMatcher = FlashCallPatternMatcher(data.details.cliFilter),
                 callHistoryReader = ContentProviderCallHistoryReader(config.globalConfig.context.contentResolver),
@@ -98,7 +118,7 @@ class FlashCallVerificationMethod private constructor(
     }
 
     override fun onCodeInterceptionError(e: Throwable) {
-        TODO("Not yet implemented")
+        verificationListener.onVerificationFailed(e)
     }
 
     class Builder private constructor() :

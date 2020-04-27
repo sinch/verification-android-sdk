@@ -6,6 +6,7 @@ import android.telephony.TelephonyManager
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryChangeListener
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryReader
 import com.sinch.verification.flashcall.verification.callhistory.SinchCallHistoryChangeObserver
+import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.internal.pattern.PatternMatcher
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
@@ -18,11 +19,18 @@ class FlashCallInterceptor(
     private val flashCallPatternMatcher: PatternMatcher,
     private val callHistoryReader: CallHistoryReader,
     private var callHistoryStartDate: Date,
-    maxTimeout: Long?,
+    private val reportTimeout: Long,
+    private val interceptionTimeout: Long,
     interceptionListener: CodeInterceptionListener
 ) :
-    BasicCodeInterceptor(maxTimeout, interceptionListener), IncomingCallListener,
+    BasicCodeInterceptor(interceptionTimeout, interceptionListener), IncomingCallListener,
     CallHistoryChangeListener {
+
+    init {
+        if (interceptionTimeout > reportTimeout) {
+            throw (CodeInterceptionException("Interception timeout cannot be greater then report timeout"))
+        }
+    }
 
     private val telephonyManager by lazy {
         context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -36,6 +44,16 @@ class FlashCallInterceptor(
         SinchCallHistoryChangeObserver(this)
     }
 
+    private val delayedStopRunnable = Runnable {
+        stop()
+    }
+
+    override val shouldInterceptorStopWhenTimedOut: Boolean
+        get() = false
+
+    var codeInterceptionState: CodeInterceptionState = CodeInterceptionState.NONE
+        private set
+
     override fun onInterceptorStarted() {
         telephonyManager.listen(flashCallStateListener, PhoneStateListener.LISTEN_CALL_STATE)
         callHistoryContentObserver.registerOn(context.contentResolver)
@@ -43,16 +61,20 @@ class FlashCallInterceptor(
     }
 
     override fun onInterceptorStopped() {
+        cancelHandler.removeCallbacks(delayedStopRunnable)
         telephonyManager.listen(flashCallStateListener, PhoneStateListener.LISTEN_NONE)
         callHistoryContentObserver.unregisterFrom(context.contentResolver)
     }
 
-    override fun onInterceptorTimedOut() {}
+    override fun onInterceptorTimedOut() {
+        val extraReportTimeout = reportTimeout - interceptionTimeout
+        logger.debug("onInterceptorTimedOut, still reporting calls for $extraReportTimeout ms")
+        cancelHandler.postDelayed(delayedStopRunnable, extraReportTimeout)
+    }
 
     override fun onIncomingCallRinging(number: String) {
         if (flashCallPatternMatcher.matches(number)) {
-            interceptionListener.onCodeIntercepted(number)
-            stop()
+            codeIntercepted(number, VerificationSourceType.INTERCEPTION)
         }
     }
 
@@ -67,10 +89,17 @@ class FlashCallInterceptor(
         callHistoryReader.readIncomingCalls(dateInMs).firstOrNull { number ->
             flashCallPatternMatcher.matches(number)
         }?.let { matchedNumber ->
-            interceptionListener.onCodeIntercepted(matchedNumber, VerificationSourceType.LOG)
-            stop()
+            codeIntercepted(matchedNumber, VerificationSourceType.LOG)
         }
     }
 
+    private fun codeIntercepted(number: String, sourceType: VerificationSourceType) {
+        codeInterceptionState =
+            if (isPastInterceptionTimeout) CodeInterceptionState.LATE else CodeInterceptionState.NORMAL
+        if (!isPastInterceptionTimeout) {
+            interceptionListener.onCodeIntercepted(number, sourceType)
+        }
+        stop()
+    }
 
 }
