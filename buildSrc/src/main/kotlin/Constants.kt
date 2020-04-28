@@ -27,6 +27,6 @@ object Versions {
     const val xSerialization = "0.20.0"
     const val kotlinXConverter = "0.5.0"
 
-    const val playAuth = "17.0.0"
+    const val playAuth = "18.0.0"
     const val playAuthPhone = "17.4.0"
 }

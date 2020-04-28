@@ -18,13 +18,13 @@ abstract class VerificationMethod<Service>(
 ) :
     Verification, VerificationStateListener, CodeInterceptionListener {
 
+    private var initResponseData: InitiationResponseData? = null
+
     protected val logger = logger()
 
     protected val globalConfig: GlobalConfig = verificationServiceConfig.globalConfig
     protected val verificationService: Service = verificationServiceConfig.apiService
     protected val retrofit get() = globalConfig.retrofit
-
-    protected var initResponseData: InitiationResponseData? = null
 
     final override var verificationState: VerificationState = VerificationState.IDLE
 

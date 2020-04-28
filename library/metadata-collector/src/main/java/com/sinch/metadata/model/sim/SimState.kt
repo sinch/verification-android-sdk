@@ -40,6 +40,8 @@ enum class SimState(val value: String) {
             else -> INVALID
         }
 
+        @Suppress("unused")
+        @JvmStatic
         fun forKey(value: String) = values().first { it.value == value }
     }
 }

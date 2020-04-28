@@ -30,6 +30,7 @@ class SmsCodeInterceptor(
         SmsMessageProcessor(this)
     }
 
+    @Suppress("RemoveExplicitTypeArguments")
     var smsTemplate: String? by Delegates.observable<String?>(null) { _, _, newTemplate ->
         newTemplate?.let { smsProcessor.onTemplateReceived(it) }
     }

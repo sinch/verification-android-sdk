@@ -5,15 +5,9 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.metadata.collector.BasicNetworkInfoCollector
 import com.sinch.metadata.model.network.NetworkType
 import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.PermissionsUtilsMockkName
-import io.mockk.MockKAnnotations
-import io.mockk.every
-import io.mockk.mockkStatic
 import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner

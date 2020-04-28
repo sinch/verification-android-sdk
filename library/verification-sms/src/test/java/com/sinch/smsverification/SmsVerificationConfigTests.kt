@@ -30,7 +30,7 @@ class SmsVerificationConfigTests {
     @Before
     fun setUp() {
         MockKAnnotations.init(this)
-        every { globalConfig.retrofit } returns mockk() {
+        every { globalConfig.retrofit } returns mockk {
             every { create(SmsVerificationService::class.java) } returns mockk()
         }
     }

@@ -47,7 +47,6 @@ class FlashCallVerificationConfig internal constructor(
         private var honourEarlyReject: Boolean = true
         private var custom: String? = null
         private var maxTimeout: Long? = null
-        private var appHash: String? = null
         private var acceptedLanguages: List<String> = emptyList()
 
         override fun build(): FlashCallVerificationConfig =

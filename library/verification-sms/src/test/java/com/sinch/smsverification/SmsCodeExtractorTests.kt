@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package com.sinch.smsverification
 
 import com.sinch.smsverification.verification.extractor.SmsCodeExtractor

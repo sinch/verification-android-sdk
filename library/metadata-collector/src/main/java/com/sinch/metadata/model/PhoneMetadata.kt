@@ -53,8 +53,9 @@ data class PhoneMetadata(
                 batteryLevel = batteryLevelCollector.collect()
             )
     }
-
+    @SerialName("version")
     private val version = METADATA_VERSION_NUMBER
+    @SerialName("simCardCount")
     private val simCardCount: Int? = simCardsInfo?.size
 
 }

@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.sinch.utils.permission
 
 import android.content.Context

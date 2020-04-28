@@ -147,7 +147,7 @@ class SmsVerificationMethodTests {
         prepareMocks()
         basicSmsMethod.initiate()
         val mockedBroadcastIntent = SmsBroadcastReceiverTests.mockedBroadcastIntent(
-            SmsTemplates.exampleSimple1.replace(
+            exampleSimple1.replace(
                 CODE,
                 VERIFICATION_CODE
             ), Status.RESULT_SUCCESS
@@ -163,7 +163,7 @@ class SmsVerificationMethodTests {
         prepareMocks()
         basicSmsMethod.initiate()
         val mockedBroadcastIntent = SmsBroadcastReceiverTests.mockedBroadcastIntent(
-            SmsTemplates.exampleSimple1.replace(
+            exampleSimple1.replace(
                 CODE,
                 VERIFICATION_CODE
             ), Status.RESULT_TIMEOUT

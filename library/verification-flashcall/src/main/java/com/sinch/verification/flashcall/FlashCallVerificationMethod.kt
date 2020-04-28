@@ -29,8 +29,8 @@ import com.sinch.verificationcore.verification.response.EmptyVerificationListene
 import com.sinch.verificationcore.verification.response.VerificationListener
 import java.util.*
 
-typealias  EmptyFlashCallInitializationListener = EmptyInitializationListener<FlashCallInitializationResponseData>
-typealias  SimpleInitializationFlashCallApiCallback = InitiationApiCallback<FlashCallInitializationResponseData>
+typealias EmptyFlashCallInitializationListener = EmptyInitializationListener<FlashCallInitializationResponseData>
+typealias SimpleInitializationFlashCallApiCallback = InitiationApiCallback<FlashCallInitializationResponseData>
 
 class FlashCallVerificationMethod private constructor(
     private val config: FlashCallVerificationConfig,
