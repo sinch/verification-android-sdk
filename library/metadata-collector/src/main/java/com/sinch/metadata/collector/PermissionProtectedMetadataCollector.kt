@@ -7,6 +7,7 @@ import com.sinch.utils.permission.PermissionUtils
 import com.sinch.utils.permission.isPermissionGranted
 import com.sinch.utils.permission.runIfPermissionGranted
 
+@Suppress("MemberVisibilityCanBePrivate")
 abstract class PermissionProtectedMetadataCollector<Metadata>(
     protected val context: Context,
     private val permission: Permission

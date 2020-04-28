@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.sinch.verificationcore.internal
 
 import kotlinx.serialization.SerialName

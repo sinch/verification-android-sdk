@@ -13,7 +13,7 @@ internal class SmsPatternFactory : PatternFactory {
 
     override fun create(template: String): Pattern {
         if (!template.contains(CODE_PATTERN)) {
-            throw CodeInterceptionException("Incorrect template: $template");
+            throw CodeInterceptionException("Incorrect template: $template")
         }
         val escapedTemplate = Pattern.quote(template)
             .replace(CODE_PATTERN, "\\E$CODE_PATTERN\\Q")

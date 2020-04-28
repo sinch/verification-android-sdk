@@ -1,2 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sinch.logging" />
+<manifest package="com.sinch.logging" />

@@ -6,7 +6,6 @@ import android.os.Build
 import android.telephony.SubscriptionManager
 import androidx.annotation.RequiresApi
 import com.sinch.metadata.collector.PermissionProtectedMetadataCollector
-import com.sinch.metadata.collector.SimCardInfoCollector
 import com.sinch.metadata.model.sim.OperatorInfo
 import com.sinch.metadata.model.sim.SimCardInfo
 import com.sinch.utils.api.ApiLevelUtils

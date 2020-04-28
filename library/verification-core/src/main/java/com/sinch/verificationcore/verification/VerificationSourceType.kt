@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.sinch.verificationcore.verification
 
 import kotlinx.serialization.SerialName
@@ -15,6 +17,6 @@ enum class VerificationSourceType(val value: String) {
     LOG("log");
 
     companion object {
-        fun forKey(value: String) = VerificationSourceType.values().first { it.value == value }
+        fun forKey(value: String) = values().first { it.value == value }
     }
 }
