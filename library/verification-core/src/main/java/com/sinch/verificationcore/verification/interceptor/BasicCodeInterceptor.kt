@@ -4,6 +4,9 @@ import android.os.Handler
 import com.sinch.logging.logger
 import kotlin.properties.Delegates
 
+/**
+ * Common logic of each verification methods interceptors.
+ */
 abstract class BasicCodeInterceptor(
     maxTimeoutInitial: Long,
     override val interceptionListener: CodeInterceptionListener
@@ -14,8 +17,15 @@ abstract class BasicCodeInterceptor(
 
     final override var state: InterceptorState = InterceptorState.IDLE
         private set
+
+    /**
+     * Flag indicating if interception timeout has passed.
+     */
     val isPastInterceptionTimeout: Boolean get() = !cancelHandler.hasCallbacks(delayedStopRunnable)
 
+    /**
+     * Flag indicating if the interceptor should automatically stop when [maxTimeout] has passed.
+     */
     open val shouldInterceptorStopWhenTimedOut: Boolean = true
 
     private val delayedStopRunnable = Runnable {
@@ -25,7 +35,6 @@ abstract class BasicCodeInterceptor(
         interceptionListener.onCodeInterceptionError(CodeInterceptionTimeoutException())
         onInterceptorTimedOut()
     }
-
 
     override var maxTimeout: Long by Delegates.observable(maxTimeoutInitial) { _, _, _ ->
         if (state == InterceptorState.STARTED) {

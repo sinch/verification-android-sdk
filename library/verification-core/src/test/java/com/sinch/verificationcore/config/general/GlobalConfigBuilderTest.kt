@@ -19,10 +19,11 @@ class GlobalConfigBuilderTest {
     @Test
     fun shouldBaseUrlMatch() {
         val apiHost = "http://localhost.com/"
-        val config = SinchGlobalConfig.Builder.instance.applicationContext(ApplicationProvider.getApplicationContext())
-            .authorizationMethod(mockk())
-            .apiHost(apiHost)
-            .build()
+        val config =
+            SinchGlobalConfig.Builder.instance.applicationContext(ApplicationProvider.getApplicationContext())
+                .authorizationMethod(mockk())
+                .apiHost(apiHost)
+                .build()
 
         assertTrue(config.retrofit.baseUrl().toString().startsWith(apiHost))
     }

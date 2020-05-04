@@ -23,8 +23,8 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion "$Versions.minSDK"
-        targetSdkVersion 29
+        minSdkVersion (Versions.minSdk)
+        targetSdkVersion (Versions.targetSdk)
         versionCode 1
         versionName "1.0"
 

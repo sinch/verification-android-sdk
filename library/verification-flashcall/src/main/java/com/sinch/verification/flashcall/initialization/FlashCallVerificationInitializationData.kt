@@ -7,6 +7,14 @@ import com.sinch.verificationcore.internal.VerificationMethodType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Class containing data that is passed with the flashcall verification initiation API call.
+ * @property identity Identity of the verification.
+ * @property honourEarlyReject Flag indicating if verification process should use early rejection rules.
+ * @property custom Custom string passed in the initiation API call.
+ * @property metadata Metadata containing information about the device used for analytics and early rejection rules.
+ * @property method Method of the verification. Always [VerificationMethodType.FLASHCALL]
+ */
 @Serializable
 data class FlashCallVerificationInitializationData(
     @SerialName("identity") override val identity: VerificationIdentity,

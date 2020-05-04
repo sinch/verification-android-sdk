@@ -13,6 +13,12 @@ import com.sinch.utils.permission.Permission
 import com.sinch.utils.permission.PermissionUtils
 import com.sinch.utils.permission.runIfPermissionGranted
 
+/**
+ * Metadata collector responsible for collecting metadata of type [NetworkInfo].
+ *
+ * [ACCESS_NETWORK_STATE][Permission.ACCESS_NETWORK_STATE] permission is required to collect desired metadata.
+ * @property context Context reference.
+ */
 class BasicNetworkInfoCollector(private val context: Context) : NetworkInfoCollector {
 
     private val logger = logger()

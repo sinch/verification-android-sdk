@@ -6,6 +6,11 @@ import android.net.Uri
 import android.os.Handler
 import android.provider.CallLog
 
+/**
+ * Observer that notifies [CallHistoryChangeListener] about changes of incoming call log based on
+ * [ContentResolver] API.
+ * @param callHistoryChangeListener Listener to be notified about changes.
+ */
 class SinchCallHistoryChangeObserver(private val callHistoryChangeListener: CallHistoryChangeListener) :
     ContentObserver(Handler()) {
 

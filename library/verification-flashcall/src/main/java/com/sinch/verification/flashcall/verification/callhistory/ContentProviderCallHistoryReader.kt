@@ -4,6 +4,11 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.provider.CallLog
 
+/**
+ * [CallHistoryReader] that uses [ContentResolver] API to read incoming phone calls from
+ * Android call log.
+ * @param contentResolver Content resolver reference.
+ */
 class ContentProviderCallHistoryReader(private val contentResolver: ContentResolver) :
     CallHistoryReader {
 

@@ -1,10 +1,18 @@
 package com.sinch.smsverification.initialization
 
+import com.sinch.smsverification.SmsVerificationMethod
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.VerificationMethodType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Class containing data returned by the API in response to initiation request using [SmsVerificationMethod].
+ * @property id Id of the verification.
+ * @property details Details of the initiated sms verification process.
+ * @property contentLanguage Language of sms message that will be sent.
+ * @property method Method of the verification. Always [VerificationMethodType.SMS]
+ */
 @Serializable
 data class SmsInitiationResponseData(
     @SerialName("id") override val id: String,

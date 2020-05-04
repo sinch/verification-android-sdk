@@ -1,10 +1,14 @@
 package com.sinch.smsverification.verification.extractor
 
+import com.sinch.smsverification.initialization.SmsInitializationDetails
 import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.internal.pattern.PatternFactory
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
+/**
+ * [PatternFactory] that creates [Pattern] instance based on [SmsInitializationDetails.template] field.
+ */
 internal class SmsPatternFactory : PatternFactory {
 
     companion object {

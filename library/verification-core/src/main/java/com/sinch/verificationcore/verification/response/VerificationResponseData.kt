@@ -5,6 +5,13 @@ import com.sinch.verificationcore.verification.VerificationSourceType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * Class holding data passed by the backend in response to verification request.
+ * @param id Id of the verification process.
+ * @param source Source of the verification.
+ * @param status Status of the verification.
+ * @param errorReason Error message if the verification process has failed, null otherwise.
+ */
 @Serializable
 data class VerificationResponseData(
     @SerialName("id") val id: String,

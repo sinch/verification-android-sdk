@@ -9,6 +9,27 @@ import kotlinx.serialization.json.json
 
 const val TRANSFORMATION_NAME = "SimCardsInfoListTransform"
 
+/**
+ * Serializer used for mapping [SimCardInfo] lists passed in requests containing phone metadata fields as
+ * sinch api uses not standard JSON for processing these properties.
+ *
+ * Example JSON:
+ * ```
+ * {
+ *    "1":{
+ *       "sim":null,
+ *       "operator":{
+ *          "countryId":"pl",
+ *          "name":"Orange",
+ *          "isRoaming":false,
+ *          "mcc":"260",
+ *          "mnc":"3"
+ *       }
+ *    },
+ *    "count":1
+ * }
+ * ```
+ */
 object SimCardsInfoListSerializer :
     JsonTransformingSerializer<List<SimCardInfo>>(
         SimCardInfo.serializer().list,

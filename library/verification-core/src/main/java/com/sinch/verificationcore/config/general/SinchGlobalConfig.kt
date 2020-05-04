@@ -11,15 +11,27 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
+/**
+ * Sinch specific global SDK configuration.
+ * @param context Application context reference
+ * @param retrofit Retrofit reference
+ * @see SinchGlobalConfig.Builder
+ */
 class SinchGlobalConfig private constructor(
     override val context: Context,
     override val retrofit: Retrofit
 ) : GlobalConfig {
 
+    /**
+     * Builder implementing [fluent builder](https://dzone.com/articles/fluent-builder-pattern) pattern to create global config objects.
+     */
     class Builder private constructor() : ApplicationContextSetter, AuthorizationMethodSetter,
         GlobalConfigCreator {
 
         companion object {
+            /**
+             * Instance of builder that should be used to create global config object.
+             */
             @JvmStatic
             val instance: ApplicationContextSetter
                 get() = Builder()

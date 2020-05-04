@@ -8,6 +8,12 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 
+/**
+ * Retrofit callback wrapper that checks if the server returned success code and
+ * handles API errors conversion before passing it to the listener (apiCallback).
+ * @param retrofit Retrofit instance used for making API calls.
+ * @param apiCallback Callback invoked after the call was made and processed.
+ */
 open class RetrofitCallback<T>(
     private val retrofit: Retrofit,
     private val apiCallback: ApiCallback<T>
