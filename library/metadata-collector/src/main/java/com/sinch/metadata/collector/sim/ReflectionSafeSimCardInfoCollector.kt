@@ -11,6 +11,12 @@ import com.sinch.metadata.model.sim.SimCardInfo
 import com.sinch.utils.api.ApiLevelUtils
 import com.sinch.utils.permission.Permission
 
+/**
+ * Metadata collector responsible for collecting array of metadata of type [SimCardInfo].
+ * This implementation is used only on post Lollipop Android devices as it is possible to collect
+ * desired data using official Android API on these API levels.
+ * @param context Context reference.
+ */
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP_MR1)
 class ReflectionSafeSimCardInfoCollector(context: Context) :
     PermissionProtectedMetadataCollector<List<SimCardInfo>?>(context, Permission.READ_PHONE_STATE) {

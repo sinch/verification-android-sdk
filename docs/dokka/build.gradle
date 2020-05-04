@@ -1,0 +1,57 @@
+import org.jetbrains.dokka.gradle.GradleSourceRootImpl
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka'
+
+android {
+    compileSdkVersion (Versions.compileSdk)
+    buildToolsVersion "$Versions.buildTools"
+
+    defaultConfig {
+        minSdkVersion (Versions.minSdk)
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    dokka {
+        outputFormat = 'html' // use 'javadoc' to get standard java docs
+        outputDirectory = "$buildDir/javadoc"
+
+        configuration {
+            includeNonPublic = true
+            sourceRoots = getSourceRootsToDocument()
+        }
+    }
+}
+
+// Converts the source path Strings into SourceRoot
+private List<GradleSourceRootImpl> getSourceRootsToDocument() {
+    return getSourceRootsToDocumentAsStrings().collect {
+        def impl = new GradleSourceRootImpl()
+        impl.path = it
+        impl
+    }
+}
+
+private List<String> getSourceRootsToDocumentAsStrings() {
+    def sources = new ArrayList<>()
+    sources += getSourceDirs("$rootDir/library/")
+    sources
+}
+
+private List<String> getSourceDirs(String directoryPath) {
+    file(directoryPath).listFiles()
+            .findAll { it.isDirectory() && it.name != "build" } // Non build subfolders
+            .collect { "${it.path}/src/main/java" } // path of main sources
+            .findAll { new File(it).exists() } // only include if path exists
+}

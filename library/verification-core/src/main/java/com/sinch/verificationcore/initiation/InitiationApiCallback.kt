@@ -8,6 +8,13 @@ import com.sinch.verificationcore.internal.VerificationStateStatus
 import com.sinch.verificationcore.internal.utils.ApiCallback
 import retrofit2.Response
 
+/**
+ * General callback used by different verification methods to handle initiation API response.
+ * @param T Type of initiation data returned by the api
+ * @param listener Listener to be notified about initiation result.
+ * @param dataModifier Function that is called before the data is passed to the [listener]. Can be used to modify it.
+ * @param successCallback Callback invoked after successful api response with data returned by [dataModifier].
+ */
 open class InitiationApiCallback<T : InitiationResponseData>(
     private val listener: InitiationListener<T>,
     private val statusListener: VerificationStateListener,

@@ -3,8 +3,14 @@ package com.sinch.metadata.collector.sim
 import android.content.Context
 import android.telephony.TelephonyManager
 import com.sinch.metadata.collector.SimsStateCollector
+import com.sinch.metadata.model.network.NetworkInfo
 import com.sinch.metadata.model.sim.SimState
+import com.sinch.utils.permission.Permission
 
+/**
+ * Metadata collector responsible for collecting metadata of type [SimState].
+ * @param context Context reference.
+ */
 class BasicSimStateCollector(private val context: Context) :
     SimsStateCollector {
 

@@ -2,7 +2,9 @@ package com.sinch.utils.permission
 
 import android.Manifest
 
-
+/**
+ * Enum representing Android permissions (more convenient way then using Android string constants).
+ */
 enum class Permission {
     ACCESS_NETWORK_STATE,
     READ_PHONE_STATE,
@@ -13,6 +15,9 @@ enum class Permission {
     ACCESS_COARSE_LOCATION,
     ACCESS_FINE_LOCATION;
 
+    /**
+     * String constant used by Android framework.
+     */
     val androidValue: String
         get() = when (this) {
             ACCESS_NETWORK_STATE -> Manifest.permission.ACCESS_NETWORK_STATE

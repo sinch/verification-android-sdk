@@ -4,6 +4,9 @@ import com.sinch.logging.logger
 import com.sinch.verificationcore.internal.utils.ApiCallback
 import retrofit2.Response
 
+/**
+ * Convenient [ApiCallback] that simply logs the result.
+ */
 class IgnoredApiCallback<Data> : ApiCallback<Data> {
 
     private val logger = logger()

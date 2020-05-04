@@ -9,8 +9,16 @@ import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.CodeExtractorListener
 import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
+import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlin.properties.Delegates
 
+/**
+ * Code interceptor used to handle automatic verification code interception from SMS messages.
+ * @param context Context reference.
+ * @param maxTimeout Maximum timeout in milliseconds after which [CodeInterceptionTimeoutException] is passed to the [VerificationListener]
+ * @param interceptionListener Listener to be notified about the interception process results.
+ */
 class SmsCodeInterceptor(
     private val context: Context,
     maxTimeout: Long,
@@ -44,7 +52,7 @@ class SmsCodeInterceptor(
         context.unregisterReceiver(smsBroadcastReceiver)
     }
 
-    override fun onInterceptorTimedOut() { }
+    override fun onInterceptorTimedOut() {}
 
     override fun onFailure(e: Exception) {
         stop()

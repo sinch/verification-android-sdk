@@ -26,6 +26,14 @@ import com.sinch.verificationcore.verification.response.VerificationListener
 typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
 typealias  SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>
 
+/**
+ * [Verification] that uses sms messages to verify user's phone number. The code that is received might be automatically
+ * intercepted by [SmsCodeInterceptor] or manually typed by the user. Use [SmsVerificationMethod.Builder] to create an instance
+ * of the verification.
+ * @param config Reference to SMS configuration object.
+ * @param initializationListener Listener to be notified about verification initiation result.
+ * @param verificationListener Listener to be notified about the verification process result.
+ */
 class SmsVerificationMethod private constructor(
     private val config: SmsVerificationConfig,
     private val initializationListener: SmsInitializationListener = EmptySmsInitializationListener(),
@@ -106,10 +114,17 @@ class SmsVerificationMethod private constructor(
     private fun List<String>.asLanguagesString() =
         if (isEmpty()) null else reduce { acc, s -> "$acc,$s" }
 
+    /**
+     * Builder implementing fluent builder pattern to create [SmsVerificationMethod] objects.
+     */
     class Builder private constructor() :
         VerificationMethodCreator<SmsInitializationListener>, SmsVerificationConfigSetter {
 
         companion object {
+
+            /**
+             * Instance of builder that should be used to create [SmsVerificationMethod] object.
+             */
             @JvmStatic
             val instance: SmsVerificationConfigSetter
                 get() = Builder()
@@ -121,21 +136,40 @@ class SmsVerificationMethod private constructor(
 
         private lateinit var config: SmsVerificationConfig
 
+        /**
+         * Assigns config to the builder.
+         * @param config Reference to SMS configuration object.
+         * @return Instance of builder with assigned config.
+         */
         override fun config(config: SmsVerificationConfig): VerificationMethodCreator<SmsInitializationListener> =
             apply {
                 this.config = config
             }
 
+        /**
+         * Assigns verification listener to the builder.
+         * @param verificationListener Listener to be notified about the verification process result.
+         * @return Instance of builder with assigned verification listener.
+         */
         override fun verificationListener(verificationListener: VerificationListener): VerificationMethodCreator<SmsInitializationListener> =
             apply {
                 this.verificationListener = verificationListener
             }
 
+        /**
+         * Assigns initialization listener to the builder.
+         * @param initializationListener Listener to be notified about verification initiation result.
+         * @return Instance of builder with assigned initialization listener.
+         */
         override fun initializationListener(initializationListener: SmsInitializationListener): VerificationMethodCreator<SmsInitializationListener> =
             apply {
                 this.initializationListener = initializationListener
             }
 
+        /**
+         * Builds [SmsVerificationMethod] instance.
+         * @return [Verification] instance with previously defined parameters.
+         */
         override fun build(): Verification {
             return SmsVerificationMethod(
                 config = config,

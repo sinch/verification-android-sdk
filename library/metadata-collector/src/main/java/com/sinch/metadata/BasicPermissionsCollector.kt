@@ -6,6 +6,10 @@ import com.sinch.metadata.model.PermissionsMetadata
 import com.sinch.utils.permission.Permission
 import com.sinch.utils.permission.isPermissionGranted
 
+/**
+ * Collector responsible for collecting [PermissionsMetadata].
+ * @param context Context reference.
+ */
 class BasicPermissionsCollector(private val context: Context) : PermissionsCollector {
 
     override fun collect(): PermissionsMetadata =

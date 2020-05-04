@@ -3,6 +3,9 @@ package com.sinch.verification.flashcall.verification.interceptor
 import android.content.Context
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
+import com.sinch.verification.flashcall.FlashCallVerificationMethod
+import com.sinch.verification.flashcall.FlashCallVerificationService
+import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryChangeListener
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryReader
 import com.sinch.verification.flashcall.verification.callhistory.SinchCallHistoryChangeObserver
@@ -11,9 +14,21 @@ import com.sinch.verificationcore.internal.pattern.PatternMatcher
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
+import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verificationcore.verification.response.VerificationListener
 import java.util.*
 
-
+/**
+ * Code interceptor used to handle automatic verification code interception for
+ * [FlashCallVerificationMethod] (by intercepting incoming phone calls).
+ * @param context Context reference.
+ * @param flashCallPatternMatcher Matcher to be used to check if incoming call matches [FlashCallInitializationDetails.cliFilter].
+ * @param callHistoryReader Reader to be used to check call history for incoming sinch verification calls.
+ * @param callHistoryStartDate Date from which interceptor should start checking call history for incoming verification call.
+ * @param reportTimeout Timeout in milliseconds after which interceptor should stop and report it's work to the backend. (make [FlashCallVerificationService.reportVerification] request).
+ * @param interceptionTimeout Maximum timeout in milliseconds after which [CodeInterceptionTimeoutException] is passed to the [VerificationListener]
+ * @param interceptionListener Listener to be notified about the interception process results.
+ */
 class FlashCallInterceptor(
     private val context: Context,
     private val flashCallPatternMatcher: PatternMatcher,
