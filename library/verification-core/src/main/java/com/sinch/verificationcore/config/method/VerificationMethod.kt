@@ -11,6 +11,7 @@ import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verificationcore.internal.error.CodeInterceptionException
 
 /**
  * Class containing common logic for every verification method.

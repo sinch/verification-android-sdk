@@ -28,7 +28,7 @@ android {
         outputDirectory = "$buildDir/javadoc"
 
         configuration {
-            includeNonPublic = true
+            includeNonPublic = false
             sourceRoots = getSourceRootsToDocument()
         }
     }
