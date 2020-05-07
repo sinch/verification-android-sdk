@@ -1,7 +1,7 @@
 package com.sinch.verificationcore.internal
 
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import kotlinx.serialization.*
+import java.util.*
 
 /**
  * Enum defining specific type of the verification.
@@ -19,5 +19,28 @@ enum class VerificationMethodType(val value: String) {
      * FlashCall verification. [More](https://www.sinch.com/products/apis/verification/flash-call/)
      */
     @SerialName("flashCall")
-    FLASHCALL("flashCall")
+    FLASHCALL("flashCall");
+
+    /**
+     * Serializer used to decode [VerificationMethodType] enum. Custom implementation is needed as Sinch API sometimes uses
+     * camel case and lower case convention interchangeably.
+     */
+    @Serializer(forClass = VerificationMethodType::class)
+    companion object : KSerializer<VerificationMethodType> {
+
+        override val descriptor: SerialDescriptor =
+            PrimitiveDescriptor("VerificationMethodType", PrimitiveKind.STRING)
+
+        override fun serialize(encoder: Encoder, value: VerificationMethodType) {
+            encoder.encodeString(value.value)
+        }
+
+        override fun deserialize(decoder: Decoder): VerificationMethodType =
+            when (decoder.decodeString().toLowerCase(Locale.ROOT)) {
+                SMS.value.toLowerCase(Locale.ROOT) -> SMS
+                FLASHCALL.value.toLowerCase(Locale.ROOT) -> FLASHCALL
+                else -> throw SerializationException("Unknown element ${decoder.decodeString()}")
+            }
+
+    }
 }
