@@ -1,5 +1,6 @@
 package com.sinch.verification.sample;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
@@ -12,6 +13,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static android.content.pm.PackageManager.*;
 
 
 /*
@@ -34,7 +37,6 @@ public class AppSignatureHelper extends ContextWrapper {
 
     /**
      * Get all the app signatures for the current package
-     * @return
      */
     public ArrayList<String> getAppSignatures() {
         ArrayList<String> appCodes = new ArrayList<>();
@@ -43,8 +45,8 @@ public class AppSignatureHelper extends ContextWrapper {
             // Get all package signatures for the current package
             String packageName = getPackageName();
             PackageManager packageManager = getPackageManager();
-            Signature[] signatures = packageManager.getPackageInfo(packageName,
-                    PackageManager.GET_SIGNATURES).signatures;
+            @SuppressLint("PackageManagerGetSignatures") Signature[] signatures = packageManager.getPackageInfo(packageName,
+                    GET_SIGNATURES).signatures;
 
             // For each signature create a compatible hash
             for (Signature signature : signatures) {
@@ -56,12 +58,13 @@ public class AppSignatureHelper extends ContextWrapper {
                 Log.v(TAG, "Hash " + hash);
 
             }
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (NameNotFoundException e) {
             Log.e(TAG, "Unable to find package to obtain hash.", e);
         }
         return appCodes;
     }
 
+    @SuppressLint("ObsoleteSdkInt")
     private static String hash(String packageName, String signature) {
         String appInfo = packageName + " " + signature;
         try {

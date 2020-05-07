@@ -14,8 +14,8 @@ docker run --cidfile $file_id $containertag
 container_id=$(cat $file_id)
 echo $container_id
 
-mkdir $report_dir
-mkdir $testresults_dir
+mkdir -p $report_dir
+mkdir -p $testresults_dir
 
 docker cp $container_id:/library/verification-sms/build/reports/tests/testReleaseUnitTest $report_dir/sms
 docker cp $container_id:/library/verification-flashcall/build/reports/tests/testReleaseUnitTest $report_dir/flashcall
