@@ -11,6 +11,7 @@ import com.sinch.smsverification.initialization.SmsInitializationListener
 import com.sinch.smsverification.initialization.SmsInitiationResponseData
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
 import com.sinch.verificationcore.config.general.SinchGlobalConfig
+import com.sinch.verificationcore.internal.VerificationMethodType
 import com.sinch.verificationcore.internal.VerificationStatus
 import com.sinch.verificationcore.verification.response.VerificationListener
 import com.sinch.verificationcore.verification.response.VerificationResponseData
@@ -98,7 +99,8 @@ class MockedRetrofitSmsVerificationMethodTests {
                             id = "",
                             source = null,
                             status = VerificationStatus.SUCCESSFUL,
-                            errorReason = null
+                            errorReason = null,
+                            method = VerificationMethodType.SMS
                         )
                     )
                 }
