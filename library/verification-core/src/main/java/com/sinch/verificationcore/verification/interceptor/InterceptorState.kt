@@ -15,6 +15,11 @@ enum class InterceptorState {
     STARTED,
 
     /**
+     * The interceptor has finished not finish intercepting codes yet however it is past the interception timeout.
+     */
+    REPORTING,
+
+    /**
      * The interceptor has stopped.
      */
     DONE;

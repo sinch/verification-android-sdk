@@ -21,7 +21,7 @@ abstract class BasicCodeInterceptor(
     /**
      * Flag indicating if interception timeout has passed.
      */
-    val isPastInterceptionTimeout: Boolean get() = !cancelHandler.hasCallbacks(delayedStopRunnable)
+    val isPastInterceptionTimeout: Boolean get() = state == InterceptorState.REPORTING || state == InterceptorState.DONE
 
     /**
      * Flag indicating if the interceptor should automatically stop when [maxTimeout] has passed.
@@ -29,6 +29,7 @@ abstract class BasicCodeInterceptor(
     open val shouldInterceptorStopWhenTimedOut: Boolean = true
 
     private val delayedStopRunnable = Runnable {
+        state = InterceptorState.REPORTING
         if (shouldInterceptorStopWhenTimedOut) {
             stop()
         }
