@@ -8,14 +8,17 @@ import android.content.pm.Signature;
 import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
+
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import static android.content.pm.PackageManager.*;
+import static android.content.pm.PackageManager.GET_SIGNATURES;
+import static android.content.pm.PackageManager.NameNotFoundException;
 
+@SuppressLint("all")
 
 /*
   This is a helper class to generate your message hash to be included in your SMS message.
