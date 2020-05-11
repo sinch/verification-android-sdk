@@ -19,7 +19,13 @@ enum class VerificationMethodType(val value: String) {
      * FlashCall verification. [More](https://www.sinch.com/products/apis/verification/flash-call/)
      */
     @SerialName("flashCall")
-    FLASHCALL("flashCall");
+    FLASHCALL("flashCall"),
+
+    /**
+     * Callout verification. [More](https://www.sinch.com/products/apis/verification/)
+     */
+    @SerialName("callout")
+    CALLOUT("callout");
 
     /**
      * Serializer used to decode [VerificationMethodType] enum. Custom implementation is needed as Sinch API sometimes uses

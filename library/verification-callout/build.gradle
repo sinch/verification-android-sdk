@@ -1,10 +1,11 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 android {
-    compileSdkVersion (Versions.compileSdk)
-    buildToolsVersion "$Versions.buildTools"
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
 
     testOptions {
         unitTests {
@@ -22,34 +23,21 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.sinch.sinchverification"
         minSdkVersion (Versions.minSdk)
         targetSdkVersion (Versions.targetSdk)
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro', rootProject.file("common-lib-consumer-rules.pro")
     }
 
     buildTypes {
         release {
-            debuggable true
-            signingConfig signingConfigs.release
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
-    }
-
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = "1.8"
     }
 
 }
@@ -57,28 +45,22 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':library:verification-core')
-    implementation project(':library:verification-sms')
-    implementation project(':library:verification-flashcall')
-    implementation project(':library:verification-callout')
+    implementation project(':library:metadata-collector')
+    implementation project(':library:utils')
     implementation project(':library:logging')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
     implementation "androidx.core:core-ktx:${Versions.ktx}"
-    implementation "com.google.android.material:material:${Versions.material}"
-    implementation "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
-    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
-    implementation "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
-    implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
-
-    debugImplementation 'com.facebook.flipper:flipper:0.33.1'
-    debugImplementation 'com.facebook.soloader:soloader:0.8.2'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.33.1'
-
-    releaseImplementation 'com.facebook.flipper:flipper-noop:0.33.1'
 
     testImplementation "junit:junit:${Versions.jUnit}"
+    testImplementation "org.robolectric:robolectric:${Versions.robolectric}"
+    testImplementation "androidx.test:core:${Versions.androidXTestCore}"
+    testImplementation "io.mockk:mockk:${Versions.mockk}"
+    testImplementation "com.squareup.retrofit2:retrofit-mock:${Versions.retrofit}"
 
     androidTestImplementation "androidx.test.ext:junit:${Versions.jUnitAndroidX}"
     androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
