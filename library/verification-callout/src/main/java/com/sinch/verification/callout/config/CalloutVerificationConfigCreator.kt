@@ -1,0 +1,6 @@
+package com.sinch.verification.callout.config
+
+import com.sinch.verificationcore.config.VerificationMethodConfigCreator
+
+interface CalloutVerificationConfigCreator :
+    VerificationMethodConfigCreator<CalloutVerificationConfigCreator, CalloutVerificationConfig>
