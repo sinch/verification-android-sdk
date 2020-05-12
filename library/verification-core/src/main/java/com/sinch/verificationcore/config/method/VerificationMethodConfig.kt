@@ -4,7 +4,7 @@ import com.sinch.metadata.model.PhoneMetadataFactory
 import com.sinch.verificationcore.config.general.GlobalConfig
 
 /**
- * Base class for common properties of every verification method.
+ * Base class for common configuration of every verification method.
  * @param ApiService Retrofit service class used for making API calls.
  * @property globalConfig Global SDK configuration reference.
  * @property number Number that needs be verified.
@@ -16,12 +16,12 @@ import com.sinch.verificationcore.config.general.GlobalConfig
  * @property metadataFactory Factory to be used for collecting phone metadata.
  */
 abstract class VerificationMethodConfig<ApiService>(
-    val globalConfig: GlobalConfig,
-    val number: String,
-    val custom: String?,
+    override val number: String,
+    override val custom: String?,
+    override val honourEarlyReject: Boolean,
+    override val maxTimeout: Long?,
+    override val acceptedLanguages: List<String>,
     val apiService: ApiService,
-    val honourEarlyReject: Boolean,
-    val maxTimeout: Long?,
-    val acceptedLanguages: List<String>,
+    val globalConfig: GlobalConfig,
     val metadataFactory: PhoneMetadataFactory
-)
+): VerificationMethodProperties
