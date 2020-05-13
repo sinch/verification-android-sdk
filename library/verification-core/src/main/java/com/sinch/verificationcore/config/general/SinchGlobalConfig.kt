@@ -2,6 +2,7 @@ package com.sinch.verificationcore.config.general
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sinch.verificationcore.BuildConfig
 import com.sinch.verificationcore.auth.AuthorizationInterceptor
 import com.sinch.verificationcore.auth.AuthorizationMethod
 import kotlinx.serialization.json.Json
@@ -40,7 +41,7 @@ class SinchGlobalConfig private constructor(
         private lateinit var context: Context
         private lateinit var authorizationMethod: AuthorizationMethod
 
-        private lateinit var apiHost: String
+        private var apiHost: String = BuildConfig.API_BASE_URL
         private var additionalInterceptors: List<Interceptor> = emptyList()
 
         private val baseUrl: String get() = "${apiHost}verification/v1/"
