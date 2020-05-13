@@ -12,5 +12,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SmsInitializationDetails(
     @SerialName("template") val template: String,
-    @SerialName("interceptionTimeout") val interceptionTimeout: Long
-)
+    @SerialName("interceptionTimeout") val interceptionTimeoutApi: Long
+) {
+    /**
+     * Interception timeout to be used by the SDK.
+     */
+    val interceptionTimeout: Long
+        get() = interceptionTimeoutApi.times(1000)
+}
