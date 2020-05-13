@@ -45,6 +45,7 @@ enum class VerificationMethodType(val value: String) {
             when (decoder.decodeString().toLowerCase(Locale.ROOT)) {
                 SMS.value.toLowerCase(Locale.ROOT) -> SMS
                 FLASHCALL.value.toLowerCase(Locale.ROOT) -> FLASHCALL
+                CALLOUT.value.toLowerCase(Locale.ROOT) -> CALLOUT
                 else -> throw SerializationException("Unknown element ${decoder.decodeString()}")
             }
 
