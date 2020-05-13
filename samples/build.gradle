@@ -1,0 +1,5 @@
+subprojects {
+    apply plugin: 'com.android.application'
+    apply from: "$project.rootDir/signing.gradle"
+    apply from: "$project.rootDir/apienv.gradle"
+}

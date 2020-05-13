@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         SinchGlobalConfig.Builder.instance.applicationContext(app)
             //.authorizationMethod(AppKeyAuthorizationMethod("de23e021-db44-4004-902c-5a7fc18e35e2"))
             .authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
-            .apiHost("https://verificationapi-v1.sinch.com/")
+            //.apiHost("https://verificationapi-v1.sinch.com/")
             //.apiHost("https://verificationapi-v1-01.sinchlab.com/")
             .interceptors(FlipperInitializer.okHttpFlipperInterceptors + HttpLoggingInterceptor().apply {
                 setLevel(

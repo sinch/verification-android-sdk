@@ -1,0 +1,15 @@
+android {
+    flavorDimensions "apienv"
+
+    productFlavors {
+        production {
+            dimension "apienv"
+        }
+        ftest1 {
+            dimension "apienv"
+        }
+        ftest2 {
+            dimension "apienv"
+        }
+    }
+}

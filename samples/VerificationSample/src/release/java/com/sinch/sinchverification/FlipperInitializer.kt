@@ -9,6 +9,6 @@ object FlipperInitializer {
         emptyList<Interceptor>()
     }
 
-    fun initFlipperPlugins(context: Context) {}
+    fun initFlipperPlugins(@Suppress("UNUSED_PARAMETER") context: Context) {}
 
 }

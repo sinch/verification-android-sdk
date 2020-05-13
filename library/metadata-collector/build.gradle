@@ -1,66 +1,11 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 
-android {
-    compileSdkVersion (Versions.compileSdk)
-    buildToolsVersion "$Versions.buildTools"
-
-    testOptions {
-        unitTests {
-            includeAndroidResources = true
-        }
-    }
-
-    signingConfigs {
-        release {
-            keyAlias keyAliasSinch
-            keyPassword keyPasswordSinch
-            storeFile keyFileSinch
-            storePassword storePasswordSinch
-        }
-    }
-
-    defaultConfig {
-        minSdkVersion (Versions.minSdk)
-        targetSdkVersion (Versions.targetSdk)
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro', rootProject.file("common-lib-consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
-        }
-    }
-
-}
-
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation project(':library:utils')
     implementation project(':library:logging')
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
-    implementation "androidx.annotation:annotation:${Versions.appCompat}"
-    implementation "androidx.core:core-ktx:${Versions.ktx}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
-
-    testImplementation "junit:junit:${Versions.jUnit}"
-    testImplementation "org.robolectric:robolectric:${Versions.robolectric}"
-    testImplementation "androidx.test:core:${Versions.androidXTestCore}"
-    testImplementation "io.mockk:mockk:${Versions.mockk}"
-
-    androidTestImplementation "androidx.test.ext:junit:${Versions.jUnitAndroidX}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
 }
