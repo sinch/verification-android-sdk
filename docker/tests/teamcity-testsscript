@@ -17,19 +17,19 @@ echo $container_id
 mkdir -p $report_dir
 mkdir -p $testresults_dir
 
-docker cp $container_id:/library/verification-sms/build/reports/tests/testReleaseUnitTest $report_dir/sms
-docker cp $container_id:/library/verification-flashcall/build/reports/tests/testReleaseUnitTest $report_dir/flashcall
-docker cp $container_id:/library/verification-core/build/reports/tests/testReleaseUnitTest $report_dir/core
-docker cp $container_id:/library/metadata-collector/build/reports/tests/testReleaseUnitTest $report_dir/metadata
-docker cp $container_id:/library/utils/build/reports/tests/testReleaseUnitTest $report_dir/utils
-docker cp $container_id:/library/logging/build/reports/tests/testReleaseUnitTest $report_dir/logging
+docker cp $container_id:/library/verification-sms/build/reports/tests/testProductionReleaseUnitTest $report_dir/sms
+docker cp $container_id:/library/verification-flashcall/build/reports/tests/testProductionReleaseUnitTest $report_dir/flashcall
+docker cp $container_id:/library/verification-core/build/reports/tests/testProductionReleaseUnitTest $report_dir/core
+docker cp $container_id:/library/metadata-collector/build/reports/tests/testProductionReleaseUnitTest $report_dir/metadata
+docker cp $container_id:/library/utils/build/reports/tests/testProductionReleaseUnitTest $report_dir/utils
+docker cp $container_id:/library/logging/build/reports/tests/testProductionReleaseUnitTest $report_dir/logging
 
-docker cp $container_id:/library/verification-flashcall/build/test-results/testReleaseUnitTest $testresults_dir/verification-flashcall
-docker cp $container_id:/library/verification-sms/build/test-results/testReleaseUnitTest $testresults_dir/verification-sms
-docker cp $container_id:/library/verification-core/build/test-results/testReleaseUnitTest $testresults_dir/verification-core
-docker cp $container_id:/library/metadata-collector/build/test-results/testReleaseUnitTest $testresults_dir/metadata-collector
-docker cp $container_id:/library/utils/build/test-results/testReleaseUnitTest $testresults_dir/utils
-docker cp $container_id:/library/logging/build/test-results/testReleaseUnitTest $testresults_dir/logging
+docker cp $container_id:/library/verification-flashcall/build/test-results/testProductionReleaseUnitTest $testresults_dir/verification-flashcall
+docker cp $container_id:/library/verification-sms/build/test-results/testProductionReleaseUnitTest $testresults_dir/verification-sms
+docker cp $container_id:/library/verification-core/build/test-results/testProductionReleaseUnitTest $testresults_dir/verification-core
+docker cp $container_id:/library/metadata-collector/build/test-results/testProductionReleaseUnitTest $testresults_dir/metadata-collector
+docker cp $container_id:/library/utils/build/test-results/testProductionReleaseUnitTest $testresults_dir/utils
+docker cp $container_id:/library/logging/build/test-results/testProductionReleaseUnitTest $testresults_dir/logging
 
 docker container rm $container_id
 rm $file_id
