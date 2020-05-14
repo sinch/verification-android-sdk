@@ -24,4 +24,9 @@ interface Verification {
      */
     fun verify(verificationCode: String)
 
+    /**
+     * Stops the verification process. You can still verify the code manually for given verification, however all
+     * the automatic interceptors are stopped.
+     */
+    fun stop()
 }

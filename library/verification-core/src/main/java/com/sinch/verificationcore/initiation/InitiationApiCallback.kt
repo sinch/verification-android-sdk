@@ -24,15 +24,25 @@ open class InitiationApiCallback<T : InitiationResponseData>(
     ApiCallback<T> {
 
     override fun onSuccess(data: T, response: Response<T>) {
-        val modifiedData = dataModifier(data, response)
-        statusListener.update(VerificationState.Initialization(VerificationStateStatus.SUCCESS))
-        listener.onInitiated(modifiedData)
-        successCallback(modifiedData)
+        ifNotManuallyStopped {
+            val modifiedData = dataModifier(data, response)
+            statusListener.update(VerificationState.Initialization(VerificationStateStatus.SUCCESS))
+            listener.onInitiated(modifiedData)
+            successCallback(modifiedData)
+        }
     }
 
     override fun onError(t: Throwable) {
-        statusListener.update(VerificationState.Initialization(VerificationStateStatus.ERROR))
-        listener.onInitializationFailed(t)
+        ifNotManuallyStopped {
+            statusListener.update(VerificationState.Initialization(VerificationStateStatus.ERROR))
+            listener.onInitializationFailed(t)
+        }
+    }
+
+    private fun ifNotManuallyStopped(f: () -> Unit) {
+        if (statusListener.verificationState != VerificationState.ManuallyStopped) {
+            f()
+        }
     }
 
 }

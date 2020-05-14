@@ -135,7 +135,7 @@ class CalloutVerificationMethod private constructor(
             }
 
         /**
-         * Builds [FlashCallVerificationMethod] instance.
+         * Builds [CalloutVerificationMethod] instance.
          * @return [Verification] instance with previously defined parameters.
          */
         override fun build(): Verification {

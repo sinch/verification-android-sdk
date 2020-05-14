@@ -15,7 +15,7 @@ import com.sinch.verification.flashcall.verification.callhistory.ContentProvider
 import com.sinch.verification.flashcall.verification.interceptor.CodeInterceptionState
 import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterceptor
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
-import com.sinch.verificationcore.config.method.VerificationMethod
+import com.sinch.verificationcore.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
 import com.sinch.verificationcore.initiation.VerificationIdentity
@@ -45,7 +45,10 @@ class FlashCallVerificationMethod private constructor(
     private val config: FlashCallVerificationConfig,
     private val initializationListener: FlashCallInitializationListener = EmptyFlashCallInitializationListener(),
     verificationListener: VerificationListener = EmptyVerificationListener()
-) : VerificationMethod<FlashCallVerificationService>(config, verificationListener) {
+) : AutoInterceptedVerificationMethod<FlashCallVerificationService, FlashCallInterceptor>(
+    config,
+    verificationListener
+) {
 
     private val requestDataData: FlashCallVerificationInitializationData
         get() =
@@ -56,7 +59,7 @@ class FlashCallVerificationMethod private constructor(
                 metadata = config.metadataFactory.create()
             )
 
-    private var flashCallInterceptor: FlashCallInterceptor? = null
+    override var codeInterceptor: FlashCallInterceptor? = null
     private var initiationStartDate = Date()
 
     override fun onPreInitiate(): Boolean {
@@ -90,7 +93,7 @@ class FlashCallVerificationMethod private constructor(
 
     override fun report() {
         super.report()
-        flashCallInterceptor?.let {
+        codeInterceptor?.let {
             verificationService.reportVerification(
                 config.number, FlashCallReportData(
                     FlashCallReportDetails(
@@ -104,7 +107,7 @@ class FlashCallVerificationMethod private constructor(
 
     private fun initializeInterceptor(data: FlashCallInitializationResponseData) {
         try {
-            flashCallInterceptor = FlashCallInterceptor(
+            codeInterceptor = FlashCallInterceptor(
                 context = config.globalConfig.context,
                 interceptionTimeout = chooseMaxTimeout(
                     userDefined = config.maxTimeout,
@@ -116,7 +119,7 @@ class FlashCallVerificationMethod private constructor(
                 callHistoryReader = ContentProviderCallHistoryReader(config.globalConfig.context.contentResolver),
                 callHistoryStartDate = initiationStartDate
             )
-            flashCallInterceptor?.start()
+            codeInterceptor?.start()
         } catch (e: Exception) {
             verificationListener.onVerificationFailed(e)
         }
