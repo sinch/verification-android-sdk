@@ -4,7 +4,7 @@ package com.sinch.verificationcore.initiation.response
  * Interface defining methods notifying about verification initiation process result.
  * @param T Type of successful initiation result data.
  */
-interface InitiationListener<T : InitiationResponseData> {
+interface InitiationListener<in T : InitiationResponseData> {
 
     /**
      * Called if the initiation process has finished successfully.

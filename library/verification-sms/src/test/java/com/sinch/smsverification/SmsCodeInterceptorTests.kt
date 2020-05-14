@@ -145,6 +145,21 @@ class SmsCodeInterceptorTests {
         verify { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
     }
 
+    @Test
+    fun testSmsMessageIgnoredAfterStopCalled() {
+        createInterceptor().apply {
+            start()
+            stop()
+        }
+        context.sendBroadcast(
+            SmsBroadcastReceiverTests.mockedBroadcastIntent(
+                simpleTemplate.replace(CODE, exampleCode), Status.RESULT_TIMEOUT
+            )
+        )
+        verify(exactly = 0) { mockedInterceptionListener.onCodeIntercepted(any()) }
+        verify(exactly = 1) { mockedInterceptionListener.onCodeInterceptionStopped() }
+    }
+
     private fun createInterceptor(
         template: String = simpleTemplate,
         maxTimeout: Long = Long.MAX_TIMEOUT

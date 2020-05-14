@@ -7,11 +7,11 @@ import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
+import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
 
 /**
  * Class containing common logic for every verification method.
@@ -70,6 +70,10 @@ abstract class VerificationMethod<Service>(
         }
     }
 
+    override fun stop() {
+        update(VerificationState.ManuallyStopped)
+    }
+
     /**
      * Updates verification state.
      * @param newState New verification state.
@@ -102,10 +106,12 @@ abstract class VerificationMethod<Service>(
     protected abstract fun onVerify(verificationCode: String, sourceType: VerificationSourceType)
 
     /**
-     * Function called when entire verification process has stopped.
+     * Function called when entire verification code interception process has stopped.
      */
     override fun onCodeInterceptionStopped() {
-        report()
+        if (verificationState != VerificationState.ManuallyStopped) {
+            report()
+        }
     }
 
     /**

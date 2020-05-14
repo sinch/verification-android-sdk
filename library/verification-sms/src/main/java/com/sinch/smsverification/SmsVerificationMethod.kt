@@ -10,7 +10,7 @@ import com.sinch.smsverification.verification.SmsVerificationData
 import com.sinch.smsverification.verification.SmsVerificationDetails
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
 import com.sinch.utils.MAX_TIMEOUT
-import com.sinch.verificationcore.config.method.VerificationMethod
+import com.sinch.verificationcore.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
 import com.sinch.verificationcore.initiation.VerificationIdentity
@@ -39,7 +39,7 @@ class SmsVerificationMethod private constructor(
     private val initializationListener: SmsInitializationListener = EmptySmsInitializationListener(),
     verificationListener: VerificationListener = EmptyVerificationListener()
 ) :
-    VerificationMethod<SmsVerificationService>(config, verificationListener),
+    AutoInterceptedVerificationMethod<SmsVerificationService, SmsCodeInterceptor>(config, verificationListener),
     CodeInterceptionListener {
 
     private val metadataFactory: PhoneMetadataFactory = config.metadataFactory
@@ -53,13 +53,12 @@ class SmsVerificationMethod private constructor(
                 smsOptions = SmsOptions(config.appHash)
             )
 
-    private val smsCodeInterceptor by lazy {
+    override var codeInterceptor: SmsCodeInterceptor? =
         SmsCodeInterceptor(
             context = config.globalConfig.context,
             maxTimeout = config.maxTimeout ?: Long.MAX_TIMEOUT,
             interceptionListener = this
         )
-    }
 
     override fun onInitiate() {
         initializeInterceptorIfNeeded()
@@ -97,12 +96,12 @@ class SmsVerificationMethod private constructor(
         if (config.appHash.isNullOrBlank()) {
             logger.info("App hash not provided, skipping initialization of interceptor")
         } else {
-            smsCodeInterceptor.start()
+            codeInterceptor?.start()
         }
     }
 
     private fun updateInterceptorWithApiData(data: SmsInitiationResponseData) {
-        smsCodeInterceptor.apply {
+        codeInterceptor?.apply {
             maxTimeout = chooseMaxTimeout(
                 userDefined = config.maxTimeout,
                 apiResponseTimeout = data.details.interceptionTimeout

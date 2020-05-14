@@ -199,6 +199,17 @@ class FlashCallInterceptorTests {
         verify(exactly = 1) { mockedInterceptionListener.onCodeInterceptionStopped() }
     }
 
+    @Test
+    fun testListenerNotNotifiedWhenStopped() {
+        createInterceptor().apply {
+            start()
+            stop()
+        }
+        telephonyManager.setCallState(TelephonyManager.CALL_STATE_RINGING, correctNumber1)
+        verify(exactly = 0) { mockedInterceptionListener.onCodeIntercepted(correctNumber1) }
+        verify(exactly = 1) { mockedInterceptionListener.onCodeInterceptionStopped() }
+    }
+
     private fun createInterceptor(
         template: String = CliTemplates.template1,
         maxTimeout: Long = Long.MAX_TIMEOUT,

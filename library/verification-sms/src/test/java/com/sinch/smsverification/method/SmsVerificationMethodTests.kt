@@ -214,6 +214,24 @@ class SmsVerificationMethodTests {
         verify(exactly = 0) { mockedVerificationListener.onVerified() }
     }
 
+    @Test
+    fun testNoNotificationsAfterStopCalled() {
+        prepareMocks()
+        basicSmsMethod.apply {
+            initiate()
+            stop()
+        }
+        val mockedBroadcastIntent = SmsBroadcastReceiverTests.mockedBroadcastIntent(
+            exampleSimple1.replace(
+                CODE,
+                VERIFICATION_CODE
+            ), Status.RESULT_SUCCESS
+        )
+        appContext.sendBroadcast(mockedBroadcastIntent)
+        verify(exactly = 0) { mockedVerificationListener.onVerificationFailed(any()) }
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+    }
+
     private fun prepareMocks(returnedStatus: VerificationStatus = VerificationStatus.SUCCESSFUL) {
         val mockedInitResponse =
             SmsInitiationResponseData("", SmsInitializationDetails(exampleSimple1, apiSmsTimeout))

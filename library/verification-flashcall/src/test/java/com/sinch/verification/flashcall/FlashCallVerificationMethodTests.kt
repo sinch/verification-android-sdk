@@ -142,6 +142,22 @@ class FlashCallVerificationMethodTests {
         testReportWasSent(isLateCall = true, isNoCall = false)
     }
 
+    @Test
+    fun testNoReportSentAfterStopped() {
+        setupCorrectInitResponse()
+        setupDefaultVerificationResponse()
+        prepareVerification().apply {
+            initiate()
+            stop()
+        }
+        telephonyManager.setCallState(
+            TelephonyManager.CALL_STATE_RINGING,
+            Constants.phoneMatchingTemplate1
+        )
+        verify(exactly = 0) { mockedVerificationListener.onVerified() }
+        verify(exactly = 0) { mockedService.reportVerification(any(), any()) }
+    }
+
     private fun testReportWasSent(isLateCall: Boolean, isNoCall: Boolean) {
         verify {
             mockedService.reportVerification(

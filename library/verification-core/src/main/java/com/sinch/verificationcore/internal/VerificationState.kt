@@ -11,6 +11,11 @@ sealed class VerificationState {
     object IDLE : VerificationState()
 
     /**
+     * Verification instance has been constructed but it was manually stopped.
+     */
+    object ManuallyStopped : VerificationState()
+
+    /**
      * The process of initialization has started.
      * @property status Current status of initialization.
      */
