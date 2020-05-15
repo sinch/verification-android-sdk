@@ -212,7 +212,7 @@ class FlashCallVerificationMethodTests {
                 FlashCallVerificationConfig.Builder.instance
                     .globalConfig(mockedGlobalConfig)
                     .number(Constants.phone)
-                    .maxTimeout(userTimeout)
+                    .maxTimeout(userTimeout, TimeUnit.MILLISECONDS)
                     .build()
             )
             .initializationListener(mockedInitListener)

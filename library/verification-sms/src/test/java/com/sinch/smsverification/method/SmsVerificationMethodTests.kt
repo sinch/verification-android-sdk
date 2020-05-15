@@ -262,7 +262,7 @@ class SmsVerificationMethodTests {
                 SmsVerificationConfig.Builder.instance
                     .globalConfig(mockedGlobalConfig)
                     .number(Constants.phone)
-                    .maxTimeout(userTimeout)
+                    .maxTimeout(userTimeout, TimeUnit.MILLISECONDS)
                     .appHash(Constants.appHash)
                     .build()
             )

@@ -15,7 +15,7 @@ class BasicPermissionsCollector(private val context: Context) : PermissionsColle
     override fun collect(): PermissionsMetadata =
         PermissionsMetadata(
             hasReadPhoneStatePermission = context.isPermissionGranted(Permission.READ_PHONE_STATE),
-            hasReadCallLogPermission =  context.isPermissionGranted(Permission.READ_CALL_LOG),
+            hasReadCallLogPermission = context.isPermissionGranted(Permission.READ_CALL_LOG),
             hasCallPhonePermission = context.isPermissionGranted(Permission.CALL_PHONE),
             hasReadSmsPermission = context.isPermissionGranted(Permission.READ_SMS),
             hasReceiveSmsPermission = context.isPermissionGranted(Permission.RECEIVE_SMS),

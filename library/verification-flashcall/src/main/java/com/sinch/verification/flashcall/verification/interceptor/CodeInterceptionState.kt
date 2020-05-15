@@ -1,6 +1,7 @@
 package com.sinch.verification.flashcall.verification.interceptor
 
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptor
+
 /**
  * Enum defining possible states of the [CodeInterceptor].
  */

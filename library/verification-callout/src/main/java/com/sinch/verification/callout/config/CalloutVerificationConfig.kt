@@ -1,13 +1,15 @@
 package com.sinch.verification.callout.config
 
 import com.sinch.metadata.AndroidMetadataFactory
+import com.sinch.utils.toMillisOrNull
+import com.sinch.verification.callout.CalloutVerificationMethod
 import com.sinch.verification.callout.CalloutVerificationService
 import com.sinch.verificationcore.BuildConfig
 import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
-import com.sinch.verification.callout.CalloutVerificationMethod
+import java.util.concurrent.TimeUnit
 
 /**
  * Configuration used by [CalloutVerificationMethod] to handle callout verification.
@@ -92,12 +94,13 @@ class CalloutVerificationConfig internal constructor(
         }
 
         /**
-         * Assigns maxTimeout(ms) value to the builder.
-         * @param maxTimeout Maximum timeout in milliseconds after which verification process reports the exception. Null if verification process should use only the timeout returned by the api.
+         * Assigns maxTimeout value to the builder.
+         * @param maxTimeout Maximum timeout after which verification process reports the exception. Null if verification process should use only the timeout returned by the api.
+         * @param timeUnit Unit of [maxTimeout] parameter. Value is ignored if null is passed as [maxTimeout].
          * @return Instance of builder with assigned maxTimeout field.
          */
-        override fun maxTimeout(maxTimeout: Long?) = apply {
-            this.maxTimeout = maxTimeout
+        override fun maxTimeout(maxTimeout: Long?, timeUnit: TimeUnit) = apply {
+            this.maxTimeout = timeUnit.toMillisOrNull(maxTimeout)
         }
 
         /**

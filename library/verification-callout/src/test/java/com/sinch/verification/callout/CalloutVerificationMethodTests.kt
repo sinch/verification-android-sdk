@@ -114,7 +114,7 @@ class CalloutVerificationMethodTests {
                 CalloutVerificationConfig.Builder.instance
                     .globalConfig(mockedGlobalConfig)
                     .number("")
-                    .maxTimeout(TIMEOUT)
+                    .maxTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                     .build()
             )
             .initializationListener(mockedInitListener)
