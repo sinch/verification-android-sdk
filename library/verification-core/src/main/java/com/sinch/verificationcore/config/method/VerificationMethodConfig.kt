@@ -24,4 +24,4 @@ abstract class VerificationMethodConfig<ApiService>(
     val apiService: ApiService,
     val globalConfig: GlobalConfig,
     val metadataFactory: PhoneMetadataFactory
-): VerificationMethodProperties
+) : VerificationMethodProperties

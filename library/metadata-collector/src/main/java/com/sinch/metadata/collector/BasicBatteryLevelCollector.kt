@@ -2,7 +2,6 @@ package com.sinch.metadata.collector
 
 import android.content.Context
 import android.os.BatteryManager
-import com.sinch.metadata.model.sim.SimCardInfo
 
 /**
  * Metadata collector responsible for collecting current battery level represented as percentage (String).

@@ -13,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class
@@ -55,7 +56,7 @@ class SmsVerificationConfigTests {
                 .globalConfig(globalConfig)
                 .number(testNumber)
                 .appHash(appHash)
-                .maxTimeout(maxTimeout)
+                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .custom(custom)
                 .honourEarlyReject(honourEarly)
                 .build(),
@@ -64,7 +65,7 @@ class SmsVerificationConfigTests {
                 .number(testNumber)
                 .honourEarlyReject(honourEarly)
                 .custom(custom)
-                .maxTimeout(maxTimeout)
+                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .appHash(appHash)
                 .build()
         )

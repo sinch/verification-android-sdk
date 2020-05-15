@@ -39,7 +39,10 @@ class SmsVerificationMethod private constructor(
     private val initializationListener: SmsInitializationListener = EmptySmsInitializationListener(),
     verificationListener: VerificationListener = EmptyVerificationListener()
 ) :
-    AutoInterceptedVerificationMethod<SmsVerificationService, SmsCodeInterceptor>(config, verificationListener),
+    AutoInterceptedVerificationMethod<SmsVerificationService, SmsCodeInterceptor>(
+        config,
+        verificationListener
+    ),
     CodeInterceptionListener {
 
     private val metadataFactory: PhoneMetadataFactory = config.metadataFactory

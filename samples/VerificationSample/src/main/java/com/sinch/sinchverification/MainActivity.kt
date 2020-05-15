@@ -16,6 +16,7 @@ import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.logging.HttpLoggingInterceptor
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -94,8 +95,8 @@ class MainActivity : AppCompatActivity() {
                 .globalConfig(globalConfig)
                 .number(phoneNumber.text.toString())
                 .honourEarlyReject(true)
+                .maxTimeout(500, TimeUnit.MILLISECONDS)
                 .custom("testCustom")
-                .maxTimeout(null)
                 .build()
         )
             .initializationListener(flashCallTestListener)

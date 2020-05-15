@@ -1,6 +1,5 @@
 package com.sinch.verificationcore.config.method
 
-import com.sinch.logging.logger
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptor
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener
