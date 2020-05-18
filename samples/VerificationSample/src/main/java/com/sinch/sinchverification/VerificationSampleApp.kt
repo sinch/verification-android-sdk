@@ -13,8 +13,8 @@ class VerificationSampleApp : Application() {
 
     val globalConfig: GlobalConfig by lazy {
         SinchGlobalConfig.Builder.instance.applicationContext(this)
-            .authorizationMethod(AppKeyAuthorizationMethod("de23e021-db44-4004-902c-5a7fc18e35e2"))
-            //.authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
+            //.authorizationMethod(AppKeyAuthorizationMethod("de23e021-db44-4004-902c-5a7fc18e35e2"))
+            .authorizationMethod(AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
             .interceptors(FlipperInitializer.okHttpFlipperInterceptors + HttpLoggingInterceptor().apply {
                 setLevel(
                     HttpLoggingInterceptor.Level.BODY
