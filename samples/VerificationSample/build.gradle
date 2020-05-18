@@ -63,6 +63,7 @@ dependencies {
     implementation project(':library:logging')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:0.20.0"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
     implementation "androidx.core:core-ktx:${Versions.ktx}"
     implementation "com.google.android.material:material:${Versions.material}"
