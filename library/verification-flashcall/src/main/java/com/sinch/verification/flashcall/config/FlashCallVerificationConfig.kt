@@ -1,5 +1,6 @@
 package com.sinch.verification.flashcall.config
 
+import com.sinch.logging.logger
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.utils.toMillisOrNull
 import com.sinch.verification.flashcall.FlashCallVerificationMethod

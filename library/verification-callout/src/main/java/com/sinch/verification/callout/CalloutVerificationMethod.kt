@@ -1,5 +1,6 @@
 package com.sinch.verification.callout
 
+import com.sinch.logging.logger
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
@@ -88,6 +89,8 @@ class CalloutVerificationMethod private constructor(
         VerificationMethodCreator<CalloutInitializationListener>,
         CalloutVerificationConfigSetter {
 
+        private val logger = logger()
+
         companion object {
 
             /**
@@ -143,7 +146,9 @@ class CalloutVerificationMethod private constructor(
                 config = config,
                 initializationListener = initializationListener,
                 verificationListener = verificationListener
-            )
+            ).also {
+                logger.debug("Created CalloutVerificationMethod with config: $config")
+            }
         }
 
     }

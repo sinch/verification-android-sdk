@@ -1,5 +1,6 @@
 package com.sinch.verificationcore.verification
 
+import com.sinch.logging.logger
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
@@ -19,6 +20,8 @@ class VerificationApiCallback(
     private val verificationStateListener: VerificationStateListener
 ) :
     ApiCallback<VerificationResponseData> {
+
+    private val logger = logger()
 
     override fun onSuccess(
         data: VerificationResponseData,
@@ -43,6 +46,7 @@ class VerificationApiCallback(
     }
 
     private fun handleSuccessfulVerification() {
+        logger.debug("Verification call successful!")
         verificationStateListener.update(
             VerificationState.Verification(
                 VerificationStateStatus.SUCCESS
@@ -52,6 +56,7 @@ class VerificationApiCallback(
     }
 
     private fun handleError(t: Throwable) {
+        logger.debug("Verification call failed with error $t")
         verificationStateListener.update(VerificationState.Verification(VerificationStateStatus.ERROR))
         listener.onVerificationFailed(t)
     }

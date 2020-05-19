@@ -24,4 +24,10 @@ abstract class VerificationMethodConfig<ApiService>(
     val apiService: ApiService,
     val globalConfig: GlobalConfig,
     val metadataFactory: PhoneMetadataFactory
-) : VerificationMethodProperties
+) : VerificationMethodProperties {
+
+    override fun toString(): String = "Number: $number " +
+            "custom: $custom honourEarlyReject: $honourEarlyReject " +
+            "maxTimeout: $maxTimeout acceptedLanguages: " +
+            "$acceptedLanguages"
+}

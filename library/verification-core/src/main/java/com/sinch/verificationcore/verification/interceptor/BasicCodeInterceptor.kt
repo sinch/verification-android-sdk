@@ -44,12 +44,14 @@ abstract class BasicCodeInterceptor(
     }
 
     final override fun start() {
+        logger.debug("Code interceptor started")
         state = InterceptorState.STARTED
         initializeCancelHandler()
         onInterceptorStarted()
     }
 
     final override fun stop() {
+        logger.debug("Code interceptor stopped")
         state = InterceptorState.DONE
         cancelHandler.removeCallbacks(delayedStopRunnable)
         onInterceptorStopped()
@@ -62,6 +64,7 @@ abstract class BasicCodeInterceptor(
 
     private fun initializeCancelHandler() {
         if (state != InterceptorState.DONE) {
+            logger.debug("Cancel handler initialized with timeout: $maxTimeout")
             cancelHandler.removeCallbacks(delayedStopRunnable)
             cancelHandler.postDelayed(delayedStopRunnable, maxTimeout)
         }
