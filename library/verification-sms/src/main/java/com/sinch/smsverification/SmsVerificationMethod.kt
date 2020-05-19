@@ -1,5 +1,6 @@
 package com.sinch.smsverification
 
+import com.sinch.logging.logger
 import com.sinch.metadata.model.PhoneMetadataFactory
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.smsverification.initialization.SmsInitializationListener
@@ -104,6 +105,7 @@ class SmsVerificationMethod private constructor(
     }
 
     private fun updateInterceptorWithApiData(data: SmsInitiationResponseData) {
+        logger.debug("Interceptor data update (API): $data")
         codeInterceptor?.apply {
             maxTimeout = chooseMaxTimeout(
                 userDefined = config.maxTimeout,
@@ -121,6 +123,8 @@ class SmsVerificationMethod private constructor(
      */
     class Builder private constructor() :
         VerificationMethodCreator<SmsInitializationListener>, SmsVerificationConfigSetter {
+
+        private val logger = logger()
 
         companion object {
 
@@ -177,7 +181,9 @@ class SmsVerificationMethod private constructor(
                 config = config,
                 initializationListener = initializationListener,
                 verificationListener = verificationListener
-            )
+            ).also {
+                logger.debug("Created SmsVerificationMethod with config: $config")
+            }
         }
 
     }

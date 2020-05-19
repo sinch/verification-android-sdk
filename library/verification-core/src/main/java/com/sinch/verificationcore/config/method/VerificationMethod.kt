@@ -58,19 +58,26 @@ abstract class VerificationMethod<Service>(
      */
     fun verify(verificationCode: String, sourceType: VerificationSourceType) {
         if (verificationState.canVerify) {
-            verificationState = VerificationState.Verification(VerificationStateStatus.ONGOING)
+            logger.debug("Verifying $verificationCode from source: $sourceType")
+            update(VerificationState.Verification(VerificationStateStatus.ONGOING))
             onVerify(verificationCode, sourceType)
+        } else {
+            logger.debug("Verify called however verificationState.canVerify returned false")
         }
     }
 
     final override fun initiate() {
         if (onPreInitiate() && verificationState.canInitiate) {
-            verificationState = VerificationState.Initialization(VerificationStateStatus.ONGOING)
+            logger.debug("Initiating verification")
+            update(VerificationState.Initialization(VerificationStateStatus.ONGOING))
             onInitiate()
+        } else {
+            logger.debug("Initiate called however onPreInitiate or verificationState.canInitiate returned false")
         }
     }
 
     override fun stop() {
+        logger.debug("Stop called")
         update(VerificationState.ManuallyStopped)
     }
 
@@ -79,6 +86,7 @@ abstract class VerificationMethod<Service>(
      * @param newState New verification state.
      */
     override fun update(newState: VerificationState) {
+        logger.debug("Verification state update $verificationState -> $newState")
         this.verificationState = newState
     }
 
@@ -121,6 +129,7 @@ abstract class VerificationMethod<Service>(
      */
     protected fun chooseMaxTimeout(userDefined: Long?, apiResponseTimeout: Long): Long {
         return if (userDefined == null) {
+            logger.debug("Using apiResponseTimeout $apiResponseTimeout (ms) as user did not define any timeout")
             apiResponseTimeout
         } else {
             if (apiResponseTimeout < userDefined) {
@@ -129,7 +138,9 @@ abstract class VerificationMethod<Service>(
                             "as it is greater then max timeout returned by the API"
                 )
             }
-            minOf(apiResponseTimeout, userDefined)
+            minOf(apiResponseTimeout, userDefined).also {
+                logger.debug("Chosen timeout is $it")
+            }
         }
     }
 }

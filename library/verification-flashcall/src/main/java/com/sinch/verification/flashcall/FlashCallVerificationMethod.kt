@@ -1,5 +1,6 @@
 package com.sinch.verification.flashcall
 
+import com.sinch.logging.logger
 import com.sinch.utils.permission.Permission
 import com.sinch.utils.permission.PermissionUtils
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
@@ -100,7 +101,9 @@ class FlashCallVerificationMethod private constructor(
                         isLateCall = it.codeInterceptionState == CodeInterceptionState.LATE,
                         isNoCall = it.codeInterceptionState == CodeInterceptionState.NONE
                     )
-                )
+                ).also {
+                    logger.debug("Reporting flashCall verification status. Data: $it")
+                }
             ).enqueue(retrofit, IgnoredUnitApiCallback())
         }
     }
@@ -139,6 +142,8 @@ class FlashCallVerificationMethod private constructor(
     class Builder private constructor() :
         VerificationMethodCreator<FlashCallInitializationListener>,
         FlashCallVerificationConfigSetter {
+
+        private val logger = logger()
 
         companion object {
 
@@ -195,7 +200,9 @@ class FlashCallVerificationMethod private constructor(
                 config = config,
                 initializationListener = initializationListener,
                 verificationListener = verificationListener
-            )
+            ).also {
+                logger.debug("Created FlashCallVerificationMethod with config: $config")
+            }
         }
 
     }

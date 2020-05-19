@@ -1,5 +1,6 @@
 package com.sinch.verificationcore.initiation
 
+import com.sinch.logging.logger
 import com.sinch.verificationcore.initiation.response.InitiationListener
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.VerificationState
@@ -23,9 +24,12 @@ open class InitiationApiCallback<T : InitiationResponseData>(
 ) :
     ApiCallback<T> {
 
+    private val logger = logger()
+
     override fun onSuccess(data: T, response: Response<T>) {
         ifNotManuallyStopped {
             val modifiedData = dataModifier(data, response)
+            logger.debug("Verification initiated data is $data")
             statusListener.update(VerificationState.Initialization(VerificationStateStatus.SUCCESS))
             listener.onInitiated(modifiedData)
             successCallback(modifiedData)
@@ -34,6 +38,7 @@ open class InitiationApiCallback<T : InitiationResponseData>(
 
     override fun onError(t: Throwable) {
         ifNotManuallyStopped {
+            logger.debug("Verification initiation failed error is is $t")
             statusListener.update(VerificationState.Initialization(VerificationStateStatus.ERROR))
             listener.onInitializationFailed(t)
         }
