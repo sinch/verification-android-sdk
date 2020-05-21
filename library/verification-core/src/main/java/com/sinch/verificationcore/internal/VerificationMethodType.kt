@@ -25,7 +25,13 @@ enum class VerificationMethodType(val value: String) {
      * Callout verification. [More](https://www.sinch.com/products/apis/verification/)
      */
     @SerialName("callout")
-    CALLOUT("callout");
+    CALLOUT("callout"),
+
+    /**
+     * Seamless verification.
+     */
+    @SerialName("seamless")
+    SEAMLESS("seamless");
 
     /**
      * Serializer used to decode [VerificationMethodType] enum. Custom implementation is needed as Sinch API sometimes uses
@@ -46,6 +52,7 @@ enum class VerificationMethodType(val value: String) {
                 SMS.value.toLowerCase(Locale.ROOT) -> SMS
                 FLASHCALL.value.toLowerCase(Locale.ROOT) -> FLASHCALL
                 CALLOUT.value.toLowerCase(Locale.ROOT) -> CALLOUT
+                SEAMLESS.value.toLowerCase() -> SEAMLESS
                 else -> throw SerializationException("Unknown element ${decoder.decodeString()}")
             }
 

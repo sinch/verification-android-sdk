@@ -41,7 +41,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/sms" />
+                android:padding="0dp"
+                android:text="@string/sms"
+                android:textSize="@dimen/textSizeButtonType" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/flashcallButton"
@@ -49,7 +51,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/flashcall" />
+                android:padding="0dp"
+                android:text="@string/flashcall"
+                android:textSize="@dimen/textSizeButtonType" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/calloutButton"
@@ -57,7 +61,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/callout" />
+                android:padding="0dp"
+                android:text="@string/callout"
+                android:textSize="@dimen/textSizeButtonType" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/seamlessButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/seamless"
+                android:textSize="@dimen/textSizeButtonType" />
+
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -70,8 +87,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="+46543543123"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:text="+46543543123" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

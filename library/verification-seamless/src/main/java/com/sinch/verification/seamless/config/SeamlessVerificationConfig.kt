@@ -1,9 +1,8 @@
-package com.sinch.verification.flashcall.config
+package com.sinch.verification.seamless.config
 
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.utils.toMillisOrNull
-import com.sinch.verification.flashcall.FlashCallVerificationMethod
-import com.sinch.verification.flashcall.FlashCallVerificationService
+import com.sinch.verification.seamless.SeamlessVerificationService
 import com.sinch.verificationcore.BuildConfig
 import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
@@ -12,25 +11,25 @@ import com.sinch.verificationcore.config.method.VerificationMethodConfig
 import java.util.concurrent.TimeUnit
 
 /**
- * Configuration used by [FlashCallVerificationMethod] to handle flashcall verification.
+ * Configuration used by [Seaml] to handle flashcall verification.
  * @param globalConfig Global SDK configuration reference.
  * @param number Phone number that needs be verified.
  * @property honourEarlyReject Flag indicating if the verification process should honour early rejection rules.
  * @property custom Custom string that is passed with the initiation request.
  * @property maxTimeout Maximum timeout in milliseconds after which verification process reports the exception. Null if verification process should use only the timeout returned by the api.
  */
-class FlashCallVerificationConfig internal constructor(
+class SeamlessVerificationConfig internal constructor(
     globalConfig: GlobalConfig,
     number: String,
     honourEarlyReject: Boolean = true,
     custom: String? = null,
     maxTimeout: Long? = null
-) : VerificationMethodConfig<FlashCallVerificationService>(
+) : VerificationMethodConfig<SeamlessVerificationService>(
     globalConfig = globalConfig,
     number = number,
     honourEarlyReject = honourEarlyReject,
     custom = custom,
-    apiService = globalConfig.retrofit.create(FlashCallVerificationService::class.java),
+    apiService = globalConfig.retrofit.create(SeamlessVerificationService::class.java),
     maxTimeout = maxTimeout,
     acceptedLanguages = emptyList(),
     metadataFactory = AndroidMetadataFactory(
@@ -40,21 +39,18 @@ class FlashCallVerificationConfig internal constructor(
     )
 ) {
 
-    /**
-     * Builder implementing fluent builder pattern to create [FlashCallVerificationConfig] objects.
-     */
     class Builder private constructor() :
-        GlobalConfigSetter<FlashCallVerificationConfigConfigCreator>,
-        NumberSetter<FlashCallVerificationConfigConfigCreator>,
-        FlashCallVerificationConfigConfigCreator {
+        GlobalConfigSetter<SeamlessVerificationConfigCreator>,
+        NumberSetter<SeamlessVerificationConfigCreator>,
+        SeamlessVerificationConfigCreator {
 
         companion object {
 
             /**
-             * Instance of builder that should be used to create [FlashCallVerificationConfig] object.
+             * Instance of builder that should be used to create [SeamlessVerificationConfig] object.
              */
             @JvmStatic
-            val instance: GlobalConfigSetter<FlashCallVerificationConfigConfigCreator>
+            val instance: GlobalConfigSetter<SeamlessVerificationConfigCreator>
                 get() = Builder()
         }
 
@@ -66,11 +62,11 @@ class FlashCallVerificationConfig internal constructor(
         private var maxTimeout: Long? = null
 
         /**
-         * Builds [FlashCallVerificationConfig] instance.
-         * @return [FlashCallVerificationConfig] instance with previously defined parameters.
+         * Builds [SeamlessVerificationConfig] instance.
+         * @return [SeamlessVerificationConfig] instance with previously defined parameters.
          */
-        override fun build(): FlashCallVerificationConfig =
-            FlashCallVerificationConfig(
+        override fun build(): SeamlessVerificationConfig =
+            SeamlessVerificationConfig(
                 globalConfig = globalConfig,
                 number = number,
                 honourEarlyReject = honourEarlyReject,
@@ -111,7 +107,7 @@ class FlashCallVerificationConfig internal constructor(
          * @param globalConfig Global SDK configuration reference.
          * @return Instance of builder with assigned globalConfig field.
          */
-        override fun globalConfig(globalConfig: GlobalConfig): NumberSetter<FlashCallVerificationConfigConfigCreator> =
+        override fun globalConfig(globalConfig: GlobalConfig): NumberSetter<SeamlessVerificationConfigCreator> =
             apply {
                 this.globalConfig = globalConfig
             }
@@ -121,7 +117,7 @@ class FlashCallVerificationConfig internal constructor(
          * @param number Phone number that needs be verified.
          * @return Instance of builder with assigned number field.
          */
-        override fun number(number: String): FlashCallVerificationConfigConfigCreator = apply {
+        override fun number(number: String): SeamlessVerificationConfigCreator = apply {
             this.number = number
         }
 
