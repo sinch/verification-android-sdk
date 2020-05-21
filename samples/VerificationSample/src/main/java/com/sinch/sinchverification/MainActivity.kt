@@ -15,7 +15,8 @@ class MainActivity : AppCompatActivity() {
         mapOf(
             smsButton.id to VerificationMethodType.SMS,
             flashcallButton.id to VerificationMethodType.FLASHCALL,
-            calloutButton.id to VerificationMethodType.CALLOUT
+            calloutButton.id to VerificationMethodType.CALLOUT,
+            seamlessButton.id to VerificationMethodType.SEAMLESS
         )
     }
 

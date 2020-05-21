@@ -16,6 +16,10 @@ import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.flashcall.EmptyFlashCallInitializationListener
 import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
+import com.sinch.verification.seamless.SeamlessVerificationMethod
+import com.sinch.verification.seamless.config.SeamlessVerificationConfig
+import com.sinch.verificationcore.initiation.response.InitiationListener
+import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationMethodType
 import com.sinch.verificationcore.verification.response.VerificationListener
@@ -37,22 +41,12 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         arguments?.get(DATA_TAG) as VerificationInitData
     }
 
-    private val smsInitListener = object : EmptySmsInitializationListener() {
+    private val initListener = object : InitiationListener<InitiationResponseData> {
         override fun onInitializationFailed(t: Throwable) {
             showErrorWithMessage(t.message.orEmpty())
         }
-    }
 
-    private val flashcallInitListener = object : EmptyFlashCallInitializationListener() {
-        override fun onInitializationFailed(t: Throwable) {
-            showErrorWithMessage(t.message.orEmpty())
-        }
-    }
-
-    private val calloutIniListener = object : EmptyCalloutInitializationListener() {
-        override fun onInitializationFailed(t: Throwable) {
-            showErrorWithMessage(t.message.orEmpty())
-        }
+        override fun onInitiated(data: InitiationResponseData) {}
     }
 
     private lateinit var verification: Verification
@@ -88,6 +82,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         VerificationMethodType.SMS -> asSmsVerification()
         VerificationMethodType.FLASHCALL -> asFlashcallVerification()
         VerificationMethodType.CALLOUT -> asCalloutVerification()
+        VerificationMethodType.SEAMLESS -> asSeamlessVerification()
     }
 
     private fun VerificationInitData.asSmsVerification() =
@@ -100,7 +95,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
                 .honourEarlyReject(honourEarlyReject)
                 .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .build()
-        ).initializationListener(smsInitListener).verificationListener(this@VerificationDialog)
+        ).initializationListener(initListener).verificationListener(this@VerificationDialog)
             .build()
 
 
@@ -112,7 +107,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
                 .honourEarlyReject(honourEarlyReject)
                 .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .build()
-        ).initializationListener(flashcallInitListener)
+        ).initializationListener(initListener)
             .verificationListener(this@VerificationDialog).build()
 
 
@@ -124,7 +119,18 @@ class VerificationDialog : DialogFragment(), VerificationListener {
                 .honourEarlyReject(honourEarlyReject)
                 .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .build()
-        ).initializationListener(calloutIniListener).verificationListener(this@VerificationDialog)
+        ).initializationListener(initListener).verificationListener(this@VerificationDialog)
+            .build()
+
+    private fun VerificationInitData.asSeamlessVerification() =
+        SeamlessVerificationMethod.Builder.instance.config(
+            SeamlessVerificationConfig.Builder.instance
+                .globalConfig(app.globalConfig)
+                .number(number)
+                .honourEarlyReject(honourEarlyReject)
+                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
+                .build()
+        ).initializationListener(initListener).verificationListener(this@VerificationDialog)
             .build()
 
     override fun onVerified() {

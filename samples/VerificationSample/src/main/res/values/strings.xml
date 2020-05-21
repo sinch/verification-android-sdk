@@ -13,6 +13,7 @@
     <string name="sms">SMS</string>
     <string name="flashcall">Flashcall</string>
     <string name="callout">Callout</string>
+    <string name="seamless">Seamless</string>
     <string name="verificationMethod">Verification Method</string>
     <string name="options">Optional configuration</string>
     <string name="customField">Custom field</string>
