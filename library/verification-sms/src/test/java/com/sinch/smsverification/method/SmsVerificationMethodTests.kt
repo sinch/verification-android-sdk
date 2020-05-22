@@ -195,16 +195,6 @@ class SmsVerificationMethodTests {
     }
 
     @Test
-    fun testUserDefinedTimeout() {
-        val verification = prepareVerification()
-        prepareMocks()
-        verification.initiate()
-        Robolectric.getForegroundThreadScheduler().advanceBy(apiSmsTimeout / 2, TimeUnit.SECONDS)
-        verify(exactly = 1) { mockedVerificationListener.onVerificationFailed(any<CodeInterceptionException>()) }
-        verify(exactly = 0) { mockedVerificationListener.onVerified() }
-    }
-
-    @Test
     fun testApiTimeoutUsedInsteadOfUser() {
         val verification = prepareVerification()
         prepareMocks()
