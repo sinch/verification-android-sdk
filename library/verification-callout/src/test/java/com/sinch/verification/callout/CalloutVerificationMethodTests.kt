@@ -3,6 +3,7 @@ package com.sinch.verification.callout
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
+import com.sinch.utils.MAX_TIMEOUT
 import com.sinch.utils.permission.Permission
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
@@ -34,7 +35,6 @@ class CalloutVerificationMethodTests {
 
     companion object {
         const val SUCCESS_CODE = "1234"
-        const val TIMEOUT = 1000L
     }
 
     private val appContext = ApplicationProvider.getApplicationContext<Application>()
@@ -100,7 +100,7 @@ class CalloutVerificationMethodTests {
             initiate()
         }
         Robolectric.getForegroundThreadScheduler()
-            .advanceBy(TIMEOUT + 10, TimeUnit.MILLISECONDS)
+            .advanceBy(Long.MAX_TIMEOUT + 10, TimeUnit.MILLISECONDS)
         verifySequence {
             mockedInitListener.onInitiated(any())
             mockedVerificationListener.onVerificationFailed(any<CodeInterceptionTimeoutException>())
@@ -114,7 +114,6 @@ class CalloutVerificationMethodTests {
                 CalloutVerificationConfig.Builder.instance
                     .globalConfig(mockedGlobalConfig)
                     .number("")
-                    .maxTimeout(TIMEOUT, TimeUnit.MILLISECONDS)
                     .build()
             )
             .initializationListener(mockedInitListener)

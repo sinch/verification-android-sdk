@@ -35,7 +35,7 @@ class FlashCallInterceptor(
     private val callHistoryReader: CallHistoryReader,
     private var callHistoryStartDate: Date,
     private val reportTimeout: Long,
-    private val interceptionTimeout: Long,
+    interceptionTimeout: Long,
     interceptionListener: CodeInterceptionListener
 ) :
     BasicCodeInterceptor(interceptionTimeout, interceptionListener), IncomingCallListener,

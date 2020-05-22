@@ -130,7 +130,7 @@ class FlashCallInterceptorTests {
     @Test
     fun testListenerNotifiedAboutTimeout() {
         val exampleTimeout = 1000L
-        createInterceptor(maxTimeout = exampleTimeout).apply {
+        createInterceptor(interceptionTimeout = exampleTimeout).apply {
             start()
         }
         Robolectric.getForegroundThreadScheduler()
@@ -143,7 +143,7 @@ class FlashCallInterceptorTests {
     fun testLateCallListenerNotifications() {
         val exampleTimeout = 1000L
         createInterceptor(
-            maxTimeout = exampleTimeout,
+            interceptionTimeout = exampleTimeout,
             reportTimeout = exampleTimeout + 1000L
         ).apply {
             start()
@@ -162,7 +162,7 @@ class FlashCallInterceptorTests {
     fun testListenerNotNotifiedAboutCallsBetweenInterceptionAndReportTimeouts() {
         val exampleTimeout = 1000L
         createInterceptor(
-            maxTimeout = exampleTimeout,
+            interceptionTimeout = exampleTimeout,
             reportTimeout = exampleTimeout * 2
         ).apply {
             start()
@@ -179,7 +179,7 @@ class FlashCallInterceptorTests {
     @Test(expected = CodeInterceptionException::class)
     fun testExceptionThrownWhenWrongReportTimeout() {
         val exampleTimeout = 1000L
-        createInterceptor(maxTimeout = exampleTimeout, reportTimeout = exampleTimeout - 5)
+        createInterceptor(interceptionTimeout = exampleTimeout, reportTimeout = exampleTimeout - 5)
     }
 
     @Test
@@ -187,7 +187,7 @@ class FlashCallInterceptorTests {
         createInterceptor()
         val exampleTimeout = 1000L
         createInterceptor(
-            maxTimeout = exampleTimeout,
+            interceptionTimeout = exampleTimeout,
             reportTimeout = exampleTimeout
         ).apply {
             start()
@@ -212,13 +212,13 @@ class FlashCallInterceptorTests {
 
     private fun createInterceptor(
         template: String = CliTemplates.template1,
-        maxTimeout: Long = Long.MAX_TIMEOUT,
-        reportTimeout: Long = maxTimeout + 15000,
+        interceptionTimeout: Long = Long.MAX_TIMEOUT,
+        reportTimeout: Long = interceptionTimeout + 15000,
         callHistoryStartDate: Date = Date(System.currentTimeMillis())
     ): FlashCallInterceptor = FlashCallInterceptor(
         context = context,
         flashCallPatternMatcher = FlashCallPatternMatcher(template),
-        interceptionTimeout = maxTimeout,
+        interceptionTimeout = interceptionTimeout,
         reportTimeout = reportTimeout,
         interceptionListener = mockedInterceptionListener,
         callHistoryReader = ContentProviderCallHistoryReader(context.contentResolver),

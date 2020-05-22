@@ -124,7 +124,6 @@ class MockedRetrofitSmsVerificationMethodTests {
         SmsVerificationConfig(
             globalConfig = globalConfig,
             number = Constants.phone,
-            maxTimeout = null,
             appHash = Constants.appHash,
             apiService = smsVerificationService
         )

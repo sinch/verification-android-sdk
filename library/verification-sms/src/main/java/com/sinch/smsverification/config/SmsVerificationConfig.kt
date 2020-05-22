@@ -4,12 +4,11 @@ import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.smsverification.BuildConfig
 import com.sinch.smsverification.SmsVerificationMethod
 import com.sinch.smsverification.SmsVerificationService
-import com.sinch.utils.toMillisOrNull
+import com.sinch.verificationcore.BaseVerificationMethodConfigBuilder
 import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
-import java.util.concurrent.TimeUnit
 
 /**
  * Configuration used by [SmsVerificationMethod] to handle sms verification.
@@ -18,7 +17,6 @@ import java.util.concurrent.TimeUnit
  * @property acceptedLanguages List of languages the sms message with the verification code will be written in. Backend chooses the first one it can handle.
  * @property honourEarlyReject Flag indicating if the verification process should honour early rejection rules.
  * @property custom Custom string that is passed with the initiation request.
- * @property maxTimeout Maximum timeout in milliseconds after which verification process reports the exception. Null if verification process should use only the timeout returned by the api.
  * @property appHash Application hash used to automatically intercept the message. [See](https://developers.sinch.com/docs/verification-android-the-verification-process#automatic-code-extraction-from-sms)
  */
 class SmsVerificationConfig internal constructor(
@@ -27,7 +25,7 @@ class SmsVerificationConfig internal constructor(
     acceptedLanguages: List<String> = emptyList(),
     honourEarlyReject: Boolean = true,
     custom: String? = null,
-    maxTimeout: Long? = null,
+    reference: String? = null,
     apiService: SmsVerificationService = globalConfig.retrofit.create(SmsVerificationService::class.java),
     val appHash: String? = null
 ) : VerificationMethodConfig<SmsVerificationService>(
@@ -35,8 +33,8 @@ class SmsVerificationConfig internal constructor(
     number = number,
     honourEarlyReject = honourEarlyReject,
     custom = custom,
+    reference = reference,
     apiService = apiService,
-    maxTimeout = maxTimeout,
     acceptedLanguages = acceptedLanguages,
     metadataFactory = AndroidMetadataFactory(
         globalConfig.context,
@@ -48,8 +46,9 @@ class SmsVerificationConfig internal constructor(
     /**
      * Builder implementing fluent builder pattern to create [SmsVerificationConfig] objects.
      */
-    class Builder private constructor() : GlobalConfigSetter<SmsVerificationConfigCreator>,
-        NumberSetter<SmsVerificationConfigCreator>, SmsVerificationConfigCreator {
+    class Builder private constructor() :
+        BaseVerificationMethodConfigBuilder<SmsVerificationConfigCreator>(),
+        SmsVerificationConfigCreator {
 
         companion object {
 
@@ -62,13 +61,7 @@ class SmsVerificationConfig internal constructor(
         }
 
         private lateinit var globalConfig: GlobalConfig
-        private lateinit var number: String
-
-        private var honourEarlyReject: Boolean = true
-        private var custom: String? = null
-        private var maxTimeout: Long? = null
         private var appHash: String? = null
-        private var acceptedLanguages: List<String> = emptyList()
 
         /**
          * Builds [SmsVerificationConfig] instance.
@@ -81,7 +74,6 @@ class SmsVerificationConfig internal constructor(
                 acceptedLanguages = acceptedLanguages,
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
-                maxTimeout = maxTimeout,
                 appHash = appHash
             )
 
@@ -104,13 +96,12 @@ class SmsVerificationConfig internal constructor(
         }
 
         /**
-         * Assigns maxTimeout value to the builder.
-         * @param maxTimeout Maximum timeout after which verification process reports the exception. Null if verification process should use only the timeout returned by the api.
-         * @param timeUnit Unit of [maxTimeout] parameter. Value is ignored if null is passed as [maxTimeout].
-         * @return Instance of builder with assigned maxTimeout field.
+         * Assigns reference string to the builder.
+         * @param reference Reference string that is passed with the initiation request for tracking purposes.
+         * @return Instance of builder with assigned reference field.
          */
-        override fun maxTimeout(maxTimeout: Long?, timeUnit: TimeUnit) = apply {
-            this.maxTimeout = timeUnit.toMillisOrNull(maxTimeout)
+        override fun reference(reference: String?) = apply {
+            this.reference = reference
         }
 
         /**

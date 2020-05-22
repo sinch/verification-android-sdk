@@ -6,6 +6,7 @@ import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
 import com.sinch.verificationcore.internal.VerificationMethodType
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
                     ?: VerificationMethodType.SMS,
                 number = phoneInput.editText?.text.toString(),
                 custom = customInput.editText?.text.toString(),
-                maxTimeout = timeoutInput.editText?.text.toString().toLongOrNull(),
+                reference = null,
                 honourEarlyReject = honoursEarlyCheckbox.isChecked,
                 acceptedLanguages = acceptedLanguagesInput?.editText.toString().split(",")
             )

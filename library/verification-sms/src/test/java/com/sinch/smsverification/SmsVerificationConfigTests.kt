@@ -13,7 +13,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class
@@ -48,7 +47,6 @@ class SmsVerificationConfigTests {
     fun testFullBuilderMatches() {
         val custom = "custom"
         val honourEarly = false
-        val maxTimeout = 10000L
         val appHash = "appHash"
 
         checkOptionalFieldsMatches(
@@ -56,7 +54,6 @@ class SmsVerificationConfigTests {
                 .globalConfig(globalConfig)
                 .number(testNumber)
                 .appHash(appHash)
-                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .custom(custom)
                 .honourEarlyReject(honourEarly)
                 .build(),
@@ -65,7 +62,6 @@ class SmsVerificationConfigTests {
                 .number(testNumber)
                 .honourEarlyReject(honourEarly)
                 .custom(custom)
-                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .appHash(appHash)
                 .build()
         )
@@ -78,6 +74,5 @@ class SmsVerificationConfigTests {
         Assert.assertEquals(config1.appHash, config2.appHash)
         Assert.assertEquals(config1.custom, config2.custom)
         Assert.assertEquals(config1.honourEarlyReject, config2.honourEarlyReject)
-        Assert.assertEquals(config1.maxTimeout, config2.maxTimeout)
     }
 }

@@ -1,6 +1,7 @@
 package com.sinch.verification.callout
 
 import com.sinch.logging.logger
+import com.sinch.utils.MAX_TIMEOUT
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
@@ -42,6 +43,7 @@ class CalloutVerificationMethod private constructor(
                 identity = VerificationIdentity(config.number),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
+                reference = config.reference,
                 metadata = config.metadataFactory.create()
             )
 
@@ -72,13 +74,11 @@ class CalloutVerificationMethod private constructor(
     }
 
     private fun initializeInterceptor() {
-        config.maxTimeout?.let {
-            calloutInterceptor = CalloutInterceptor(
-                maxTimeout = it,
-                interceptionListener = this
-            ).apply {
-                start()
-            }
+        calloutInterceptor = CalloutInterceptor(
+            interceptionTimeout = Long.MAX_TIMEOUT,
+            interceptionListener = this
+        ).apply {
+            start()
         }
     }
 

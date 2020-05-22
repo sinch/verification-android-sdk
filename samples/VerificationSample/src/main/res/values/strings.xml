@@ -17,7 +17,7 @@
     <string name="verificationMethod">Verification Method</string>
     <string name="options">Optional configuration</string>
     <string name="customField">Custom field</string>
-    <string name="customTimeout">Custom maximum timeout (ms)</string>
+    <string name="reference">Reference field</string>
     <string name="honourEarlyReject">Honours early reject</string>
     <string name="acceptedLanguages">Accepted languages</string>
     <string name="verificationCode">Verification code</string>

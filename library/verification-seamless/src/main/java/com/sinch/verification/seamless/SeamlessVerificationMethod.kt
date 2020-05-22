@@ -39,6 +39,7 @@ class SeamlessVerificationMethod private constructor(
                 identity = VerificationIdentity(config.number),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
+                reference = config.reference,
                 metadata = config.metadataFactory.create()
             )
 

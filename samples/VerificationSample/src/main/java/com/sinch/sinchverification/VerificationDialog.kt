@@ -7,13 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import com.sinch.smsverification.EmptySmsInitializationListener
 import com.sinch.smsverification.SmsVerificationMethod
 import com.sinch.smsverification.config.SmsVerificationConfig
 import com.sinch.verification.callout.CalloutVerificationMethod
-import com.sinch.verification.callout.EmptyCalloutInitializationListener
 import com.sinch.verification.callout.config.CalloutVerificationConfig
-import com.sinch.verification.flashcall.EmptyFlashCallInitializationListener
 import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.seamless.SeamlessVerificationMethod
@@ -25,7 +22,6 @@ import com.sinch.verificationcore.internal.VerificationMethodType
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class VerificationDialog : DialogFragment(), VerificationListener {
 
@@ -89,11 +85,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         SmsVerificationMethod.Builder.instance.config(
             SmsVerificationConfig.Builder.instance
                 .globalConfig(app.globalConfig)
-                .number(number)
-                .acceptedLanguages(acceptedLanguages)
+                .withVerificationProperties(this)
                 .appHash(AppSignatureHelper(activity).appSignatures[0])
-                .honourEarlyReject(honourEarlyReject)
-                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
                 .build()
         ).initializationListener(initListener).verificationListener(this@VerificationDialog)
             .build()
@@ -103,9 +96,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         FlashCallVerificationMethod.Builder.instance.config(
             FlashCallVerificationConfig.Builder.instance
                 .globalConfig(app.globalConfig)
-                .number(number)
-                .honourEarlyReject(honourEarlyReject)
-                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
+                .withVerificationProperties(this)
                 .build()
         ).initializationListener(initListener)
             .verificationListener(this@VerificationDialog).build()
@@ -115,9 +106,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         CalloutVerificationMethod.Builder.instance.config(
             CalloutVerificationConfig.Builder.instance
                 .globalConfig(app.globalConfig)
-                .number(number)
-                .honourEarlyReject(honourEarlyReject)
-                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
+                .withVerificationProperties(this)
                 .build()
         ).initializationListener(initListener).verificationListener(this@VerificationDialog)
             .build()
@@ -126,9 +115,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         SeamlessVerificationMethod.Builder.instance.config(
             SeamlessVerificationConfig.Builder.instance
                 .globalConfig(app.globalConfig)
-                .number(number)
-                .honourEarlyReject(honourEarlyReject)
-                .maxTimeout(maxTimeout, TimeUnit.MILLISECONDS)
+                .withVerificationProperties(this)
                 .build()
         ).initializationListener(initListener).verificationListener(this@VerificationDialog)
             .build()

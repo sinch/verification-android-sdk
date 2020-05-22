@@ -16,14 +16,14 @@ import kotlin.properties.Delegates
 /**
  * Code interceptor used to handle automatic verification code interception from SMS messages.
  * @param context Context reference.
- * @param maxTimeout Maximum timeout in milliseconds after which [CodeInterceptionTimeoutException] is passed to the [VerificationListener]
+ * @param interceptionTimeout Maximum timeout in milliseconds after which [CodeInterceptionTimeoutException] is passed to the [VerificationListener]
  * @param interceptionListener Listener to be notified about the interception process results.
  */
 class SmsCodeInterceptor(
     private val context: Context,
-    maxTimeout: Long,
+    interceptionTimeout: Long,
     interceptionListener: CodeInterceptionListener
-) : BasicCodeInterceptor(maxTimeout, interceptionListener), OnFailureListener,
+) : BasicCodeInterceptor(interceptionTimeout, interceptionListener), OnFailureListener,
     SmsBroadcastListener, CodeExtractorListener {
 
     private val smsRetrieverClient by lazy {

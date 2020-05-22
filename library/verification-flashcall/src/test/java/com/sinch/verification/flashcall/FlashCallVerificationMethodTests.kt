@@ -206,13 +206,12 @@ class FlashCallVerificationMethodTests {
         )
     }
 
-    private fun prepareVerification(userTimeout: Long? = null) =
+    private fun prepareVerification() =
         FlashCallVerificationMethod.Builder.instance
             .config(
                 FlashCallVerificationConfig.Builder.instance
                     .globalConfig(mockedGlobalConfig)
                     .number(Constants.phone)
-                    .maxTimeout(userTimeout, TimeUnit.MILLISECONDS)
                     .build()
             )
             .initializationListener(mockedInitListener)
