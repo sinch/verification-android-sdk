@@ -122,25 +122,4 @@ abstract class VerificationMethod<Service>(
         }
     }
 
-    /**
-     * Chooses the timeout after which verification method reports [CodeInterceptionException]
-     * @param userDefined Timeout defined in the configuration process.
-     * @param apiResponseTimeout Timeout returned by the API in initiation response data.
-     */
-    protected fun chooseMaxTimeout(userDefined: Long?, apiResponseTimeout: Long): Long {
-        return if (userDefined == null) {
-            logger.debug("Using apiResponseTimeout $apiResponseTimeout (ms) as user did not define any timeout")
-            apiResponseTimeout
-        } else {
-            if (apiResponseTimeout < userDefined) {
-                logger.warn(
-                    "Using api response timeout instead of config timeout " +
-                            "as it is greater then max timeout returned by the API"
-                )
-            }
-            minOf(apiResponseTimeout, userDefined).also {
-                logger.debug("Chosen timeout is $it")
-            }
-        }
-    }
 }

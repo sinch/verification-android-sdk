@@ -13,12 +13,12 @@ enum class CodeInterceptionState {
     NONE,
 
     /**
-     * The interceptor has intercepted a code, however it happened after [CodeInterceptor.maxTimeout].
+     * The interceptor has intercepted a code, however it happened after [CodeInterceptor.interceptionTimeout].
      */
     LATE,
 
     /**
-     * The interceptor has successfully intercepted the code (before [CodeInterceptor.maxTimeout]).
+     * The interceptor has successfully intercepted the code (before [CodeInterceptor.interceptionTimeout]).
      */
     NORMAL;
 }

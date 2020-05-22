@@ -8,7 +8,7 @@ import kotlin.properties.Delegates
  * Common logic of each verification methods interceptors.
  */
 abstract class BasicCodeInterceptor(
-    maxTimeoutInitial: Long,
+    timeoutInitial: Long,
     override val interceptionListener: CodeInterceptionListener
 ) : CodeInterceptor {
 
@@ -24,7 +24,7 @@ abstract class BasicCodeInterceptor(
     val isPastInterceptionTimeout: Boolean get() = state == InterceptorState.REPORTING || state == InterceptorState.DONE
 
     /**
-     * Flag indicating if the interceptor should automatically stop when [maxTimeout] has passed.
+     * Flag indicating if the interceptor should automatically stop when [interceptionTimeout] has passed.
      */
     open val shouldInterceptorStopWhenTimedOut: Boolean = true
 
@@ -37,7 +37,7 @@ abstract class BasicCodeInterceptor(
         onInterceptorTimedOut()
     }
 
-    override var maxTimeout: Long by Delegates.observable(maxTimeoutInitial) { _, _, _ ->
+    override var interceptionTimeout: Long by Delegates.observable(timeoutInitial) { _, _, _ ->
         if (state == InterceptorState.STARTED) {
             initializeCancelHandler()
         }
@@ -64,9 +64,9 @@ abstract class BasicCodeInterceptor(
 
     private fun initializeCancelHandler() {
         if (state != InterceptorState.DONE) {
-            logger.debug("Cancel handler initialized with timeout: $maxTimeout")
+            logger.debug("Cancel handler initialized with timeout: $interceptionTimeout")
             cancelHandler.removeCallbacks(delayedStopRunnable)
-            cancelHandler.postDelayed(delayedStopRunnable, maxTimeout)
+            cancelHandler.postDelayed(delayedStopRunnable, interceptionTimeout)
         }
     }
 }

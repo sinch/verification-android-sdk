@@ -65,7 +65,7 @@ class SmsCodeInterceptorTests {
     @Test
     fun testTimeoutExceptionThrown() {
         val timeout: Long = 1000
-        createInterceptor(maxTimeout = timeout).apply { start() }
+        createInterceptor(interceptionTimeout = timeout).apply { start() }
         Robolectric.getForegroundThreadScheduler().advanceBy(timeout / 2, TimeUnit.MILLISECONDS)
         verify(exactly = 0) { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
         Robolectric.getForegroundThreadScheduler().advanceBy(timeout, TimeUnit.MILLISECONDS)
@@ -162,10 +162,10 @@ class SmsCodeInterceptorTests {
 
     private fun createInterceptor(
         template: String = simpleTemplate,
-        maxTimeout: Long = Long.MAX_TIMEOUT
+        interceptionTimeout: Long = Long.MAX_TIMEOUT
     ): SmsCodeInterceptor = SmsCodeInterceptor(
         context = context,
-        maxTimeout = maxTimeout,
+        interceptionTimeout = interceptionTimeout,
         interceptionListener = mockedInterceptionListener
     ).apply {
         smsTemplate = template

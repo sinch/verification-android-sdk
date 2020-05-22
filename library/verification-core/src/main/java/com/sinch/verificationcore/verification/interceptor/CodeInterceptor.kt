@@ -11,7 +11,7 @@ interface CodeInterceptor {
     /**
      * Maximum timeout in milliseconds after which [CodeInterceptionTimeoutException] is passed to the [VerificationListener]
      */
-    var maxTimeout: Long
+    var interceptionTimeout: Long
 
     /**
      * Listener to be notified about the interception process results.

@@ -12,6 +12,7 @@ import kotlinx.serialization.Serializable
  * @property identity Identity of the verification.
  * @property honourEarlyReject Flag indicating if verification process should use early rejection rules.
  * @property custom Custom string passed in the initiation API call.
+ * @property reference Custom string that can be passed in the request for tracking purposes.
  * @property metadata Metadata containing information about the device used for analytics and early rejection rules.
  * @property method Method of the verification. Always [VerificationMethodType.FLASHCALL]
  */
@@ -20,6 +21,7 @@ data class FlashCallVerificationInitializationData(
     @SerialName("identity") override val identity: VerificationIdentity,
     @SerialName("honourEarlyReject") override val honourEarlyReject: Boolean,
     @SerialName("custom") override val custom: String?,
+    @SerialName("reference") override val reference: String?,
     @SerialName("metadata") override val metadata: PhoneMetadata?
 ) : VerificationInitiationData {
     @SerialName("method")

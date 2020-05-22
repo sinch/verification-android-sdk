@@ -29,6 +29,11 @@ interface VerificationInitiationData {
     val custom: String?
 
     /**
+     * Custom string that can be passed in the request for tracking purposes.
+     */
+    val reference: String?
+
+    /**
      * Metadata about the device.
      */
     val metadata: PhoneMetadata?

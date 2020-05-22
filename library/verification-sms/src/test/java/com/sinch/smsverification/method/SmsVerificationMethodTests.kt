@@ -60,7 +60,7 @@ class SmsVerificationMethodTests {
     lateinit var mockedVerificationListener: VerificationListener
 
     private val basicSmsMethod: Verification by lazy {
-        prepareVerification(userTimeout = null)
+        prepareVerification()
     }
 
     @Before
@@ -196,7 +196,7 @@ class SmsVerificationMethodTests {
 
     @Test
     fun testUserDefinedTimeout() {
-        val verification = prepareVerification(userTimeout = (apiSmsTimeout * 1000L) / 3)
+        val verification = prepareVerification()
         prepareMocks()
         verification.initiate()
         Robolectric.getForegroundThreadScheduler().advanceBy(apiSmsTimeout / 2, TimeUnit.SECONDS)
@@ -206,7 +206,7 @@ class SmsVerificationMethodTests {
 
     @Test
     fun testApiTimeoutUsedInsteadOfUser() {
-        val verification = prepareVerification(userTimeout = (apiSmsTimeout * 1000L) * 2)
+        val verification = prepareVerification()
         prepareMocks()
         verification.initiate()
         Robolectric.getForegroundThreadScheduler().advanceBy(apiSmsTimeout + 1, TimeUnit.SECONDS)
@@ -256,13 +256,12 @@ class SmsVerificationMethodTests {
         )
     }
 
-    private fun prepareVerification(userTimeout: Long? = null) =
+    private fun prepareVerification() =
         SmsVerificationMethod.Builder.instance
             .config(
                 SmsVerificationConfig.Builder.instance
                     .globalConfig(mockedGlobalConfig)
                     .number(Constants.phone)
-                    .maxTimeout(userTimeout, TimeUnit.MILLISECONDS)
                     .appHash(Constants.appHash)
                     .build()
             )

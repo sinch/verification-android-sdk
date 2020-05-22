@@ -57,6 +57,7 @@ class FlashCallVerificationMethod private constructor(
                 identity = VerificationIdentity(config.number),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
+                reference = config.reference,
                 metadata = config.metadataFactory.create()
             )
 
@@ -112,10 +113,7 @@ class FlashCallVerificationMethod private constructor(
         try {
             codeInterceptor = FlashCallInterceptor(
                 context = config.globalConfig.context,
-                interceptionTimeout = chooseMaxTimeout(
-                    userDefined = config.maxTimeout,
-                    apiResponseTimeout = data.details.interceptionTimeout
-                ),
+                interceptionTimeout = data.details.interceptionTimeout,
                 reportTimeout = data.details.reportTimeout,
                 interceptionListener = this,
                 flashCallPatternMatcher = FlashCallPatternMatcher(data.details.cliFilter),

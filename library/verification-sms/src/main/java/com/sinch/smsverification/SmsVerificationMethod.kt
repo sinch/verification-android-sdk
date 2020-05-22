@@ -53,6 +53,7 @@ class SmsVerificationMethod private constructor(
                 identity = VerificationIdentity(config.number),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
+                reference = config.reference,
                 metadata = metadataFactory.create(),
                 smsOptions = SmsOptions(config.appHash)
             )
@@ -60,7 +61,7 @@ class SmsVerificationMethod private constructor(
     override var codeInterceptor: SmsCodeInterceptor? =
         SmsCodeInterceptor(
             context = config.globalConfig.context,
-            maxTimeout = config.maxTimeout ?: Long.MAX_TIMEOUT,
+            interceptionTimeout = Long.MAX_TIMEOUT,
             interceptionListener = this
         )
 
@@ -107,10 +108,7 @@ class SmsVerificationMethod private constructor(
     private fun updateInterceptorWithApiData(data: SmsInitiationResponseData) {
         logger.debug("Interceptor data update (API): $data")
         codeInterceptor?.apply {
-            maxTimeout = chooseMaxTimeout(
-                userDefined = config.maxTimeout,
-                apiResponseTimeout = data.details.interceptionTimeout
-            )
+            interceptionTimeout = data.details.interceptionTimeout
             smsTemplate = data.details.template
         }
     }
