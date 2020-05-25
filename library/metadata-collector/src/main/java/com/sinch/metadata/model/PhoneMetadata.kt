@@ -6,7 +6,7 @@ import com.sinch.metadata.collector.sim.SimCardsInfoListSerializer
 import com.sinch.metadata.model.network.NetworkInfo
 import com.sinch.metadata.model.sim.SimCardInfo
 import com.sinch.metadata.model.sim.SimState
-import com.sinch.utils.Factory
+import com.sinch.verification.utils.Factory
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

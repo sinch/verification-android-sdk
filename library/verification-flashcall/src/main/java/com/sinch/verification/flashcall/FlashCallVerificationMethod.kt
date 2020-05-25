@@ -1,8 +1,8 @@
 package com.sinch.verification.flashcall
 
 import com.sinch.logging.logger
-import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.PermissionUtils
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener

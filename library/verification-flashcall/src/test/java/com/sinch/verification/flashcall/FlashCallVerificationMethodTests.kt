@@ -5,7 +5,7 @@ import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.utils.permission.Permission
+import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener

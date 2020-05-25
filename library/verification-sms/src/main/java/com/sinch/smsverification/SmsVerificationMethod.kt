@@ -10,7 +10,8 @@ import com.sinch.smsverification.initialization.SmsVerificationInitiationData
 import com.sinch.smsverification.verification.SmsVerificationData
 import com.sinch.smsverification.verification.SmsVerificationDetails
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
-import com.sinch.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.asLanguagesString
 import com.sinch.verificationcore.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
@@ -112,9 +113,6 @@ class SmsVerificationMethod private constructor(
             smsTemplate = data.details.template
         }
     }
-
-    private fun List<String>.asLanguagesString() =
-        if (isEmpty()) null else reduce { acc, s -> "$acc,$s" }
 
     /**
      * Builder implementing fluent builder pattern to create [SmsVerificationMethod] objects.

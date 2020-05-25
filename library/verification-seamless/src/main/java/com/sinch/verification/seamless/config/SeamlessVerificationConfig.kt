@@ -9,6 +9,7 @@ import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
+import java.util.*
 
 /**
  * Configuration used by [SeamlessVerificationMethod] to handle flashcall verification.
@@ -115,7 +116,7 @@ class SeamlessVerificationConfig internal constructor(
             this.number = number
         }
 
-        override fun acceptedLanguages(acceptedLanguages: List<String>) =
+        override fun acceptedLanguages(acceptedLanguages: List<Locale>) =
             this.also {
                 logger.debug("This verification method currently does not support accepted languages")
             }

@@ -2,10 +2,10 @@ package com.sinch.metadata.collector
 
 import android.content.Context
 import com.sinch.logging.logger
-import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.PermissionUtils
-import com.sinch.utils.permission.isPermissionGranted
-import com.sinch.utils.permission.runIfPermissionGranted
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
+import com.sinch.verification.utils.permission.isPermissionGranted
+import com.sinch.verification.utils.permission.runIfPermissionGranted
 
 /**
  * Convenient metadata collector implementations that grabs the metadata only if specified

@@ -6,7 +6,7 @@ import android.net.ConnectivityManager
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.sinch.metadata.model.network.NetworkType
-import com.sinch.utils.permission.Permission
+import com.sinch.verification.utils.permission.Permission
 import org.junit.Assert
 import org.junit.Test
 import org.junit.runner.RunWith

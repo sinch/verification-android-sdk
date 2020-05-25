@@ -1,5 +1,7 @@
 package com.sinch.verificationcore.config.method
 
+import java.util.*
+
 /**
  * Base class for common properties of every verification method.
  * @property number Number that needs be verified.
@@ -12,5 +14,5 @@ interface VerificationMethodProperties {
     val custom: String?
     val reference: String?
     val honourEarlyReject: Boolean
-    val acceptedLanguages: List<String>
+    val acceptedLanguages: List<Locale>
 }
