@@ -82,8 +82,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     }
 
     private fun VerificationInitData.asSmsVerification() =
-        SmsVerificationMethod.Builder.instance.config(
-            SmsVerificationConfig.Builder.instance
+        SmsVerificationMethod.Builder().config(
+            SmsVerificationConfig.Builder()
                 .globalConfig(app.globalConfig)
                 .withVerificationProperties(this)
                 .appHash(AppSignatureHelper(activity).appSignatures[0])
@@ -93,8 +93,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
 
     private fun VerificationInitData.asFlashcallVerification() =
-        FlashCallVerificationMethod.Builder.instance.config(
-            FlashCallVerificationConfig.Builder.instance
+        FlashCallVerificationMethod.Builder().config(
+            FlashCallVerificationConfig.Builder()
                 .globalConfig(app.globalConfig)
                 .withVerificationProperties(this)
                 .build()
@@ -103,8 +103,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
 
     private fun VerificationInitData.asCalloutVerification() =
-        CalloutVerificationMethod.Builder.instance.config(
-            CalloutVerificationConfig.Builder.instance
+        CalloutVerificationMethod.Builder().config(
+            CalloutVerificationConfig.Builder()
                 .globalConfig(app.globalConfig)
                 .withVerificationProperties(this)
                 .build()
@@ -112,8 +112,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             .build()
 
     private fun VerificationInitData.asSeamlessVerification() =
-        SeamlessVerificationMethod.Builder.instance.config(
-            SeamlessVerificationConfig.Builder.instance
+        SeamlessVerificationMethod.Builder().config(
+            SeamlessVerificationConfig.Builder()
                 .globalConfig(app.globalConfig)
                 .withVerificationProperties(this)
                 .build()

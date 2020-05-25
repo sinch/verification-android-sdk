@@ -99,6 +99,9 @@ class CalloutVerificationMethod private constructor(
             @JvmStatic
             val instance: CalloutVerificationConfigSetter
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private var initializationListener: CalloutInitializationListener =

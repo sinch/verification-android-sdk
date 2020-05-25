@@ -132,6 +132,9 @@ class SmsVerificationMethod private constructor(
             @JvmStatic
             val instance: SmsVerificationConfigSetter
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private var initializationListener: SmsInitializationListener =

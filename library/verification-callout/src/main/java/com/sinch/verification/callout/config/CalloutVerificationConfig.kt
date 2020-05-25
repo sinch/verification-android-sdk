@@ -50,6 +50,9 @@ class CalloutVerificationConfig internal constructor(
             @JvmStatic
             val instance: GlobalConfigSetter<CalloutVerificationConfigCreator>
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private lateinit var globalConfig: GlobalConfig
