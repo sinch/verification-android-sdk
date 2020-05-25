@@ -85,6 +85,9 @@ class SeamlessVerificationMethod private constructor(
             @JvmStatic
             val instance: SeamlessVerificationConfigSetter
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private var initializationListener: SeamlessInitializationListener =

@@ -151,6 +151,9 @@ class FlashCallVerificationMethod private constructor(
             @JvmStatic
             val instance: FlashCallVerificationConfigSetter
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private var initializationListener: FlashCallInitializationListener =

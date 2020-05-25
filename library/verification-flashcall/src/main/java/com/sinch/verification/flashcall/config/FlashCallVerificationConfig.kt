@@ -53,6 +53,9 @@ class FlashCallVerificationConfig internal constructor(
             @JvmStatic
             val instance: GlobalConfigSetter<FlashCallVerificationConfigCreator>
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private lateinit var globalConfig: GlobalConfig

@@ -50,6 +50,9 @@ class SeamlessVerificationConfig internal constructor(
             @JvmStatic
             val instance: GlobalConfigSetter<SeamlessVerificationConfigCreator>
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private lateinit var globalConfig: GlobalConfig

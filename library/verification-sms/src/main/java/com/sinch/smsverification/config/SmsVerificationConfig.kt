@@ -58,6 +58,9 @@ class SmsVerificationConfig internal constructor(
             @JvmStatic
             val instance: GlobalConfigSetter<SmsVerificationConfigCreator>
                 get() = Builder()
+
+            operator fun invoke() = instance
+
         }
 
         private lateinit var globalConfig: GlobalConfig
