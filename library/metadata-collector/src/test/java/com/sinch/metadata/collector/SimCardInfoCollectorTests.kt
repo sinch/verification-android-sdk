@@ -9,7 +9,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.sinch.metadata.collector.sim.ReflectionSafeSimCardInfoCollector
 import com.sinch.metadata.model.sim.OperatorInfo
 import com.sinch.metadata.model.sim.SimCardInfo
-import com.sinch.utils.permission.Permission
+import com.sinch.verification.utils.permission.Permission
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

@@ -3,8 +3,8 @@ package com.sinch.metadata
 import android.content.Context
 import com.sinch.metadata.collector.PermissionsCollector
 import com.sinch.metadata.model.PermissionsMetadata
-import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.isPermissionGranted
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.isPermissionGranted
 
 /**
  * Collector responsible for collecting [PermissionsMetadata].

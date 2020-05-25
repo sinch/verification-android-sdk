@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.sinch.verificationcore.config.method.VerificationMethodProperties
 import com.sinch.verificationcore.internal.VerificationMethodType
 import kotlinx.android.parcel.Parcelize
+import java.util.*
 
 @Parcelize
 data class VerificationInitData(
@@ -12,5 +13,5 @@ data class VerificationInitData(
     override val custom: String?,
     override val reference: String?,
     override val honourEarlyReject: Boolean,
-    override val acceptedLanguages: List<String>
+    override val acceptedLanguages: List<Locale>
 ) : VerificationMethodProperties, Parcelable

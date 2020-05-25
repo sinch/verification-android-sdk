@@ -1,4 +1,4 @@
-package com.sinch.utils
+package com.sinch.verification.utils
 
 /**
  * General interface used by factor pattern to create instances of [T] objects.

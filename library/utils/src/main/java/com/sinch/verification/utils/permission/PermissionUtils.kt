@@ -1,12 +1,12 @@
 @file:Suppress("unused")
 
-package com.sinch.utils.permission
+package com.sinch.verification.utils.permission
 
 import android.content.Context
 import androidx.core.content.PermissionChecker
 import androidx.core.content.PermissionChecker.checkSelfPermission
 
-const val PermissionsUtilsMockkName = "com.sinch.utils.permission.PermissionUtilsKt"
+const val PermissionsUtilsMockkName = "com.sinch.verification.utils.permission.PermissionUtilsKt"
 
 /**
  * Object containing utility functions connected with permissions.

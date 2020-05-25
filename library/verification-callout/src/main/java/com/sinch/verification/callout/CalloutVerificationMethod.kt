@@ -1,7 +1,7 @@
 package com.sinch.verification.callout
 
 import com.sinch.logging.logger
-import com.sinch.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData

@@ -1,4 +1,4 @@
-package com.sinch.utils.api
+package com.sinch.verification.utils.api
 
 import android.os.Build
 

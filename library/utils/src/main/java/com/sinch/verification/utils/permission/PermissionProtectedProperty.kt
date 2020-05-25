@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.sinch.utils.permission
+package com.sinch.verification.utils.permission
 
 import android.content.Context
 import kotlin.properties.ReadOnlyProperty

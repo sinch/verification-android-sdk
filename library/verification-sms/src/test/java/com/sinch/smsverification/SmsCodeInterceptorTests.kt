@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.common.api.Status
 import com.sinch.smsverification.verification.interceptor.SmsBroadcastReceiver
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
-import com.sinch.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import io.mockk.MockKAnnotations

@@ -8,10 +8,10 @@ import com.sinch.logging.logger
 import com.sinch.metadata.model.network.NetworkData
 import com.sinch.metadata.model.network.NetworkInfo
 import com.sinch.metadata.model.network.NetworkType
-import com.sinch.utils.api.ApiLevelUtils
-import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.PermissionUtils
-import com.sinch.utils.permission.runIfPermissionGranted
+import com.sinch.verification.utils.api.ApiLevelUtils
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
+import com.sinch.verification.utils.permission.runIfPermissionGranted
 
 /**
  * Metadata collector responsible for collecting metadata of type [NetworkInfo].

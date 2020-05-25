@@ -2,6 +2,7 @@ package com.sinch.verificationcore.config.method
 
 import com.sinch.metadata.model.PhoneMetadataFactory
 import com.sinch.verificationcore.config.general.GlobalConfig
+import java.util.*
 
 /**
  * Base class for common configuration of every verification method.
@@ -19,7 +20,7 @@ abstract class VerificationMethodConfig<ApiService>(
     override val custom: String?,
     override val reference: String?,
     override val honourEarlyReject: Boolean,
-    override val acceptedLanguages: List<String>,
+    override val acceptedLanguages: List<Locale>,
     val apiService: ApiService,
     val globalConfig: GlobalConfig,
     val metadataFactory: PhoneMetadataFactory

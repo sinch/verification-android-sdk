@@ -1,4 +1,4 @@
-package com.sinch.utils.permission
+package com.sinch.verification.utils.permission
 
 import android.Manifest
 

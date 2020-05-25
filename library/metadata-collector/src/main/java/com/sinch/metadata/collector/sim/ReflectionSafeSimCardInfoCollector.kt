@@ -8,8 +8,8 @@ import androidx.annotation.RequiresApi
 import com.sinch.metadata.collector.PermissionProtectedMetadataCollector
 import com.sinch.metadata.model.sim.OperatorInfo
 import com.sinch.metadata.model.sim.SimCardInfo
-import com.sinch.utils.api.ApiLevelUtils
-import com.sinch.utils.permission.Permission
+import com.sinch.verification.utils.api.ApiLevelUtils
+import com.sinch.verification.utils.permission.Permission
 
 /**
  * Metadata collector responsible for collecting array of metadata of type [SimCardInfo].

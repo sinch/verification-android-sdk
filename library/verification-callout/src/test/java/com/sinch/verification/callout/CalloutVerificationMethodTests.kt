@@ -3,8 +3,8 @@ package com.sinch.verification.callout
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.utils.MAX_TIMEOUT
-import com.sinch.utils.permission.Permission
+import com.sinch.verification.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData

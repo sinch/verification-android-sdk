@@ -1,11 +1,11 @@
-package com.sinch.utils
+package com.sinch.verification.utils
 
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.utils.permission.Permission
-import com.sinch.utils.permission.PermissionUtils
-import com.sinch.utils.permission.runIfPermissionGranted
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
+import com.sinch.verification.utils.permission.runIfPermissionGranted
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
