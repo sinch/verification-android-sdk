@@ -7,18 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import com.sinch.smsverification.SmsVerificationMethod
-import com.sinch.smsverification.config.SmsVerificationConfig
-import com.sinch.verification.callout.CalloutVerificationMethod
-import com.sinch.verification.callout.config.CalloutVerificationConfig
-import com.sinch.verification.flashcall.FlashCallVerificationMethod
-import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
-import com.sinch.verification.seamless.SeamlessVerificationMethod
-import com.sinch.verification.seamless.config.SeamlessVerificationConfig
+import com.sinch.verification.all.CommonVerificationInitializationParameters
+import com.sinch.verification.all.BasicVerificationMethodBuilder
+import com.sinch.verificationcore.VerificationInitData
 import com.sinch.verificationcore.initiation.response.InitiationListener
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
 import com.sinch.verificationcore.internal.Verification
-import com.sinch.verificationcore.internal.VerificationMethodType
 import com.sinch.verificationcore.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import java.util.*
@@ -64,7 +58,15 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         //Normally we would implement all the logic inside View Model but for simplicity we will keep it here.
-        verification = initData.createVerification().also { it.initiate() }
+        verification = BasicVerificationMethodBuilder.createVerification(
+            commonVerificationInitializationParameters = CommonVerificationInitializationParameters(
+                globalConfig = app.globalConfig,
+                verificationInitData = initData,
+                initiationListener = initListener,
+                verificationListener = this
+            ),
+            appHash = AppSignatureHelper(context).appSignatures.first()
+        ).also { it.initiate() }
         verifyButton.setOnClickListener {
             verification.verify(codeInput.editText?.text.toString())
         }
@@ -73,52 +75,6 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             dismiss()
         }
     }
-
-    private fun VerificationInitData.createVerification() = when (usedMethod) {
-        VerificationMethodType.SMS -> asSmsVerification()
-        VerificationMethodType.FLASHCALL -> asFlashcallVerification()
-        VerificationMethodType.CALLOUT -> asCalloutVerification()
-        VerificationMethodType.SEAMLESS -> asSeamlessVerification()
-    }
-
-    private fun VerificationInitData.asSmsVerification() =
-        SmsVerificationMethod.Builder().config(
-            SmsVerificationConfig.Builder()
-                .globalConfig(app.globalConfig)
-                .withVerificationProperties(this)
-                .appHash(AppSignatureHelper(activity).appSignatures[0])
-                .build()
-        ).initializationListener(initListener).verificationListener(this@VerificationDialog)
-            .build()
-
-
-    private fun VerificationInitData.asFlashcallVerification() =
-        FlashCallVerificationMethod.Builder().config(
-            FlashCallVerificationConfig.Builder()
-                .globalConfig(app.globalConfig)
-                .withVerificationProperties(this)
-                .build()
-        ).initializationListener(initListener)
-            .verificationListener(this@VerificationDialog).build()
-
-
-    private fun VerificationInitData.asCalloutVerification() =
-        CalloutVerificationMethod.Builder().config(
-            CalloutVerificationConfig.Builder()
-                .globalConfig(app.globalConfig)
-                .withVerificationProperties(this)
-                .build()
-        ).initializationListener(initListener).verificationListener(this@VerificationDialog)
-            .build()
-
-    private fun VerificationInitData.asSeamlessVerification() =
-        SeamlessVerificationMethod.Builder().config(
-            SeamlessVerificationConfig.Builder()
-                .globalConfig(app.globalConfig)
-                .withVerificationProperties(this)
-                .build()
-        ).initializationListener(initListener).verificationListener(this@VerificationDialog)
-            .build()
 
     override fun onVerified() {
         progressBar.hide()
