@@ -1,4 +1,4 @@
-package com.sinch.sinchverification
+package com.sinch.verificationcore
 
 import android.os.Parcelable
 import com.sinch.verificationcore.config.method.VerificationMethodProperties

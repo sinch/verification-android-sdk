@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
+import com.sinch.verificationcore.VerificationInitData
 import com.sinch.verificationcore.internal.VerificationMethodType
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
@@ -28,7 +29,7 @@ class MainActivity : AppCompatActivity() {
                     ?: VerificationMethodType.SMS,
                 number = phoneInput.editText?.text.toString(),
                 custom = customInput.editText?.text.toString(),
-                reference = null,
+                reference = referenceInput.editText?.text.toString(),
                 honourEarlyReject = honoursEarlyCheckbox.isChecked,
                 acceptedLanguages = acceptedLanguagesInput?.editText?.text.toString().toLocaleList()
             )

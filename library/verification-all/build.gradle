@@ -1,0 +1,9 @@
+dependencies {
+    implementation project(':library:verification-core')
+    implementation project(':library:verification-callout')
+    implementation project(':library:verification-flashcall')
+    implementation project(':library:verification-seamless')
+    implementation project(':library:verification-sms')
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
+}
