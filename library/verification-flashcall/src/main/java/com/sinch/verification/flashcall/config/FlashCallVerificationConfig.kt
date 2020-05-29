@@ -70,7 +70,8 @@ class FlashCallVerificationConfig internal constructor(
                 globalConfig = globalConfig,
                 number = number,
                 honourEarlyReject = honourEarlyReject,
-                custom = custom
+                custom = custom,
+                reference = reference
             )
 
         /**

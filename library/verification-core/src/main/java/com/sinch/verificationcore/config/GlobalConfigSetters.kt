@@ -19,6 +19,7 @@ interface NumberSetter<LastSetter : VerificationMethodConfigCreator<LastSetter, 
                 .custom(it.custom)
                 .honourEarlyReject(it.honourEarlyReject)
                 .acceptedLanguages(it.acceptedLanguages)
+                .reference(it.reference)
         }
 
     fun number(number: String): LastSetter
