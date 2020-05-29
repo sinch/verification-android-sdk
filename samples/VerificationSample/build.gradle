@@ -21,6 +21,10 @@ android {
         }
     }
 
+    sourceSets {
+        main.res.srcDirs += "$project.rootDir/samples/common/res"
+    }
+
     defaultConfig {
         applicationId "com.sinch.sinchverification"
         minSdkVersion (Versions.minSdk)
@@ -56,7 +60,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(':library:verification-all')
     implementation project(':library:verification-core')
     implementation project(':library:verification-sms')
     implementation project(':library:verification-flashcall')

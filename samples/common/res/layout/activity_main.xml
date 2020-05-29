@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -85,10 +83,10 @@
             android:hint="@string/enterNumberHint">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:text="+46543543123" />
+                android:inputType="phone" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -108,6 +106,7 @@
             android:hint="@string/customField">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/customInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions" />
@@ -122,6 +121,7 @@
             android:hint="@string/reference">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/referenceInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
@@ -136,6 +136,7 @@
             android:hint="@string/acceptedLanguages">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/acceptedLanguagesInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textNoSuggestions" />

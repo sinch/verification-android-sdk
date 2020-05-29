@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">VerificationSampleJava</string>
-
-    <string name="title_activity_main">MainActivity</string>
-    <string name="initialize">Initialize</string>
-    <string name="verify">Verify</string>
-</resources>

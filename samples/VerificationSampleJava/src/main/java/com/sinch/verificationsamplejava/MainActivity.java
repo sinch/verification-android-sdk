@@ -1,102 +1,115 @@
 package com.sinch.verificationsamplejava;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.sinch.smsverification.SmsVerificationMethod;
-import com.sinch.smsverification.config.SmsVerificationConfig;
-import com.sinch.smsverification.initialization.SmsInitiationResponseData;
-import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod;
-import com.sinch.verificationcore.config.general.GlobalConfig;
-import com.sinch.verificationcore.config.general.SinchGlobalConfig;
-import com.sinch.verificationcore.initiation.response.InitiationListener;
-import com.sinch.verificationcore.internal.Verification;
-import com.sinch.verificationcore.verification.response.VerificationListener;
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.checkbox.MaterialCheckBox;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.sinch.verificationcore.VerificationInitData;
+import com.sinch.verificationcore.internal.VerificationMethodType;
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
-    //TODO check permissions
-
-    private static final String TAG = "VerificationMethod";
-
     private Button initButton;
-    private Button verifyButton;
-    private EditText editText;
-
-    private GlobalConfig globalConfig;
-    private SmsVerificationConfig smsVerificationConfig;
-    private InitiationListener<SmsInitiationResponseData> initiationListener;
-    private VerificationListener verificationListener;
-
-    private Verification smsVerificationMethod;
+    private TextInputLayout phoneEditInput;
+    private TextInputEditText phoneEditText;
+    private TextInputEditText customEditText;
+    private TextInputEditText referenceEditText;
+    private TextInputEditText acceptedLanguagesEditText;
+    private MaterialCheckBox honoursEarlyCheckbox;
+    private MaterialButtonToggleGroup methodToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        initVerification();
+        bindViews();
+        initButton.setOnClickListener(v -> checkFields());
+        phoneEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                phoneEditInput.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void bindViews() {
         initButton = findViewById(R.id.initButton);
-        verifyButton = findViewById(R.id.verifyButton);
-        editText = findViewById(R.id.editText);
-        initButton.setOnClickListener(v -> smsVerificationMethod.initiate());
-        verifyButton.setOnClickListener(v -> smsVerificationMethod.verify(editText.getText().toString()));
+        phoneEditInput = findViewById(R.id.phoneInput);
+        phoneEditText = findViewById(R.id.phoneInputEditText);
+        methodToggle = findViewById(R.id.methodToggle);
+        customEditText = findViewById(R.id.customInputEditText);
+        referenceEditText = findViewById(R.id.referenceInputEditText);
+        acceptedLanguagesEditText = findViewById(R.id.acceptedLanguagesInputEditText);
+        honoursEarlyCheckbox = findViewById(R.id.honoursEarlyCheckbox);
     }
 
-    private void initVerification() {
-        globalConfig = SinchGlobalConfig.Builder.getInstance()
-                .applicationContext(getApplicationContext())
-                .authorizationMethod(new AppKeyAuthorizationMethod("9e556452-e462-4006-aab0-8165ca04de66"))
-                .apiHost("https://verificationapi-v1.sinch.com/")
-                .interceptors(FlipperInitializer.getOkHttpInterceptors())
-                .build();
-
-        smsVerificationConfig = SmsVerificationConfig.Builder.getInstance()
-                .globalConfig(globalConfig)
-                .number("+48509873255")
-                .appHash("3O5HNxhoSme")
-                .build();
-
-        initiationListener = new InitiationListener<SmsInitiationResponseData>() {
-            @Override
-            public void onInitiated(@NotNull SmsInitiationResponseData data) {
-                Log.d(TAG, "onInitiated: " + data);
-            }
-
-            @Override
-            public void onInitializationFailed(@NotNull Throwable t) {
-                Log.d(TAG, "onInitializationFailed " + t);
-            }
-        };
-
-        verificationListener = new VerificationListener() {
-            @Override
-            public void onVerified() {
-                Log.d(TAG, "onVerified");
-            }
-
-            @Override
-            public void onVerificationFailed(@NotNull Throwable t) {
-                Log.d(TAG, "onInitializationFailed " + t);
-            }
-        };
-
-        smsVerificationMethod = SmsVerificationMethod.Builder.getInstance()
-                .config(smsVerificationConfig)
-                .initializationListener(initiationListener)
-                .verificationListener(verificationListener)
-                .build();
-
+    private void checkFields() {
+        Editable phoneNumber = phoneEditText.getText();
+        if (phoneNumber == null || phoneNumber.toString().isEmpty()) {
+            phoneEditInput.setError(getString(R.string.phoneEmptyError));
+        } else {
+            VerificationDialog.newInstance(createInitDataFromInputs()).show(getSupportFragmentManager(), "dialog");
+        }
     }
 
-    private VerificationJavaSampleApp getApp() {
-        return (VerificationJavaSampleApp) getApplication();
+    private List<Locale> splitAcceptLanguagesField(String source) {
+        String[] slices = source.split(",");
+        List<Locale> result = new ArrayList<>();
+        for (String slice : slices) {
+            if (slice.contains("-")) {
+                String[] locale = slice.split("-");
+                result.add(new Locale(locale[0], locale[1]));
+            } else {
+                throw new RuntimeException("Wrong accept-languages format. Sample app supports only [language-region] format e.g. es-ES, fr-CA");
+            }
+        }
+        return result;
+    }
+
+    private VerificationInitData createInitDataFromInputs() {
+        return new VerificationInitData(
+                getCheckedVerificationMethod(),
+                phoneEditText.getText().toString(),
+                customEditText.getText().toString(),
+                referenceEditText.getText().toString(),
+                honoursEarlyCheckbox.isChecked(),
+                splitAcceptLanguagesField(acceptedLanguagesEditText.getText().toString())
+        );
+    }
+
+    private VerificationMethodType getCheckedVerificationMethod() {
+        switch (methodToggle.getCheckedButtonId()) {
+            case R.id.smsButton:
+                return VerificationMethodType.SMS;
+            case R.id.calloutButton:
+                return VerificationMethodType.CALLOUT;
+            case R.id.flashcallButton:
+                return VerificationMethodType.FLASHCALL;
+            case R.id.seamlessButton:
+                return VerificationMethodType.SEAMLESS;
+            default:
+                throw new RuntimeException("No method for button" + methodToggle.getCheckedButtonId());
+        }
     }
 }

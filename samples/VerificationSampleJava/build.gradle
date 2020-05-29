@@ -14,6 +14,10 @@ android {
         }
     }
 
+    sourceSets {
+        main.res.srcDirs += "$project.rootDir/samples/common/res"
+    }
+
     defaultConfig {
         applicationId "com.sinch.verificationsamplejava"
         minSdkVersion (Versions.minSdk)

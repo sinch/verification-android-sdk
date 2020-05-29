@@ -21,6 +21,7 @@ object BasicVerificationMethodBuilder {
      * @param commonVerificationInitializationParameters Properties of Verification that are used by each verification method builder.
      * @param appHash Optional application hash needed by [SmsVerificationMethod].
      */
+    @JvmStatic
     fun createVerification(
         commonVerificationInitializationParameters: CommonVerificationInitializationParameters,
         appHash: String?
