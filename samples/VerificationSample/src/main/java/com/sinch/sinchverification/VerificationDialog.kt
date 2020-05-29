@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
-import com.sinch.verification.all.CommonVerificationInitializationParameters
 import com.sinch.verification.all.BasicVerificationMethodBuilder
+import com.sinch.verification.all.CommonVerificationInitializationParameters
 import com.sinch.verificationcore.VerificationInitData
 import com.sinch.verificationcore.initiation.response.InitiationListener
 import com.sinch.verificationcore.initiation.response.InitiationResponseData
@@ -65,12 +65,12 @@ class VerificationDialog : DialogFragment(), VerificationListener {
                 initiationListener = initListener,
                 verificationListener = this
             ),
-            appHash = AppSignatureHelper(context).appSignatures.first()
+            appHash = AppSignatureHelper(app).appSignatures[0]
         ).also { it.initiate() }
         verifyButton.setOnClickListener {
             verification.verify(codeInput.editText?.text.toString())
         }
-        bottomButton.setOnClickListener {
+        quitButton.setOnClickListener {
             verification.stop()
             dismiss()
         }
@@ -81,7 +81,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         messageText.apply {
             setTextColor(ContextCompat.getColor(app, R.color.green))
             text = getString(R.string.successfullyVerified)
-            bottomButton.text = getString(R.string.close)
+            quitButton.text = getString(R.string.close)
             codeInput.visibility = View.GONE
             verifyButton.visibility = View.GONE
         }

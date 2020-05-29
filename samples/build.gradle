@@ -1,5 +1,40 @@
+//AppKeys properties are defined in appkeys.properties file
+Properties sampleAppKeys = new Properties()
+try {
+    sampleAppKeys.load(new FileInputStream(file("appkeys.properties")))
+} catch (ignored) {
+    println("appkeys.properties file not found")
+}
+
+ext {
+    testAppProductionKey = sampleAppKeys['testAppProductionKey']
+    testAppFtest1Key = sampleAppKeys['testAppFtest1Key']
+    testAppFtest2Key = sampleAppKeys['testAppFtest2Key']
+}
+
 subprojects {
     apply plugin: 'com.android.application'
     apply from: "$project.rootDir/signing.gradle"
     apply from: "$project.rootDir/apienv.gradle"
+
+    dependencies {
+        implementation project(':library:verification-all')
+    }
+
+    android {
+
+        productFlavors {
+            production {
+                buildConfigField "String", "APP_KEY", "\"$testAppProductionKey\""
+            }
+            ftest1 {
+                buildConfigField "String", "APP_KEY", "\"$testAppFtest1Key\""
+            }
+            ftest2 {
+                buildConfigField "String", "APP_KEY", "\"$testAppFtest2Key\""
+            }
+        }
+
+    }
+
 }
