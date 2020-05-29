@@ -78,6 +78,7 @@ class SmsVerificationConfig internal constructor(
                 acceptedLanguages = acceptedLanguages,
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
+                reference = reference,
                 appHash = appHash
             )
 
