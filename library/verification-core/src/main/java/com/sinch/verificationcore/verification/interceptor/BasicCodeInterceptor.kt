@@ -44,18 +44,26 @@ abstract class BasicCodeInterceptor(
     }
 
     final override fun start() {
-        logger.debug("Code interceptor started")
-        state = InterceptorState.STARTED
-        initializeCancelHandler()
-        onInterceptorStarted()
+        if (state == InterceptorState.IDLE) {
+            logger.debug("Code interceptor started")
+            state = InterceptorState.STARTED
+            initializeCancelHandler()
+            onInterceptorStarted()
+        } else {
+            logger.debug("Interceptor already started")
+        }
     }
 
     final override fun stop() {
-        logger.debug("Code interceptor stopped")
-        state = InterceptorState.DONE
-        cancelHandler.removeCallbacks(delayedStopRunnable)
-        onInterceptorStopped()
-        interceptionListener.onCodeInterceptionStopped()
+        if (state != InterceptorState.DONE) {
+            logger.debug("Code interceptor stopped")
+            state = InterceptorState.DONE
+            cancelHandler.removeCallbacks(delayedStopRunnable)
+            onInterceptorStopped()
+            interceptionListener.onCodeInterceptionStopped()
+        } else {
+            logger.debug("Interceptor already stopped")
+        }
     }
 
     abstract fun onInterceptorStarted()
