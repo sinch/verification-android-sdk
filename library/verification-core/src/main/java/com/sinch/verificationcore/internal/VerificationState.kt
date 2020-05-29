@@ -50,4 +50,15 @@ sealed class VerificationState {
             is Verification -> this.status != VerificationStateStatus.SUCCESS
             else -> true
         }
+
+    /**
+     * Flag indicating if the verification process has been completed (either with error or success).
+     */
+    val isVerificationProcessFinished: Boolean
+        get() = when (this) {
+            is Verification -> this.status.isFinished
+            is Initialization -> this.status == VerificationStateStatus.ERROR
+            ManuallyStopped -> true
+            IDLE -> false
+        }
 }

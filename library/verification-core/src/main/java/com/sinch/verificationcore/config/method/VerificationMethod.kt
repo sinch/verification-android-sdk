@@ -7,7 +7,6 @@ import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateListener
 import com.sinch.verificationcore.internal.VerificationStateStatus
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
@@ -77,6 +76,10 @@ abstract class VerificationMethod<Service>(
     }
 
     override fun stop() {
+        if (verificationState.isVerificationProcessFinished) {
+            logger.info("Verification process already finished with state $verificationState")
+            return
+        }
         logger.debug("Stop called")
         update(VerificationState.ManuallyStopped)
     }
