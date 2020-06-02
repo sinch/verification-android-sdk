@@ -18,8 +18,6 @@ import java.util.Arrays;
 import static android.content.pm.PackageManager.GET_SIGNATURES;
 import static android.content.pm.PackageManager.NameNotFoundException;
 
-@SuppressLint("all")
-
 /*
   This is a helper class to generate your message hash to be included in your SMS message.
 
@@ -40,7 +38,13 @@ public class AppSignatureHelper extends ContextWrapper {
 
     /**
      * Get all the app signatures for the current package
+     * Note: SupressLint and SuppressWarnings annotations are needed as getting signatures programmatically can lead tu vulnerability issues.
+     * [SEE] (https://blog.checkpoint.com/2014/07/29/android-fake-id/) for more details.
+     * In you production application calculate your key as described
+     * in the [docs](https://developers.sinch.com/docs/verification-android-the-verification-process#automatic-code-extraction-from-sms).
      */
+    @SuppressLint("PackageManagerGetSignatures")
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public ArrayList<String> getAppSignatures() {
         ArrayList<String> appCodes = new ArrayList<>();
 
@@ -48,7 +52,7 @@ public class AppSignatureHelper extends ContextWrapper {
             // Get all package signatures for the current package
             String packageName = getPackageName();
             PackageManager packageManager = getPackageManager();
-            @SuppressLint("PackageManagerGetSignatures") Signature[] signatures = packageManager.getPackageInfo(packageName,
+            Signature[] signatures = packageManager.getPackageInfo(packageName,
                     GET_SIGNATURES).signatures;
 
             // For each signature create a compatible hash
