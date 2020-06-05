@@ -40,7 +40,13 @@ public class AppSignatureHelper extends ContextWrapper {
 
     /**
      * Get all the app signatures for the current package
+     * Note: SupressLint and SuppressWarnings annotations are needed as getting signatures programmatically can lead tu vulnerability issues.
+     * [SEE] (https://blog.checkpoint.com/2014/07/29/android-fake-id/) for more details.
+     * In you production application calculate your key as described
+     * in the [docs](https://developers.sinch.com/docs/verification-android-the-verification-process#automatic-code-extraction-from-sms).
      */
+    @SuppressLint("PackageManagerGetSignatures")
+    @SuppressWarnings({"deprecation", "RedundantSuppression"})
     public ArrayList<String> getAppSignatures() {
         ArrayList<String> appCodes = new ArrayList<>();
 
