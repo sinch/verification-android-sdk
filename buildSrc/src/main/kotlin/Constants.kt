@@ -1,10 +1,10 @@
 object Versions {
 
     const val kotlin = "1.3.72"
-    const val gradleBuildTools = "3.6.3"
+    const val gradleBuildTools = "4.0.0"
 
     const val appCompat = "1.1.0"
-    const val ktx = "1.2.0"
+    const val ktx = "1.3.0"
     const val material = "1.1.0"
     const val constraintLayout = "1.1.3"
     const val navigation = "2.2.2"
