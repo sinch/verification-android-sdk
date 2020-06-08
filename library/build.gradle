@@ -38,12 +38,15 @@ subprojects {
     dependencies {
         implementation fileTree(dir: 'libs', include: ['*.jar'])
         implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
         implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
         implementation "androidx.core:core-ktx:${Versions.ktx}"
         implementation "androidx.annotation:annotation:${Versions.appCompat}"
 
         testImplementation "junit:junit:${Versions.jUnit}"
-        testImplementation "org.robolectric:robolectric:${Versions.robolectric}"
+        testImplementation ("org.robolectric:robolectric:${Versions.robolectric}") {
+            exclude group: "com.google.auto.service", module: "auto-service"
+        }
         testImplementation "androidx.test:core:${Versions.androidXTestCore}"
         testImplementation "io.mockk:mockk:${Versions.mockk}"
         testImplementation "com.squareup.retrofit2:retrofit-mock:${Versions.retrofit}"
