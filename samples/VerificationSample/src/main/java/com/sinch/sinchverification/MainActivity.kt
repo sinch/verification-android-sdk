@@ -1,6 +1,8 @@
 package com.sinch.sinchverification
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
@@ -44,6 +46,14 @@ class MainActivity : AppCompatActivity() {
             phoneInput.error = null
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        (application as VerificationSampleApp).onDevelopmentOptionSelected(item)
 
     private fun checkFields() {
         if (phoneInput.editText?.text.isNullOrEmpty()) {

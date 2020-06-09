@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion (Versions.compileSdk)
+    compileSdkVersion(Versions.compileSdk)
     buildToolsVersion "$Versions.buildTools"
 
     testOptions {
@@ -27,12 +27,41 @@ android {
 
     defaultConfig {
         applicationId "com.sinch.sinchverification"
-        minSdkVersion (Versions.minSdk)
-        targetSdkVersion (Versions.targetSdk)
+        minSdkVersion(Versions.minSdk)
+        targetSdkVersion(Versions.targetSdk)
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    flavorDimensions "mode", "apienv"
+    productFlavors {
+        internal {
+            dimension "mode"
+
+            buildConfigField "String", "APP_KEY_PROD", "\"$testAppProductionKey\""
+            buildConfigField "String", "APP_KEY_FTEST1", "\"$testAppFtest1Key\""
+            buildConfigField "String", "APP_KEY_FTEST2", "\"$testAppFtest2Key\""
+
+            buildConfigField "String", "API_BASE_URL_PROD", "\"https://verificationapi-v1.sinch.com/\""
+            buildConfigField "String", "API_BASE_URL_FTEST1", "\"https://verificationapi-v1-01.sinchlab.com/\""
+            buildConfigField "String", "API_BASE_URL_FTEST2", "\"https://verificationapi-v1-02.sinchlab.com/\""
+
+        }
+        external {
+            dimension "mode"
+        }
+    }
+
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        // To check for a certain build type, use variant.buildType.name == "<buildType>"
+        if (names.contains("internal") && !names.contains("production")) {
+            // Gradle ignores any variants that satisfy the conditions above.
+            // In our case it we don't need any other flavors other then 'production' - endpoint can be changed manually
+            setIgnore(true)
+        }
     }
 
     buildTypes {

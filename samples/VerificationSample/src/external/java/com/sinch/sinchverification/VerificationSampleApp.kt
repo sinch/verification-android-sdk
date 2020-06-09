@@ -1,6 +1,7 @@
 package com.sinch.sinchverification
 
 import android.app.Application
+import android.view.MenuItem
 import com.sinch.logging.Log
 import com.sinch.logging.LogcatAppender
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
@@ -36,6 +37,11 @@ class VerificationSampleApp : Application() {
         if (BuildConfig.DEBUG) {
             Log.init(LogcatAppender())
         }
+    }
+
+    fun onDevelopmentOptionSelected(item: MenuItem): Boolean {
+        //Nothing here - this callback is used on internal builds for testing purposes
+        return false
     }
 
 }
