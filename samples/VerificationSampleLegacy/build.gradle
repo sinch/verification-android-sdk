@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion (Versions.compileSdk)
+    compileSdkVersion(Versions.compileSdk)
     buildToolsVersion "$Versions.buildTools"
 
     signingConfigs {
@@ -16,8 +16,8 @@ android {
 
     defaultConfig {
         applicationId "com.sinch.verification.sample"
-        minSdkVersion (Versions.minSdk)
-        targetSdkVersion (Versions.targetSdk)
+        minSdkVersion(Versions.minSdk)
+        targetSdkVersion(Versions.targetSdk)
         versionCode 1
         versionName "1.0"
 
