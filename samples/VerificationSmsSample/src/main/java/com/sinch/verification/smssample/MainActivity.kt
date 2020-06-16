@@ -1,0 +1,51 @@
+package com.sinch.verification.smssample
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.addTextChangedListener
+import com.sinch.verificationcore.VerificationInitData
+import com.sinch.verificationcore.internal.VerificationMethodType
+import kotlinx.android.synthetic.main.activity_main_sms.*
+import java.util.*
+
+class MainActivity : AppCompatActivity() {
+
+    private val initData: VerificationInitData
+        get() =
+            VerificationInitData(
+                usedMethod = VerificationMethodType.SMS,
+                number = phoneInput.editText?.text.toString(),
+                custom = customInput.editText?.text.toString(),
+                reference = referenceInput.editText?.text.toString(),
+                honourEarlyReject = honoursEarlyCheckbox.isChecked,
+                acceptedLanguages = acceptedLanguagesInput?.editText?.text.toString().toLocaleList()
+            )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main_sms)
+        initButton.setOnClickListener {
+            checkFields()
+        }
+        phoneInput.editText?.addTextChangedListener {
+            phoneInput.error = null
+        }
+    }
+
+    private fun checkFields() {
+        if (phoneInput.editText?.text.isNullOrEmpty()) {
+            phoneInput.error = getString(R.string.phoneEmptyError)
+        } else {
+            VerificationDialog.newInstance(initData)
+                .apply {
+                    show(supportFragmentManager, "dialog")
+                }
+        }
+    }
+
+    private fun String.toLocaleList() = split(",")
+        .filter { it.contains("-") }
+        .map { it.split("-") }
+        .map { Locale(it[0], it[1]) }
+
+}
