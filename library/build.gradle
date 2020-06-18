@@ -44,7 +44,7 @@ subprojects {
         implementation "androidx.annotation:annotation:${Versions.appCompat}"
 
         testImplementation "junit:junit:${Versions.jUnit}"
-        testImplementation ("org.robolectric:robolectric:${Versions.robolectric}") {
+        testImplementation("org.robolectric:robolectric:${Versions.robolectric}") {
             exclude group: "com.google.auto.service", module: "auto-service"
         }
         testImplementation "androidx.test:core:${Versions.androidXTestCore}"

@@ -11,7 +11,6 @@ import com.sinch.smsverification.verification.SmsVerificationData
 import com.sinch.smsverification.verification.SmsVerificationDetails
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
-import com.sinch.verification.utils.asLanguagesString
 import com.sinch.verificationcore.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
@@ -21,6 +20,7 @@ import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.utils.enqueue
 import com.sinch.verificationcore.verification.VerificationApiCallback
 import com.sinch.verificationcore.verification.VerificationSourceType
+import com.sinch.verificationcore.verification.asLanguagesString
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
 import com.sinch.verificationcore.verification.response.EmptyVerificationListener
 import com.sinch.verificationcore.verification.response.VerificationListener

@@ -1,6 +1,6 @@
 package com.sinch.verificationcore.config.method
 
-import java.util.*
+import com.sinch.verificationcore.verification.VerificationLanguage
 
 /**
  * Base class for common properties of every verification method.
@@ -14,5 +14,5 @@ interface VerificationMethodProperties {
     val custom: String?
     val reference: String?
     val honourEarlyReject: Boolean
-    val acceptedLanguages: List<Locale>
+    val acceptedLanguages: List<VerificationLanguage>
 }

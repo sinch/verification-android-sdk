@@ -6,12 +6,12 @@ import android.os.Build
 import android.provider.CallLog
 import android.telephony.TelephonyManager
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.flashcall.CallHistory.historyNum2
 import com.sinch.verification.flashcall.CliTemplates.correctNumber1
 import com.sinch.verification.flashcall.verification.callhistory.ContentProviderCallHistoryReader
 import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterceptor
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
+import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.VerificationSourceType
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
