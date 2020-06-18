@@ -9,7 +9,7 @@ import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
-import java.util.*
+import com.sinch.verificationcore.verification.VerificationLanguage
 
 /**
  * Configuration used by [SmsVerificationMethod] to handle sms verification.
@@ -23,7 +23,7 @@ import java.util.*
 class SmsVerificationConfig internal constructor(
     globalConfig: GlobalConfig,
     number: String,
-    acceptedLanguages: List<Locale> = emptyList(),
+    acceptedLanguages: List<VerificationLanguage> = emptyList(),
     honourEarlyReject: Boolean = true,
     custom: String? = null,
     reference: String? = null,
@@ -123,7 +123,7 @@ class SmsVerificationConfig internal constructor(
          * @param acceptedLanguages List of languages the sms message with the verification code will be written in. Backend chooses the first one it can handle.
          * @return Instance of builder with assigned acceptedLanguages field.
          */
-        override fun acceptedLanguages(acceptedLanguages: List<Locale>) = apply {
+        override fun acceptedLanguages(acceptedLanguages: List<VerificationLanguage>) = apply {
             this.acceptedLanguages = acceptedLanguages
         }
 

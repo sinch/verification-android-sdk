@@ -13,6 +13,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.sinch.verificationcore.VerificationInitData;
 import com.sinch.verificationcore.internal.VerificationMethodType;
+import com.sinch.verificationcore.verification.VerificationLanguage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,13 +74,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private List<Locale> splitAcceptLanguagesField(String source) {
+    private List<VerificationLanguage> splitAcceptLanguagesField(String source) {
         String[] slices = source.split(",");
-        List<Locale> result = new ArrayList<>();
+        List<VerificationLanguage> result = new ArrayList<>();
         for (String slice : slices) {
             if (slice.contains("-")) {
                 String[] locale = slice.split("-");
-                result.add(new Locale(locale[0], locale[1]));
+                result.add(new VerificationLanguage(locale[0], locale[1], null));
             } else {
                 throw new RuntimeException("Wrong accept-languages format. Sample app supports only [language-region] format e.g. es-ES, fr-CA");
             }

@@ -9,7 +9,7 @@ import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
-import java.util.*
+import com.sinch.verificationcore.verification.VerificationLanguage
 
 /**
  * Configuration used by [CalloutVerificationMethod] to handle callout verification.
@@ -117,7 +117,7 @@ class CalloutVerificationConfig internal constructor(
             this.number = number
         }
 
-        override fun acceptedLanguages(acceptedLanguages: List<Locale>): CalloutVerificationConfigCreator =
+        override fun acceptedLanguages(acceptedLanguages: List<VerificationLanguage>): CalloutVerificationConfigCreator =
             this.also {
                 logger.debug("This verification method currently does not support accepted languages")
             }

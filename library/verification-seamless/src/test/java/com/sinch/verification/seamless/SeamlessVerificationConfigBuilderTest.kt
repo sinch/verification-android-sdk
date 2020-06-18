@@ -3,10 +3,10 @@ package com.sinch.verification.seamless
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodProperties
+import com.sinch.verificationcore.verification.VerificationLanguage
 import io.mockk.mockk
 import org.junit.Assert
 import org.junit.Test
-import java.util.*
 
 class SeamlessVerificationConfigBuilderTest {
 
@@ -70,7 +70,7 @@ class SeamlessVerificationConfigBuilderTest {
                     override val custom: String? = customParam
                     override val reference: String? = refParam
                     override val honourEarlyReject: Boolean = honourEarly
-                    override val acceptedLanguages: List<Locale> = emptyList()
+                    override val acceptedLanguages: List<VerificationLanguage> = emptyList()
                 }
             ).build()
 

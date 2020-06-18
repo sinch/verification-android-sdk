@@ -5,7 +5,7 @@ import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.NumberSetter
 import com.sinch.verificationcore.config.VerificationMethodConfigCreator
 import com.sinch.verificationcore.config.VerificationMethodConfigCreatorParameters
-import java.util.*
+import com.sinch.verificationcore.verification.VerificationLanguage
 
 abstract class BaseVerificationMethodConfigBuilder<T : VerificationMethodConfigCreator<T, *>> :
     GlobalConfigSetter<T>,
@@ -19,6 +19,6 @@ abstract class BaseVerificationMethodConfigBuilder<T : VerificationMethodConfigC
     protected var honourEarlyReject: Boolean = true
     protected var custom: String? = null
     protected var reference: String? = null
-    protected var acceptedLanguages: List<Locale> = emptyList()
+    protected var acceptedLanguages: List<VerificationLanguage> = emptyList()
 
 }

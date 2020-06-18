@@ -8,6 +8,7 @@ import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
 import com.sinch.verificationcore.VerificationInitData
 import com.sinch.verificationcore.internal.VerificationMethodType
+import com.sinch.verificationcore.verification.VerificationLanguage
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -69,6 +70,6 @@ class MainActivity : AppCompatActivity() {
     private fun String.toLocaleList() = split(",")
         .filter { it.contains("-") }
         .map { it.split("-") }
-        .map { Locale(it[0], it[1]) }
+        .map { VerificationLanguage(it[0], it[1]) }
 
 }

@@ -3,12 +3,12 @@ package com.sinch.verification.callout
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.verification.utils.MAX_TIMEOUT
-import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
 import com.sinch.verification.callout.verification.CalloutVerificationData
+import com.sinch.verification.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.permission.Permission
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.internal.VerificationMethodType
 import com.sinch.verificationcore.internal.VerificationStatus

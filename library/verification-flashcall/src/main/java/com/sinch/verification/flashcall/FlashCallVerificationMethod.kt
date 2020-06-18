@@ -1,8 +1,6 @@
 package com.sinch.verification.flashcall
 
 import com.sinch.logging.logger
-import com.sinch.verification.utils.permission.Permission
-import com.sinch.verification.utils.permission.PermissionUtils
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
@@ -16,6 +14,8 @@ import com.sinch.verification.flashcall.verification.callhistory.ContentProvider
 import com.sinch.verification.flashcall.verification.interceptor.CodeInterceptionState
 import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterceptor
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
 import com.sinch.verificationcore.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback

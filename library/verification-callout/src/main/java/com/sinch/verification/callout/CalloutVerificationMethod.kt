@@ -1,13 +1,13 @@
 package com.sinch.verification.callout
 
 import com.sinch.logging.logger
-import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
 import com.sinch.verification.callout.initialization.CalloutVerificationInitializationData
 import com.sinch.verification.callout.verification.CalloutVerificationData
 import com.sinch.verification.callout.verification.interceptor.CalloutInterceptor
+import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verificationcore.config.method.VerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
