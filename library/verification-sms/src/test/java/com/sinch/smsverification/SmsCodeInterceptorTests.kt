@@ -8,7 +8,9 @@ import com.sinch.smsverification.verification.interceptor.SmsBroadcastReceiver
 import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verificationcore.internal.error.CodeInterceptionException
+import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
 import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
+import com.sinch.verificationcore.verification.interceptor.InterceptorState
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
@@ -63,6 +65,17 @@ class SmsCodeInterceptorTests {
     }
 
     @Test
+    fun testFailedRetrieverClientInitialization() {
+        val exampleError = Exception()
+        val interceptor = createInterceptor(simpleTemplate).apply {
+            start()
+            onFailure(exampleError)
+        }
+        verify { mockedInterceptionListener.onCodeInterceptionError(any<CodeInterceptionException>()) }
+        interceptor.assertIsInState(InterceptorState.DONE)
+    }
+
+    @Test
     fun testTimeoutExceptionThrown() {
         val timeout: Long = 1000
         createInterceptor(interceptionTimeout = timeout).apply { start() }
@@ -76,11 +89,12 @@ class SmsCodeInterceptorTests {
 
     @Test
     fun testListenerNotifiedAboutSuccessfulInterception() {
-        createInterceptor().apply {
+        val interceptor = createInterceptor().apply {
             start()
             onMessageReceived(simpleTemplate.replace(CODE, exampleCode))
         }
         verify { mockedInterceptionListener.onCodeIntercepted(exampleCode) }
+        interceptor.assertIsInState(InterceptorState.DONE)
     }
 
     @Test
@@ -96,16 +110,17 @@ class SmsCodeInterceptorTests {
     @Test
     fun testListenerNotifiedAboutInterceptionError() {
         val exampleException = CodeInterceptionException("Example message")
-        createInterceptor().apply {
+        val interceptor = createInterceptor().apply {
             start()
             onMessageFailedToReceive(exampleException)
         }
         verify { mockedInterceptionListener.onCodeInterceptionError(exampleException) }
+        interceptor.assertIsInState(InterceptorState.DONE)
     }
 
     @Test
     fun testListenerNotifiedAboutSuccessfulBroadcastInterception() {
-        createInterceptor().apply {
+        val interceptor = createInterceptor().apply {
             start()
         }
         context.sendBroadcast(
@@ -114,6 +129,7 @@ class SmsCodeInterceptorTests {
             )
         )
         verify { mockedInterceptionListener.onCodeIntercepted(exampleCode) }
+        interceptor.assertIsInState(InterceptorState.DONE)
     }
 
     @Test
@@ -160,6 +176,16 @@ class SmsCodeInterceptorTests {
         verify(exactly = 1) { mockedInterceptionListener.onCodeInterceptionStopped() }
     }
 
+    @Test
+    fun testManualInterceptorStatesFlow() {
+        val interceptor = createInterceptor()
+        interceptor.assertIsInState(InterceptorState.IDLE)
+        interceptor.start()
+        interceptor.assertIsInState(InterceptorState.STARTED)
+        interceptor.stop()
+        interceptor.assertIsInState(InterceptorState.DONE)
+    }
+
     private fun createInterceptor(
         template: String = simpleTemplate,
         interceptionTimeout: Long = Long.MAX_TIMEOUT
@@ -169,6 +195,10 @@ class SmsCodeInterceptorTests {
         interceptionListener = mockedInterceptionListener
     ).apply {
         smsTemplate = template
+    }
+
+    private fun BasicCodeInterceptor.assertIsInState(state: InterceptorState) {
+        Assert.assertEquals(this.state, state)
     }
 
 }

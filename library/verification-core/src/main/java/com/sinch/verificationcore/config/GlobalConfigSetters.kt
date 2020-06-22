@@ -4,10 +4,10 @@ import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodProperties
 
 interface GlobalConfigSetter<LastSetter : VerificationMethodConfigCreator<LastSetter, *>> {
-    fun globalConfig(globalConfig: GlobalConfig): NumberSetter<LastSetter>
+    fun globalConfig(globalConfig: GlobalConfig): InitialSetter<LastSetter>
 }
 
-interface NumberSetter<LastSetter : VerificationMethodConfigCreator<LastSetter, *>> {
+interface InitialSetter<LastSetter : VerificationMethodConfigCreator<LastSetter, *>> {
 
     /**
      * Convenient function to populate the config with common verification method at once.
