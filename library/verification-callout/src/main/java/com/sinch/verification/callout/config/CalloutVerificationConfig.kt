@@ -6,7 +6,7 @@ import com.sinch.verification.callout.CalloutVerificationService
 import com.sinch.verificationcore.BaseVerificationMethodConfigBuilder
 import com.sinch.verificationcore.BuildConfig
 import com.sinch.verificationcore.config.GlobalConfigSetter
-import com.sinch.verificationcore.config.NumberSetter
+import com.sinch.verificationcore.config.InitialSetter
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodConfig
 import com.sinch.verificationcore.verification.VerificationLanguage
@@ -103,7 +103,7 @@ class CalloutVerificationConfig internal constructor(
          * @param globalConfig Global SDK configuration reference.
          * @return Instance of builder with assigned globalConfig field.
          */
-        override fun globalConfig(globalConfig: GlobalConfig): NumberSetter<CalloutVerificationConfigCreator> =
+        override fun globalConfig(globalConfig: GlobalConfig): InitialSetter<CalloutVerificationConfigCreator> =
             apply {
                 this.globalConfig = globalConfig
             }

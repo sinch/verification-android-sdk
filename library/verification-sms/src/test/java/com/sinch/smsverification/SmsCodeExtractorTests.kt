@@ -16,6 +16,7 @@ class SmsCodeExtractorTests {
         const val template3 = """Your code is 
             {{CODE}}"""
         const val template4 = "{{CODE}} Your code is {{CODE}}"
+        const val template4JustCode = "{{CODE}}"
     }
 
     @Test(expected = CodeInterceptionException::class)
@@ -84,6 +85,26 @@ class SmsCodeExtractorTests {
         testCases.forEach {
             Assert.assertEquals(it.value, extractor.extract(it.key))
         }
+    }
+
+    @Test
+    fun testJustCodeTemplate() {
+        val extractor = SmsCodeExtractor(template4JustCode)
+        val testCases = mapOf(
+            "1234" to "1234",
+            "aaaaaa" to "aaaaaa",
+            "a" to "a"
+        )
+        testCases.forEach {
+            Assert.assertEquals(it.value, extractor.extract(it.key))
+        }
+    }
+
+    @Test
+    fun testEmptyCodeReturnsNull() {
+        val extractor = SmsCodeExtractor(template1)
+        val emptyCodeMessage =  "Your code is "
+        Assert.assertEquals(null, extractor.extract(emptyCodeMessage))
     }
 
     @Test

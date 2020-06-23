@@ -12,6 +12,7 @@ import com.sinch.smsverification.verification.interceptor.SmsBroadcastListener
 import com.sinch.smsverification.verification.interceptor.SmsBroadcastReceiver
 import com.sinch.smsverification.verification.interceptor.SmsReceiverException
 import io.mockk.MockKAnnotations
+import io.mockk.called
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.junit.Before
@@ -27,7 +28,7 @@ import org.robolectric.annotation.Config
 class SmsBroadcastReceiverTests {
 
     companion object {
-        fun mockedBroadcastIntent(message: String, status: Status): Intent =
+        fun mockedBroadcastIntent(message: String, status: Status?): Intent =
             Intent(SmsRetriever.SMS_RETRIEVED_ACTION).apply {
                 putExtras(Bundle().apply {
                     putString(SmsRetriever.EXTRA_SMS_MESSAGE, message)
@@ -64,5 +65,20 @@ class SmsBroadcastReceiverTests {
         broadcastReceiver.registerOn(context)
         context.sendBroadcast(mockedBroadcastIntent(message, Status(CommonStatusCodes.SUCCESS)))
         verify { mockedListener.onMessageReceived(message) }
+    }
+
+    @Test
+    fun testBroadcastFailedWhenStatusIsNull() {
+        val message = "Your code is 1234"
+        broadcastReceiver.registerOn(context)
+        context.sendBroadcast(mockedBroadcastIntent(message, null))
+        verify { mockedListener.onMessageFailedToReceive(any<SmsReceiverException>()) }
+    }
+
+    @Test
+    fun testBroadcastWithUnknownActionIgnored() {
+        broadcastReceiver.registerOn(context)
+        broadcastReceiver.onReceive(context, Intent())
+        verify { mockedListener wasNot called }
     }
 }

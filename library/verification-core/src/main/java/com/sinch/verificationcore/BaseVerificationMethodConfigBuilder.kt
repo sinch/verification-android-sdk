@@ -2,14 +2,14 @@ package com.sinch.verificationcore
 
 import com.sinch.logging.logger
 import com.sinch.verificationcore.config.GlobalConfigSetter
-import com.sinch.verificationcore.config.NumberSetter
+import com.sinch.verificationcore.config.InitialSetter
 import com.sinch.verificationcore.config.VerificationMethodConfigCreator
 import com.sinch.verificationcore.config.VerificationMethodConfigCreatorParameters
 import com.sinch.verificationcore.verification.VerificationLanguage
 
 abstract class BaseVerificationMethodConfigBuilder<T : VerificationMethodConfigCreator<T, *>> :
     GlobalConfigSetter<T>,
-    NumberSetter<T>,
+    InitialSetter<T>,
     VerificationMethodConfigCreatorParameters<T> {
 
     protected val logger = logger()
