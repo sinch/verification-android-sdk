@@ -1,0 +1,18 @@
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 3
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+ext {
+    bintrayName = 'logging'
+    bintrayVersion = versionNameFull
+}
+
+apply from: '../publish.gradle'
+
+android {
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
+}

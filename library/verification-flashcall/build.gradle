@@ -1,11 +1,26 @@
 apply plugin: 'kotlinx-serialization'
 
-dependencies {
-    implementation project(':library:verification-core')
-    implementation project(':library:metadata-collector')
-    implementation project(':library:utils')
-    implementation project(':library:logging')
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 3
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 
+ext {
+    bintrayName = 'verification-flashcall'
+    bintrayVersion = versionNameFull
+}
+
+apply from: '../publish.gradle'
+
+android {
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
+}
+
+dependencies {
+    implementation "com.sinch.android.sdk.verification:verification-core:${Versions.defaultSinchSdk}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"

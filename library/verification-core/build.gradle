@@ -1,6 +1,23 @@
 apply plugin: 'kotlinx-serialization'
 
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 3
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+ext {
+    bintrayName = 'verification-core'
+    bintrayVersion = versionNameFull
+}
+
+apply from: '../publish.gradle'
+
 android {
+
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
 
     productFlavors {
         production {
@@ -17,12 +34,14 @@ android {
 }
 
 dependencies {
-    implementation project(':library:metadata-collector')
-    implementation project(':library:utils')
-    implementation project(':library:logging')
+    implementation "com.sinch.android.sdk.verification:metadata-collector:${Versions.defaultSinchSdk}"
+    implementation "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
+    implementation "com.sinch.android.sdk.verification:utils:${Versions.defaultSinchSdk}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
 }
+
+//apply from: 'publish.gradle'
