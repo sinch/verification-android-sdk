@@ -52,13 +52,25 @@ class VerificationSampleApp : Application() {
                 BuildConfig.API_BASE_URL_PROD,
                 BuildConfig.APP_KEY_PROD
             )
+            R.id.productionBrokApi -> buildGlobalConfig(
+                BuildConfig.API_BASE_URL_PROD_BROK,
+                BuildConfig.APP_KEY_PROD_BROK
+            )
             R.id.ftest1Api -> buildGlobalConfig(
                 BuildConfig.API_BASE_URL_FTEST1,
                 BuildConfig.APP_KEY_FTEST1
             )
+            R.id.ftest1BrokApi -> buildGlobalConfig(
+                BuildConfig.API_BASE_URL_FTEST1_BROK,
+                BuildConfig.APP_KEY_FTEST1_BROK
+            )
             R.id.ftest2Api -> buildGlobalConfig(
                 BuildConfig.API_BASE_URL_FTEST2,
                 BuildConfig.APP_KEY_FTEST2
+            )
+            R.id.ftest2BrokApi -> buildGlobalConfig(
+                BuildConfig.API_BASE_URL_FTEST2_BROK,
+                BuildConfig.APP_KEY_FTEST2_BROK
             )
             else -> throw RuntimeException("Menu item with ${item.itemId} not handled")
         }
