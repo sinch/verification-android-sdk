@@ -22,6 +22,13 @@ buildscript {
     repositories {
         google()
         jcenter()
+        maven {
+            url  "https://sinch.bintray.com/com.sinch.android.sdk.verification"
+            credentials {
+                username bintrayUser
+                password bintrayApiKey
+            }
+        }
     }
 
     dependencies {
@@ -29,6 +36,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -39,6 +47,13 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven {
+            url  "https://sinch.bintray.com/com.sinch.android.sdk.verification"
+            credentials {
+                username bintrayUser
+                password bintrayApiKey
+            }
+        }
     }
 }
 

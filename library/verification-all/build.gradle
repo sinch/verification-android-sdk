@@ -1,9 +1,26 @@
-dependencies {
-    implementation project(':library:verification-core')
-    implementation project(':library:verification-callout')
-    implementation project(':library:verification-flashcall')
-    implementation project(':library:verification-seamless')
-    implementation project(':library:verification-sms')
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 3
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 
+ext {
+    bintrayName = 'verification-all'
+    bintrayVersion = versionNameFull
+}
+
+apply from: '../publish.gradle'
+
+android {
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
+}
+
+dependencies {
+    implementation "com.sinch.android.sdk.verification:verification-callout:${Versions.defaultSinchSdk}"
+    implementation "com.sinch.android.sdk.verification:verification-flashcall:${Versions.defaultSinchSdk}"
+    implementation "com.sinch.android.sdk.verification:verification-seamless:${Versions.defaultSinchSdk}"
+    implementation "com.sinch.android.sdk.verification:verification-sms:${Versions.defaultSinchSdk}"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
 }

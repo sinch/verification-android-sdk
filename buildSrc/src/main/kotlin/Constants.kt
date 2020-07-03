@@ -30,4 +30,6 @@ object Versions {
     const val playAuthPhone = "17.4.0"
 
     const val dokka = "0.10.1"
+
+    const val defaultSinchSdk = "1.0.3"
 }
