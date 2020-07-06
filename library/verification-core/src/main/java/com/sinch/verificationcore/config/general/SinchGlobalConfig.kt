@@ -11,6 +11,7 @@ import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
+import java.util.concurrent.TimeUnit
 
 /**
  * Sinch specific global SDK configuration.
@@ -22,6 +23,11 @@ class SinchGlobalConfig private constructor(
     override val context: Context,
     override val retrofit: Retrofit
 ) : GlobalConfig {
+
+    companion object {
+        const val OKHTTP_READ_TIMEOUT = 30L // in seconds
+        const val OKHTTP_CONNECT_TIMEOUT = 30L // in seconds
+    }
 
     /**
      * Builder implementing [fluent builder](https://dzone.com/articles/fluent-builder-pattern) pattern to create global config objects.
@@ -49,6 +55,8 @@ class SinchGlobalConfig private constructor(
         override fun build(): GlobalConfig {
             val okHttpClient =
                 OkHttpClient().newBuilder()
+                    .readTimeout(OKHTTP_READ_TIMEOUT, TimeUnit.SECONDS)
+                    .connectTimeout(OKHTTP_CONNECT_TIMEOUT, TimeUnit.SECONDS)
                     .addInterceptor(
                         AuthorizationInterceptor(
                             authorizationMethod
