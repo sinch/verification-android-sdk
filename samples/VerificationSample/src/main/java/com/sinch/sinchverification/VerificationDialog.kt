@@ -74,6 +74,10 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             verification.stop()
             dismiss()
         }
+        listOf(codeInput, verifyButton).forEach {
+            it.visibility =
+                if (initData.usedMethod.allowsManualVerification) View.VISIBLE else View.GONE
+        }
     }
 
     override fun onVerified() {
