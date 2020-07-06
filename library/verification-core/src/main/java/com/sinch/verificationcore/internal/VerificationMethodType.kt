@@ -34,6 +34,11 @@ enum class VerificationMethodType(val value: String) {
     SEAMLESS("seamless");
 
     /**
+     * Flag indicating if given method allows typing the verification code manually.
+     */
+    val allowsManualVerification: Boolean get() = (this != SEAMLESS)
+
+    /**
      * Serializer used to decode [VerificationMethodType] enum. Custom implementation is needed as Sinch API sometimes uses
      * camel case and lower case convention interchangeably.
      */

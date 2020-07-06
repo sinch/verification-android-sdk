@@ -15,6 +15,7 @@ import androidx.core.widget.ContentLoadingProgressBar;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.sinch.verification.all.BasicVerificationMethodBuilder;
 import com.sinch.verification.all.CommonVerificationInitializationParameters;
 import com.sinch.verificationcore.VerificationInitData;
@@ -22,6 +23,7 @@ import com.sinch.verificationcore.config.general.GlobalConfig;
 import com.sinch.verificationcore.initiation.response.InitiationListener;
 import com.sinch.verificationcore.initiation.response.InitiationResponseData;
 import com.sinch.verificationcore.internal.Verification;
+import com.sinch.verificationcore.internal.VerificationMethodType;
 import com.sinch.verificationcore.verification.response.VerificationListener;
 
 import org.jetbrains.annotations.NotNull;
@@ -34,6 +36,7 @@ public class VerificationDialog extends DialogFragment implements InitiationList
     private Button quitButton;
     private TextView messageTextView;
     private ContentLoadingProgressBar progressBar;
+    private TextInputLayout codeInput;
     private TextInputEditText codeInputEditText;
 
     private Verification verification;
@@ -86,6 +89,8 @@ public class VerificationDialog extends DialogFragment implements InitiationList
         verifyButton.setOnClickListener(v -> {
             verification.verify(codeInputEditText.getText().toString());
         });
+        adjustVisibilityOfManualVerificationField(codeInput);
+        adjustVisibilityOfManualVerificationField(verifyButton);
     }
 
     @Override
@@ -125,5 +130,12 @@ public class VerificationDialog extends DialogFragment implements InitiationList
 
     private GlobalConfig getGlobalConfig() {
         return ((VerificationJavaSampleApp) getActivity().getApplication()).getGlobalConfig();
+    }
+
+    private void adjustVisibilityOfManualVerificationField(View view) {
+        VerificationMethodType usedMethod = getInitDataFromBundle().getUsedMethod();
+        view.setVisibility(
+                usedMethod.getAllowsManualVerification() ? View.VISIBLE : View.GONE
+        );
     }
 }
