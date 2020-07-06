@@ -8,10 +8,19 @@
             android:checked="true"
             android:title="@string/prodMenuItem" />
         <item
+            android:id="@+id/productionBrokApi"
+            android:title="@string/prodBrokMenuItem" />
+        <item
             android:id="@+id/ftest1Api"
             android:title="@string/ftest1MenuItem" />
         <item
+            android:id="@+id/ftest1BrokApi"
+            android:title="@string/ftest1BrokMenuItem" />
+        <item
             android:id="@+id/ftest2Api"
             android:title="@string/ftest2MenuItem" />
+        <item
+            android:id="@+id/ftest2BrokApi"
+            android:title="@string/ftest2BrokMenuItem" />
     </group>
 </menu>
