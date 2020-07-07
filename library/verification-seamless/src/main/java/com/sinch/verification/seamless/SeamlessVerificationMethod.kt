@@ -1,16 +1,23 @@
 package com.sinch.verification.seamless
 
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.sinch.logging.logger
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
 import com.sinch.verification.seamless.initialization.SeamlessInitiationData
 import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
+import com.sinch.verification.utils.changeProcessNetworkTo
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
 import com.sinch.verificationcore.config.method.VerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 import com.sinch.verificationcore.initiation.InitiationApiCallback
 import com.sinch.verificationcore.initiation.VerificationIdentity
 import com.sinch.verificationcore.initiation.response.EmptyInitializationListener
 import com.sinch.verificationcore.internal.Verification
+import com.sinch.verificationcore.internal.error.VerificationException
 import com.sinch.verificationcore.internal.utils.enqueue
 import com.sinch.verificationcore.verification.VerificationApiCallback
 import com.sinch.verificationcore.verification.VerificationSourceType
@@ -33,6 +40,10 @@ class SeamlessVerificationMethod private constructor(
 
 ) : VerificationMethod<SeamlessVerificationService>(config, verificationListener) {
 
+    private val connectivityManager by lazy {
+        config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    }
+
     private val requestDataData: SeamlessInitiationData
         get() =
             SeamlessInitiationData(
@@ -42,6 +53,18 @@ class SeamlessVerificationMethod private constructor(
                 reference = config.reference,
                 metadata = config.metadataFactory.create()
             )
+
+    override fun onPreInitiate(): Boolean {
+        if (!PermissionUtils.isPermissionGranted(
+                globalConfig.context,
+                Permission.CHANGE_NETWORK_STATE
+            )
+        ) {
+            initializationListener.onInitializationFailed(VerificationException("Missing ${Permission.CHANGE_NETWORK_STATE}"))
+            return false
+        }
+        return true
+    }
 
     override fun onInitiate() {
         verificationService.initializeVerification(requestDataData)
@@ -55,17 +78,34 @@ class SeamlessVerificationMethod private constructor(
     }
 
     override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
-        verificationService.verifySeamless(verificationCode)
-            .enqueue(
-                retrofit = retrofit,
-                apiCallback = VerificationApiCallback(verificationListener, this)
-            )
+        val cellularNetwork = connectivityManager.allNetworks.firstOrNull {
+            connectivityManager.getNetworkCapabilities(it)
+                ?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false
+        }
+        connectivityManager.changeProcessNetworkTo(cellularNetwork)
+        executeVerificationRequest(verificationCode)
     }
 
     override fun onCodeIntercepted(code: String, source: VerificationSourceType) {}
 
     override fun onCodeInterceptionError(e: Throwable) {
         verificationListener.onVerificationFailed(e)
+    }
+
+    private fun executeVerificationRequest(verificationCode: String) {
+        verificationService.verifySeamless(verificationCode)
+            .enqueue(
+                retrofit = retrofit,
+                apiCallback = VerificationApiCallback(
+                    listener = verificationListener,
+                    verificationStateListener = this,
+                    beforeResultHandledCallback = this::resetNetworkBindings
+                )
+            )
+    }
+
+    private fun resetNetworkBindings() {
+        connectivityManager.changeProcessNetworkTo(null)
     }
 
     /**

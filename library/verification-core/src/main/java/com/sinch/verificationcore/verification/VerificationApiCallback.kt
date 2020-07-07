@@ -17,7 +17,8 @@ import retrofit2.Response
  */
 class VerificationApiCallback(
     private val listener: VerificationListener,
-    private val verificationStateListener: VerificationStateListener
+    private val verificationStateListener: VerificationStateListener,
+    private val beforeResultHandledCallback: () -> Unit = { }
 ) :
     ApiCallback<VerificationResponseData> {
 
@@ -27,6 +28,7 @@ class VerificationApiCallback(
         data: VerificationResponseData,
         response: Response<VerificationResponseData>
     ) {
+        beforeResultHandledCallback()
         ifNotAlreadyVerified {
             /*
             In some case even though we got 200 status code the status field is set to ERROR.
@@ -40,6 +42,7 @@ class VerificationApiCallback(
     }
 
     override fun onError(t: Throwable) {
+        beforeResultHandledCallback()
         ifNotAlreadyVerified {
             handleError(t)
         }
