@@ -7,6 +7,7 @@ import android.Manifest
  */
 enum class Permission {
     ACCESS_NETWORK_STATE,
+    CHANGE_NETWORK_STATE,
     READ_PHONE_STATE,
     READ_CALL_LOG,
     CALL_PHONE,
@@ -21,6 +22,7 @@ enum class Permission {
     val androidValue: String
         get() = when (this) {
             ACCESS_NETWORK_STATE -> Manifest.permission.ACCESS_NETWORK_STATE
+            CHANGE_NETWORK_STATE -> Manifest.permission.CHANGE_NETWORK_STATE
             READ_PHONE_STATE -> Manifest.permission.READ_PHONE_STATE
             READ_CALL_LOG -> Manifest.permission.READ_CALL_LOG
             CALL_PHONE -> Manifest.permission.CALL_PHONE

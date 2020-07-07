@@ -1,16 +1,21 @@
 package com.sinch.verification.seamless
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
 import android.os.Build
+import android.telephony.TelephonyManager
 import androidx.test.core.app.ApplicationProvider
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verification.seamless.initialization.SeamlessInitializationDetails
 import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
 import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
+import com.sinch.verification.utils.permission.Permission
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.internal.VerificationState
 import com.sinch.verificationcore.internal.VerificationStateStatus
 import com.sinch.verificationcore.internal.VerificationStatus
+import com.sinch.verificationcore.internal.error.VerificationException
 import com.sinch.verificationcore.verification.response.VerificationListener
 import com.sinch.verificationcore.verification.response.VerificationResponseData
 import io.mockk.*
@@ -20,6 +25,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import retrofit2.Response
 import retrofit2.mock.Calls
@@ -61,6 +67,7 @@ class SeamlessVerificationMethodTests {
     @Before
     fun setupUp() {
         MockKAnnotations.init(this, relaxed = true)
+        Shadows.shadowOf(appContext).grantPermissions(Permission.CHANGE_NETWORK_STATE.androidValue)
 
         every { mockedService.initializeVerification(any()) }.returns(
             Calls.response(Response.success(correctInitResponse))
@@ -75,6 +82,14 @@ class SeamlessVerificationMethodTests {
                 Calls.failure(Exception())
             }
         }
+    }
+
+    @Test
+    fun testListenerNotifiedAboutFailureWhenPermissionsMissing() {
+        Shadows.shadowOf(appContext).denyPermissions(Permission.CHANGE_NETWORK_STATE.androidValue)
+        val verification = prepareVerification()
+        verification.initiate()
+        verify(exactly = 1) { mockedInitListener.onInitializationFailed(any<VerificationException>()) }
     }
 
     @Test
