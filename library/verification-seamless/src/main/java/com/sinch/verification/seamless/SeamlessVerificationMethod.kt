@@ -61,7 +61,6 @@ class SeamlessVerificationMethod private constructor(
             )
         ) {
             initializationListener.onInitializationFailed(VerificationException("Missing ${Permission.CHANGE_NETWORK_STATE}"))
-            return false
         }
         return true
     }
