@@ -67,7 +67,6 @@ class FlashCallVerificationMethod private constructor(
     override fun onPreInitiate(): Boolean {
         if (!PermissionUtils.isPermissionGranted(globalConfig.context, Permission.READ_CALL_LOG)) {
             initializationListener.onInitializationFailed(VerificationException("Missing ${Permission.READ_CALL_LOG}"))
-            return false
         }
         initiationStartDate = Date()
         return true
