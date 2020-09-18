@@ -34,9 +34,9 @@ android {
 }
 
 dependencies {
-    implementation "com.sinch.android.sdk.verification:metadata-collector:${Versions.defaultSinchSdk}"
-    implementation "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
-    implementation "com.sinch.android.sdk.verification:utils:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:metadata-collector:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:utils:${Versions.defaultSinchSdk}"
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"

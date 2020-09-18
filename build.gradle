@@ -12,6 +12,8 @@ ext {
     keyPasswordSinch = keyProperties['keyPassword']
     keyFileSinch = file('SinchVerificationKeystore')
     storePasswordSinch = keyProperties['storePassword']
+
+    shouldUseJcenterDeps = false
 }
 
 buildscript {
@@ -53,6 +55,24 @@ allprojects {
                 username bintrayUser
                 password bintrayApiKey
             }
+        }
+    }
+}
+
+subprojects {
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            if (shouldUseJcenterDeps) { return }
+            substitute module("com.sinch.android.sdk.verification:metadata-collector") with project(":library:metadata-collector")
+            substitute module("com.sinch.android.sdk.verification:utils") with project(":library:utils")
+            substitute module("com.sinch.android.sdk.verification:logging") with project(":library:logging")
+
+            substitute module("com.sinch.android.sdk.verification:verification-core") with project(":library:verification-core")
+            substitute module("com.sinch.android.sdk.verification:verification-all") with project(":library:verification-all")
+            substitute module("com.sinch.android.sdk.verification:verification-sms") with project(":library:verification-sms")
+            substitute module("com.sinch.android.sdk.verification:verification-flashcall") with project(":library:verification-flashcall")
+            substitute module("com.sinch.android.sdk.verification:verification-callout") with project(":library:verification-callout")
+            substitute module("com.sinch.android.sdk.verification:verification-seamless") with project(":library:verification-seamless")
         }
     }
 }

@@ -18,9 +18,10 @@ android {
 }
 
 dependencies {
-    implementation "com.sinch.android.sdk.verification:verification-callout:${Versions.defaultSinchSdk}"
-    implementation "com.sinch.android.sdk.verification:verification-flashcall:${Versions.defaultSinchSdk}"
-    implementation "com.sinch.android.sdk.verification:verification-seamless:${Versions.defaultSinchSdk}"
-    implementation "com.sinch.android.sdk.verification:verification-sms:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:verification-callout:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:verification-flashcall:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:verification-seamless:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:verification-sms:${Versions.defaultSinchSdk}"
+
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
 }
