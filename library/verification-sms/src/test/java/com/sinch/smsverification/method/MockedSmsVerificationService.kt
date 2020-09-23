@@ -4,7 +4,7 @@ import com.sinch.verification.sms.SmsVerificationService
 import com.sinch.verification.sms.initialization.SmsInitiationResponseData
 import com.sinch.verification.sms.initialization.SmsVerificationInitiationData
 import com.sinch.verification.sms.verification.SmsVerificationData
-import com.sinch.verificationcore.verification.response.VerificationResponseData
+import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
 import retrofit2.mock.BehaviorDelegate
 import retrofit2.mock.Calls

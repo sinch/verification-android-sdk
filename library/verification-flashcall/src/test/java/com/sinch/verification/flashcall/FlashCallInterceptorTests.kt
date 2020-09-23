@@ -12,10 +12,10 @@ import com.sinch.verification.flashcall.verification.callhistory.ContentProvider
 import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterceptor
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
 import com.sinch.verification.utils.MAX_TIMEOUT
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
-import com.sinch.verificationcore.verification.VerificationSourceType
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

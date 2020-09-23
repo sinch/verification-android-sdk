@@ -3,9 +3,9 @@ package com.sinch.smsverification
 import android.os.Build
 import com.sinch.verification.sms.config.SmsVerificationConfig
 import com.sinch.verification.sms.SmsVerificationService
-import com.sinch.verificationcore.config.general.GlobalConfig
-import com.sinch.verificationcore.config.method.VerificationMethodProperties
-import com.sinch.verificationcore.verification.VerificationLanguage
+import com.sinch.verification.core.config.general.GlobalConfig
+import com.sinch.verification.core.config.method.VerificationMethodProperties
+import com.sinch.verification.core.verification.VerificationLanguage
 import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.impl.annotations.MockK

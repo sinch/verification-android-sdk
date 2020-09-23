@@ -1,9 +1,9 @@
 package com.sinch.verification.seamless.initialization
 
 import com.sinch.metadata.model.PhoneMetadata
-import com.sinch.verificationcore.initiation.VerificationIdentity
-import com.sinch.verificationcore.initiation.VerificationInitiationData
-import com.sinch.verificationcore.internal.VerificationMethodType
+import com.sinch.verification.core.initiation.VerificationIdentity
+import com.sinch.verification.core.initiation.VerificationInitiationData
+import com.sinch.verification.core.internal.VerificationMethodType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

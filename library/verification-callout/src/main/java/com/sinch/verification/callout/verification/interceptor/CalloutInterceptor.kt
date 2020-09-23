@@ -1,10 +1,10 @@
 package com.sinch.verification.callout.verification.interceptor
 
 import com.sinch.verification.callout.CalloutVerificationMethod
-import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
-import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.response.VerificationListener
 
 /**
  * Code interceptor for [CalloutVerificationMethod]. This interceptor does not intercept any calls automatically.

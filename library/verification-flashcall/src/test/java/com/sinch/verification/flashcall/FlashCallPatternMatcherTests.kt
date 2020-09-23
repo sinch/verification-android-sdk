@@ -2,7 +2,7 @@ package com.sinch.verification.flashcall
 
 import android.os.Build
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.error.CodeInterceptionException
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test

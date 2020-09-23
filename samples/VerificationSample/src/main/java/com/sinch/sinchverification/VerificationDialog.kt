@@ -9,11 +9,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.sinch.verification.all.BasicVerificationMethodBuilder
 import com.sinch.verification.all.CommonVerificationInitializationParameters
-import com.sinch.verificationcore.VerificationInitData
-import com.sinch.verificationcore.initiation.response.InitiationListener
-import com.sinch.verificationcore.initiation.response.InitiationResponseData
-import com.sinch.verificationcore.internal.Verification
-import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verification.core.VerificationInitData
+import com.sinch.verification.core.initiation.response.InitiationListener
+import com.sinch.verification.core.initiation.response.InitiationResponseData
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import java.util.*
 

@@ -3,7 +3,7 @@ package com.sinch.verification.callout
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
 import com.sinch.verification.callout.initialization.CalloutVerificationInitializationData
 import com.sinch.verification.callout.verification.CalloutVerificationData
-import com.sinch.verificationcore.verification.response.VerificationResponseData
+import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

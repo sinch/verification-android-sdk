@@ -11,9 +11,9 @@ import com.sinch.verification.sms.SmsVerificationMethod
 import com.sinch.verification.sms.config.SmsVerificationConfig
 import com.sinch.verification.sms.initialization.SmsInitializationListener
 import com.sinch.verification.sms.initialization.SmsInitiationResponseData
-import com.sinch.verificationcore.VerificationInitData
-import com.sinch.verificationcore.internal.Verification
-import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verification.core.VerificationInitData
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import java.util.*
 

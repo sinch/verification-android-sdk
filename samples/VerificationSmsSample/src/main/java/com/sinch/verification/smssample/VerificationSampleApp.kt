@@ -1,9 +1,9 @@
 package com.sinch.verification.smssample
 
 import android.app.Application
-import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
-import com.sinch.verificationcore.config.general.GlobalConfig
-import com.sinch.verificationcore.config.general.SinchGlobalConfig
+import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
+import com.sinch.verification.core.config.general.GlobalConfig
+import com.sinch.verification.core.config.general.SinchGlobalConfig
 
 
 class VerificationSampleApp : Application() {

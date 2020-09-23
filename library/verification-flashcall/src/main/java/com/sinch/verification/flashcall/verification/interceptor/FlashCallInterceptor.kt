@@ -9,13 +9,13 @@ import com.sinch.verification.flashcall.initialization.FlashCallInitializationDe
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryChangeListener
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryReader
 import com.sinch.verification.flashcall.verification.callhistory.SinchCallHistoryChangeObserver
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
-import com.sinch.verificationcore.internal.pattern.PatternMatcher
-import com.sinch.verificationcore.verification.VerificationSourceType
-import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
-import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.pattern.PatternMatcher
+import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.response.VerificationListener
 import java.util.*
 
 /**

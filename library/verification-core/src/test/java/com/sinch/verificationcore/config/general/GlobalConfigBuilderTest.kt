@@ -2,6 +2,7 @@ package com.sinch.verificationcore.config.general
 
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
+import com.sinch.verification.core.config.general.SinchGlobalConfig
 import io.mockk.mockk
 import org.junit.Assert.assertTrue
 import org.junit.Test

@@ -2,7 +2,7 @@ package com.sinch.verification.flashcall.initialization
 
 import com.sinch.verification.flashcall.report.FlashCallReportData
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

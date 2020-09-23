@@ -8,17 +8,17 @@ import com.sinch.verification.callout.initialization.CalloutVerificationInitiali
 import com.sinch.verification.callout.verification.CalloutVerificationData
 import com.sinch.verification.callout.verification.interceptor.CalloutInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
-import com.sinch.verificationcore.config.method.VerificationMethod
-import com.sinch.verificationcore.config.method.VerificationMethodCreator
-import com.sinch.verificationcore.initiation.InitiationApiCallback
-import com.sinch.verificationcore.initiation.VerificationIdentity
-import com.sinch.verificationcore.initiation.response.EmptyInitializationListener
-import com.sinch.verificationcore.internal.Verification
-import com.sinch.verificationcore.internal.utils.enqueue
-import com.sinch.verificationcore.verification.VerificationApiCallback
-import com.sinch.verificationcore.verification.VerificationSourceType
-import com.sinch.verificationcore.verification.response.EmptyVerificationListener
-import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verification.core.config.method.VerificationMethod
+import com.sinch.verification.core.config.method.VerificationMethodCreator
+import com.sinch.verification.core.initiation.InitiationApiCallback
+import com.sinch.verification.core.initiation.VerificationIdentity
+import com.sinch.verification.core.initiation.response.EmptyInitializationListener
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.utils.enqueue
+import com.sinch.verification.core.verification.VerificationApiCallback
+import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.response.EmptyVerificationListener
+import com.sinch.verification.core.verification.response.VerificationListener
 
 typealias EmptyCalloutInitializationListener = EmptyInitializationListener<CalloutInitializationResponseData>
 typealias SimpleInitializationCalloutApiCallback = InitiationApiCallback<CalloutInitializationResponseData>

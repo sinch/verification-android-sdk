@@ -7,10 +7,10 @@ import com.google.android.gms.common.api.Status
 import com.sinch.verification.sms.verification.interceptor.SmsBroadcastReceiver
 import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
-import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
-import com.sinch.verificationcore.verification.interceptor.InterceptorState
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.interceptor.InterceptorState
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

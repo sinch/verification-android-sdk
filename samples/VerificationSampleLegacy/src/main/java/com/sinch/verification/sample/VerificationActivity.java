@@ -22,13 +22,13 @@ import com.sinch.verification.sms.initialization.SmsInitiationResponseData;
 import com.sinch.verification.flashcall.FlashCallVerificationMethod;
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig;
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData;
-import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod;
-import com.sinch.verificationcore.config.general.GlobalConfig;
-import com.sinch.verificationcore.config.general.SinchGlobalConfig;
-import com.sinch.verificationcore.initiation.response.InitiationListener;
-import com.sinch.verificationcore.internal.Verification;
-import com.sinch.verificationcore.internal.error.CodeInterceptionException;
-import com.sinch.verificationcore.verification.response.VerificationListener;
+import com.sinch.verification.core.auth.AppKeyAuthorizationMethod;
+import com.sinch.verification.core.config.general.GlobalConfig;
+import com.sinch.verification.core.config.general.SinchGlobalConfig;
+import com.sinch.verification.core.initiation.response.InitiationListener;
+import com.sinch.verification.core.internal.Verification;
+import com.sinch.verification.core.internal.error.CodeInterceptionException;
+import com.sinch.verification.core.verification.response.VerificationListener;
 
 import org.jetbrains.annotations.NotNull;
 

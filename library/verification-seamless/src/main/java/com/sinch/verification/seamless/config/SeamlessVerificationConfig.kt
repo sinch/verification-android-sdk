@@ -3,13 +3,13 @@ package com.sinch.verification.seamless.config
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.verification.seamless.SeamlessVerificationMethod
 import com.sinch.verification.seamless.SeamlessVerificationService
-import com.sinch.verificationcore.BaseVerificationMethodConfigBuilder
+import com.sinch.verification.core.BaseVerificationMethodConfigBuilder
 import com.sinch.verificationcore.BuildConfig
-import com.sinch.verificationcore.config.GlobalConfigSetter
-import com.sinch.verificationcore.config.InitialSetter
-import com.sinch.verificationcore.config.general.GlobalConfig
-import com.sinch.verificationcore.config.method.VerificationMethodConfig
-import com.sinch.verificationcore.verification.VerificationLanguage
+import com.sinch.verification.core.config.GlobalConfigSetter
+import com.sinch.verification.core.config.InitialSetter
+import com.sinch.verification.core.config.general.GlobalConfig
+import com.sinch.verification.core.config.method.VerificationMethodConfig
+import com.sinch.verification.core.verification.VerificationLanguage
 
 /**
  * Configuration used by [SeamlessVerificationMethod] to handle flashcall verification.

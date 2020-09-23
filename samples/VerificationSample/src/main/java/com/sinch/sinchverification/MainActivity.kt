@@ -6,11 +6,10 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
-import com.sinch.verificationcore.VerificationInitData
-import com.sinch.verificationcore.internal.VerificationMethodType
-import com.sinch.verificationcore.verification.VerificationLanguage
+import com.sinch.verification.core.VerificationInitData
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.verification.VerificationLanguage
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
