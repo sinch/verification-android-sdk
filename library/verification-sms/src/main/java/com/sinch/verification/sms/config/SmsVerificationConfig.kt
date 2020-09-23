@@ -1,9 +1,9 @@
-package com.sinch.smsverification.config
+package com.sinch.verification.sms.config
 
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.smsverification.BuildConfig
-import com.sinch.smsverification.SmsVerificationMethod
-import com.sinch.smsverification.SmsVerificationService
+import com.sinch.verification.sms.SmsVerificationMethod
+import com.sinch.verification.sms.SmsVerificationService
 import com.sinch.verificationcore.BaseVerificationMethodConfigBuilder
 import com.sinch.verificationcore.config.GlobalConfigSetter
 import com.sinch.verificationcore.config.InitialSetter

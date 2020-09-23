@@ -16,9 +16,9 @@ import android.widget.Toast;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.sinch.smsverification.SmsVerificationMethod;
-import com.sinch.smsverification.config.SmsVerificationConfig;
-import com.sinch.smsverification.initialization.SmsInitiationResponseData;
+import com.sinch.verification.sms.SmsVerificationMethod;
+import com.sinch.verification.sms.config.SmsVerificationConfig;
+import com.sinch.verification.sms.initialization.SmsInitiationResponseData;
 import com.sinch.verification.flashcall.FlashCallVerificationMethod;
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig;
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData;

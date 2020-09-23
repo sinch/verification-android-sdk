@@ -8,9 +8,9 @@ import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.common.api.CommonStatusCodes
 import com.google.android.gms.common.api.Status
-import com.sinch.smsverification.verification.interceptor.SmsBroadcastListener
-import com.sinch.smsverification.verification.interceptor.SmsBroadcastReceiver
-import com.sinch.smsverification.verification.interceptor.SmsReceiverException
+import com.sinch.verification.sms.verification.interceptor.SmsBroadcastListener
+import com.sinch.verification.sms.verification.interceptor.SmsBroadcastReceiver
+import com.sinch.verification.sms.verification.interceptor.SmsReceiverException
 import io.mockk.MockKAnnotations
 import io.mockk.called
 import io.mockk.impl.annotations.MockK

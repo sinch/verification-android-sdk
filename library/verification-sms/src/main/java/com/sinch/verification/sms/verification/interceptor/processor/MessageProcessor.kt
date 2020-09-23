@@ -1,4 +1,4 @@
-package com.sinch.smsverification.verification.interceptor.processor
+package com.sinch.verification.sms.verification.interceptor.processor
 
 import com.sinch.verificationcore.internal.pattern.CodeExtractor
 import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor

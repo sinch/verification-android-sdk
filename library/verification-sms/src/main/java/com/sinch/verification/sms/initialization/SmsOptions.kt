@@ -1,4 +1,4 @@
-package com.sinch.smsverification.initialization
+package com.sinch.verification.sms.initialization
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

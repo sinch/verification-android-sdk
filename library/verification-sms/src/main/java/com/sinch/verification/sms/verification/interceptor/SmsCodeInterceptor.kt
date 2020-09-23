@@ -1,10 +1,10 @@
-package com.sinch.smsverification.verification.interceptor
+package com.sinch.verification.sms.verification.interceptor
 
 import android.content.Context
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.tasks.OnFailureListener
-import com.sinch.smsverification.verification.interceptor.processor.MessageProcessor
-import com.sinch.smsverification.verification.interceptor.processor.SmsMessageProcessor
+import com.sinch.verification.sms.verification.interceptor.processor.MessageProcessor
+import com.sinch.verification.sms.verification.interceptor.processor.SmsMessageProcessor
 import com.sinch.verificationcore.internal.error.CodeInterceptionException
 import com.sinch.verificationcore.verification.CodeExtractorListener
 import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor

@@ -5,10 +5,12 @@ import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.common.api.Status
 import com.sinch.smsverification.*
-import com.sinch.smsverification.config.SmsVerificationConfig
-import com.sinch.smsverification.initialization.SmsInitializationDetails
-import com.sinch.smsverification.initialization.SmsInitializationListener
-import com.sinch.smsverification.initialization.SmsInitiationResponseData
+import com.sinch.verification.sms.config.SmsVerificationConfig
+import com.sinch.verification.sms.initialization.SmsInitializationDetails
+import com.sinch.verification.sms.initialization.SmsInitializationListener
+import com.sinch.verification.sms.initialization.SmsInitiationResponseData
+import com.sinch.verification.sms.SmsVerificationMethod
+import com.sinch.verification.sms.SmsVerificationService
 import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
 import com.sinch.verificationcore.config.general.SinchGlobalConfig
 import com.sinch.verificationcore.internal.VerificationMethodType

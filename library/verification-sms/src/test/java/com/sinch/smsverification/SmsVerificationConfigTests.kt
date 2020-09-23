@@ -1,7 +1,8 @@
 package com.sinch.smsverification
 
 import android.os.Build
-import com.sinch.smsverification.config.SmsVerificationConfig
+import com.sinch.verification.sms.config.SmsVerificationConfig
+import com.sinch.verification.sms.SmsVerificationService
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.config.method.VerificationMethodProperties
 import com.sinch.verificationcore.verification.VerificationLanguage
