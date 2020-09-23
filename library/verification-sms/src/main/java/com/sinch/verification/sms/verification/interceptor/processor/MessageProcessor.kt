@@ -1,7 +1,7 @@
 package com.sinch.verification.sms.verification.interceptor.processor
 
-import com.sinch.verificationcore.internal.pattern.CodeExtractor
-import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
+import com.sinch.verification.core.internal.pattern.CodeExtractor
+import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
 
 /**
  * General interface used to create classes that handles communication between [CodeExtractor] and [BasicCodeInterceptor]

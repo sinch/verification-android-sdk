@@ -8,8 +8,8 @@ import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.seamless.SeamlessVerificationMethod
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
-import com.sinch.verificationcore.internal.Verification
-import com.sinch.verificationcore.internal.VerificationMethodType
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
 
 /**
  * Helper object creating any type of [Verification] based on [CommonVerificationInitializationParameters].

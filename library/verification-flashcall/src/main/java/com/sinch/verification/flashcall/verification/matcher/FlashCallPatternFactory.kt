@@ -1,8 +1,8 @@
 package com.sinch.verification.flashcall.verification.matcher
 
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
-import com.sinch.verificationcore.internal.pattern.PatternFactory
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.pattern.PatternFactory
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 

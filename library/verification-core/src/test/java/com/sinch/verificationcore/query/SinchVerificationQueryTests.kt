@@ -3,11 +3,13 @@ package com.sinch.verificationcore.query
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.verificationcore.config.general.GlobalConfig
-import com.sinch.verificationcore.internal.VerificationMethodType
-import com.sinch.verificationcore.internal.VerificationStatus
-import com.sinch.verificationcore.query.callback.VerificationInfoCallback
-import com.sinch.verificationcore.verification.response.VerificationResponseData
+import com.sinch.verification.core.config.general.GlobalConfig
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.query.SinchVerificationQuery
+import com.sinch.verification.core.query.VerificationQueryService
+import com.sinch.verification.core.internal.VerificationStatus
+import com.sinch.verification.core.query.callback.VerificationInfoCallback
+import com.sinch.verification.core.verification.response.VerificationResponseData
 import io.mockk.*
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +31,7 @@ class SinchVerificationQueryTests {
     private val mockedGlobalConfig = spyk<GlobalConfig> {
         every { context } returns (appContext)
         every { retrofit } returns mockk {
-            every { create(VerificationQueryService::class.java) } returns mockedService
+            every { create(com.sinch.verification.core.query.VerificationQueryService::class.java) } returns mockedService
         }
     }
 

@@ -1,7 +1,7 @@
 package com.sinch.verificationcore.query
 
-import com.sinch.verificationcore.verification.VerificationLanguage
-import com.sinch.verificationcore.verification.asLanguagesString
+import com.sinch.verification.core.verification.VerificationLanguage
+import com.sinch.verification.core.verification.asLanguagesString
 import org.junit.Assert
 import org.junit.Test
 

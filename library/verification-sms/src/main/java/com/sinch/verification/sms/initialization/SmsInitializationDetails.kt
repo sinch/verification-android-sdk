@@ -1,6 +1,6 @@
 package com.sinch.verification.sms.initialization
 
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

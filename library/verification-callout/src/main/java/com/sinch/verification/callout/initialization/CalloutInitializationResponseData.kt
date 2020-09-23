@@ -1,8 +1,8 @@
 package com.sinch.verification.callout.initialization
 
 import com.sinch.verification.callout.CalloutVerificationMethod
-import com.sinch.verificationcore.initiation.response.InitiationResponseData
-import com.sinch.verificationcore.internal.VerificationMethodType
+import com.sinch.verification.core.initiation.response.InitiationResponseData
+import com.sinch.verification.core.internal.VerificationMethodType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient

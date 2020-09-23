@@ -5,12 +5,12 @@ import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.tasks.OnFailureListener
 import com.sinch.verification.sms.verification.interceptor.processor.MessageProcessor
 import com.sinch.verification.sms.verification.interceptor.processor.SmsMessageProcessor
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
-import com.sinch.verificationcore.verification.CodeExtractorListener
-import com.sinch.verificationcore.verification.interceptor.BasicCodeInterceptor
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionListener
-import com.sinch.verificationcore.verification.interceptor.CodeInterceptionTimeoutException
-import com.sinch.verificationcore.verification.response.VerificationListener
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.verification.CodeExtractorListener
+import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.response.VerificationListener
 import kotlin.properties.Delegates
 
 /**

@@ -11,13 +11,12 @@ import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.checkbox.MaterialCheckBox;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.sinch.verificationcore.VerificationInitData;
-import com.sinch.verificationcore.internal.VerificationMethodType;
-import com.sinch.verificationcore.verification.VerificationLanguage;
+import com.sinch.verification.core.VerificationInitData;
+import com.sinch.verification.core.internal.VerificationMethodType;
+import com.sinch.verification.core.verification.VerificationLanguage;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 

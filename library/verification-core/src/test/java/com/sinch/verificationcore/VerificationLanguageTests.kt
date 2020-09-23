@@ -1,6 +1,6 @@
 package com.sinch.verificationcore
 
-import com.sinch.verificationcore.verification.VerificationLanguage
+import com.sinch.verification.core.verification.VerificationLanguage
 import org.junit.Assert
 import org.junit.Test
 

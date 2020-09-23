@@ -3,7 +3,7 @@
 package com.sinch.smsverification
 
 import com.sinch.verification.sms.verification.extractor.SmsCodeExtractor
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.error.CodeInterceptionException
 import org.junit.Assert
 import org.junit.Test
 

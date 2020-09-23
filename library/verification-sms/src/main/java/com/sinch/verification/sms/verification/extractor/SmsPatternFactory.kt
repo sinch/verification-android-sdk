@@ -1,8 +1,8 @@
 package com.sinch.verification.sms.verification.extractor
 
 import com.sinch.verification.sms.initialization.SmsInitializationDetails
-import com.sinch.verificationcore.internal.error.CodeInterceptionException
-import com.sinch.verificationcore.internal.pattern.PatternFactory
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.pattern.PatternFactory
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
