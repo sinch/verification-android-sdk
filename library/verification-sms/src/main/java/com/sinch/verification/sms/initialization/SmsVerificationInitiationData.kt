@@ -1,4 +1,4 @@
-package com.sinch.smsverification.initialization
+package com.sinch.verification.sms.initialization
 
 import com.sinch.metadata.model.PhoneMetadata
 import com.sinch.verificationcore.initiation.VerificationIdentity

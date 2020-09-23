@@ -1,4 +1,4 @@
-package com.sinch.smsverification.verification.interceptor
+package com.sinch.verification.sms.verification.interceptor
 
 import com.google.android.gms.auth.api.phone.SmsRetriever
 

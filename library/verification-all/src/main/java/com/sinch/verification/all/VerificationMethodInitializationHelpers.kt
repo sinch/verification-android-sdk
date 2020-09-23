@@ -1,7 +1,7 @@
 package com.sinch.verification.all
 
-import com.sinch.smsverification.SmsVerificationMethod
-import com.sinch.smsverification.config.SmsVerificationConfig
+import com.sinch.verification.sms.SmsVerificationMethod
+import com.sinch.verification.sms.config.SmsVerificationConfig
 import com.sinch.verification.callout.CalloutVerificationMethod
 import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.flashcall.FlashCallVerificationMethod

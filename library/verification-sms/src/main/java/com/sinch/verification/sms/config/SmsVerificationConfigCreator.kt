@@ -1,4 +1,4 @@
-package com.sinch.smsverification.config
+package com.sinch.verification.sms.config
 
 import com.sinch.verificationcore.config.VerificationMethodConfigCreator
 

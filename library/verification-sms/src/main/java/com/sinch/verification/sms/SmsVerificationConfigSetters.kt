@@ -1,7 +1,7 @@
-package com.sinch.smsverification
+package com.sinch.verification.sms
 
-import com.sinch.smsverification.config.SmsVerificationConfig
-import com.sinch.smsverification.initialization.SmsInitializationListener
+import com.sinch.verification.sms.config.SmsVerificationConfig
+import com.sinch.verification.sms.initialization.SmsInitializationListener
 import com.sinch.verificationcore.config.method.VerificationMethodCreator
 
 interface SmsVerificationConfigSetter {

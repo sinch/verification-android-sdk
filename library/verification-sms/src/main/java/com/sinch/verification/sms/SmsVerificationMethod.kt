@@ -1,15 +1,15 @@
-package com.sinch.smsverification
+package com.sinch.verification.sms
 
 import com.sinch.logging.logger
 import com.sinch.metadata.model.PhoneMetadataFactory
-import com.sinch.smsverification.config.SmsVerificationConfig
-import com.sinch.smsverification.initialization.SmsInitializationListener
-import com.sinch.smsverification.initialization.SmsInitiationResponseData
-import com.sinch.smsverification.initialization.SmsOptions
-import com.sinch.smsverification.initialization.SmsVerificationInitiationData
-import com.sinch.smsverification.verification.SmsVerificationData
-import com.sinch.smsverification.verification.SmsVerificationDetails
-import com.sinch.smsverification.verification.interceptor.SmsCodeInterceptor
+import com.sinch.verification.sms.config.SmsVerificationConfig
+import com.sinch.verification.sms.initialization.SmsInitializationListener
+import com.sinch.verification.sms.initialization.SmsInitiationResponseData
+import com.sinch.verification.sms.initialization.SmsOptions
+import com.sinch.verification.sms.initialization.SmsVerificationInitiationData
+import com.sinch.verification.sms.verification.SmsVerificationData
+import com.sinch.verification.sms.verification.SmsVerificationDetails
+import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verificationcore.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verificationcore.config.method.VerificationMethodCreator

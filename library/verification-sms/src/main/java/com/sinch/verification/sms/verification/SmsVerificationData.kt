@@ -1,4 +1,4 @@
-package com.sinch.smsverification.verification
+package com.sinch.verification.sms.verification
 
 import com.sinch.verificationcore.internal.VerificationMethodType
 import com.sinch.verificationcore.verification.VerificationData

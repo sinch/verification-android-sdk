@@ -8,10 +8,12 @@ import com.sinch.smsverification.*
 import com.sinch.smsverification.Constants.apiSmsTimeout
 import com.sinch.smsverification.SmsTemplates.CODE
 import com.sinch.smsverification.SmsTemplates.exampleSimple1
-import com.sinch.smsverification.config.SmsVerificationConfig
-import com.sinch.smsverification.initialization.SmsInitializationDetails
-import com.sinch.smsverification.initialization.SmsInitializationListener
-import com.sinch.smsverification.initialization.SmsInitiationResponseData
+import com.sinch.verification.sms.config.SmsVerificationConfig
+import com.sinch.verification.sms.initialization.SmsInitializationDetails
+import com.sinch.verification.sms.initialization.SmsInitializationListener
+import com.sinch.verification.sms.initialization.SmsInitiationResponseData
+import com.sinch.verification.sms.SmsVerificationMethod
+import com.sinch.verification.sms.SmsVerificationService
 import com.sinch.verificationcore.config.general.GlobalConfig
 import com.sinch.verificationcore.internal.Verification
 import com.sinch.verificationcore.internal.VerificationState
