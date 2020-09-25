@@ -26,6 +26,11 @@ project.afterEvaluate {
             Production(MavenPublication) {
                 from components.productionRelease
 
+                pom {
+                    name = pomName
+                    description = pomDescription
+                }
+
                 groupId = 'com.sinch.android.sdk.verification'
                 artifactId = bintrayName
                 version = bintrayVersion

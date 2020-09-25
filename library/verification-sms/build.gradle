@@ -8,6 +8,8 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'verification-sms'
     bintrayVersion = versionNameFull
+    pomName = "Sms Verification"
+    pomDescription = "Secure login, sign-up, reduce churn, and boost revenue – all through the power of a text."
 }
 
 apply from: '../publish.gradle'

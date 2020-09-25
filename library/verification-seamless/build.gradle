@@ -8,6 +8,9 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'verification-seamless'
     bintrayVersion = versionNameFull
+    pomName = "Seamless Verification"
+    pomDescription = "Seamless verification allows verifying phone number without any user interaction. " +
+            "Sinch uses mobile telephony provider data to verify the user automatically."
 }
 
 apply from: '../publish.gradle'
