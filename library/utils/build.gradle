@@ -6,6 +6,8 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'utils'
     bintrayVersion = versionNameFull
+    pomName = "Utils"
+    pomDescription = "Package containing utility classes used by the verification SDK."
 }
 
 apply from: '../publish.gradle'

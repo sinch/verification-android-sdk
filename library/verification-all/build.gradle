@@ -6,6 +6,9 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'verification-all'
     bintrayVersion = versionNameFull
+    pomName = "Verification All"
+    pomDescription = "Package that acts as a collector for all the other verification methods " +
+            "with some extra logic helpful while using all the other verification method specific packages."
 }
 
 apply from: '../publish.gradle'

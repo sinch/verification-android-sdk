@@ -8,6 +8,8 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'verification-core'
     bintrayVersion = versionNameFull
+    pomName = "Verification Core"
+    pomDescription = "Core module of verification SDK collecting common, base logic used by other packages."
 }
 
 apply from: '../publish.gradle'

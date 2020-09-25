@@ -8,6 +8,9 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'verification-callout'
     bintrayVersion = versionNameFull
+    pomName = "Callout Verification"
+    pomDescription = "Deliver One Time Passcodes via voice text-to-speech, " +
+            "making sure numbers can still be verified regardless of accessibility or fixed line issues."
 }
 
 apply from: '../publish.gradle'

@@ -8,6 +8,9 @@ def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 ext {
     bintrayName = 'metadata-collector'
     bintrayVersion = versionNameFull
+    pomName = "Metadata Collector"
+    pomDescription = "Package containing logic responsible for collecting phone metadata information " +
+            "(like Android version, sim card info etc.) used by Sinch for analytics purposes and early rejection rules."
 }
 
 apply from: '../publish.gradle'
