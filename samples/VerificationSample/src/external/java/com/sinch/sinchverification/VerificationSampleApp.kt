@@ -4,9 +4,9 @@ import android.app.Application
 import android.view.MenuItem
 import com.sinch.logging.Log
 import com.sinch.logging.LogcatAppender
-import com.sinch.verificationcore.auth.AppKeyAuthorizationMethod
-import com.sinch.verificationcore.config.general.GlobalConfig
-import com.sinch.verificationcore.config.general.SinchGlobalConfig
+import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
+import com.sinch.verification.core.config.general.GlobalConfig
+import com.sinch.verification.core.config.general.SinchGlobalConfig
 import okhttp3.logging.HttpLoggingInterceptor
 
 

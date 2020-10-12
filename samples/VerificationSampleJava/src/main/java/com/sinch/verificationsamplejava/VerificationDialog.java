@@ -66,6 +66,7 @@ public class VerificationDialog extends DialogFragment implements InitiationList
         messageTextView = root.findViewById(R.id.messageText);
         progressBar = root.findViewById(R.id.progressBar);
         codeInputEditText = root.findViewById(R.id.codeInputEditText);
+        codeInput = root.findViewById(R.id.codeInput);
         return root;
     }
 
