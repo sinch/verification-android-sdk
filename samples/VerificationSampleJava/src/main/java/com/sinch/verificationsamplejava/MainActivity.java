@@ -1,11 +1,14 @@
 package com.sinch.verificationsamplejava;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.checkbox.MaterialCheckBox;
@@ -16,9 +19,13 @@ import com.sinch.verification.core.internal.VerificationMethodType;
 import com.sinch.verification.core.verification.VerificationLanguage;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static int PERMISSION_REQUEST_CODE = 5;
 
     private Button initButton;
     private TextInputLayout phoneEditInput;
@@ -34,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         bindViews();
-        initButton.setOnClickListener(v -> checkFields());
+        initButton.setOnClickListener(v -> requestPermissions());
         phoneEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -53,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //We simply proceed with the verification
+        checkFields();
+    }
+
     private void bindViews() {
         initButton = findViewById(R.id.initButton);
         phoneEditInput = findViewById(R.id.phoneInput);
@@ -62,6 +75,10 @@ public class MainActivity extends AppCompatActivity {
         referenceEditText = findViewById(R.id.referenceInputEditText);
         acceptedLanguagesEditText = findViewById(R.id.acceptedLanguagesInputEditText);
         honoursEarlyCheckbox = findViewById(R.id.honoursEarlyCheckbox);
+    }
+
+    private void requestPermissions() {
+        ActivityCompat.requestPermissions(this, getRequestedPermissions(), PERMISSION_REQUEST_CODE);
     }
 
     private void checkFields() {
@@ -74,6 +91,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private List<VerificationLanguage> splitAcceptLanguagesField(String source) {
+        if (source == null || source.isEmpty()) {
+            return Collections.emptyList();
+        }
         String[] slices = source.split(",");
         List<VerificationLanguage> result = new ArrayList<>();
         for (String slice : slices) {
@@ -111,5 +131,14 @@ public class MainActivity extends AppCompatActivity {
             default:
                 throw new RuntimeException("No method for button" + methodToggle.getCheckedButtonId());
         }
+    }
+
+    private String[] getRequestedPermissions() {
+        List<String> permissions = Arrays.asList(Manifest.permission.ACCESS_NETWORK_STATE, Manifest.permission.READ_PHONE_STATE);
+        if (methodToggle.getCheckedButtonId() == R.id.flashcallButton) {
+            permissions.add(Manifest.permission.READ_CALL_LOG);
+        }
+        String[] permsArray = new String[permissions.size()];
+        return permissions.toArray(permsArray);
     }
 }
