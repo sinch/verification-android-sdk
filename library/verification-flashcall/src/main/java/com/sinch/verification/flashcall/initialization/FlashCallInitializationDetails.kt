@@ -1,8 +1,10 @@
 package com.sinch.verification.flashcall.initialization
 
+import com.sinch.verification.core.initiation.response.InitiationDetails
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
 import com.sinch.verification.flashcall.report.FlashCallReportData
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
-import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -11,6 +13,7 @@ import kotlinx.serialization.Serializable
  * @property cliFilter Template (regex) used by [FlashCallPatternMatcher] to match incoming phone call number.
  * @property interceptionTimeout Maximum timeout after which interceptor should report [CodeInterceptionTimeoutException].
  * @property reportTimeout Timeout after which SDK stops reporting late calls.
+ * @property subVerificationId Id assigned to each verification method that can be used in case of [VerificationMethodType.AUTO].
  * @see FlashCallReportData
  */
 @Serializable
@@ -19,8 +22,9 @@ data class FlashCallInitializationDetails(
     @SerialName("interceptionTimeout") val interceptionTimeoutApi: Long?,
     @SerialName("reportTimeout") val reportTimeoutApi: Long?,
     @SerialName("denyCallAfter") val denyCallAfter: Long?,
-    @SerialName("cli") val cli: String? = null
-) {
+    @SerialName("cli") val cli: String? = null,
+    @SerialName("subVerificationId") override val subVerificationId: String? = null
+) : InitiationDetails {
 
     companion object {
 

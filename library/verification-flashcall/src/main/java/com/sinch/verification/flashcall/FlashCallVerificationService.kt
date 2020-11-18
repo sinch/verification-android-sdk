@@ -1,10 +1,10 @@
 package com.sinch.verification.flashcall
 
+import com.sinch.verification.core.verification.response.VerificationResponseData
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData
 import com.sinch.verification.flashcall.initialization.FlashCallVerificationInitializationData
 import com.sinch.verification.flashcall.report.FlashCallReportData
 import com.sinch.verification.flashcall.verification.FlashCallVerificationData
-import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
 import retrofit2.http.*
 

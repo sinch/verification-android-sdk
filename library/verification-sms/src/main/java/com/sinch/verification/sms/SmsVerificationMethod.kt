@@ -2,15 +2,6 @@ package com.sinch.verification.sms
 
 import com.sinch.logging.logger
 import com.sinch.metadata.model.PhoneMetadataFactory
-import com.sinch.verification.sms.config.SmsVerificationConfig
-import com.sinch.verification.sms.initialization.SmsInitializationListener
-import com.sinch.verification.sms.initialization.SmsInitiationResponseData
-import com.sinch.verification.sms.initialization.SmsOptions
-import com.sinch.verification.sms.initialization.SmsVerificationInitiationData
-import com.sinch.verification.sms.verification.SmsVerificationData
-import com.sinch.verification.sms.verification.SmsVerificationDetails
-import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
-import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.core.config.method.AutoInterceptedVerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
@@ -24,6 +15,15 @@ import com.sinch.verification.core.verification.asLanguagesString
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
+import com.sinch.verification.sms.config.SmsVerificationConfig
+import com.sinch.verification.sms.initialization.SmsInitializationListener
+import com.sinch.verification.sms.initialization.SmsInitiationResponseData
+import com.sinch.verification.sms.initialization.SmsOptions
+import com.sinch.verification.sms.initialization.SmsVerificationInitiationData
+import com.sinch.verification.sms.verification.SmsVerificationData
+import com.sinch.verification.sms.verification.SmsVerificationDetails
+import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
+import com.sinch.verification.utils.MAX_TIMEOUT
 
 typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
 typealias  SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>

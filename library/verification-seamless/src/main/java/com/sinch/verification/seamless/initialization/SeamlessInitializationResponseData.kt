@@ -1,8 +1,8 @@
 package com.sinch.verification.seamless.initialization
 
-import com.sinch.verification.seamless.SeamlessVerificationMethod
 import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.seamless.SeamlessVerificationMethod
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

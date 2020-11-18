@@ -2,9 +2,9 @@ package com.sinch.verification.core.config.general
 
 import android.content.Context
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import com.sinch.verificationcore.BuildConfig
 import com.sinch.verification.core.auth.AuthorizationInterceptor
 import com.sinch.verification.core.auth.AuthorizationMethod
+import com.sinch.verificationcore.BuildConfig
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.Interceptor

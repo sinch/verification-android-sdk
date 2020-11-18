@@ -1,8 +1,8 @@
 package com.sinch.verification.flashcall.initialization
 
-import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient

@@ -23,7 +23,8 @@ class MainActivity : AppCompatActivity() {
             smsButton.id to VerificationMethodType.SMS,
             flashcallButton.id to VerificationMethodType.FLASHCALL,
             calloutButton.id to VerificationMethodType.CALLOUT,
-            seamlessButton.id to VerificationMethodType.SEAMLESS
+            seamlessButton.id to VerificationMethodType.SEAMLESS,
+            autoButton.id to VerificationMethodType.AUTO
         )
     }
 
@@ -49,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_NETWORK_STATE
             )
-            return if (selectedVerificationMethod == VerificationMethodType.FLASHCALL) {
+            return if (selectedVerificationMethod == VerificationMethodType.FLASHCALL || selectedVerificationMethod == VerificationMethodType.AUTO) {
                 optionalPerms + Manifest.permission.READ_CALL_LOG
             } else {
                 optionalPerms

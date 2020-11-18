@@ -16,4 +16,5 @@ interface InitiationResponseData {
      * Method of initiated verification.
      */
     val method: VerificationMethodType
+
 }

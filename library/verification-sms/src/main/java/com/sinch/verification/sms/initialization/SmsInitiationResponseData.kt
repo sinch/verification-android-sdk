@@ -1,8 +1,8 @@
 package com.sinch.verification.sms.initialization
 
-import com.sinch.verification.sms.SmsVerificationMethod
 import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.sms.SmsVerificationMethod
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

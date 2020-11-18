@@ -1,7 +1,7 @@
 package com.sinch.verification.flashcall.report
 
-import com.sinch.verification.flashcall.FlashCallVerificationService
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.flashcall.FlashCallVerificationService
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

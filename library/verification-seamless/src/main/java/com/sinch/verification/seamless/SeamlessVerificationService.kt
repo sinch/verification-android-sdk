@@ -1,9 +1,9 @@
 package com.sinch.verification.seamless
 
+import com.sinch.verification.core.verification.response.VerificationResponseData
 import com.sinch.verification.seamless.initialization.SeamlessInitializationDetails
 import com.sinch.verification.seamless.initialization.SeamlessInitiationData
 import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
-import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

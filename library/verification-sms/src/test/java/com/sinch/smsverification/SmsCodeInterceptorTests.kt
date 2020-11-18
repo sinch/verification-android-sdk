@@ -4,13 +4,13 @@ import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.google.android.gms.common.api.Status
-import com.sinch.verification.sms.verification.interceptor.SmsBroadcastReceiver
-import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
-import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.core.internal.error.CodeInterceptionException
 import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
 import com.sinch.verification.core.verification.interceptor.InterceptorState
+import com.sinch.verification.sms.verification.interceptor.SmsBroadcastReceiver
+import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
+import com.sinch.verification.utils.MAX_TIMEOUT
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify

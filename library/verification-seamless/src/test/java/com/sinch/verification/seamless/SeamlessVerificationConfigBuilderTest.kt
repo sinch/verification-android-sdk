@@ -1,9 +1,9 @@
 package com.sinch.verification.seamless
 
-import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.method.VerificationMethodProperties
 import com.sinch.verification.core.verification.VerificationLanguage
+import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import io.mockk.mockk
 import org.junit.Assert
 import org.junit.Test
