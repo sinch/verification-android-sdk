@@ -9,11 +9,11 @@ import kotlinx.serialization.Serializable
 /**
  * Class containing detailed information for the actual verification API request. Note that the user
  * has to manually type the code thus source is always [VerificationSourceType.MANUAL].
- * @property code Code that was passed to the user by text-to-speech call.
+ * @property details Details of the request.
  */
 @Serializable
 data class CalloutVerificationData(
-    @SerialName("code") val code: String
+    @SerialName("callout") val details: CalloutVerificationDetails
 ) : VerificationData {
     @SerialName("method")
     override val method: VerificationMethodType = VerificationMethodType.CALLOUT
