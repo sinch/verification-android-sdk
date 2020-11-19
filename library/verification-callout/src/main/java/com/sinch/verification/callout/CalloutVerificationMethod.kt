@@ -6,6 +6,7 @@ import com.sinch.verification.callout.initialization.CalloutInitializationListen
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
 import com.sinch.verification.callout.initialization.CalloutVerificationInitializationData
 import com.sinch.verification.callout.verification.CalloutVerificationData
+import com.sinch.verification.callout.verification.CalloutVerificationDetails
 import com.sinch.verification.callout.verification.interceptor.CalloutInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.core.config.method.VerificationMethod
@@ -60,7 +61,7 @@ class CalloutVerificationMethod private constructor(
     override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
         verificationService.verifyNumber(
             number = config.number,
-            data = CalloutVerificationData(verificationCode)
+            data = CalloutVerificationData(details = CalloutVerificationDetails(code = verificationCode))
         ).enqueue(
             retrofit = retrofit,
             apiCallback = VerificationApiCallback(verificationListener, this)
