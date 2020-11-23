@@ -32,4 +32,5 @@ object Versions {
     const val dokka = "1.4.10.2"
 
     const val defaultSinchSdk = "2.0.0"
+    const val calloutSdk = "2.0.1"
 }
