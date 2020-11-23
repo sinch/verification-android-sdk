@@ -1,0 +1,81 @@
+/*
+Based on:
+https://gist.github.com/lwasyl/f5b2b4ebe9e348ebbd8ee4cb995f8362#file-gradle_tests_report-gradle
+*/
+
+import groovy.time.TimeCategory
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
+
+ext.testsResults = [] // Container for tests summaries
+ext.anyFailed = false
+
+allprojects { project ->
+    tasks.withType(Test) { testTask ->
+
+        testTask.testLogging { logging ->
+            events TestLogEvent.FAILED,
+                    TestLogEvent.PASSED,
+                    TestLogEvent.SKIPPED
+
+            exceptionFormat TestExceptionFormat.FULL
+            showExceptions true
+            showCauses true
+            showStackTraces true
+        }
+
+        ignoreFailures = true
+
+        afterSuite { desc, result ->
+
+            if (desc.parent) return // Only summarize results for whole modules
+
+            String summary = "${testTask.project.name}:${testTask.name} results: ${result.resultType} " +
+                    "(" +
+                    "${result.testCount} tests, " +
+                    "${result.successfulTestCount} successes, " +
+                    "${result.failedTestCount} failures, " +
+                    "${result.skippedTestCount} skipped" +
+                    ") " +
+                    "in ${TimeCategory.minus(new Date(result.endTime), new Date(result.startTime))}" +
+                    "\n" +
+                    "Report file: ${testTask.reports.html.entryPoint}"
+
+            // Add reports in `testsResults`, keep failed suites at the end
+            if (result.resultType == TestResult.ResultType.SUCCESS) {
+                rootProject.testsResults.add(0, summary)
+            } else {
+                rootProject.anyFailed = true
+                rootProject.testsResults += summary
+            }
+        }
+    }
+}
+
+gradle.buildFinished {
+    def allResults = rootProject.ext.testsResults
+
+    if (!allResults.isEmpty()) {
+        printResults allResults
+    }
+
+    if (anyFailed) {
+        // Since ignoreFailures property is set to true we manually throw exception
+        // at the end if any test fails
+        throw new GradleException("There were failing tests. See the report files")
+    }
+}
+
+private static void printResults(allResults) {
+    def maxLength = allResults*.readLines().flatten().collect { it.length() }.max()
+
+    println "┌${"${"─" * maxLength}"}┐"
+
+    println allResults.collect {
+        it.readLines().collect {
+            "│" + it + " " * (maxLength - it.length()) + "│"
+        }.join("\n")
+    }.join("\n├${"${"─" * maxLength}"}┤\n")
+
+    println "└${"${"─" * maxLength}"}┘"
+}

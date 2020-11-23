@@ -1,0 +1,31 @@
+apply plugin: 'kotlinx-serialization'
+
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 1
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+ext {
+    bintrayName = 'verification-callout'
+    bintrayVersion = versionNameFull
+    pomName = "Callout Verification"
+    pomDescription = "Deliver One Time Passcodes via voice text-to-speech, " +
+            "making sure numbers can still be verified regardless of accessibility or fixed line issues."
+}
+
+apply from: '../publish.gradle'
+
+android {
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
+}
+
+dependencies {
+    api "com.sinch.android.sdk.verification:verification-core:${Versions.defaultSinchSdk}"
+
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+}

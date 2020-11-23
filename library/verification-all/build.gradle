@@ -1,0 +1,30 @@
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 1
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+ext {
+    bintrayName = 'verification-all'
+    bintrayVersion = versionNameFull
+    pomName = "Verification All"
+    pomDescription = "Package that acts as a collector for all the other verification methods " +
+            "with some extra logic helpful while using all the other verification method specific packages."
+}
+
+apply from: '../publish.gradle'
+
+android {
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
+}
+
+dependencies {
+    api "com.sinch.android.sdk.verification:verification-callout:${Versions.calloutSdk}"
+    api "com.sinch.android.sdk.verification:verification-flashcall:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:verification-seamless:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:verification-sms:${Versions.defaultSinchSdk}"
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
+}

@@ -1,0 +1,31 @@
+apply plugin: 'kotlinx-serialization'
+
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 0
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+ext {
+    bintrayName = 'verification-seamless'
+    bintrayVersion = versionNameFull
+    pomName = "Seamless Verification"
+    pomDescription = "Seamless verification allows verifying phone number without any user interaction. " +
+            "Sinch uses mobile telephony provider data to verify the user automatically."
+}
+
+apply from: '../publish.gradle'
+
+android {
+    defaultConfig {
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
+    }
+}
+
+dependencies {
+    api "com.sinch.android.sdk.verification:verification-core:${Versions.defaultSinchSdk}"
+
+    implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+}

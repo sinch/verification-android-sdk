@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:padding="@dimen/marginBasic">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/marginBasic"
+            android:src="@drawable/logosinch" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginBasic"
+            android:layout_marginBottom="@dimen/marginSmall"
+            android:text="@string/verificationMethod"
+            android:textSize="@dimen/textSizeBig" />
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/methodToggle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:checkedButton="@+id/smsButton"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/smsButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/sms"
+                android:textSize="@dimen/textSizeButtonType" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/flashcallButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/flashcall"
+                android:textSize="@dimen/textSizeButtonType" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/calloutButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/callout"
+                android:textSize="@dimen/textSizeButtonType" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/seamlessButton"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="0dp"
+                android:text="@string/seamless"
+                android:textSize="@dimen/textSizeButtonType" />
+
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/enterNumberHint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/marginBasic"
+            android:layout_marginBottom="@dimen/marginSmall"
+            android:text="@string/options"
+            android:textSize="@dimen/textSizeBig" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/customInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/customField">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/customInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/referenceInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/reference">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/referenceInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/acceptedLanguagesInput"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/acceptedLanguages">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/acceptedLanguagesInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textNoSuggestions" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/honoursEarlyCheckbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="@string/honourEarlyReject" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/initButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/initialize" />
+
+    </LinearLayout>
+
+
+</androidx.core.widget.NestedScrollView>

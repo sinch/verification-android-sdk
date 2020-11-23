@@ -1,45 +1,47 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
+
+def versionMajor = 2
+def versionMinor = 0
+def versionPatch = 0
+def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+
+ext {
+    bintrayName = 'verification-core'
+    bintrayVersion = versionNameFull
+    pomName = "Verification Core"
+    pomDescription = "Core module of verification SDK collecting common, base logic used by other packages."
+}
+
+apply from: '../publish.gradle'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles 'consumer-rules.pro'
+        versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
+        versionName versionNameFull
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            buildConfigField "String", "API_URL", "https://verificationapi-v1-01.sinchlab.com/"
+    productFlavors {
+        production {
+            buildConfigField "String", "API_BASE_URL", "\"https://verificationapi-v1.sinch.com/\""
         }
-
-        debug {
-            buildConfigField "String", "API_URL", "\"https://verificationapi-v1-01.sinchlab.com/verification/v1/\""
+        ftest1 {
+            buildConfigField "String", "API_BASE_URL", "\"https://verificationapi-v1-01.sinchlab.com/\""
+        }
+        ftest2 {
+            buildConfigField "String", "API_BASE_URL", "\"https://verificationapi-v1-02.sinchlab.com/\""
         }
     }
 
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    api "com.sinch.android.sdk.verification:metadata-collector:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
+    api "com.sinch.android.sdk.verification:utils:${Versions.defaultSinchSdk}"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
-    implementation "androidx.core:core-ktx:${Versions.ktx}"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-
-    testImplementation "junit:junit:${Versions.jUnit}"
-
-    androidTestImplementation "androidx.test.ext:junit:${Versions.jUnitAndroidX}"
-    androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
 }

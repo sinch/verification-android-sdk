@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'org.jetbrains.dokka'
+
+android {
+    compileSdkVersion (Versions.compileSdk)
+    buildToolsVersion "$Versions.buildTools"
+
+    defaultConfig {
+        minSdkVersion (Versions.minSdk)
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    dokkaHtml {
+        moduleName.set("Sinch Verification SDK")
+        dokkaSourceSets {
+            named("main") {
+                sourceRoots.setFrom(getSourceRootsToDocument())
+                externalDocumentationLink {
+                    url.set("https://square.github.io/retrofit/2.x/retrofit/")
+                }
+            }
+        }
+    }
+
+
+}
+
+// Converts the source path Strings into SourceRoot
+private List<File> getSourceRootsToDocument() {
+    return getSourceRootsToDocumentAsStrings().collect {
+        new File(it)
+    }
+}
+
+private List<String> getSourceRootsToDocumentAsStrings() {
+    def sources = new ArrayList<>()
+    sources += getSourceDirs("$rootDir/library/")
+    sources
+}
+
+private List<String> getSourceDirs(String directoryPath) {
+    def skippedDirs = ["logging", "metadata-collector", "utils"]
+    file(directoryPath).listFiles()
+            .findAll { it.isDirectory() && it.name != "build" && !skippedDirs.contains(it.name) } // Non build subfolders
+            .collect { "${it.path}/src/main/java" } // path of main sources
+            .findAll { new File(it).exists() } // only include if path exists
+}

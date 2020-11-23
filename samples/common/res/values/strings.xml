@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">SinchVerification</string>
+    <string name="title_activity_main">Sinch Verification</string>
+
+    <string name="initialize">Initialize</string>
+    <string name="verify">Verify</string>
+
+    <!--    <string name="testPhone">+48509873255</string>-->
+    <string name="testPhone">+46543543123</string>
+    <string name="enterNumberHint">Phone number</string>
+    <string name="verificationCodeHint">Enter code</string>
+
+    <string name="sms">SMS</string>
+    <string name="flashcall">Flashcall</string>
+    <string name="callout">Callout</string>
+    <string name="seamless">Seamless</string>
+    <string name="verificationMethod">Verification Method</string>
+    <string name="options">Optional configuration</string>
+    <string name="customField">Custom field</string>
+    <string name="reference">Reference field</string>
+    <string name="honourEarlyReject">Honours early reject</string>
+    <string name="acceptedLanguages">Accepted languages</string>
+    <string name="verificationCode">Verification code</string>
+    <string name="verificationFailedPlaceholder">Verification failed: %s</string>
+    <string name="verificationInProgress">Verification in progress</string>
+    <string name="successfullyVerified">Successfully Verified!</string>
+    <string name="phoneEmptyError">Phone number field cannot be empty</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+</resources>

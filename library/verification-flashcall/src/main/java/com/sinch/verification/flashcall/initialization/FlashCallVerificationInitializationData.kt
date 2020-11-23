@@ -1,0 +1,29 @@
+package com.sinch.verification.flashcall.initialization
+
+import com.sinch.metadata.model.PhoneMetadata
+import com.sinch.verification.core.initiation.VerificationIdentity
+import com.sinch.verification.core.initiation.VerificationInitiationData
+import com.sinch.verification.core.internal.VerificationMethodType
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
+/**
+ * Class containing data that is passed with the flashcall verification initiation API call.
+ * @property identity Identity of the verification.
+ * @property honourEarlyReject Flag indicating if verification process should use early rejection rules.
+ * @property custom Custom string passed in the initiation API call.
+ * @property reference Custom string that can be passed in the request for tracking purposes.
+ * @property metadata Metadata containing information about the device used for analytics and early rejection rules.
+ * @property method Method of the verification. Always [VerificationMethodType.FLASHCALL]
+ */
+@Serializable
+data class FlashCallVerificationInitializationData(
+    @SerialName("identity") override val identity: VerificationIdentity,
+    @SerialName("honourEarlyReject") override val honourEarlyReject: Boolean,
+    @SerialName("custom") override val custom: String?,
+    @SerialName("reference") override val reference: String?,
+    @SerialName("metadata") override val metadata: PhoneMetadata?
+) : VerificationInitiationData {
+    @SerialName("method")
+    override val method: VerificationMethodType = VerificationMethodType.FLASHCALL
+}

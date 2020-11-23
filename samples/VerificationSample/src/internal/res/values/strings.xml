@@ -1,0 +1,8 @@
+<resources>
+    <string name="prodMenuItem">Production</string>
+    <string name="prodBrokMenuItem">Production BROK</string>
+    <string name="ftest1MenuItem">Ftest1</string>
+    <string name="ftest1BrokMenuItem">Ftest1 BROK</string>
+    <string name="ftest2MenuItem">Ftest2</string>
+    <string name="ftest2BrokMenuItem">Ftest2 BROK</string>
+</resources>

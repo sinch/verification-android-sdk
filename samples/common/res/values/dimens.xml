@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="marginBasic">16dp</dimen>
+    <dimen name="marginSmall">8dp</dimen>
+
+    <dimen name="textSizeBig">22sp</dimen>
+    <dimen name="textSizeButtonType">12sp</dimen>
+</resources>

@@ -1,17 +1,44 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+import com.android.build.gradle.internal.dsl.SigningConfig
+
+apply from: file('testlogger.gradle')
+
+//Signing properties are defined in keystore.properties file
+Properties keyProperties = new Properties()
+keyProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+
+ext {
+    keyAliasSinch = keyProperties['alias']
+    keyPasswordSinch = keyProperties['keyPassword']
+    keyFileSinch = file('SinchVerificationKeystore')
+    storePasswordSinch = keyProperties['storePassword']
+
+    shouldUseJcenterDeps = false
+}
 
 buildscript {
+
     ext {
-        kotlin_version = '1.3.61'
+        kotlin_version = '1.3.72'
     }
     repositories {
         google()
         jcenter()
-        
+        maven {
+            url  "https://sinch.bintray.com/com.sinch.android.sdk.verification"
+            credentials {
+                username bintrayUser
+                password bintrayApiKey
+            }
+        }
     }
+
     dependencies {
         classpath "com.android.tools.build:gradle:${Versions.gradleBuildTools}"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -22,7 +49,31 @@ allprojects {
     repositories {
         google()
         jcenter()
-        
+        maven {
+            url  "https://sinch.bintray.com/com.sinch.android.sdk.verification"
+            credentials {
+                username bintrayUser
+                password bintrayApiKey
+            }
+        }
+    }
+}
+
+subprojects {
+    configurations.all {
+        resolutionStrategy.dependencySubstitution {
+            if (shouldUseJcenterDeps) { return }
+            substitute module("com.sinch.android.sdk.verification:metadata-collector") with project(":library:metadata-collector")
+            substitute module("com.sinch.android.sdk.verification:utils") with project(":library:utils")
+            substitute module("com.sinch.android.sdk.verification:logging") with project(":library:logging")
+
+            substitute module("com.sinch.android.sdk.verification:verification-core") with project(":library:verification-core")
+            substitute module("com.sinch.android.sdk.verification:verification-all") with project(":library:verification-all")
+            substitute module("com.sinch.android.sdk.verification:verification-sms") with project(":library:verification-sms")
+            substitute module("com.sinch.android.sdk.verification:verification-flashcall") with project(":library:verification-flashcall")
+            substitute module("com.sinch.android.sdk.verification:verification-callout") with project(":library:verification-callout")
+            substitute module("com.sinch.android.sdk.verification:verification-seamless") with project(":library:verification-seamless")
+        }
     }
 }
 

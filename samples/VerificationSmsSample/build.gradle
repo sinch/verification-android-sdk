@@ -1,0 +1,74 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion(Versions.compileSdk)
+    buildToolsVersion "$Versions.buildTools"
+
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+
+    signingConfigs {
+        release {
+            keyAlias keyAliasSinch
+            keyPassword keyPasswordSinch
+            storeFile keyFileSinch
+            storePassword storePasswordSinch
+        }
+    }
+
+    sourceSets {
+        main.res.srcDirs += "$project.rootDir/samples/common/res"
+    }
+
+    defaultConfig {
+        applicationId "com.sinch.verification.smssample"
+        minSdkVersion(Versions.minSdk)
+        targetSdkVersion(Versions.targetSdk)
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            debuggable true
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+// To inline the bytecode built with JVM target 1.8 into
+// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "com.sinch.android.sdk.verification:verification-sms:${Versions.defaultSinchSdk}"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
+    implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
+    implementation "androidx.core:core-ktx:${Versions.ktx}"
+    implementation "com.google.android.material:material:${Versions.material}"
+    implementation "androidx.constraintlayout:constraintlayout:${Versions.constraintLayout}"
+    implementation "androidx.navigation:navigation-fragment-ktx:${Versions.navigation}"
+    implementation "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
+    implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
+}

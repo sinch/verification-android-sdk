@@ -1,0 +1,83 @@
+//Common gradle build file for all android libraries.
+apply plugin: 'org.jetbrains.dokka'
+
+tasks.dokkaHtmlCollector.configure {
+    //TODO change module name when
+}
+
+subprojects {
+    apply plugin: 'com.android.library'
+    apply plugin: 'kotlin-android'
+    apply plugin: 'kotlin-android-extensions'
+    apply from: "$project.rootDir/signing.gradle"
+    apply from: "$project.rootDir/apienv.gradle"
+
+    if (project.name != "logging" &&
+            project.name != "metadata-collector" &&
+            project.name != "utils") { // Do not generate docs for these libs for now
+
+        apply plugin: 'org.jetbrains.dokka'
+
+        dokkaHtml {
+            dokkaSourceSets {
+                configureEach {
+                    externalDocumentationLink {
+                        url.set(new URL("https://square.github.io/retrofit/2.x/retrofit/"))
+                    }
+                    externalDocumentationLink {
+                        url.set(new URL("https://javadoc.io/doc/com.squareup.okhttp3/okhttp/3.14.9/"))
+                    }
+                }
+            }
+        }
+    }
+
+    android {
+
+        compileSdkVersion(Versions.compileSdk)
+        buildToolsVersion "$Versions.buildTools"
+
+        testOptions {
+            unitTests {
+                includeAndroidResources = true
+            }
+        }
+
+        defaultConfig {
+            minSdkVersion(Versions.minSdk)
+            targetSdkVersion(Versions.targetSdk)
+            versionCode 1
+            versionName "1.0"
+
+            testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+            consumerProguardFiles 'consumer-rules.pro', rootProject.file("common-lib-consumer-rules.pro")
+        }
+
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            }
+        }
+    }
+
+    dependencies {
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
+        implementation "org.jetbrains.kotlin:kotlin-reflect:${Versions.kotlin}"
+        implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
+        implementation "androidx.core:core-ktx:${Versions.ktx}"
+        implementation "androidx.annotation:annotation:${Versions.appCompat}"
+
+        testImplementation "junit:junit:${Versions.jUnit}"
+        testImplementation("org.robolectric:robolectric:${Versions.robolectric}") {
+            exclude group: "com.google.auto.service", module: "auto-service"
+        }
+        testImplementation "androidx.test:core:${Versions.androidXTestCore}"
+        testImplementation "io.mockk:mockk:${Versions.mockk}"
+        testImplementation "com.squareup.retrofit2:retrofit-mock:${Versions.retrofit}"
+
+        androidTestImplementation "androidx.test.ext:junit:${Versions.jUnitAndroidX}"
+        androidTestImplementation "androidx.test.espresso:espresso-core:${Versions.espresso}"
+    }
+}
