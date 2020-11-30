@@ -5,9 +5,9 @@ import android.os.Build
 import androidx.test.core.app.ApplicationProvider
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.VerificationStatus
 import com.sinch.verification.core.query.SinchVerificationQuery
 import com.sinch.verification.core.query.VerificationQueryService
-import com.sinch.verification.core.internal.VerificationStatus
 import com.sinch.verification.core.query.callback.VerificationInfoCallback
 import com.sinch.verification.core.verification.response.VerificationResponseData
 import io.mockk.*

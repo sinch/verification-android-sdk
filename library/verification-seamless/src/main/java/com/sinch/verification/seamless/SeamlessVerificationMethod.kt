@@ -4,13 +4,6 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.sinch.logging.logger
-import com.sinch.verification.seamless.config.SeamlessVerificationConfig
-import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
-import com.sinch.verification.seamless.initialization.SeamlessInitiationData
-import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
-import com.sinch.verification.utils.changeProcessNetworkTo
-import com.sinch.verification.utils.permission.Permission
-import com.sinch.verification.utils.permission.PermissionUtils
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
@@ -23,6 +16,13 @@ import com.sinch.verification.core.verification.VerificationApiCallback
 import com.sinch.verification.core.verification.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
+import com.sinch.verification.seamless.config.SeamlessVerificationConfig
+import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
+import com.sinch.verification.seamless.initialization.SeamlessInitiationData
+import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
+import com.sinch.verification.utils.changeProcessNetworkTo
+import com.sinch.verification.utils.permission.Permission
+import com.sinch.verification.utils.permission.PermissionUtils
 
 typealias  EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
 typealias  SimpleInitializationSeamlessApiCallback = InitiationApiCallback<SeamlessInitiationResponseData>

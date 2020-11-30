@@ -8,7 +8,6 @@ import com.sinch.verification.callout.initialization.CalloutVerificationInitiali
 import com.sinch.verification.callout.verification.CalloutVerificationData
 import com.sinch.verification.callout.verification.CalloutVerificationDetails
 import com.sinch.verification.callout.verification.interceptor.CalloutInterceptor
-import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
@@ -20,6 +19,7 @@ import com.sinch.verification.core.verification.VerificationApiCallback
 import com.sinch.verification.core.verification.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
+import com.sinch.verification.utils.MAX_TIMEOUT
 
 typealias EmptyCalloutInitializationListener = EmptyInitializationListener<CalloutInitializationResponseData>
 typealias SimpleInitializationCalloutApiCallback = InitiationApiCallback<CalloutInitializationResponseData>

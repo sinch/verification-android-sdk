@@ -7,14 +7,14 @@ import com.sinch.verification.callout.config.CalloutVerificationConfig
 import com.sinch.verification.callout.initialization.CalloutInitializationListener
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
 import com.sinch.verification.callout.verification.CalloutVerificationData
-import com.sinch.verification.utils.MAX_TIMEOUT
-import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.VerificationStatus
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
 import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.core.verification.response.VerificationResponseData
+import com.sinch.verification.utils.MAX_TIMEOUT
+import com.sinch.verification.utils.permission.Permission
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before

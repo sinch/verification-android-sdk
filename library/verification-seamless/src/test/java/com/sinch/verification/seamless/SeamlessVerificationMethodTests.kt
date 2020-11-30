@@ -3,11 +3,6 @@ package com.sinch.verification.seamless
 import android.app.Application
 import android.os.Build
 import androidx.test.core.app.ApplicationProvider
-import com.sinch.verification.seamless.config.SeamlessVerificationConfig
-import com.sinch.verification.seamless.initialization.SeamlessInitializationDetails
-import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
-import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
-import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.internal.VerificationState
 import com.sinch.verification.core.internal.VerificationStateStatus
@@ -15,6 +10,11 @@ import com.sinch.verification.core.internal.VerificationStatus
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.core.verification.response.VerificationResponseData
+import com.sinch.verification.seamless.config.SeamlessVerificationConfig
+import com.sinch.verification.seamless.initialization.SeamlessInitializationDetails
+import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
+import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
+import com.sinch.verification.utils.permission.Permission
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Assert.assertEquals

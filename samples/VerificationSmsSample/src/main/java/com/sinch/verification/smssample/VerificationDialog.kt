@@ -7,13 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
+import com.sinch.verification.core.VerificationInitData
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.sms.SmsVerificationMethod
 import com.sinch.verification.sms.config.SmsVerificationConfig
 import com.sinch.verification.sms.initialization.SmsInitializationListener
 import com.sinch.verification.sms.initialization.SmsInitiationResponseData
-import com.sinch.verification.core.VerificationInitData
-import com.sinch.verification.core.internal.Verification
-import com.sinch.verification.core.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import java.util.*
 

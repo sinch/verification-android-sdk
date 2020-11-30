@@ -4,12 +4,12 @@ import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.verification.callout.CalloutVerificationMethod
 import com.sinch.verification.callout.CalloutVerificationService
 import com.sinch.verification.core.BaseVerificationMethodConfigBuilder
-import com.sinch.verificationcore.BuildConfig
 import com.sinch.verification.core.config.GlobalConfigSetter
 import com.sinch.verification.core.config.InitialSetter
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.method.VerificationMethodConfig
 import com.sinch.verification.core.verification.VerificationLanguage
+import com.sinch.verificationcore.BuildConfig
 
 /**
  * Configuration used by [CalloutVerificationMethod] to handle callout verification.

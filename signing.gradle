@@ -7,7 +7,7 @@ android {
             storePassword storePasswordSinch
         }
     }
-    
+
     buildTypes {
         release {
             signingConfig signingConfigs.release

@@ -5,6 +5,12 @@ import android.content.Context
 import android.os.Build
 import android.telephony.TelephonyManager
 import androidx.test.core.app.ApplicationProvider
+import com.sinch.verification.core.config.general.GlobalConfig
+import com.sinch.verification.core.internal.VerificationStatus
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.error.VerificationException
+import com.sinch.verification.core.verification.response.VerificationListener
+import com.sinch.verification.core.verification.response.VerificationResponseData
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
@@ -12,12 +18,6 @@ import com.sinch.verification.flashcall.initialization.FlashCallInitializationRe
 import com.sinch.verification.flashcall.report.FlashCallReportData
 import com.sinch.verification.flashcall.report.FlashCallReportDetails
 import com.sinch.verification.utils.permission.Permission
-import com.sinch.verification.core.config.general.GlobalConfig
-import com.sinch.verification.core.internal.VerificationStatus
-import com.sinch.verification.core.internal.error.CodeInterceptionException
-import com.sinch.verification.core.internal.error.VerificationException
-import com.sinch.verification.core.verification.response.VerificationListener
-import com.sinch.verification.core.verification.response.VerificationResponseData
 import io.mockk.*
 import io.mockk.impl.annotations.MockK
 import org.junit.Before
