@@ -22,7 +22,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class AutoInitializationResponseData(
     @SerialName("id") override val id: String,
-    @SerialName("auto") val autoDetails: AutoInitializationResponseDetails,
+    @SerialName("auto") val autoDetails: AutoInitializationResponseDetails = AutoInitializationResponseDetails(
+        methodsOrder = emptyList()
+    ),
     @SerialName("sms") val smsDetails: SmsInitializationDetails? = null,
     @SerialName("flashCall") val flashcallDetails: FlashCallInitializationDetails? = null,
     @SerialName("callout") val calloutDetails: CalloutInitializationDetails? = null,
