@@ -1,23 +1,25 @@
 package com.sinch.verification.callout.verification
 
 import com.sinch.verification.core.internal.VerificationMethodType
-import com.sinch.verification.core.verification.VerificationData
-import com.sinch.verification.core.verification.VerificationSourceType
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.sinch.verification.core.verification.model.VerificationData
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.model.callout.CalloutVerificationDetails
+import com.sinch.verification.core.verification.model.flashcall.FlashCallVerificationDetails
+import com.sinch.verification.core.verification.model.sms.SmsVerificationDetails
 
 /**
  * Class containing detailed information for the actual verification API request. Note that the user
  * has to manually type the code thus source is always [VerificationSourceType.MANUAL].
- * @property details Details of the request.
+ * @property calloutDetails Details of the request.
  */
-@Serializable
 data class CalloutVerificationData(
-    @SerialName("callout") val details: CalloutVerificationDetails
-) : VerificationData {
-    @SerialName("method")
-    override val method: VerificationMethodType = VerificationMethodType.CALLOUT
+    override val calloutDetails: CalloutVerificationDetails
+) : VerificationData(VerificationMethodType.CALLOUT) {
 
-    @SerialName("source")
     override val source: VerificationSourceType = VerificationSourceType.MANUAL
+
+    override val smsDetails: SmsVerificationDetails? = null
+
+    override val flashcallDetails: FlashCallVerificationDetails? = null
+
 }

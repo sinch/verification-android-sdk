@@ -13,7 +13,7 @@ import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
-import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig

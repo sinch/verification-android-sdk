@@ -5,10 +5,10 @@ import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import com.sinch.verification.core.internal.error.CodeInterceptionException
 import com.sinch.verification.core.internal.pattern.PatternMatcher
-import com.sinch.verification.core.verification.VerificationSourceType
 import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import com.sinch.verification.flashcall.FlashCallVerificationService

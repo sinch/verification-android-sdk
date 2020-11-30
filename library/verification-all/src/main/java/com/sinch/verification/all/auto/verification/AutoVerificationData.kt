@@ -1,22 +1,20 @@
 package com.sinch.verification.all.auto.verification
 
-import com.sinch.verification.callout.verification.CalloutVerificationDetails
 import com.sinch.verification.core.internal.VerificationMethodType
-import com.sinch.verification.core.verification.VerificationData
-import com.sinch.verification.core.verification.VerificationSourceType
-import com.sinch.verification.flashcall.verification.FlashCallVerificationDetails
-import com.sinch.verification.sms.verification.SmsVerificationDetails
+import com.sinch.verification.core.verification.model.VerificationData
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.model.callout.CalloutVerificationDetails
+import com.sinch.verification.core.verification.model.flashcall.FlashCallVerificationDetails
+import com.sinch.verification.core.verification.model.sms.SmsVerificationDetails
 import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class AutoVerificationData(
     @SerialName("method") override val method: VerificationMethodType,
     @SerialName("source") override val source: VerificationSourceType,
-    @SerialName("sms") val smsDetails: SmsVerificationDetails? = null,
-    @SerialName("flashCall") val flashcallDetails: FlashCallVerificationDetails? = null,
-    @SerialName("callout") val calloutDetails: CalloutVerificationDetails? = null
-) : VerificationData {
+    @SerialName("sms") override val smsDetails: SmsVerificationDetails? = null,
+    @SerialName("flashCall") override val flashcallDetails: FlashCallVerificationDetails? = null,
+    @SerialName("callout") override val calloutDetails: CalloutVerificationDetails? = null
+) : VerificationData(method) {
 
     companion object {
 

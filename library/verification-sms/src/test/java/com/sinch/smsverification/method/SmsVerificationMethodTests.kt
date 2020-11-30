@@ -243,7 +243,7 @@ class SmsVerificationMethodTests {
         )
         every {
             mockedService.verifyNumber(any(), match {
-                it.details.code == VERIFICATION_CODE
+                it.smsDetails.code == VERIFICATION_CODE
             })
         }.returns(
             Calls.response(mockedVerResponse)

@@ -7,9 +7,9 @@ import android.provider.CallLog
 import android.telephony.TelephonyManager
 import androidx.test.core.app.ApplicationProvider
 import com.sinch.verification.core.internal.error.CodeInterceptionException
-import com.sinch.verification.core.verification.VerificationSourceType
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.flashcall.CallHistory.historyNum2
 import com.sinch.verification.flashcall.CliTemplates.correctNumber1
 import com.sinch.verification.flashcall.verification.callhistory.ContentProviderCallHistoryReader
