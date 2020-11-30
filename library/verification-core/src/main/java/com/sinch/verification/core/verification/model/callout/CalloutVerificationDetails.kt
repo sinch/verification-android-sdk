@@ -1,4 +1,4 @@
-package com.sinch.verification.callout.verification
+package com.sinch.verification.core.verification.model.callout
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

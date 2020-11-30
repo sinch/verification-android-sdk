@@ -17,7 +17,7 @@ import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
-import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.sms.initialization.SmsOptions
@@ -80,8 +80,9 @@ class AutoVerificationMethod private constructor(
     }
 
     private fun proceedToNextVerificationMethod() {
-        currentVerificationMethod = autoInitializationResponseData?.autoDetails?.methodAfter(currentVerificationMethod)
-        if (currentVerificationMethod == VerificationMethodType.SEAMLESS) {
+        currentVerificationMethod =
+            autoInitializationResponseData?.autoDetails?.methodAfter(currentVerificationMethod)
+        if (currentVerificationMethod == VerificationMethodType.SEAMLESS || currentVerificationMethod == null) {
             tryVerifySeamlessly()
         }
     }
@@ -124,7 +125,7 @@ class AutoVerificationMethod private constructor(
         val verificationData =
             AutoVerificationData.create(currentVerificationMethod, sourceType, verificationCode)
 
-        verificationService.verifyNumber(
+        verificationService.verifyById(
             subVerificationId = currentSubVerificationId,
             data = verificationData
         ).enqueue(retrofit, VerificationApiCallback(verificationListener, this))

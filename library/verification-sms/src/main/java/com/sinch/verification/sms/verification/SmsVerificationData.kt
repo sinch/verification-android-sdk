@@ -1,23 +1,25 @@
 package com.sinch.verification.sms.verification
 
 import com.sinch.verification.core.internal.VerificationMethodType
-import com.sinch.verification.core.verification.VerificationData
-import com.sinch.verification.core.verification.VerificationSourceType
-import kotlinx.serialization.SerialName
-import kotlinx.serialization.Serializable
+import com.sinch.verification.core.verification.model.VerificationData
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.model.callout.CalloutVerificationDetails
+import com.sinch.verification.core.verification.model.flashcall.FlashCallVerificationDetails
+import com.sinch.verification.core.verification.model.sms.SmsVerificationDetails
 
 /**
  * Class containing data that is passed to the backend as the actual code verification check.
  * @property source Source of the verification code.
- * @property details Details of the request.
+ * @property smsDetails Details of the request.
  * @property method Method of the verification. Always [VerificationMethodType.SMS]
  */
-@Serializable
 data class SmsVerificationData(
-    @SerialName("source") override val source: VerificationSourceType,
-    @SerialName("sms") val details: SmsVerificationDetails
-) : VerificationData {
+    override val source: VerificationSourceType,
+    override val smsDetails: SmsVerificationDetails
+) : VerificationData(VerificationMethodType.SMS) {
 
-    @SerialName("method")
-    override val method: VerificationMethodType = VerificationMethodType.SMS
+    override val flashcallDetails: FlashCallVerificationDetails? = null
+
+    override val calloutDetails: CalloutVerificationDetails? = null
+
 }

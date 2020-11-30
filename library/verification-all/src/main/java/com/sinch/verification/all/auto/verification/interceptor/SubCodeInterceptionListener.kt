@@ -1,8 +1,8 @@
 package com.sinch.verification.all.auto.verification.interceptor
 
 import com.sinch.verification.core.internal.VerificationMethodType
-import com.sinch.verification.core.verification.VerificationSourceType
 import com.sinch.verification.core.verification.interceptor.CodeInterceptor
+import com.sinch.verification.core.verification.model.VerificationSourceType
 
 /**
  * Listener defining callbacks invoked by [CodeInterceptor]s that are used by[AutoVerificationInterceptor].

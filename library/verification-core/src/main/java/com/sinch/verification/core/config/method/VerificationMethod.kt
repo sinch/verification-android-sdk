@@ -7,8 +7,8 @@ import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.VerificationState
 import com.sinch.verification.core.internal.VerificationStateListener
 import com.sinch.verification.core.internal.VerificationStateStatus
-import com.sinch.verification.core.verification.VerificationSourceType
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
 
