@@ -21,8 +21,9 @@ interface Verification {
     /**
      * Verifies if provided code is correct.
      * @param verificationCode Code to be verified.
+     * @param method Method of the verification if multiple submethods are available (auto verification).
      */
-    fun verify(verificationCode: String)
+    fun verify(verificationCode: String, method: VerificationMethodType? = null)
 
     /**
      * Stops the verification process. You can still verify the code manually for given verification, however all

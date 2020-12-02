@@ -7,6 +7,7 @@ import com.sinch.verification.core.initiation.InitiationApiCallback
 import com.sinch.verification.core.initiation.VerificationIdentity
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
 import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.IgnoredUnitApiCallback
@@ -82,7 +83,7 @@ class FlashCallVerificationMethod private constructor(
         )
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
+    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType?) {
         verificationService.verifyNumber(
             number = config.number,
             data = FlashCallVerificationData(

@@ -21,7 +21,9 @@
     <string name="reference">Reference field</string>
     <string name="honourEarlyReject">Honours early reject</string>
     <string name="acceptedLanguages">Accepted languages</string>
-    <string name="verificationCode">Verification code</string>
+    <string name="smsVerificationCode">Sms verification code</string>
+    <string name="flashCallNumber">Flashcall number</string>
+    <string name="calloutCode">Callout verification code</string>
     <string name="verificationFailedPlaceholder">Verification failed: %s</string>
     <string name="verificationInProgress">Verification in progress</string>
     <string name="successfullyVerified">Successfully Verified!</string>

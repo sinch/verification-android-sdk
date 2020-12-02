@@ -29,9 +29,7 @@ class VerificationSampleApp : Application() {
     }
 
     private fun initLogger() {
-        if (BuildConfig.DEBUG) {
-            Log.init(LogcatAppender())
-        }
+        Log.init(LogcatAppender(), EventBusAppender())
     }
 
     private fun buildGlobalConfig(apiHost: String, appKey: String): GlobalConfig =

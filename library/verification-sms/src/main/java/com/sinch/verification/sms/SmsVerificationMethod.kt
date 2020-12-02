@@ -8,6 +8,7 @@ import com.sinch.verification.core.initiation.InitiationApiCallback
 import com.sinch.verification.core.initiation.VerificationIdentity
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
 import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
 import com.sinch.verification.core.verification.asLanguagesString
@@ -83,7 +84,7 @@ class SmsVerificationMethod private constructor(
             )
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
+    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType?) {
         verificationService.verifyNumber(
             number = config.number,
             data = SmsVerificationData(sourceType, SmsVerificationDetails(verificationCode))
