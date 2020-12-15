@@ -62,6 +62,7 @@ class AutoVerificationMethod private constructor(
                         this.autoInitializationResponseData = it
                         this.initializeInterceptors()
                         this.proceedToNextVerificationMethod()
+                        this.tryVerifySeamlessly()
                     }
                 ))
     }
@@ -83,12 +84,13 @@ class AutoVerificationMethod private constructor(
         currentVerificationMethod =
             autoInitializationResponseData?.autoDetails?.methodAfter(currentVerificationMethod)
         if (currentVerificationMethod == VerificationMethodType.SEAMLESS || currentVerificationMethod == null) {
-            tryVerifySeamlessly()
+            //tryVerifySeamlessly() For now we try at first
         }
     }
 
     private fun tryVerifySeamlessly() {
         autoInitializationResponseData?.seamlessDetails?.let {
+            logger.info("Trying to verify seamlessly")
             verificationService.verifySeamless(it.targetUri)
                 .enqueue(
                     retrofit = retrofit,
@@ -115,15 +117,21 @@ class AutoVerificationMethod private constructor(
 
     override fun onSubCodeInterceptionStopped(method: VerificationMethodType) {}
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
-        val currentVerificationMethod = currentVerificationMethod ?: return
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
+        val verificationMethod = (method ?: currentVerificationMethod) ?: return
         val autoInitializationResponseData = autoInitializationResponseData ?: return
         val currentSubVerificationId =
-            autoInitializationResponseData.subVerificationDetails(currentVerificationMethod)?.subVerificationId
+            autoInitializationResponseData.subVerificationDetails(verificationMethod)?.subVerificationId
                 ?: return
 
         val verificationData =
-            AutoVerificationData.create(currentVerificationMethod, sourceType, verificationCode)
+            AutoVerificationData.create(verificationMethod, sourceType, verificationCode)
+
+        logger.info("Trying to verify with $method")
 
         verificationService.verifyById(
             subVerificationId = currentSubVerificationId,
