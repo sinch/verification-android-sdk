@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.verification.VerificationEvent
 import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.sms.SmsVerificationMethod
 import com.sinch.verification.sms.config.SmsVerificationConfig
@@ -74,7 +75,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             .also { it.initiate() }
 
         verifyButton.setOnClickListener {
-            verification.verify(codeInput.editText?.text.toString())
+            verification.verify(smsVerificationCodeInput.editText?.text.toString())
         }
         quitButton.setOnClickListener {
             verification.stop()
@@ -88,7 +89,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             setTextColor(ContextCompat.getColor(app, R.color.green))
             text = getString(R.string.successfullyVerified)
             quitButton.text = getString(R.string.close)
-            codeInput.visibility = View.GONE
+            smsVerificationCodeInput.visibility = View.GONE
             verifyButton.visibility = View.GONE
         }
     }
@@ -96,6 +97,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     override fun onVerificationFailed(t: Throwable) {
         showErrorWithMessage(t.message.orEmpty())
     }
+
+    override fun onVerificationEvent(event: VerificationEvent) {}
 
     private fun showErrorWithMessage(text: String) {
         progressBar.hide()

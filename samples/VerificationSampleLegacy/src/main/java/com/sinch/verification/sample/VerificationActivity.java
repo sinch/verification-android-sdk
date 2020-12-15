@@ -22,6 +22,7 @@ import com.sinch.verification.core.config.general.SinchGlobalConfig;
 import com.sinch.verification.core.initiation.response.InitiationListener;
 import com.sinch.verification.core.internal.Verification;
 import com.sinch.verification.core.internal.error.CodeInterceptionException;
+import com.sinch.verification.core.verification.VerificationEvent;
 import com.sinch.verification.core.verification.response.VerificationListener;
 import com.sinch.verification.flashcall.FlashCallVerificationMethod;
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig;
@@ -181,7 +182,7 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
         String code = ((EditText) findViewById(R.id.inputCode)).getText().toString();
         if (!code.isEmpty()) {
             if (mVerification != null) {
-                mVerification.verify(code);
+                mVerification.verify(code, null);
                 showProgress();
                 TextView messageText = (TextView) findViewById(R.id.textView);
                 messageText.setText("Verification in progress");
@@ -249,6 +250,10 @@ public class VerificationActivity extends Activity implements ActivityCompat.OnR
             hideProgressAndShowMessage(R.string.failed);
         }
         enableInputField(true);
+    }
+
+    @Override
+    public void onVerificationEvent(@NotNull VerificationEvent event) {
     }
 
     private class MySmsInitListener implements InitiationListener<SmsInitiationResponseData> {

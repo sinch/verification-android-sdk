@@ -1,8 +1,8 @@
 apply plugin: 'kotlinx-serialization'
 
 def versionMajor = 2
-def versionMinor = 0
-def versionPatch = 1
+def versionMinor = 1
+def versionPatch = 0
 def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
 
 ext {
@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
-    api "com.sinch.android.sdk.verification:verification-callout:${Versions.calloutSdk}"
+    api "com.sinch.android.sdk.verification:verification-callout:${Versions.defaultSinchSdk}"
     api "com.sinch.android.sdk.verification:verification-flashcall:${Versions.defaultSinchSdk}"
     api "com.sinch.android.sdk.verification:verification-seamless:${Versions.defaultSinchSdk}"
     api "com.sinch.android.sdk.verification:verification-sms:${Versions.defaultSinchSdk}"

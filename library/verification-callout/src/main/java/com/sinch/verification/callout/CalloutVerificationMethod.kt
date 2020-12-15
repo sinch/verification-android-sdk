@@ -59,7 +59,11 @@ class CalloutVerificationMethod private constructor(
         )
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType?) {
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
         verificationService.verifyNumber(
             number = config.number,
             data = CalloutVerificationData(calloutDetails = CalloutVerificationDetails(code = verificationCode))

@@ -77,7 +77,11 @@ class SeamlessVerificationMethod private constructor(
                 ))
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType?) {
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
         val cellularNetwork = connectivityManager.allNetworks.firstOrNull {
             connectivityManager.getNetworkCapabilities(it)
                 ?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false

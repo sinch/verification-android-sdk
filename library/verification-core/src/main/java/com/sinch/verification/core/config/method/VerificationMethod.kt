@@ -52,7 +52,11 @@ abstract class VerificationMethod<Service>(
      * @param verificationCode Code to be verified.
      * @param sourceType Source of the verification code.
      */
-    fun verify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType? = null) {
+    fun verify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType? = null
+    ) {
         if (verificationState.canVerify) {
             logger.debug("Verifying $verificationCode from source: $sourceType")
             update(VerificationState.Verification(VerificationStateStatus.ONGOING))
@@ -111,7 +115,11 @@ abstract class VerificationMethod<Service>(
      * Function called when code needs to be verified. Verification method specific API calls
      * should be implemented here.
      */
-    protected abstract fun onVerify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType?)
+    protected abstract fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    )
 
     /**
      * Function called when entire verification code interception process has stopped.

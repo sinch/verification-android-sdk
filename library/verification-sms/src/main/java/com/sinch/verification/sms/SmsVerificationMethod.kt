@@ -84,7 +84,11 @@ class SmsVerificationMethod private constructor(
             )
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType, method: VerificationMethodType?) {
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
         verificationService.verifyNumber(
             number = config.number,
             data = SmsVerificationData(sourceType, SmsVerificationDetails(verificationCode))
