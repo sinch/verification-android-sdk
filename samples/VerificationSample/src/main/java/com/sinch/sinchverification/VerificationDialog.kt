@@ -10,7 +10,6 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
-import com.sinch.logging.logger
 import com.sinch.verification.all.BasicVerificationMethodBuilder
 import com.sinch.verification.all.CommonVerificationInitializationParameters
 import com.sinch.verification.all.auto.initialization.AutoInitializationResponseData
@@ -19,6 +18,7 @@ import com.sinch.verification.core.initiation.response.InitiationListener
 import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.verification.VerificationEvent
 import com.sinch.verification.core.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import org.greenrobot.eventbus.EventBus
@@ -143,8 +143,12 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         }
     }
 
+    override fun onVerificationEvent(event: VerificationEvent) {
+        appendLoggerText("Verification event received $event")
+    }
+
     private fun appendLoggerText(txt: String) {
-        val initialText = if(loggerText.text.isNullOrBlank()) "" else "${loggerText.text}\n"
+        val initialText = if (loggerText.text.isNullOrBlank()) "" else "${loggerText.text}\n"
         loggerText.text = "$initialText${txt}"
         debugScrollView.post {
             debugScrollView.fullScroll(View.FOCUS_DOWN)

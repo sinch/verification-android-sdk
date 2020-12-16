@@ -1,6 +1,7 @@
 package com.sinch.verification.callout.verification.interceptor
 
 import com.sinch.verification.callout.CalloutVerificationMethod
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
@@ -16,7 +17,11 @@ class CalloutInterceptor(
     interceptionTimeout: Long,
     interceptionListener: CodeInterceptionListener
 ) :
-    BasicCodeInterceptor(interceptionTimeout, interceptionListener) {
+    BasicCodeInterceptor(
+        interceptionTimeout,
+        interceptionListener,
+        VerificationMethodType.CALLOUT
+    ) {
 
     override fun onInterceptorStarted() {}
 

@@ -2,6 +2,7 @@ package com.sinch.verification.core.verification.interceptor
 
 import android.os.Handler
 import com.sinch.logging.logger
+import com.sinch.verification.core.internal.VerificationMethodType
 import kotlin.properties.Delegates
 
 /**
@@ -9,7 +10,8 @@ import kotlin.properties.Delegates
  */
 abstract class BasicCodeInterceptor(
     timeoutInitial: Long,
-    override val interceptionListener: CodeInterceptionListener
+    override val interceptionListener: CodeInterceptionListener,
+    final override val method: VerificationMethodType
 ) : CodeInterceptor {
 
     protected val cancelHandler = Handler()

@@ -47,7 +47,7 @@ android {
             buildConfigField "String", "APP_KEY_FTEST2", "\"$testAppFtest2Key\""
             buildConfigField "String", "APP_KEY_FTEST2_BROK", "\"$testAppFtest2BrokKey\""
 
-            buildConfigField "String", "API_BASE_URL_PROD", "\"https://apse1-std-verification.api.sinch.com/\""
+            buildConfigField "String", "API_BASE_URL_PROD", "\"https://verificationapi-v1.sinch.com/\""
             buildConfigField "String", "API_BASE_URL_PROD_BROK", "\"https://verification.api.sinch.com/\""
             buildConfigField "String", "API_BASE_URL_FTEST1", "\"https://verificationapi-v1-01.sinchlab.com/\""
             buildConfigField "String", "API_BASE_URL_FTEST1_BROK", "\"https://ft1-verification.api.sinchlab.com/\""

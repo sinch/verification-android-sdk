@@ -3,6 +3,7 @@ package com.sinch.verification.sms.verification.interceptor
 import android.content.Context
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.tasks.OnFailureListener
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.error.CodeInterceptionException
 import com.sinch.verification.core.verification.CodeExtractorListener
 import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
@@ -23,7 +24,8 @@ class SmsCodeInterceptor(
     private val context: Context,
     interceptionTimeout: Long,
     interceptionListener: CodeInterceptionListener
-) : BasicCodeInterceptor(interceptionTimeout, interceptionListener), OnFailureListener,
+) : BasicCodeInterceptor(interceptionTimeout, interceptionListener, VerificationMethodType.SMS),
+    OnFailureListener,
     SmsBroadcastListener, CodeExtractorListener {
 
     private val smsRetrieverClient by lazy {
