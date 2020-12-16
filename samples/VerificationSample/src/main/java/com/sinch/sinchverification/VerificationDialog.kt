@@ -143,10 +143,6 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         }
     }
 
-    override fun onVerificationEvent(event: VerificationEvent) {
-        appendLoggerText("Verification event received $event")
-    }
-
     private fun appendLoggerText(txt: String) {
         val initialText = if (loggerText.text.isNullOrBlank()) "" else "${loggerText.text}\n"
         loggerText.text = "$initialText${txt}"

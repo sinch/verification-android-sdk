@@ -24,5 +24,5 @@ interface VerificationListener {
      * For specific events and usage see verification method specific documentation.
      * @param event Data containing information about the verification process.
      */
-    fun onVerificationEvent(event: VerificationEvent)
+    fun onVerificationEvent(event: VerificationEvent) {}
 }
