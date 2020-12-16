@@ -1,9 +1,9 @@
 package com.sinch.verification.sms.verification.interceptor.processor
 
-import com.sinch.verification.sms.verification.extractor.SmsCodeExtractor
 import com.sinch.verification.core.internal.error.CodeInterceptionException
 import com.sinch.verification.core.internal.pattern.CodeExtractor
 import com.sinch.verification.core.verification.CodeExtractorListener
+import com.sinch.verification.sms.verification.extractor.SmsCodeExtractor
 
 /**
  * [MessageProcessor] that creates proper instances of [SmsCodeExtractor] and uses it to notify the

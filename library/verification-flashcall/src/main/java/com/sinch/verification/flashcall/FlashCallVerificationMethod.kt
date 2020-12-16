@@ -1,6 +1,21 @@
 package com.sinch.verification.flashcall
 
 import com.sinch.logging.logger
+import com.sinch.verification.core.config.method.AutoInterceptedVerificationMethod
+import com.sinch.verification.core.config.method.VerificationMethodCreator
+import com.sinch.verification.core.initiation.InitiationApiCallback
+import com.sinch.verification.core.initiation.VerificationIdentity
+import com.sinch.verification.core.initiation.response.EmptyInitializationListener
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.error.VerificationException
+import com.sinch.verification.core.internal.utils.enqueue
+import com.sinch.verification.core.verification.IgnoredUnitApiCallback
+import com.sinch.verification.core.verification.VerificationApiCallback
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.model.flashcall.FlashCallVerificationDetails
+import com.sinch.verification.core.verification.response.EmptyVerificationListener
+import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.flashcall.config.FlashCallVerificationConfig
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationListener
@@ -9,26 +24,12 @@ import com.sinch.verification.flashcall.initialization.FlashCallVerificationInit
 import com.sinch.verification.flashcall.report.FlashCallReportData
 import com.sinch.verification.flashcall.report.FlashCallReportDetails
 import com.sinch.verification.flashcall.verification.FlashCallVerificationData
-import com.sinch.verification.flashcall.verification.FlashCallVerificationDetails
 import com.sinch.verification.flashcall.verification.callhistory.ContentProviderCallHistoryReader
 import com.sinch.verification.flashcall.verification.interceptor.CodeInterceptionState
 import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterceptor
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
-import com.sinch.verification.core.config.method.AutoInterceptedVerificationMethod
-import com.sinch.verification.core.config.method.VerificationMethodCreator
-import com.sinch.verification.core.initiation.InitiationApiCallback
-import com.sinch.verification.core.initiation.VerificationIdentity
-import com.sinch.verification.core.initiation.response.EmptyInitializationListener
-import com.sinch.verification.core.internal.Verification
-import com.sinch.verification.core.internal.error.VerificationException
-import com.sinch.verification.core.internal.utils.enqueue
-import com.sinch.verification.core.verification.IgnoredUnitApiCallback
-import com.sinch.verification.core.verification.VerificationApiCallback
-import com.sinch.verification.core.verification.VerificationSourceType
-import com.sinch.verification.core.verification.response.EmptyVerificationListener
-import com.sinch.verification.core.verification.response.VerificationListener
 import java.util.*
 
 typealias EmptyFlashCallInitializationListener = EmptyInitializationListener<FlashCallInitializationResponseData>
@@ -82,7 +83,11 @@ class FlashCallVerificationMethod private constructor(
         )
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
         verificationService.verifyNumber(
             number = config.number,
             data = FlashCallVerificationData(

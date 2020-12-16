@@ -1,17 +1,19 @@
 package com.sinch.verification.flashcall
 
+import com.sinch.verification.core.verification.VerificationService
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationResponseData
 import com.sinch.verification.flashcall.initialization.FlashCallVerificationInitializationData
 import com.sinch.verification.flashcall.report.FlashCallReportData
-import com.sinch.verification.flashcall.verification.FlashCallVerificationData
-import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Path
 
 /**
  * Retrofit service responsible for making API calls used by [FlashCallVerificationMethod].
  */
-interface FlashCallVerificationService {
+interface FlashCallVerificationService : VerificationService {
 
     /**
      * Initializes the verification process.
@@ -22,18 +24,6 @@ interface FlashCallVerificationService {
     fun initializeVerification(
         @Body data: FlashCallVerificationInitializationData
     ): Call<FlashCallInitializationResponseData>
-
-    /**
-     * Verifies if the verification code (incoming flashcall number) is correct.
-     * @param number Number to be verified.
-     * @param data Verification data required for flashcall verification API call.
-     * @return A [Call] object for the request.
-     */
-    @PUT("verifications/number/{number}")
-    fun verifyNumber(
-        @Path("number") number: String,
-        @Body data: FlashCallVerificationData
-    ): Call<VerificationResponseData>
 
     /**
      * Sends verification analytics data to the backend.

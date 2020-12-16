@@ -34,6 +34,7 @@ class VerificationApiCallback(
             In some case even though we got 200 status code the status field is set to ERROR.
              */
             if (data.status == VerificationStatus.SUCCESSFUL) {
+                logger.info("Successfully verified with ${data.method}")
                 handleSuccessfulVerification()
             } else {
                 handleError(VerificationException(data.errorReason.orEmpty()))

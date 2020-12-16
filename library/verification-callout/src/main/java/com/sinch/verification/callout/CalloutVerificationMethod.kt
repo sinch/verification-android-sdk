@@ -6,20 +6,21 @@ import com.sinch.verification.callout.initialization.CalloutInitializationListen
 import com.sinch.verification.callout.initialization.CalloutInitializationResponseData
 import com.sinch.verification.callout.initialization.CalloutVerificationInitializationData
 import com.sinch.verification.callout.verification.CalloutVerificationData
-import com.sinch.verification.callout.verification.CalloutVerificationDetails
 import com.sinch.verification.callout.verification.interceptor.CalloutInterceptor
-import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
 import com.sinch.verification.core.initiation.VerificationIdentity
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
 import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
-import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.model.callout.CalloutVerificationDetails
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
+import com.sinch.verification.utils.MAX_TIMEOUT
 
 typealias EmptyCalloutInitializationListener = EmptyInitializationListener<CalloutInitializationResponseData>
 typealias SimpleInitializationCalloutApiCallback = InitiationApiCallback<CalloutInitializationResponseData>
@@ -58,10 +59,14 @@ class CalloutVerificationMethod private constructor(
         )
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
         verificationService.verifyNumber(
             number = config.number,
-            data = CalloutVerificationData(details = CalloutVerificationDetails(code = verificationCode))
+            data = CalloutVerificationData(calloutDetails = CalloutVerificationDetails(code = verificationCode))
         ).enqueue(
             retrofit = retrofit,
             apiCallback = VerificationApiCallback(verificationListener, this)

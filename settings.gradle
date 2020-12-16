@@ -1,4 +1,4 @@
-rootProject.name='SinchVerification'
+rootProject.name = 'SinchVerification'
 include ':library:metadata-collector'
 include ':library:utils'
 include ':library:logging'

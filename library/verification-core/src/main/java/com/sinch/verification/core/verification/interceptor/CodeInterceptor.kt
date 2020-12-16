@@ -1,5 +1,6 @@
 package com.sinch.verification.core.verification.interceptor
 
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.response.VerificationListener
 
 /**
@@ -19,6 +20,11 @@ interface CodeInterceptor {
     val interceptionListener: CodeInterceptionListener
 
     /**
+     * Method that given interceptor is capable of intercepting codes from.
+     */
+    val method: VerificationMethodType
+
+    /**
      * Current state of the interception process.
      */
     val state: InterceptorState
@@ -32,4 +38,5 @@ interface CodeInterceptor {
      * Stops the interceptor.
      */
     fun stop()
+
 }

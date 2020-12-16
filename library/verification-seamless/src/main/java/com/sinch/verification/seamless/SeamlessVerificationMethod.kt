@@ -4,6 +4,19 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import com.sinch.logging.logger
+import com.sinch.verification.core.config.method.VerificationMethod
+import com.sinch.verification.core.config.method.VerificationMethodCreator
+import com.sinch.verification.core.initiation.InitiationApiCallback
+import com.sinch.verification.core.initiation.VerificationIdentity
+import com.sinch.verification.core.initiation.response.EmptyInitializationListener
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.error.VerificationException
+import com.sinch.verification.core.internal.utils.enqueue
+import com.sinch.verification.core.verification.VerificationApiCallback
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.response.EmptyVerificationListener
+import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
 import com.sinch.verification.seamless.initialization.SeamlessInitiationData
@@ -11,18 +24,6 @@ import com.sinch.verification.seamless.initialization.SeamlessInitiationResponse
 import com.sinch.verification.utils.changeProcessNetworkTo
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
-import com.sinch.verification.core.config.method.VerificationMethod
-import com.sinch.verification.core.config.method.VerificationMethodCreator
-import com.sinch.verification.core.initiation.InitiationApiCallback
-import com.sinch.verification.core.initiation.VerificationIdentity
-import com.sinch.verification.core.initiation.response.EmptyInitializationListener
-import com.sinch.verification.core.internal.Verification
-import com.sinch.verification.core.internal.error.VerificationException
-import com.sinch.verification.core.internal.utils.enqueue
-import com.sinch.verification.core.verification.VerificationApiCallback
-import com.sinch.verification.core.verification.VerificationSourceType
-import com.sinch.verification.core.verification.response.EmptyVerificationListener
-import com.sinch.verification.core.verification.response.VerificationListener
 
 typealias  EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
 typealias  SimpleInitializationSeamlessApiCallback = InitiationApiCallback<SeamlessInitiationResponseData>
@@ -76,7 +77,11 @@ class SeamlessVerificationMethod private constructor(
                 ))
     }
 
-    override fun onVerify(verificationCode: String, sourceType: VerificationSourceType) {
+    override fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    ) {
         val cellularNetwork = connectivityManager.allNetworks.firstOrNull {
             connectivityManager.getNetworkCapabilities(it)
                 ?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false

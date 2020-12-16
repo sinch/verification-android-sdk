@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.sinch.verification.core.verification
+package com.sinch.verification.core.verification.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

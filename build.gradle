@@ -1,5 +1,4 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-import com.android.build.gradle.internal.dsl.SigningConfig
 
 apply from: file('testlogger.gradle')
 
@@ -25,7 +24,7 @@ buildscript {
         google()
         jcenter()
         maven {
-            url  "https://sinch.bintray.com/com.sinch.android.sdk.verification"
+            url "https://sinch.bintray.com/com.sinch.android.sdk.verification"
             credentials {
                 username bintrayUser
                 password bintrayApiKey
@@ -50,7 +49,7 @@ allprojects {
         google()
         jcenter()
         maven {
-            url  "https://sinch.bintray.com/com.sinch.android.sdk.verification"
+            url "https://sinch.bintray.com/com.sinch.android.sdk.verification"
             credentials {
                 username bintrayUser
                 password bintrayApiKey
@@ -62,7 +61,9 @@ allprojects {
 subprojects {
     configurations.all {
         resolutionStrategy.dependencySubstitution {
-            if (shouldUseJcenterDeps) { return }
+            if (shouldUseJcenterDeps) {
+                return
+            }
             substitute module("com.sinch.android.sdk.verification:metadata-collector") with project(":library:metadata-collector")
             substitute module("com.sinch.android.sdk.verification:utils") with project(":library:utils")
             substitute module("com.sinch.android.sdk.verification:logging") with project(":library:logging")

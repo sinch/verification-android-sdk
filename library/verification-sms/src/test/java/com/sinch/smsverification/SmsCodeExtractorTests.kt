@@ -2,8 +2,8 @@
 
 package com.sinch.smsverification
 
-import com.sinch.verification.sms.verification.extractor.SmsCodeExtractor
 import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.sms.verification.extractor.SmsCodeExtractor
 import org.junit.Assert
 import org.junit.Test
 
@@ -103,7 +103,7 @@ class SmsCodeExtractorTests {
     @Test
     fun testEmptyCodeReturnsNull() {
         val extractor = SmsCodeExtractor(template1)
-        val emptyCodeMessage =  "Your code is "
+        val emptyCodeMessage = "Your code is "
         Assert.assertEquals(null, extractor.extract(emptyCodeMessage))
     }
 

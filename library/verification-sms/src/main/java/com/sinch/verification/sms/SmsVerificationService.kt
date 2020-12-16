@@ -1,16 +1,17 @@
 package com.sinch.verification.sms
 
+import com.sinch.verification.core.verification.VerificationService
 import com.sinch.verification.sms.initialization.SmsInitiationResponseData
 import com.sinch.verification.sms.initialization.SmsVerificationInitiationData
-import com.sinch.verification.sms.verification.SmsVerificationData
-import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.Header
+import retrofit2.http.POST
 
 /**
  * Retrofit service responsible for making API calls used by [SmsVerificationMethod].
  */
-interface SmsVerificationService {
+interface SmsVerificationService : VerificationService {
 
     /**
      * Initializes the verification process.
@@ -23,17 +24,5 @@ interface SmsVerificationService {
         @Body data: SmsVerificationInitiationData,
         @Header("Accept-Language") acceptedLanguages: String?
     ): Call<SmsInitiationResponseData>
-
-    /**
-     * Verifies if given code is correct.
-     * @param number Number to be verified.
-     * @param data Verification data required for sms verification API call.
-     * @return A [Call] object for the request.
-     */
-    @PUT("verifications/number/{number}")
-    fun verifyNumber(
-        @Path("number") number: String,
-        @Body data: SmsVerificationData
-    ): Call<VerificationResponseData>
 
 }

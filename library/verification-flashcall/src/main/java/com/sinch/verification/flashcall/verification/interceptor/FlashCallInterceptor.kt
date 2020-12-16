@@ -3,19 +3,20 @@ package com.sinch.verification.flashcall.verification.interceptor
 import android.content.Context
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.error.CodeInterceptionException
+import com.sinch.verification.core.internal.pattern.PatternMatcher
+import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
+import com.sinch.verification.core.verification.model.VerificationSourceType
+import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.flashcall.FlashCallVerificationMethod
 import com.sinch.verification.flashcall.FlashCallVerificationService
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryChangeListener
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryReader
 import com.sinch.verification.flashcall.verification.callhistory.SinchCallHistoryChangeObserver
-import com.sinch.verification.core.internal.error.CodeInterceptionException
-import com.sinch.verification.core.internal.pattern.PatternMatcher
-import com.sinch.verification.core.verification.VerificationSourceType
-import com.sinch.verification.core.verification.interceptor.BasicCodeInterceptor
-import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
-import com.sinch.verification.core.verification.interceptor.CodeInterceptionTimeoutException
-import com.sinch.verification.core.verification.response.VerificationListener
 import java.util.*
 
 /**
@@ -38,7 +39,11 @@ class FlashCallInterceptor(
     interceptionTimeout: Long,
     interceptionListener: CodeInterceptionListener
 ) :
-    BasicCodeInterceptor(interceptionTimeout, interceptionListener), IncomingCallListener,
+    BasicCodeInterceptor(
+        interceptionTimeout,
+        interceptionListener,
+        VerificationMethodType.FLASHCALL
+    ), IncomingCallListener,
     CallHistoryChangeListener {
 
     init {

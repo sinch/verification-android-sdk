@@ -27,14 +27,44 @@
         android:textSize="@dimen/textSizeBig" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/codeInput"
+        android:id="@+id/smsVerificationCodeInput"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/verificationCode">
+        android:hint="@string/smsVerificationCode">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/codeInputEditText"
+            android:id="@+id/smsVerificationCodeInputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/flashcallVerificationCodeInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/flashCallNumber">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/flashcallVerificationCodeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/calloutVerificationCodeInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/calloutCode">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/calloutVerificationCodeEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal" />
@@ -53,5 +83,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/cancel" />
+
+    <com.sinch.sinchverification.MaxHeightScrollView
+        android:id="@+id/debugScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/loggerText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </com.sinch.sinchverification.MaxHeightScrollView>
 
 </LinearLayout>

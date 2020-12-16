@@ -3,12 +3,9 @@ package com.sinch.verification.core.config.method
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.initiation.response.InitiationResponseData
-import com.sinch.verification.core.internal.Verification
-import com.sinch.verification.core.internal.VerificationState
-import com.sinch.verification.core.internal.VerificationStateListener
-import com.sinch.verification.core.internal.VerificationStateStatus
-import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.internal.*
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
 
@@ -46,8 +43,8 @@ abstract class VerificationMethod<Service>(
      * Verifies the code assuming it was typed manually.
      * @param verificationCode Code to be verified.
      */
-    final override fun verify(verificationCode: String) {
-        verify(verificationCode, VerificationSourceType.MANUAL)
+    final override fun verify(verificationCode: String, method: VerificationMethodType?) {
+        verify(verificationCode, VerificationSourceType.MANUAL, method)
     }
 
     /**
@@ -55,11 +52,15 @@ abstract class VerificationMethod<Service>(
      * @param verificationCode Code to be verified.
      * @param sourceType Source of the verification code.
      */
-    fun verify(verificationCode: String, sourceType: VerificationSourceType) {
+    fun verify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType? = null
+    ) {
         if (verificationState.canVerify) {
             logger.debug("Verifying $verificationCode from source: $sourceType")
             update(VerificationState.Verification(VerificationStateStatus.ONGOING))
-            onVerify(verificationCode, sourceType)
+            onVerify(verificationCode, sourceType, method)
         } else {
             logger.debug("Verify called however verificationState.canVerify returned false")
         }
@@ -114,7 +115,11 @@ abstract class VerificationMethod<Service>(
      * Function called when code needs to be verified. Verification method specific API calls
      * should be implemented here.
      */
-    protected abstract fun onVerify(verificationCode: String, sourceType: VerificationSourceType)
+    protected abstract fun onVerify(
+        verificationCode: String,
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
+    )
 
     /**
      * Function called when entire verification code interception process has stopped.

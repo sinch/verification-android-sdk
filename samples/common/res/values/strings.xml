@@ -14,13 +14,16 @@
     <string name="flashcall">Flashcall</string>
     <string name="callout">Callout</string>
     <string name="seamless">Seamless</string>
+    <string name="auto">Auto</string>
     <string name="verificationMethod">Verification Method</string>
     <string name="options">Optional configuration</string>
     <string name="customField">Custom field</string>
     <string name="reference">Reference field</string>
     <string name="honourEarlyReject">Honours early reject</string>
     <string name="acceptedLanguages">Accepted languages</string>
-    <string name="verificationCode">Verification code</string>
+    <string name="smsVerificationCode">Sms verification code</string>
+    <string name="flashCallNumber">Flashcall number</string>
+    <string name="calloutCode">Callout verification code</string>
     <string name="verificationFailedPlaceholder">Verification failed: %s</string>
     <string name="verificationInProgress">Verification in progress</string>
     <string name="successfullyVerified">Successfully Verified!</string>

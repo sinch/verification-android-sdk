@@ -2,7 +2,7 @@ package com.sinch.verification.core.verification.response
 
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.VerificationStatus
-import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.model.VerificationSourceType
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

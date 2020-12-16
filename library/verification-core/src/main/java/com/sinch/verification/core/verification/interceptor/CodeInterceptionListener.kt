@@ -1,6 +1,6 @@
 package com.sinch.verification.core.verification.interceptor
 
-import com.sinch.verification.core.verification.VerificationSourceType
+import com.sinch.verification.core.verification.model.VerificationSourceType
 
 /**
  * Listener defining callbacks invoked by [CodeInterceptor] informing about the code interception process.
