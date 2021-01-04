@@ -48,7 +48,6 @@ class AutoVerificationMethodTests {
         Shadows.shadowOf(appContext).grantPermissions(Permission.READ_CALL_LOG.androidValue)
     }
 
-
     private fun prepareVerification() =
         AutoVerificationMethod.Builder.instance
             .config(
