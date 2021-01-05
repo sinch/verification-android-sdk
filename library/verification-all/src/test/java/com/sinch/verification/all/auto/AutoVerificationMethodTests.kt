@@ -19,10 +19,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 
-@RunWith(
-    RobolectricTestRunner::class
-)
-@Config(sdk = [Build.VERSION_CODES.O_MR1])
 class AutoVerificationMethodTests {
 
     private val appContext = ApplicationProvider.getApplicationContext<Application>()
@@ -42,7 +38,6 @@ class AutoVerificationMethodTests {
     @MockK
     lateinit var mockedVerificationListener: VerificationListener
 
-    @Before
     fun setupUp() {
         MockKAnnotations.init(this, relaxed = true)
         Shadows.shadowOf(appContext).grantPermissions(Permission.READ_CALL_LOG.androidValue)
