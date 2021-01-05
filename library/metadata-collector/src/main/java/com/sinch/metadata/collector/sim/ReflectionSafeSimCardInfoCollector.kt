@@ -32,7 +32,7 @@ class ReflectionSafeSimCardInfoCollector(context: Context) :
     @Suppress("DEPRECATION")
     @SuppressLint("MissingPermission")
     private fun collectOperatorSimCardData(): List<SimCardInfo> =
-        subscriptionManager.activeSubscriptionInfoList.map {
+        subscriptionManager.activeSubscriptionInfoList?.map {
             SimCardInfo(
                 null, OperatorInfo(
                     it.countryIso,
@@ -42,5 +42,5 @@ class ReflectionSafeSimCardInfoCollector(context: Context) :
                     if (ApiLevelUtils.isApi29OrLater) it.mncString else it.mnc.toString()
                 )
             )
-        }
+        } ?: emptyList()
 }
