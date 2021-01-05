@@ -84,7 +84,7 @@ class FlashCallVerificationMethodTests {
         )
         verify {
             mockedService.verifyNumber(Constants.phone, match {
-                it.flashcallDetails.cli == Constants.phoneMatchingTemplate1
+                it.flashcallDetails?.cli == Constants.phoneMatchingTemplate1
             })
         }
         verifySequence { mockedVerificationListener.onVerified() }
@@ -199,7 +199,7 @@ class FlashCallVerificationMethodTests {
         )
         every {
             mockedService.verifyNumber(any(), match {
-                it.flashcallDetails.cli == usedCode
+                it.flashcallDetails?.cli == usedCode
             })
         }.returns(
             Calls.response(verificationResponseData)
