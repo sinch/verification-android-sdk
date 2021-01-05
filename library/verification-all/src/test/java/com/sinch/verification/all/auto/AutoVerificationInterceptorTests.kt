@@ -8,6 +8,7 @@ import com.sinch.verification.all.auto.verification.interceptor.AutoVerification
 import com.sinch.verification.all.auto.verification.interceptor.SubCodeInterceptionListener
 import com.sinch.verification.all.auto.verification.interceptor.SubCodeInterceptorFactory
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
+import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.flashcall.initialization.FlashCallInitializationDetails
 import com.sinch.verification.sms.initialization.SmsInitializationDetails
 import com.sinch.verification.utils.MAX_TIMEOUT
@@ -40,6 +41,10 @@ class AutoInterceptorTests {
     @MockK(relaxed = true)
     lateinit var
             mockedSubCodeInterceptorFactory: SubCodeInterceptorFactory
+
+    @MockK(relaxed = true)
+    lateinit var
+            mockedVerificationListener: VerificationListener
 
     @Before
     fun setUp() {
@@ -94,7 +99,8 @@ class AutoInterceptorTests {
             subCodeInterceptionListener = subCodeInterceptionListener,
             interceptionTimeout = interceptionTimeout,
             autoInitializationResponseData = data,
-            subInterceptorFactory = mockedSubCodeInterceptorFactory
+            subInterceptorFactory = mockedSubCodeInterceptorFactory,
+            verificationListener = mockedVerificationListener
         )
 
 }
