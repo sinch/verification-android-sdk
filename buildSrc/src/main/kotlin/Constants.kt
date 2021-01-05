@@ -31,5 +31,5 @@ object Versions {
 
     const val dokka = "1.4.10.2"
 
-    const val defaultSinchSdk = "2.1.0"
+    const val defaultSinchSdk = "2.1.1"
 }
