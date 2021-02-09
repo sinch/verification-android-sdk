@@ -12,6 +12,13 @@ subprojects {
     apply from: "$project.rootDir/signing.gradle"
     apply from: "$project.rootDir/apienv.gradle"
 
+    ext {
+        versionMajor = 2
+        versionMinor = 1
+        versionPatch = 2
+        versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
+    }
+
     if (project.name != "logging" &&
             project.name != "metadata-collector" &&
             project.name != "utils") { // Do not generate docs for these libs for now
