@@ -1,10 +1,5 @@
 apply plugin: 'kotlinx-serialization'
 
-def versionMajor = 2
-def versionMinor = 1
-def versionPatch = 1
-def versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
-
 ext {
     bintrayName = 'verification-all'
     bintrayVersion = versionNameFull
