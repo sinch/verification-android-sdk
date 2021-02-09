@@ -26,64 +26,64 @@ data class ApiErrorData(
         object BadRequest {
             const val ParameterValidation = 40001
             const val NumberMissingLeadingPlus = 40005
-            const val InvalidRequest = 40003;
-            const val InvalidAuthorizationKey = 40004;
+            const val InvalidRequest = 40003
+            const val InvalidAuthorizationKey = 40004
         }
 
         object Unauthorized {
-            const val AuthorizationHeader = 40100;
-            const val TimestampHeader = 40101;
-            const val InvalidSignature = 40102;
-            const val AlreadyAuthorized = 40103;
-            const val AuthorizationRequired = 40104;
-            const val Expired = 40105;
-            const val UserBarred = 40106;
-            const val InvalidAuthorization = 40107;
-            const val InvalidCredentials = 40108;
+            const val AuthorizationHeader = 40100
+            const val TimestampHeader = 40101
+            const val InvalidSignature = 40102
+            const val AlreadyAuthorized = 40103
+            const val AuthorizationRequired = 40104
+            const val Expired = 40105
+            const val UserBarred = 40106
+            const val InvalidAuthorization = 40107
+            const val InvalidCredentials = 40108
         }
 
         object PaymentRequired {
-            const val NotEnoughCredit = 40200;
+            const val NotEnoughCredit = 40200
         }
 
         object Forbidden {
-            const val ForbiddenRequest = 40300;
-            const val InvalidScheme = 40301;
-            const val InsufficientPrivileges = 40302;
-            const val RestrictedAction = 40303;
+            const val ForbiddenRequest = 40300
+            const val InvalidScheme = 40301
+            const val InsufficientPrivileges = 40302
+            const val RestrictedAction = 40303
         }
 
         object NotFound {
-            const val ResourceNotFound = 40400;
+            const val ResourceNotFound = 40400
         }
 
         object Conflict {
-            const val RequestConflict = 40900;
+            const val RequestConflict = 40900
         }
 
         object UnprocessableEntity {
-            const val ApplicationConfiguration = 42200;
-            const val Unavailable = 42201;
-            const val InvalidCallbackResponse = 42202;
+            const val ApplicationConfiguration = 42200
+            const val Unavailable = 42201
+            const val InvalidCallbackResponse = 42202
         }
 
         object TooManyRequests {
-            const val CapacityExceeded = 42900;
-            const val VelocityConstraint = 42901;
+            const val CapacityExceeded = 42900
+            const val VelocityConstraint = 42901
         }
 
         object InternalServerError {
-            const val InternalError = 50000;
+            const val InternalError = 50000
         }
 
         object NotImplemented {
-            const val MethodNotImplemented = 50100;
-            const val StatusNotImplemented = 50101;
+            const val MethodNotImplemented = 50100
+            const val StatusNotImplemented = 50101
         }
 
         object ServiceUnavailable {
-            const val TemporaryDown = 50300;
-            const val ConfigurationError = 50301;
+            const val TemporaryDown = 50300
+            const val ConfigurationError = 50301
         }
 
     }
