@@ -8,11 +8,10 @@ try {
 
 ext {
     testAppProductionKey = sampleAppKeys['testAppProductionKey']
-    testAppProductionBrokKey = sampleAppKeys['testAppProductionBrokKey']
+    testAppProductionApseKey = sampleAppKeys['testAppProductionApseKey']
+    testAppProductionEUCKey = sampleAppKeys['testAppProductionEUC1Key']
     testAppFtest1Key = sampleAppKeys['testAppFtest1Key']
-    testAppFtest1BrokKey = sampleAppKeys['testAppFtest1BrokKey']
     testAppFtest2Key = sampleAppKeys['testAppFtest2Key']
-    testAppFtest2BrokKey = sampleAppKeys['testAppFtest2BrokKey']
 }
 
 subprojects {
