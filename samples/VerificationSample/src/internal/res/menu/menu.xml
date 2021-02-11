@@ -19,5 +19,8 @@
         <item
             android:id="@+id/ftest2Api"
             android:title="@string/ftest2MenuItem" />
+        <item
+            android:id="@+id/customItemId"
+            android:title="@string/customMenuItem" />
     </group>
 </menu>

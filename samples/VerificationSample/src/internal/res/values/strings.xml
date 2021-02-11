@@ -4,4 +4,5 @@
     <string name="prodAPSEMenuItem">Production APSE</string>
     <string name="ftest1MenuItem">Ftest1</string>
     <string name="ftest2MenuItem">Ftest2</string>
+    <string name="customMenuItem">Custom</string>
 </resources>

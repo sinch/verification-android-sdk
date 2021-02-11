@@ -39,6 +39,19 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    productFlavors {
+        production {
+            buildConfigField "String", "APP_KEY", "\"$testAppProductionKey\""
+        }
+        ftest1 {
+            buildConfigField "String", "APP_KEY", "\"$testAppFtest1Key\""
+        }
+        ftest2 {
+            buildConfigField "String", "APP_KEY", "\"$testAppFtest2Key\""
+        }
+    }
+
 }
 
 dependencies {
