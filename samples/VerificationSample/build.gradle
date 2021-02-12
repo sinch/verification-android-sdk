@@ -53,9 +53,6 @@ android {
             buildConfigField "String", "API_BASE_URL_FTEST2", "\"https://ft2-verification.api.sinchlab.com/\""
 
         }
-        external {
-            dimension "mode"
-        }
     }
 
     variantFilter { variant ->

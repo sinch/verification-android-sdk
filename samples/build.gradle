@@ -7,11 +7,11 @@ try {
 }
 
 ext {
-    testAppProductionKey = sampleAppKeys['testAppProductionKey']
-    testAppProductionApseKey = sampleAppKeys['testAppProductionApseKey']
-    testAppProductionEUCKey = sampleAppKeys['testAppProductionEUC1Key']
-    testAppFtest1Key = sampleAppKeys['testAppFtest1Key']
-    testAppFtest2Key = sampleAppKeys['testAppFtest2Key']
+    testAppProductionKey = sampleAppKeys['testAppProductionKey'] ?: ""
+    testAppProductionApseKey = sampleAppKeys['testAppProductionApseKey'] ?: ""
+    testAppProductionEUCKey = sampleAppKeys['testAppProductionEUC1Key'] ?: ""
+    testAppFtest1Key = sampleAppKeys['testAppFtest1Key'] ?: ""
+    testAppFtest2Key = sampleAppKeys['testAppFtest2Key'] ?: ""
 }
 
 subprojects {
@@ -21,22 +21,6 @@ subprojects {
 
     dependencies {
         implementation project(':library:verification-all')
-    }
-
-    android {
-
-        productFlavors {
-            production {
-                buildConfigField "String", "APP_KEY", "\"$testAppProductionKey\""
-            }
-            ftest1 {
-                buildConfigField "String", "APP_KEY", "\"$testAppFtest1Key\""
-            }
-            ftest2 {
-                buildConfigField "String", "APP_KEY", "\"$testAppFtest2Key\""
-            }
-        }
-
     }
 
 }

@@ -9,6 +9,9 @@
     <string name="testPhone">+46543543123</string>
     <string name="enterNumberHint">Phone number</string>
     <string name="verificationCodeHint">Enter code</string>
+    <string name="appKey">Application Key</string>
+    <string name="baseUrl">Base URL</string>
+    <string name="update">Update</string>
 
     <string name="sms">SMS</string>
     <string name="flashcall">Flashcall</string>

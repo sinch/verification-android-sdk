@@ -12,7 +12,7 @@ import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.VerificationLanguage
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 5
@@ -27,6 +27,10 @@ class MainActivity : AppCompatActivity() {
             autoButton.id to VerificationMethodType.AUTO
         )
     }
+
+    private val myApplication: VerificationSampleApp
+        get() =
+            application as VerificationSampleApp
 
     private val initData: VerificationInitData
         get() =
@@ -66,6 +70,9 @@ class MainActivity : AppCompatActivity() {
         phoneInput.editText?.addTextChangedListener {
             phoneInput.error = null
         }
+        myApplication.childGlobalConfigPropertiesUpdateListener = this
+        updateGlobalConfigPropertiesLayout()
+        attachUpdateGlobalConfigListeners()
     }
 
     override fun onRequestPermissionsResult(
@@ -83,7 +90,28 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        (application as VerificationSampleApp).onDevelopmentOptionSelected(item)
+        myApplication.onDevelopmentOptionSelected(item)
+
+    override fun onAppKeyUpdated(appKey: String) {
+        updateGlobalConfigPropertiesLayout()
+    }
+
+    override fun onBaseURLUpdated(baseURL: String, isCustom: Boolean) {
+        baseURLInputLayoutEditText.isEnabled = isCustom
+        updateBaseUrlButton.isEnabled = isCustom
+        updateGlobalConfigPropertiesLayout()
+    }
+
+    private fun attachUpdateGlobalConfigListeners() {
+        updateBaseUrlButton.setOnClickListener {
+            myApplication.updateBaseUrlManually(
+                baseURLInputLayoutEditText.text.toString()
+            )
+        }
+        updateAppKeyButton.setOnClickListener {
+            myApplication.updateAppKeyManually(appKeyInputLayoutEditText.text.toString())
+        }
+    }
 
     private fun checkFields() {
         if (phoneInput.editText?.text.isNullOrEmpty()) {
@@ -100,5 +128,10 @@ class MainActivity : AppCompatActivity() {
         .filter { it.contains("-") }
         .map { it.split("-") }
         .map { VerificationLanguage(it[0], it[1]) }
+
+    private fun updateGlobalConfigPropertiesLayout() {
+        appKeyInputLayoutEditText.setText(myApplication.appKey)
+        baseURLInputLayoutEditText.setText(myApplication.apiBaseURL)
+    }
 
 }
