@@ -1,7 +1,6 @@
 package com.sinch.sinchverification
 
 import android.app.Application
-import android.view.MenuItem
 import android.webkit.URLUtil
 import com.sinch.logging.Log
 import com.sinch.logging.LogcatAppender
@@ -51,35 +50,6 @@ class VerificationSampleApp : Application() {
                 )
             })
             .build()
-
-    fun onDevelopmentOptionSelected(item: MenuItem): Boolean {
-        item.isChecked = true
-        apiBaseURL = when (item.itemId) {
-            R.id.productionApi -> BuildConfig.API_BASE_URL_PROD
-            R.id.productionAPSE1 -> BuildConfig.API_BASE_URL_PROD_APSE1
-            R.id.productionEUC1 -> BuildConfig.API_BASE_URL_PROD_EUC1
-            R.id.ftest1Api -> BuildConfig.API_BASE_URL_FTEST1
-            R.id.ftest2Api -> BuildConfig.API_BASE_URL_FTEST2
-            R.id.customItemId -> ""
-            else -> throw RuntimeException("Menu item with ${item.itemId} not handled")
-        }
-        appKey = when (item.itemId) {
-            R.id.productionApi -> BuildConfig.APP_KEY_PROD
-            R.id.productionAPSE1 -> BuildConfig.APP_KEY_PROD_APSE
-            R.id.productionEUC1 -> BuildConfig.APP_KEY_PROD_EUC1
-            R.id.ftest1Api -> BuildConfig.APP_KEY_FTEST1
-            R.id.ftest2Api -> BuildConfig.APP_KEY_FTEST2
-            R.id.customItemId -> ""
-            else -> throw RuntimeException("Menu item with ${item.itemId} not handled")
-        }
-        childGlobalConfigPropertiesUpdateListener?.onAppKeyUpdated(appKey)
-        childGlobalConfigPropertiesUpdateListener?.onBaseURLUpdated(
-            baseURL = apiBaseURL,
-            isCustom = (item.itemId == R.id.customItemId)
-        )
-        rebuildGlobalConfig()
-        return true
-    }
 
     fun updateBaseUrlManually(newBaseURL: String) {
         this.apiBaseURL = newBaseURL

@@ -1,18 +1,21 @@
 package com.sinch.sinchverification
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.children
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.VerificationLanguage
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
+class MainActivity : AppCompatActivity() {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 5
@@ -27,10 +30,6 @@ class MainActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
             autoButton.id to VerificationMethodType.AUTO
         )
     }
-
-    private val myApplication: VerificationSampleApp
-        get() =
-            application as VerificationSampleApp
 
     private val initData: VerificationInitData
         get() =
@@ -67,12 +66,13 @@ class MainActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
         initButton.setOnClickListener {
             ActivityCompat.requestPermissions(this, requestedPermissions, PERMISSION_REQUEST_CODE)
         }
+        optionalConfigButton.setOnClickListener {
+            toggleOptionalConfig()
+        }
         phoneInput.editText?.addTextChangedListener {
             phoneInput.error = null
         }
-        myApplication.childGlobalConfigPropertiesUpdateListener = this
-        updateGlobalConfigPropertiesLayout()
-        attachUpdateGlobalConfigListeners()
+        toggleOptionalConfig()
     }
 
     override fun onRequestPermissionsResult(
@@ -89,27 +89,13 @@ class MainActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        myApplication.onDevelopmentOptionSelected(item)
-
-    override fun onAppKeyUpdated(appKey: String) {
-        updateGlobalConfigPropertiesLayout()
-    }
-
-    override fun onBaseURLUpdated(baseURL: String, isCustom: Boolean) {
-        baseURLInputLayoutEditText.isEnabled = isCustom
-        updateBaseUrlButton.isEnabled = isCustom
-        updateGlobalConfigPropertiesLayout()
-    }
-
-    private fun attachUpdateGlobalConfigListeners() {
-        updateBaseUrlButton.setOnClickListener {
-            myApplication.updateBaseUrlManually(
-                baseURLInputLayoutEditText.text.toString()
-            )
-        }
-        updateAppKeyButton.setOnClickListener {
-            myApplication.updateAppKeyManually(appKeyInputLayoutEditText.text.toString())
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            (R.id.settingsScreen) -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+                true
+            }
+            else -> false
         }
     }
 
@@ -124,14 +110,17 @@ class MainActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
         }
     }
 
+    private fun toggleOptionalConfig() {
+        val shouldHide = optionalConfigLayout.children.first().isVisible
+        optionalConfigButton.setText(if (shouldHide) R.string.show else R.string.hide)
+        optionalConfigLayout.children.forEach {
+            it.isVisible = !shouldHide
+        }
+    }
+
     private fun String.toLocaleList() = split(",")
         .filter { it.contains("-") }
         .map { it.split("-") }
         .map { VerificationLanguage(it[0], it[1]) }
-
-    private fun updateGlobalConfigPropertiesLayout() {
-        appKeyInputLayoutEditText.setText(myApplication.appKey)
-        baseURLInputLayoutEditText.setText(myApplication.apiBaseURL)
-    }
 
 }

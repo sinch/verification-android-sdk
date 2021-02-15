@@ -15,6 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/marginBasic"
+            android:adjustViewBounds="true"
+            android:maxHeight="100dp"
+            android:scaleType="centerInside"
             android:src="@drawable/logosinch" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -49,6 +52,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:autoSizeMaxTextSize="@dimen/textSizeButtonType"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
                 android:padding="0dp"
                 android:text="@string/flashcall"
                 android:textSize="@dimen/textSizeButtonType" />
@@ -69,8 +76,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:autoSizeMaxTextSize="@dimen/textSizeButtonType"
+                android:autoSizeMinTextSize="6sp"
+                android:autoSizeStepGranularity="2sp"
+                android:autoSizeTextType="uniform"
                 android:padding="0dp"
-                android:text="@string/seamless"
+                android:text="@string/data"
                 android:textSize="@dimen/textSizeButtonType" />
 
             <com.google.android.material.button.MaterialButton
@@ -80,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="0dp"
-                android:text="@string/auto"
+                android:text="@string/unified"
                 android:textSize="@dimen/textSizeButtonType" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -100,138 +111,95 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <LinearLayout
-            android:id="@+id/globalConfigurationLayout"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/optionalConfigText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/marginBasic"
+                android:layout_marginBottom="@dimen/marginSmall"
+                android:text="@string/options"
+                android:textSize="@dimen/textSizeBig"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/optionalConfigButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/show"
+                app:layout_constraintBottom_toBottomOf="@id/optionalConfigText"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/optionalConfigText" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:id="@+id/optionalConfigLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/customInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:hint="@string/customField">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/baseURLInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/customInputEditText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:hint="@string/baseUrl">
+                    android:inputType="textNoSuggestions" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/baseURLInputLayoutEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"
-                        android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/updateBaseUrlButton"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_vertical"
-                    android:enabled="false"
-                    android:insetTop="@dimen/marginSmall"
-                    android:insetBottom="@dimen/marginTiny"
-                    android:text="@string/update" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/referenceInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:hint="@string/reference">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/appHashInputLayout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/referenceInputEditText"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.8"
-                    android:hint="@string/appKey">
+                    android:inputType="numberDecimal" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/appKeyInputLayoutEditText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textPassword" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-                </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/acceptedLanguagesInput"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/acceptedLanguages">
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/updateAppKeyButton"
-                    android:layout_width="100dp"
-                    android:layout_height="match_parent"
-                    android:insetTop="@dimen/marginSmall"
-                    android:insetBottom="@dimen/marginTiny"
-                    android:text="@string/update" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/acceptedLanguagesInputEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textNoSuggestions" />
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/honoursEarlyCheckbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/honorEarlyReject" />
 
         </LinearLayout>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/marginBasic"
-            android:layout_marginBottom="@dimen/marginSmall"
-            android:text="@string/options"
-            android:textSize="@dimen/textSizeBig" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/customInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/customField">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/customInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/referenceInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/reference">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/referenceInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/acceptedLanguagesInput"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/acceptedLanguages">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/acceptedLanguagesInputEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textNoSuggestions" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/honoursEarlyCheckbox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="@string/honourEarlyReject" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/initButton"
