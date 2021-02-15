@@ -18,7 +18,6 @@ import com.sinch.verification.core.initiation.response.InitiationListener
 import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.VerificationMethodType
-import com.sinch.verification.core.verification.VerificationEvent
 import com.sinch.verification.core.verification.response.VerificationListener
 import kotlinx.android.synthetic.main.dialog_verification.*
 import org.greenrobot.eventbus.EventBus
