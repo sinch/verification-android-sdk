@@ -4,7 +4,9 @@ apply from: file('testlogger.gradle')
 
 //Signing properties are defined in keystore.properties file
 Properties keyProperties = new Properties()
-keyProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+try {
+    keyProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+} catch (Exception ignored){}
 
 ext {
     keyAliasSinch = keyProperties['alias']
