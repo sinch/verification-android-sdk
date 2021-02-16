@@ -23,13 +23,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://sinch.bintray.com/com.sinch.android.sdk.verification"
-            credentials {
-                username bintrayUser
-                password bintrayApiKey
-            }
-        }
     }
 
     dependencies {
@@ -48,13 +41,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://sinch.bintray.com/com.sinch.android.sdk.verification"
-            credentials {
-                username bintrayUser
-                password bintrayApiKey
-            }
-        }
     }
 }
 
