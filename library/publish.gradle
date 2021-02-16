@@ -1,9 +1,12 @@
 apply plugin: 'com.jfrog.bintray'
 apply plugin: 'maven-publish'
 
+def bintrayUserName = project.properties['bintrayUser'] ?: "NO_BINTRAY_USERNAME_IN_PROPERTIES"
+def bintrayKey = project.properties['bintrayApiKey'] ?: "NO_BINTRAY_KEY_IN_PROPERTIES"
+
 bintray {
-    user = bintrayUser
-    key = bintrayApiKey
+    user = bintrayUserName
+    key = bintrayKey
     publications = ['Production']
     override = true
     pkg {

@@ -18,6 +18,7 @@ class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListen
         attachUpdateGlobalConfigListeners()
         updateGlobalConfigPropertiesLayout()
         attachRadioGroupChangeListener()
+        populateVersionText()
     }
 
     override fun onBaseURLUpdated(baseURL: String, isCustom: Boolean) {
@@ -87,6 +88,14 @@ class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListen
         myApplication.updateAppKeyManually(appKey)
         myApplication.updateBaseUrlManually(apiBaseURL)
         updateGlobalConfigPropertiesLayout()
+    }
+
+    private fun populateVersionText() {
+        versionTextView.text = getString(
+            R.string.versionPlaceholder,
+            BuildConfig.VERSION_NAME,
+            com.sinch.verification.all.BuildConfig.VERSION_NAME
+        )
     }
 
 }

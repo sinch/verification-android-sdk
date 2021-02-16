@@ -13,10 +13,10 @@
     <string name="data">Data</string>
     <string name="unified">Unified</string>
     <string name="verificationMethod">Verification Method</string>
-    <string name="options">Optional configuration</string>
-    <string name="customField">Custom field</string>
-    <string name="reference">Reference field</string>
-    <string name="honorEarlyReject">Honors early reject</string>
+    <string name="options">Configuration</string>
+    <string name="customField">Custom</string>
+    <string name="reference">Reference</string>
+    <string name="honorEarlyReject">Honor early reject</string>
     <string name="acceptedLanguages">Accepted languages</string>
     <string name="smsVerificationCode">Sms verification code</string>
     <string name="flashCallNumber">Flashcall number</string>
@@ -38,5 +38,6 @@
     <string name="settings">Settings</string>
     <string name="environment">Environment</string>
     <string name="environmentDetails">Details</string>
+    <string name="versionPlaceholder">Sample: v%s SDK: v%s</string>
 
 </resources>
