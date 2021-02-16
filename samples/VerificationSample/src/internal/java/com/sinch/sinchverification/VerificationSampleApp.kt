@@ -4,6 +4,7 @@ import android.app.Application
 import android.webkit.URLUtil
 import com.sinch.logging.Log
 import com.sinch.logging.LogcatAppender
+import com.sinch.sinchverification.utils.SharedPrefsManager
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.general.SinchGlobalConfig
@@ -12,24 +13,35 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 class VerificationSampleApp : Application() {
 
-    var apiBaseURL = BuildConfig.API_BASE_URL_PROD
+    lateinit var globalConfig: GlobalConfig
         private set
 
-    var appKey = BuildConfig.APP_KEY_PROD
+    var selectedEnvironment = Environment.PRODUCTION
         private set
 
-    var globalConfig: GlobalConfig = buildGlobalConfig(
-        apiHost = apiBaseURL,
-        appKey = appKey
-    )
-        private set
+    val usedApplicationKey: String
+        get() = sharedPrefsManager.appKey(selectedEnvironment)
+            .ifEmpty { selectedEnvironment.predefinedAppKey }
+
+    val usedBaseUrl: String
+        get() {
+            return when (selectedEnvironment) {
+                Environment.CUSTOM -> sharedPrefsManager.customURL
+                else -> selectedEnvironment.predefinedURL
+            }
+        }
 
     var childGlobalConfigPropertiesUpdateListener: GlobalConfigPropertiesUpdateListener? = null
+
+    private val sharedPrefsManager: SharedPrefsManager by lazy {
+        SharedPrefsManager(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
         initFlipper()
         initLogger()
+        rebuildGlobalConfig()
     }
 
     private fun initFlipper() {
@@ -51,23 +63,28 @@ class VerificationSampleApp : Application() {
             })
             .build()
 
+    fun updateSelectedEnvironment(newEnvironment: Environment) {
+        this.selectedEnvironment = newEnvironment
+        rebuildGlobalConfig()
+    }
+
     fun updateBaseUrlManually(newBaseURL: String) {
-        this.apiBaseURL = newBaseURL
+        sharedPrefsManager.customURL = newBaseURL
         rebuildGlobalConfig()
     }
 
     fun updateAppKeyManually(newAppKey: String) {
-        this.appKey = newAppKey
+        sharedPrefsManager.setAppKey(selectedEnvironment, newAppKey)
         rebuildGlobalConfig()
     }
 
     private fun rebuildGlobalConfig() {
-        if (!URLUtil.isValidUrl(apiBaseURL)) {
+        if (!URLUtil.isValidUrl(usedBaseUrl)) {
             return
         }
         globalConfig = buildGlobalConfig(
-            apiHost = apiBaseURL,
-            appKey = appKey
+            apiHost = usedBaseUrl,
+            appKey = usedApplicationKey
         )
     }
 

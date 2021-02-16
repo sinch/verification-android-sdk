@@ -1,4 +1,4 @@
-package com.sinch.sinchverification
+package com.sinch.sinchverification.utils
 
 import android.content.Context
 import android.util.AttributeSet
