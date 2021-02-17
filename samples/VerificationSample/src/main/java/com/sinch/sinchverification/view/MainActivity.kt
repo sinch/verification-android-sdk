@@ -1,4 +1,4 @@
-package com.sinch.sinchverification
+package com.sinch.sinchverification.view
 
 import android.Manifest
 import android.content.Intent
@@ -10,6 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.sinch.sinchverification.R
+import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.VerificationLanguage
@@ -20,6 +22,12 @@ class MainActivity : AppCompatActivity() {
     companion object {
         const val PERMISSION_REQUEST_CODE = 5
     }
+
+    private val myApplication: VerificationSampleApp
+        get() =
+            application as VerificationSampleApp
+
+    private val isApplicationKeyEntered: Boolean get() = myApplication.usedApplicationKey.isNotEmpty()
 
     private val buttonToMethodMap by lazy {
         mapOf(
@@ -73,6 +81,7 @@ class MainActivity : AppCompatActivity() {
             phoneInput.error = null
         }
         toggleOptionalConfig()
+        performAppKeyCheck()
     }
 
     override fun onRequestPermissionsResult(
@@ -100,13 +109,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkFields() {
-        if (phoneInput.editText?.text.isNullOrEmpty()) {
-            phoneInput.error = getString(R.string.phoneEmptyError)
-        } else {
-            VerificationDialog.newInstance(initData)
-                .apply {
-                    show(supportFragmentManager, "dialog")
-                }
+        when {
+            !isApplicationKeyEntered -> {
+                startActivity(Intent(this, SettingsActivity::class.java))
+            }
+            phoneInput.editText?.text.isNullOrEmpty() -> {
+                phoneInput.error = getString(R.string.phoneEmptyError)
+            }
+            else -> {
+                VerificationDialog.newInstance(initData)
+                    .apply {
+                        show(supportFragmentManager, "dialog")
+                    }
+            }
+        }
+    }
+
+    private fun performAppKeyCheck() {
+        if (!isApplicationKeyEntered) {
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 

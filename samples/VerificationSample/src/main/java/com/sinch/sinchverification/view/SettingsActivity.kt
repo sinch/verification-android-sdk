@@ -1,8 +1,10 @@
-package com.sinch.sinchverification
+package com.sinch.sinchverification.view
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import com.sinch.sinchverification.*
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
@@ -19,6 +21,9 @@ class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListen
         updateGlobalConfigPropertiesLayout()
         attachRadioGroupChangeListener()
         populateVersionText()
+        if (myApplication.usedApplicationKey.isEmpty()) {
+            showInsertAppKeyPrompt()
+        }
     }
 
     override fun onBaseURLUpdated(baseURL: String, isCustom: Boolean) {
@@ -49,44 +54,34 @@ class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListen
     }
 
     private fun updateGlobalConfigPropertiesLayout() {
-        appKeyInputLayoutEditText.setText(myApplication.appKey)
-        baseURLInputLayoutEditText.setText(myApplication.apiBaseURL)
+        appKeyInputLayoutEditText.setText(myApplication.usedApplicationKey)
+        baseURLInputLayoutEditText.setText(myApplication.usedBaseUrl)
         radioGroup.check(
-            when (myApplication.apiBaseURL) {
-                BuildConfig.API_BASE_URL_PROD -> R.id.productionApi
-                BuildConfig.API_BASE_URL_PROD_APSE1 -> R.id.productionAPSE1
-                BuildConfig.API_BASE_URL_PROD_EUC1 -> R.id.productionEUC1
-                BuildConfig.API_BASE_URL_FTEST1 -> R.id.ftest1Api
-                BuildConfig.API_BASE_URL_FTEST2 -> R.id.ftest2Api
-                else -> R.id.customItemId
+            when (myApplication.selectedEnvironment) {
+                Environment.PRODUCTION -> R.id.productionApi
+                Environment.APSE1 -> R.id.productionAPSE1
+                Environment.EUC1 -> R.id.productionEUC1
+                Environment.FTEST1 -> R.id.ftest1Api
+                Environment.FTEST2 -> R.id.ftest2Api
+                Environment.CUSTOM -> R.id.customItemId
             }
         )
         listOf<View>(baseURLInputLayoutEditText, updateBaseUrlButton).forEach {
-            it.isEnabled = (radioGroup.checkedRadioButtonId == R.id.customItemId)
+            it.isEnabled = (myApplication.selectedEnvironment == Environment.CUSTOM)
         }
     }
 
     private fun onEnvironmentRadioButtonChecked(checkedButtonId: Int) {
-        val apiBaseURL = when (checkedButtonId) {
-            R.id.productionApi -> BuildConfig.API_BASE_URL_PROD
-            R.id.productionAPSE1 -> BuildConfig.API_BASE_URL_PROD_APSE1
-            R.id.productionEUC1 -> BuildConfig.API_BASE_URL_PROD_EUC1
-            R.id.ftest1Api -> BuildConfig.API_BASE_URL_FTEST1
-            R.id.ftest2Api -> BuildConfig.API_BASE_URL_FTEST2
-            R.id.customItemId -> ""
+        val newEnvironment = when (checkedButtonId) {
+            R.id.productionApi -> Environment.PRODUCTION
+            R.id.productionAPSE1 -> Environment.APSE1
+            R.id.productionEUC1 -> Environment.EUC1
+            R.id.ftest1Api -> Environment.FTEST1
+            R.id.ftest2Api -> Environment.FTEST2
+            R.id.customItemId -> Environment.CUSTOM
             else -> throw RuntimeException("RadioButton with $checkedButtonId not handled")
         }
-        val appKey = when (checkedButtonId) {
-            R.id.productionApi -> BuildConfig.APP_KEY_PROD
-            R.id.productionAPSE1 -> BuildConfig.APP_KEY_PROD_APSE
-            R.id.productionEUC1 -> BuildConfig.APP_KEY_PROD_EUC1
-            R.id.ftest1Api -> BuildConfig.APP_KEY_FTEST1
-            R.id.ftest2Api -> BuildConfig.APP_KEY_FTEST2
-            R.id.customItemId -> ""
-            else -> throw RuntimeException("Menu item with $checkedButtonId not handled")
-        }
-        myApplication.updateAppKeyManually(appKey)
-        myApplication.updateBaseUrlManually(apiBaseURL)
+        myApplication.updateSelectedEnvironment(newEnvironment)
         updateGlobalConfigPropertiesLayout()
     }
 
@@ -96,6 +91,14 @@ class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListen
             BuildConfig.VERSION_NAME,
             com.sinch.verification.all.BuildConfig.VERSION_NAME
         )
+    }
+
+    private fun showInsertAppKeyPrompt() {
+        AlertDialog.Builder(this)
+            .setMessage(R.string.appKeyMissing)
+            .setCancelable(false)
+            .setPositiveButton(R.string.ok, null)
+            .show()
     }
 
 }

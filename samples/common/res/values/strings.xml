@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">SinchVerification</string>
     <string name="title_activity_main">Sinch Verification</string>
+    <string name="ok">OK</string>
 
     <!--Main screen-->
     <string name="initialize">Initialize</string>
@@ -39,5 +40,6 @@
     <string name="environment">Environment</string>
     <string name="environmentDetails">Details</string>
     <string name="versionPlaceholder">Sample: v%s SDK: v%s</string>
+    <string name="appKeyMissing">Please, enter your application key for selected environment</string>
 
 </resources>

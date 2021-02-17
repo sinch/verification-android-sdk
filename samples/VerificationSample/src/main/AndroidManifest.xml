@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".view.MainActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
@@ -24,10 +24,10 @@
         </activity>
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".view.SettingsActivity"
             android:configChanges="keyboardHidden"
             android:label="@string/globalSettingsTitle"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".view.MainActivity"
             android:screenOrientation="portrait" />
 
     </application>

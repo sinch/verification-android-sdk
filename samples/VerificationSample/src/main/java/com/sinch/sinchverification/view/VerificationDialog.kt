@@ -1,4 +1,4 @@
-package com.sinch.sinchverification
+package com.sinch.sinchverification.view
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,6 +10,10 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
+import com.sinch.sinchverification.LogMessageEvent
+import com.sinch.sinchverification.R
+import com.sinch.sinchverification.VerificationSampleApp
+import com.sinch.sinchverification.utils.AppSignatureHelper
 import com.sinch.verification.all.BasicVerificationMethodBuilder
 import com.sinch.verification.all.CommonVerificationInitializationParameters
 import com.sinch.verification.all.auto.initialization.AutoInitializationResponseData
