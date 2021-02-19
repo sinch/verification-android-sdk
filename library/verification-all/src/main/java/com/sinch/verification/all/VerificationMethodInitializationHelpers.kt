@@ -21,8 +21,23 @@ object BasicVerificationMethodBuilder {
     /**
      * Creates a [Verification] instance.
      * @param commonVerificationInitializationParameters Properties of Verification that are used by each verification method builder.
+     */
+    @Suppress("DEPRECATION")
+    @JvmStatic
+    fun createVerification(
+        commonVerificationInitializationParameters: CommonVerificationInitializationParameters
+    ) =
+        createVerification(commonVerificationInitializationParameters, null)
+
+    /**
+     * Creates a [Verification] instance.
+     * @param commonVerificationInitializationParameters Properties of Verification that are used by each verification method builder.
      * @param appHash Optional application hash needed by [SmsVerificationMethod].
      */
+    @Deprecated(
+        "For security purposes configure your application hash directly on the Sinch web portal.",
+        ReplaceWith("createVerification(commonVerificationInitializationParameters)")
+    )
     @JvmStatic
     fun createVerification(
         commonVerificationInitializationParameters: CommonVerificationInitializationParameters,

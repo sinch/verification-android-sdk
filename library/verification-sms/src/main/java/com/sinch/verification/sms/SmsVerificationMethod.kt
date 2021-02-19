@@ -104,11 +104,7 @@ class SmsVerificationMethod private constructor(
     }
 
     private fun initializeInterceptorIfNeeded() {
-        if (config.appHash.isNullOrBlank()) {
-            logger.info("App hash not provided, skipping initialization of interceptor")
-        } else {
-            codeInterceptor?.start()
-        }
+        codeInterceptor?.start()
     }
 
     private fun updateInterceptorWithApiData(data: SmsInitiationResponseData) {
