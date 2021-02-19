@@ -51,7 +51,11 @@ class SmsCodeInterceptor(
     }
 
     override fun onInterceptorStopped() {
-        context.unregisterReceiver(smsBroadcastReceiver)
+        try {
+            context.unregisterReceiver(smsBroadcastReceiver)
+        } catch (e: Exception) {
+            logger.debug("Exception while unregistering the receiver $e")
+        }
     }
 
     override fun onInterceptorTimedOut() {}

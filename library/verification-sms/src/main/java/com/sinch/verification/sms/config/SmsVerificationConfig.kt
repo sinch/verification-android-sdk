@@ -114,6 +114,7 @@ class SmsVerificationConfig internal constructor(
          * @param appHash Application hash used to automatically intercept the message. [See](https://developers.sinch.com/docs/verification-android-the-verification-process#automatic-code-extraction-from-sms)
          * @return Instance of builder with assigned appHash field.
          */
+        @Deprecated("For security purposes configure your application hash directly on the Sinch web portal.")
         override fun appHash(appHash: String?) = apply {
             this.appHash = appHash
         }
