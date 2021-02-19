@@ -1,26 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/group"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/productionApi"
-            android:checked="true"
-            android:title="@string/prodMenuItem" />
-        <item
-            android:id="@+id/productionBrokApi"
-            android:title="@string/prodBrokMenuItem" />
-        <item
-            android:id="@+id/ftest1Api"
-            android:title="@string/ftest1MenuItem" />
-        <item
-            android:id="@+id/ftest1BrokApi"
-            android:title="@string/ftest1BrokMenuItem" />
-        <item
-            android:id="@+id/ftest2Api"
-            android:title="@string/ftest2MenuItem" />
-        <item
-            android:id="@+id/ftest2BrokApi"
-            android:title="@string/ftest2BrokMenuItem" />
-    </group>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/settingsScreen"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/settings"
+        app:showAsAction="always" />
+
 </menu>

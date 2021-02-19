@@ -1,9 +1,10 @@
 package com.sinch.sinchverification
 
 import android.app.Application
-import android.view.MenuItem
+import android.webkit.URLUtil
 import com.sinch.logging.Log
 import com.sinch.logging.LogcatAppender
+import com.sinch.sinchverification.utils.SharedPrefsManager
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.general.SinchGlobalConfig
@@ -12,16 +13,35 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 class VerificationSampleApp : Application() {
 
-    var globalConfig: GlobalConfig = buildGlobalConfig(
-        apiHost = BuildConfig.API_BASE_URL_PROD,
-        appKey = BuildConfig.APP_KEY
-    )
+    lateinit var globalConfig: GlobalConfig
         private set
+
+    var selectedEnvironment = Environment.PRODUCTION
+        private set
+
+    val usedApplicationKey: String
+        get() = sharedPrefsManager.appKey(selectedEnvironment)
+            .ifEmpty { selectedEnvironment.predefinedAppKey }
+
+    val usedBaseUrl: String
+        get() {
+            return when (selectedEnvironment) {
+                Environment.CUSTOM -> sharedPrefsManager.customURL
+                else -> selectedEnvironment.predefinedURL
+            }
+        }
+
+    var childGlobalConfigPropertiesUpdateListener: GlobalConfigPropertiesUpdateListener? = null
+
+    private val sharedPrefsManager: SharedPrefsManager by lazy {
+        SharedPrefsManager(this)
+    }
 
     override fun onCreate() {
         super.onCreate()
         initFlipper()
         initLogger()
+        rebuildGlobalConfig()
     }
 
     private fun initFlipper() {
@@ -43,36 +63,29 @@ class VerificationSampleApp : Application() {
             })
             .build()
 
-    fun onDevelopmentOptionSelected(item: MenuItem): Boolean {
-        item.isChecked = true
-        globalConfig = when (item.itemId) {
-            R.id.productionApi -> buildGlobalConfig(
-                BuildConfig.API_BASE_URL_PROD,
-                BuildConfig.APP_KEY_PROD
-            )
-            R.id.productionBrokApi -> buildGlobalConfig(
-                BuildConfig.API_BASE_URL_PROD_BROK,
-                BuildConfig.APP_KEY_PROD_BROK
-            )
-            R.id.ftest1Api -> buildGlobalConfig(
-                BuildConfig.API_BASE_URL_FTEST1,
-                BuildConfig.APP_KEY_FTEST1
-            )
-            R.id.ftest1BrokApi -> buildGlobalConfig(
-                BuildConfig.API_BASE_URL_FTEST1_BROK,
-                BuildConfig.APP_KEY_FTEST1_BROK
-            )
-            R.id.ftest2Api -> buildGlobalConfig(
-                BuildConfig.API_BASE_URL_FTEST2,
-                BuildConfig.APP_KEY_FTEST2
-            )
-            R.id.ftest2BrokApi -> buildGlobalConfig(
-                BuildConfig.API_BASE_URL_FTEST2_BROK,
-                BuildConfig.APP_KEY_FTEST2_BROK
-            )
-            else -> throw RuntimeException("Menu item with ${item.itemId} not handled")
+    fun updateSelectedEnvironment(newEnvironment: Environment) {
+        this.selectedEnvironment = newEnvironment
+        rebuildGlobalConfig()
+    }
+
+    fun updateBaseUrlManually(newBaseURL: String) {
+        sharedPrefsManager.customURL = newBaseURL
+        rebuildGlobalConfig()
+    }
+
+    fun updateAppKeyManually(newAppKey: String) {
+        sharedPrefsManager.setAppKey(selectedEnvironment, newAppKey)
+        rebuildGlobalConfig()
+    }
+
+    private fun rebuildGlobalConfig() {
+        if (!URLUtil.isValidUrl(usedBaseUrl)) {
+            return
         }
-        return true
+        globalConfig = buildGlobalConfig(
+            apiHost = usedBaseUrl,
+            appKey = usedApplicationKey
+        )
     }
 
 }

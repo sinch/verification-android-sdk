@@ -4,7 +4,9 @@ apply from: file('testlogger.gradle')
 
 //Signing properties are defined in keystore.properties file
 Properties keyProperties = new Properties()
-keyProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+try {
+    keyProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
+} catch (Exception ignored){}
 
 ext {
     keyAliasSinch = keyProperties['alias']
@@ -23,13 +25,6 @@ buildscript {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://sinch.bintray.com/com.sinch.android.sdk.verification"
-            credentials {
-                username bintrayUser
-                password bintrayApiKey
-            }
-        }
     }
 
     dependencies {
@@ -48,13 +43,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "https://sinch.bintray.com/com.sinch.android.sdk.verification"
-            credentials {
-                username bintrayUser
-                password bintrayApiKey
-            }
-        }
     }
 }
 

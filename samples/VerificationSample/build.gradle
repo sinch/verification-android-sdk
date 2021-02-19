@@ -41,22 +41,17 @@ android {
             dimension "mode"
 
             buildConfigField "String", "APP_KEY_PROD", "\"$testAppProductionKey\""
-            buildConfigField "String", "APP_KEY_PROD_BROK", "\"$testAppProductionBrokKey\""
+            buildConfigField "String", "APP_KEY_PROD_APSE", "\"$testAppProductionApseKey\""
+            buildConfigField "String", "APP_KEY_PROD_EUC1", "\"$testAppProductionEUCKey\""
             buildConfigField "String", "APP_KEY_FTEST1", "\"$testAppFtest1Key\""
-            buildConfigField "String", "APP_KEY_FTEST1_BROK", "\"$testAppFtest1BrokKey\""
             buildConfigField "String", "APP_KEY_FTEST2", "\"$testAppFtest2Key\""
-            buildConfigField "String", "APP_KEY_FTEST2_BROK", "\"$testAppFtest2BrokKey\""
 
             buildConfigField "String", "API_BASE_URL_PROD", "\"https://verificationapi-v1.sinch.com/\""
-            buildConfigField "String", "API_BASE_URL_PROD_BROK", "\"https://verification.api.sinch.com/\""
-            buildConfigField "String", "API_BASE_URL_FTEST1", "\"https://verificationapi-v1-01.sinchlab.com/\""
-            buildConfigField "String", "API_BASE_URL_FTEST1_BROK", "\"https://ft1-verification.api.sinchlab.com/\""
-            buildConfigField "String", "API_BASE_URL_FTEST2", "\"https://verificationapi-v1-02.sinchlab.com/\""
-            buildConfigField "String", "API_BASE_URL_FTEST2_BROK", "\"https://ft2-verification.api.sinchlab.com/\""
+            buildConfigField "String", "API_BASE_URL_PROD_EUC1", "\"https://dc-euc1-std.verification.api.sinch.com/\""
+            buildConfigField "String", "API_BASE_URL_PROD_APSE1", "\"https://dc-apse1-std.verification.api.sinch.com/\""
+            buildConfigField "String", "API_BASE_URL_FTEST1", "\"https://ft1-verification.api.sinchlab.com/\""
+            buildConfigField "String", "API_BASE_URL_FTEST2", "\"https://ft2-verification.api.sinchlab.com/\""
 
-        }
-        external {
-            dimension "mode"
         }
     }
 
@@ -108,6 +103,7 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
     implementation 'org.greenrobot:eventbus:3.2.0'
+    implementation "androidx.preference:preference-ktx:1.1.1"
 
     debugImplementation 'com.facebook.soloader:soloader:0.9.0'
     debugImplementation 'com.facebook.flipper:flipper:0.41.0'

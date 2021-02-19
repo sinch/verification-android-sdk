@@ -1,25 +1,23 @@
 <resources>
     <string name="app_name">SinchVerification</string>
     <string name="title_activity_main">Sinch Verification</string>
+    <string name="ok">OK</string>
 
+    <!--Main screen-->
     <string name="initialize">Initialize</string>
     <string name="verify">Verify</string>
-
-    <!--    <string name="testPhone">+48509873255</string>-->
-    <string name="testPhone">+46543543123</string>
     <string name="enterNumberHint">Phone number</string>
     <string name="verificationCodeHint">Enter code</string>
-
     <string name="sms">SMS</string>
     <string name="flashcall">Flashcall</string>
     <string name="callout">Callout</string>
-    <string name="seamless">Seamless</string>
-    <string name="auto">Auto</string>
+    <string name="data">Data</string>
+    <string name="unified">Unified</string>
     <string name="verificationMethod">Verification Method</string>
-    <string name="options">Optional configuration</string>
-    <string name="customField">Custom field</string>
-    <string name="reference">Reference field</string>
-    <string name="honourEarlyReject">Honours early reject</string>
+    <string name="options">Configuration</string>
+    <string name="customField">Custom</string>
+    <string name="reference">Reference</string>
+    <string name="honorEarlyReject">Honor early reject</string>
     <string name="acceptedLanguages">Accepted languages</string>
     <string name="smsVerificationCode">Sms verification code</string>
     <string name="flashCallNumber">Flashcall number</string>
@@ -29,5 +27,19 @@
     <string name="successfullyVerified">Successfully Verified!</string>
     <string name="phoneEmptyError">Phone number field cannot be empty</string>
     <string name="cancel">Cancel</string>
+    <string name="show">Show</string>
+    <string name="hide">Hide</string>
     <string name="close">Close</string>
+
+    <!--Settings screen-->
+    <string name="appKey">Application Key</string>
+    <string name="baseUrl">Base URL</string>
+    <string name="update">Update</string>
+    <string name="globalSettingsTitle">Global Settings</string>
+    <string name="settings">Settings</string>
+    <string name="environment">Environment</string>
+    <string name="environmentDetails">Details</string>
+    <string name="versionPlaceholder">Sample: v%s SDK: v%s</string>
+    <string name="appKeyMissing">Please, enter your application key for selected environment</string>
+
 </resources>
