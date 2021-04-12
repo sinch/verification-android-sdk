@@ -7,7 +7,7 @@ ext {
     pomDescription = "Core module of verification SDK collecting common, base logic used by other packages."
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
 

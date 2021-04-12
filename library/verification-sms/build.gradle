@@ -7,7 +7,7 @@ ext {
     pomDescription = "Secure login, sign-up, reduce churn, and boost revenue – all through the power of a text."
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
     defaultConfig {
