@@ -8,7 +8,7 @@ ext {
             "alternative to traditional SMS verification. Multi-factor authentication has never been so smooth!"
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
     defaultConfig {

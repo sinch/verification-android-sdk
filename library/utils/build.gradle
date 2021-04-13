@@ -5,7 +5,7 @@ ext {
     pomDescription = "Package containing utility classes used by the verification SDK."
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
     defaultConfig {

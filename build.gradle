@@ -1,6 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 apply from: file('testlogger.gradle')
+apply plugin: 'io.codearte.nexus-staging'
 
 //Signing properties are defined in keystore.properties file
 Properties keyProperties = new Properties()
@@ -24,6 +25,7 @@ buildscript {
     }
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 
@@ -32,7 +34,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}"
         classpath "org.jetbrains.kotlin:kotlin-serialization:${Versions.kotlin}"
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:${Versions.dokka}"
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5'
+        classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:${Versions.nexusStagingPluginVersion}"
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -42,6 +44,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 }

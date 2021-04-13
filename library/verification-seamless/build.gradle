@@ -8,7 +8,7 @@ ext {
             "Sinch uses mobile telephony provider data to verify the user automatically."
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
     defaultConfig {
