@@ -8,7 +8,7 @@ ext {
             "(like Android version, sim card info etc.) used by Sinch for analytics purposes and early rejection rules."
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
     defaultConfig {

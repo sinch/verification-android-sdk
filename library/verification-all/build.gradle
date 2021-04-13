@@ -8,7 +8,7 @@ ext {
             "with some extra logic helpful while using all the other verification method specific packages."
 }
 
-apply from: '../publish.gradle'
+apply from: '../publish-mavencentral.gradle'
 
 android {
     defaultConfig {
