@@ -3,5 +3,4 @@ FROM 021785113572.dkr.ecr.eu-west-1.amazonaws.com/verification_android_gradle_bu
 WORKDIR .
 COPY . .
 
-WORKDIR /library
-ENTRYPOINT ["gradle", "bintrayUpload"]
+ENTRYPOINT ["gradle", "publishProductionPublicationToSonatypeRepository", "--max-workers", "1", "closeAndReleaseRepository"]
