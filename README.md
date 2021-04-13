@@ -10,12 +10,13 @@ Sinch offers a platform for phone number verification. It consists of different 
 
 ## Add the Sinch library
 
-The Sinch Verification SDK is available publicly on jCenter. To include it in your Android application, make sure your **project** level build.gradle file contains:
+The Sinch Verification SDK is available publicly on mavenCentral. To include it in your Android application, make sure your **project** level build.gradle file contains:
 
 ```text
 buildscript {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 }
@@ -23,6 +24,7 @@ buildscript {
 allprojects {
     repositories {
         google()
+        mavenCentral()
         jcenter()
     }
 }
@@ -52,7 +54,7 @@ dependencies {
   }
 ```
 
-The latest version of the SDK can be checked on [Bintray](https://bintray.com/sinch/com.sinch.android.sdk.verification).
+The latest version of the SDK can be checked on [here](https://search.maven.org/search?q=com.sinch.android.sdk.verification).
 
 ## Samples
 
