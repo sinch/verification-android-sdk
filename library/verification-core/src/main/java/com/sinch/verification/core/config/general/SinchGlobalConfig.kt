@@ -6,7 +6,6 @@ import com.sinch.verification.core.auth.AuthorizationInterceptor
 import com.sinch.verification.core.auth.AuthorizationMethod
 import com.sinch.verificationcore.BuildConfig
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -68,7 +67,9 @@ class SinchGlobalConfig private constructor(
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(
-                    Json(JsonConfiguration.Stable.copy(ignoreUnknownKeys = true))
+                    Json {
+                        encodeDefaults = true
+                        ignoreUnknownKeys = true }
                         .asConverterFactory("application/json".toMediaType())
                 )
                 .client(okHttpClient)

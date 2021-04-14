@@ -1,6 +1,11 @@
 package com.sinch.verification.core.internal
 
 import kotlinx.serialization.*
+import kotlinx.serialization.descriptors.PrimitiveKind
+import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
+import kotlinx.serialization.descriptors.SerialDescriptor
+import kotlinx.serialization.encoding.Decoder
+import kotlinx.serialization.encoding.Encoder
 import java.util.*
 
 /**
@@ -52,7 +57,7 @@ enum class VerificationMethodType(val value: String) {
     companion object : KSerializer<VerificationMethodType> {
 
         override val descriptor: SerialDescriptor =
-            PrimitiveDescriptor("VerificationMethodType", PrimitiveKind.STRING)
+            PrimitiveSerialDescriptor("VerificationMethodType", PrimitiveKind.STRING)
 
         override fun serialize(encoder: Encoder, value: VerificationMethodType) {
             encoder.encodeString(value.value)

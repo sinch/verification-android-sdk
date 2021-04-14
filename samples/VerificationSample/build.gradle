@@ -93,7 +93,7 @@ dependencies {
     implementation project(':library:verification-all')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.kotlin}"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-runtime:${Versions.xSerialization}"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.xSerialization}"
     implementation "androidx.appcompat:appcompat:${Versions.appCompat}"
     implementation "androidx.core:core-ktx:${Versions.ktx}"
     implementation "com.google.android.material:material:${Versions.material}"
