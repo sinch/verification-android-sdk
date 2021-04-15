@@ -88,11 +88,12 @@ class FlashCallInterceptor(
 
     override fun onInterceptorTimedOut() {
         val extraReportTimeout = reportTimeout - interceptionTimeout
-        logger.debug("onInterceptorTimedOut, still reporting calls for $extraReportTimeout ms")
+        logger.info("onInterceptorTimedOut, still reporting calls for $extraReportTimeout ms")
         cancelHandler.postDelayed(delayedStopRunnable, extraReportTimeout)
     }
 
     override fun onIncomingCallRinging(number: String) {
+        logger.info("onIncomingCallRinging called with number $number")
         if (flashCallPatternMatcher.matches(number)) {
             codeIntercepted(number, VerificationSourceType.INTERCEPTION)
         }
@@ -104,7 +105,7 @@ class FlashCallInterceptor(
 
     private fun checkCallLog() {
         val dateInMs = callHistoryStartDate.time
-        logger.debug("Checking call history since $callHistoryStartDate")
+        logger.info("Checking call history since $callHistoryStartDate")
         callHistoryStartDate = Date()
         callHistoryReader.readIncomingCalls(dateInMs).firstOrNull { number ->
             flashCallPatternMatcher.matches(number)
@@ -116,6 +117,7 @@ class FlashCallInterceptor(
     private fun codeIntercepted(number: String, sourceType: VerificationSourceType) {
         codeInterceptionState =
             if (isPastInterceptionTimeout) CodeInterceptionState.LATE else CodeInterceptionState.NORMAL
+        logger.info("codeIntercepted isPastInterceptionTimeout?  $isPastInterceptionTimeout source is $sourceType")
         if (!isPastInterceptionTimeout) {
             interceptionListener.onCodeIntercepted(number, sourceType)
         }

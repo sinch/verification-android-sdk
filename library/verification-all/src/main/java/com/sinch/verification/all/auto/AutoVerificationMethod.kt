@@ -36,7 +36,7 @@ class AutoVerificationMethod private constructor(
     verificationListener
 ), SubCodeInterceptionListener {
 
-    private val requestDataData: AutoInitializationData
+    private val requestData: AutoInitializationData
         get() =
             AutoInitializationData(
                 identity = VerificationIdentity(config.number),
@@ -53,7 +53,8 @@ class AutoVerificationMethod private constructor(
     private var currentVerificationMethod: VerificationMethodType? = null
 
     override fun onInitiate() {
-        verificationService.initializeVerification(requestDataData)
+        logger.info("onInitiate called with requestData: $requestData")
+        verificationService.initializeVerification(requestData)
             .enqueue(
                 retrofit = retrofit,
                 apiCallback = SimpleInitializationAutoApiCallback(
@@ -69,6 +70,7 @@ class AutoVerificationMethod private constructor(
     }
 
     private fun initializeInterceptors() {
+        logger.info("Initiation interceptors for auto verification method")
         autoInitializationResponseData?.let {
             codeInterceptor = AutoVerificationInterceptor(
                 context = config.globalConfig.context,
@@ -83,8 +85,10 @@ class AutoVerificationMethod private constructor(
     }
 
     private fun proceedToNextVerificationMethod() {
+        val previousMethod = currentVerificationMethod
         currentVerificationMethod =
             autoInitializationResponseData?.autoDetails?.methodAfter(currentVerificationMethod)
+        logger.info("ProceedToNextVerificationMethod called moving from $previousMethod to $currentVerificationMethod")
     }
 
     private fun tryVerifySeamlessly() {
@@ -134,7 +138,7 @@ class AutoVerificationMethod private constructor(
         val verificationData =
             AutoVerificationData.create(verificationMethod, sourceType, verificationCode)
 
-        logger.info("Trying to verify with $method")
+        logger.info("onVerify called for method: $verificationMethod")
         verificationListener.onVerificationEvent(
             AutoVerificationEvent.SubMethodVerificationCallEvent(
                 verificationMethod

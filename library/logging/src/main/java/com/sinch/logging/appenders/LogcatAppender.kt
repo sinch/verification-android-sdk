@@ -1,6 +1,7 @@
-package com.sinch.logging
+package com.sinch.logging.appenders
 
 import android.util.Log
+import com.sinch.logging.Appender
 
 class LogcatAppender : Appender {
 

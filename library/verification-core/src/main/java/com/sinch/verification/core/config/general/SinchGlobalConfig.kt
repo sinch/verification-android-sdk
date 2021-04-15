@@ -69,7 +69,8 @@ class SinchGlobalConfig private constructor(
                 .addConverterFactory(
                     Json {
                         encodeDefaults = true
-                        ignoreUnknownKeys = true }
+                        ignoreUnknownKeys = true
+                    }
                         .asConverterFactory("application/json".toMediaType())
                 )
                 .client(okHttpClient)

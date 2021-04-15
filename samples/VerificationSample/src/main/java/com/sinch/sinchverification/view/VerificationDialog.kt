@@ -10,6 +10,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
+import com.sinch.logging.logger
 import com.sinch.sinchverification.LogMessageEvent
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
@@ -39,6 +40,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         }
     }
 
+    protected val logger = logger()
     private val app: VerificationSampleApp get() = activity?.application as VerificationSampleApp
     private val initData by lazy {
         arguments?.get(DATA_TAG) as VerificationInitData
@@ -46,10 +48,12 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
     private val initListener = object : InitiationListener<InitiationResponseData> {
         override fun onInitializationFailed(t: Throwable) {
+            logger.error("onInitializationFailed callback executed with", t)
             showErrorWithMessage(t.message.orEmpty())
         }
 
         override fun onInitiated(data: InitiationResponseData) {
+            logger.debug("onInitiated callback executed with initiation data: $data")
             if (data is AutoInitializationResponseData) {
                 adjustVisibilityIfAutoMethodInitiated(data)
             }
@@ -128,6 +132,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     }
 
     override fun onVerified() {
+        logger.debug("onVerified called")
         progressBar.hide()
         messageText.apply {
             setTextColor(ContextCompat.getColor(app, R.color.green))
@@ -139,6 +144,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     }
 
     override fun onVerificationFailed(t: Throwable) {
+        logger.error("onVerificationFailed called", t)
         if (initData.usedMethod == VerificationMethodType.AUTO) {
             appendLoggerText(t.message ?: "Verification error")
         } else {

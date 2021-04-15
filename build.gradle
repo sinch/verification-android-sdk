@@ -7,7 +7,8 @@ apply plugin: 'io.codearte.nexus-staging'
 Properties keyProperties = new Properties()
 try {
     keyProperties.load(new FileInputStream(rootProject.file("keystore.properties")))
-} catch (Exception ignored){}
+} catch (Exception ignored) {
+}
 
 ext {
     keyAliasSinch = keyProperties['alias']

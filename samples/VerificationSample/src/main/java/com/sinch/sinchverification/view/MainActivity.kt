@@ -10,6 +10,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import com.sinch.logging.logger
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.verification.core.VerificationInitData
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         const val PERMISSION_REQUEST_CODE = 5
     }
 
+    protected val logger = logger()
     private val myApplication: VerificationSampleApp
         get() =
             application as VerificationSampleApp
@@ -117,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                 phoneInput.error = getString(R.string.phoneEmptyError)
             }
             else -> {
+                logger.debug("Showing verification dialog with data: $initData")
                 VerificationDialog.newInstance(initData)
                     .apply {
                         show(supportFragmentManager, "dialog")

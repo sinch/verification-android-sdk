@@ -57,7 +57,8 @@ class SimCardsInfoListSerializerTests {
 
     @Test
     fun test2CardInfo() {
-        val jsonData = json.encodeToJsonElement(SimCardsInfoListSerializer, listOf(simpleData1, simpleData2))
+        val jsonData =
+            json.encodeToJsonElement(SimCardsInfoListSerializer, listOf(simpleData1, simpleData2))
 
         assertTrue(jsonData.jsonObject.contains(COUNT_FIELD_NAME))
         assertTrue(jsonData.jsonObject.contains(FIELD_NAME_1))

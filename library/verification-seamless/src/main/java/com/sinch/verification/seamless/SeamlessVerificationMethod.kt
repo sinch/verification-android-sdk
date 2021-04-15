@@ -45,7 +45,7 @@ class SeamlessVerificationMethod private constructor(
         config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
-    private val requestDataData: SeamlessInitiationData
+    private val requestData: SeamlessInitiationData
         get() =
             SeamlessInitiationData(
                 identity = VerificationIdentity(config.number),
@@ -67,7 +67,8 @@ class SeamlessVerificationMethod private constructor(
     }
 
     override fun onInitiate() {
-        verificationService.initializeVerification(requestDataData)
+        logger.info("onInitiate called with requestData: $requestData")
+        verificationService.initializeVerification(requestData)
             .enqueue(
                 retrofit = retrofit,
                 apiCallback = SimpleInitializationSeamlessApiCallback(

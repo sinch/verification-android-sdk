@@ -3,7 +3,9 @@ package com.sinch.sinchverification
 import android.app.Application
 import android.webkit.URLUtil
 import com.sinch.logging.Log
-import com.sinch.logging.LogcatAppender
+import com.sinch.logging.appenders.FileAppender
+import com.sinch.logging.appenders.LogcatAppender
+import com.sinch.sinchverification.utils.HttpFileLogger
 import com.sinch.sinchverification.utils.SharedPrefsManager
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
 import com.sinch.verification.core.config.general.GlobalConfig
@@ -49,18 +51,24 @@ class VerificationSampleApp : Application() {
     }
 
     private fun initLogger() {
-        Log.init(LogcatAppender(), EventBusAppender())
+        Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this))
     }
 
     private fun buildGlobalConfig(apiHost: String, appKey: String): GlobalConfig =
         SinchGlobalConfig.Builder.instance.applicationContext(this)
             .authorizationMethod(AppKeyAuthorizationMethod(appKey))
             .apiHost(apiHost)
-            .interceptors(FlipperInitializer.okHttpFlipperInterceptors + HttpLoggingInterceptor().apply {
-                setLevel(
-                    HttpLoggingInterceptor.Level.BODY
-                )
-            })
+            .interceptors(FlipperInitializer.okHttpFlipperInterceptors +
+                    HttpLoggingInterceptor().apply {
+                        setLevel(
+                            HttpLoggingInterceptor.Level.BODY
+                        )
+                    } +
+                    HttpLoggingInterceptor(HttpFileLogger()).apply {
+                        setLevel(
+                            HttpLoggingInterceptor.Level.BODY
+                        )
+                    })
             .build()
 
     fun updateSelectedEnvironment(newEnvironment: Environment) {

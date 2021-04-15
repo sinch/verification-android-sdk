@@ -49,7 +49,7 @@ class SmsVerificationMethod private constructor(
     CodeInterceptionListener {
 
     private val metadataFactory: PhoneMetadataFactory = config.metadataFactory
-    private val requestDataData: SmsVerificationInitiationData
+    private val requestData: SmsVerificationInitiationData
         get() =
             SmsVerificationInitiationData(
                 identity = VerificationIdentity(config.number),
@@ -68,9 +68,10 @@ class SmsVerificationMethod private constructor(
         )
 
     override fun onInitiate() {
+        logger.info("onInitiate called with requestData: $requestData")
         initializeInterceptorIfNeeded()
         verificationService.initializeVerification(
-            requestDataData,
+            requestData,
             config.acceptedLanguages.asLanguagesString()
         )
             .enqueue(

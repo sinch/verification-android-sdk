@@ -52,7 +52,7 @@ class FlashCallVerificationMethod private constructor(
     verificationListener
 ) {
 
-    private val requestDataData: FlashCallVerificationInitializationData
+    private val requestData: FlashCallVerificationInitializationData
         get() =
             FlashCallVerificationInitializationData(
                 identity = VerificationIdentity(config.number),
@@ -74,7 +74,8 @@ class FlashCallVerificationMethod private constructor(
     }
 
     override fun onInitiate() {
-        verificationService.initializeVerification(requestDataData).enqueue(
+        logger.info("onInitiate called with requestData: $requestData")
+        verificationService.initializeVerification(requestData).enqueue(
             retrofit = retrofit,
             apiCallback = SimpleInitializationFlashCallApiCallback(
                 listener = initializationListener,
@@ -114,6 +115,7 @@ class FlashCallVerificationMethod private constructor(
     }
 
     private fun initializeInterceptor(data: FlashCallInitializationResponseData) {
+        logger.info("Trying to initialize interceptor for flashcall")
         try {
             codeInterceptor = FlashCallInterceptor(
                 context = config.globalConfig.context,

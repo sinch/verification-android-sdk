@@ -58,11 +58,11 @@ abstract class VerificationMethod<Service>(
         method: VerificationMethodType? = null
     ) {
         if (verificationState.canVerify) {
-            logger.debug("Verifying $verificationCode from source: $sourceType")
+            logger.info("Verify called with code: $verificationCode for method: $method acquired from source: $sourceType")
             update(VerificationState.Verification(VerificationStateStatus.ONGOING))
             onVerify(verificationCode, sourceType, method)
         } else {
-            logger.debug("Verify called however verificationState.canVerify returned false")
+            logger.warn("Verify called however verificationState.canVerify returned false")
         }
     }
 
@@ -72,7 +72,7 @@ abstract class VerificationMethod<Service>(
             update(VerificationState.Initialization(VerificationStateStatus.ONGOING))
             onInitiate()
         } else {
-            logger.debug("Initiate called however onPreInitiate or verificationState.canInitiate returned false")
+            logger.warn("Initiate called however onPreInitiate or verificationState.canInitiate returned false")
         }
     }
 
@@ -81,7 +81,7 @@ abstract class VerificationMethod<Service>(
             logger.info("Verification process already finished with state $verificationState")
             return
         }
-        logger.debug("Stop called")
+        logger.info("Stop called")
         update(VerificationState.ManuallyStopped)
     }
 
