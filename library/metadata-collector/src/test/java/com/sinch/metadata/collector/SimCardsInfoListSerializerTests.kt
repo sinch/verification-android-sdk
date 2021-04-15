@@ -3,9 +3,7 @@ package com.sinch.metadata.collector
 import com.sinch.metadata.collector.sim.SimCardsInfoListSerializer
 import com.sinch.metadata.model.sim.OperatorInfo
 import com.sinch.metadata.model.sim.SimCardInfo
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonConfiguration
-import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.*
 import org.junit.Assert.*
 import org.junit.Test
 
@@ -41,29 +39,32 @@ class SimCardsInfoListSerializerTests {
             )
         )
 
-    private val json = Json(JsonConfiguration.Stable)
+    private val json = Json {
+        encodeDefaults = true
+        ignoreUnknownKeys = true
+    }
 
     @Test
     fun testSimpleSingleCardInfo() {
-        val jsonData = json.toJson(SimCardsInfoListSerializer, listOf(simpleData1))
-        assertTrue(jsonData.contains(FIELD_NAME_1))
-        assertTrue(jsonData.contains(COUNT_FIELD_NAME))
+        val jsonData = json.encodeToJsonElement(SimCardsInfoListSerializer, listOf(simpleData1))
+        assertTrue(jsonData.jsonObject.contains(FIELD_NAME_1))
+        assertTrue(jsonData.jsonObject.contains(COUNT_FIELD_NAME))
 
-        val firstObject = jsonData.jsonObject.getObject(FIELD_NAME_1)
+        val firstObject = jsonData.jsonObject[FIELD_NAME_1]
         assertEquals(firstObject, serializeSimInfo(simpleData1))
         assertEquals(jsonData.countValue, 1)
     }
 
     @Test
     fun test2CardInfo() {
-        val jsonData = json.toJson(SimCardsInfoListSerializer, listOf(simpleData1, simpleData2))
+        val jsonData = json.encodeToJsonElement(SimCardsInfoListSerializer, listOf(simpleData1, simpleData2))
 
-        assertTrue(jsonData.contains(COUNT_FIELD_NAME))
-        assertTrue(jsonData.contains(FIELD_NAME_1))
-        assertTrue(jsonData.contains(FIELD_NAME_2))
+        assertTrue(jsonData.jsonObject.contains(COUNT_FIELD_NAME))
+        assertTrue(jsonData.jsonObject.contains(FIELD_NAME_1))
+        assertTrue(jsonData.jsonObject.contains(FIELD_NAME_2))
 
-        val firstObject = jsonData.jsonObject.getObject(FIELD_NAME_1)
-        val secondObject = jsonData.jsonObject.getObject(FIELD_NAME_2)
+        val firstObject = jsonData.jsonObject[FIELD_NAME_1]
+        val secondObject = jsonData.jsonObject[FIELD_NAME_2]
 
         assertEquals(firstObject, serializeSimInfo(simpleData1))
         assertEquals(secondObject, serializeSimInfo(simpleData2))
@@ -72,16 +73,16 @@ class SimCardsInfoListSerializerTests {
 
     @Test
     fun testEmptyCardInfo() {
-        val jsonData = json.toJson(SimCardsInfoListSerializer, emptyList())
-        assertTrue(jsonData.contains(COUNT_FIELD_NAME))
-        assertFalse(jsonData.contains(FIELD_NAME_1))
+        val jsonData = json.encodeToJsonElement(SimCardsInfoListSerializer, emptyList())
+        assertTrue(jsonData.jsonObject.contains(COUNT_FIELD_NAME))
+        assertFalse(jsonData.jsonObject.contains(FIELD_NAME_1))
         assertEquals(jsonData.jsonObject.keys.size, 1)
         assertEquals(jsonData.countValue, 0)
     }
 
-    private val JsonElement.countValue: Int get() = jsonObject.getPrimitive(COUNT_FIELD_NAME).int
+    private val JsonElement.countValue: Int get() = jsonObject.getValue(COUNT_FIELD_NAME).jsonPrimitive.int
 
-    private fun serializeSimInfo(simCardInfo: SimCardInfo) = json.toJson(
+    private fun serializeSimInfo(simCardInfo: SimCardInfo) = json.encodeToJsonElement(
         SimCardInfo.serializer(),
         simCardInfo
     )
