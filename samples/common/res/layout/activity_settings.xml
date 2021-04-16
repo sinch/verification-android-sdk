@@ -31,48 +31,9 @@
                 android:textSize="@dimen/textSizeBig" />
 
             <RadioGroup
-                android:id="@+id/radioGroup"
+                android:id="@+id/envRadioGroup"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checkedButton="@+id/productionApi">
-
-                <RadioButton
-                    android:id="@+id/productionApi"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/prodMenuItem" />
-
-                <RadioButton
-                    android:id="@+id/productionEUC1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/prodEUC1MenuItem" />
-
-                <RadioButton
-                    android:id="@+id/productionAPSE1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/prodAPSEMenuItem" />
-
-                <RadioButton
-                    android:id="@+id/ftest1Api"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/ftest1MenuItem" />
-
-                <RadioButton
-                    android:id="@+id/ftest2Api"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/ftest2MenuItem" />
-
-                <RadioButton
-                    android:id="@+id/customItemId"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/customMenuItem" />
-
-            </RadioGroup>
+                android:layout_height="wrap_content" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"

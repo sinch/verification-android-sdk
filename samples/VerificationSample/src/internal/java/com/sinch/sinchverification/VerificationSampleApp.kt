@@ -18,26 +18,11 @@ class VerificationSampleApp : Application() {
     lateinit var globalConfig: GlobalConfig
         private set
 
-    var selectedEnvironment = Environment.PRODUCTION
-        private set
-
-    val usedApplicationKey: String
-        get() = sharedPrefsManager.appKey(selectedEnvironment)
-            .ifEmpty { selectedEnvironment.predefinedAppKey }
-
-    val usedBaseUrl: String
-        get() {
-            return when (selectedEnvironment) {
-                Environment.CUSTOM -> sharedPrefsManager.customURL
-                else -> selectedEnvironment.predefinedURL
-            }
-        }
-
-    var childGlobalConfigPropertiesUpdateListener: GlobalConfigPropertiesUpdateListener? = null
-
     private val sharedPrefsManager: SharedPrefsManager by lazy {
         SharedPrefsManager(this)
     }
+
+    val usedConfig get() = sharedPrefsManager.usedConfig
 
     override fun onCreate() {
         super.onCreate()
@@ -71,28 +56,29 @@ class VerificationSampleApp : Application() {
                     })
             .build()
 
-    fun updateSelectedEnvironment(newEnvironment: Environment) {
-        this.selectedEnvironment = newEnvironment
+    fun updateCurrentConfigKey(newAppKey: String) {
+        sharedPrefsManager.usedConfig = sharedPrefsManager.usedConfig.copy(appKey = newAppKey)
         rebuildGlobalConfig()
     }
 
-    fun updateBaseUrlManually(newBaseURL: String) {
-        sharedPrefsManager.customURL = newBaseURL
+    fun updateCurrentConfigBaseURL(newEnv: String) {
+        sharedPrefsManager.usedConfig = sharedPrefsManager.usedConfig.copy(environment = newEnv)
         rebuildGlobalConfig()
     }
 
-    fun updateAppKeyManually(newAppKey: String) {
-        sharedPrefsManager.setAppKey(selectedEnvironment, newAppKey)
+    fun updateAppConfig(newConfigName: String) {
+        sharedPrefsManager.usedConfigName = newConfigName
         rebuildGlobalConfig()
     }
 
     private fun rebuildGlobalConfig() {
-        if (!URLUtil.isValidUrl(usedBaseUrl)) {
+        val usedConfig = sharedPrefsManager.usedConfig
+        if (!URLUtil.isValidUrl(usedConfig.environment)) {
             return
         }
         globalConfig = buildGlobalConfig(
-            apiHost = usedBaseUrl,
-            appKey = usedApplicationKey
+            apiHost = usedConfig.environment,
+            appKey = usedConfig.appKey
         )
     }
 

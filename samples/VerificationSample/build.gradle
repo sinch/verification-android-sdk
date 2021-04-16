@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlinx-serialization'
 
 android {
     compileSdkVersion(Versions.compileSdk)
@@ -39,19 +40,6 @@ android {
     productFlavors {
         internal {
             dimension "mode"
-
-            buildConfigField "String", "APP_KEY_PROD", "\"$testAppProductionKey\""
-            buildConfigField "String", "APP_KEY_PROD_APSE", "\"$testAppProductionApseKey\""
-            buildConfigField "String", "APP_KEY_PROD_EUC1", "\"$testAppProductionEUCKey\""
-            buildConfigField "String", "APP_KEY_FTEST1", "\"$testAppFtest1Key\""
-            buildConfigField "String", "APP_KEY_FTEST2", "\"$testAppFtest2Key\""
-
-            buildConfigField "String", "API_BASE_URL_PROD", "\"https://verificationapi-v1.sinch.com/\""
-            buildConfigField "String", "API_BASE_URL_PROD_EUC1", "\"https://dc-euc1-std.verification.api.sinch.com/\""
-            buildConfigField "String", "API_BASE_URL_PROD_APSE1", "\"https://dc-apse1-std.verification.api.sinch.com/\""
-            buildConfigField "String", "API_BASE_URL_FTEST1", "\"https://ft1-verification.api.sinchlab.com/\""
-            buildConfigField "String", "API_BASE_URL_FTEST2", "\"https://ft2-verification.api.sinchlab.com/\""
-
         }
     }
 

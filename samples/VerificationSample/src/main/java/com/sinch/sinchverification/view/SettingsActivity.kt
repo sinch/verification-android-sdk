@@ -2,12 +2,18 @@ package com.sinch.sinchverification.view
 
 import android.os.Bundle
 import android.view.View
+import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.sinch.sinchverification.*
+import androidx.core.view.children
+import com.sinch.sinchverification.BuildConfig
+import com.sinch.sinchverification.R
+import com.sinch.sinchverification.VerificationSampleApp
+import com.sinch.sinchverification.utils.AppConfig
+import com.sinch.sinchverification.utils.defaultConfigs
 import kotlinx.android.synthetic.main.activity_settings.*
 
-class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListener {
+class SettingsActivity : AppCompatActivity() {
 
     private val myApplication: VerificationSampleApp
         get() =
@@ -16,72 +22,58 @@ class SettingsActivity : AppCompatActivity(), GlobalConfigPropertiesUpdateListen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        myApplication.childGlobalConfigPropertiesUpdateListener = this
         attachUpdateGlobalConfigListeners()
+        buildRadioButtons()
         updateGlobalConfigPropertiesLayout()
         attachRadioGroupChangeListener()
         populateVersionText()
-        if (myApplication.usedApplicationKey.isEmpty()) {
+        if (myApplication.usedConfig.appKey.isEmpty()) {
             showInsertAppKeyPrompt()
         }
     }
 
-    override fun onBaseURLUpdated(baseURL: String, isCustom: Boolean) {
-        baseURLInputLayoutEditText.isEnabled = isCustom
-        updateBaseUrlButton.isEnabled = isCustom
-        updateGlobalConfigPropertiesLayout()
-    }
-
-    override fun onAppKeyUpdated(appKey: String) {
-        updateGlobalConfigPropertiesLayout()
-    }
-
     private fun attachUpdateGlobalConfigListeners() {
         updateBaseUrlButton.setOnClickListener {
-            myApplication.updateBaseUrlManually(
+            myApplication.updateCurrentConfigBaseURL(
                 baseURLInputLayoutEditText.text.toString()
             )
         }
         updateAppKeyButton.setOnClickListener {
-            myApplication.updateAppKeyManually(appKeyInputLayoutEditText.text.toString())
+            myApplication.updateCurrentConfigKey(appKeyInputLayoutEditText.text.toString())
         }
     }
 
     private fun attachRadioGroupChangeListener() {
-        radioGroup.setOnCheckedChangeListener { _, checkedItemId ->
+        envRadioGroup.setOnCheckedChangeListener { _, checkedItemId ->
             onEnvironmentRadioButtonChecked(checkedItemId)
         }
     }
 
+    private fun buildRadioButtons() {
+        (defaultConfigs.map { it.name } + listOf(AppConfig.CUSTOM_CONFIG_NAME)).forEach {
+            envRadioGroup.addView(RadioButton(this).apply {
+                text = it
+                tag = it
+            })
+        }
+    }
+
     private fun updateGlobalConfigPropertiesLayout() {
-        appKeyInputLayoutEditText.setText(myApplication.usedApplicationKey)
-        baseURLInputLayoutEditText.setText(myApplication.usedBaseUrl)
-        radioGroup.check(
-            when (myApplication.selectedEnvironment) {
-                Environment.PRODUCTION -> R.id.productionApi
-                Environment.APSE1 -> R.id.productionAPSE1
-                Environment.EUC1 -> R.id.productionEUC1
-                Environment.FTEST1 -> R.id.ftest1Api
-                Environment.FTEST2 -> R.id.ftest2Api
-                Environment.CUSTOM -> R.id.customItemId
-            }
-        )
+        val currentAppConfig = myApplication.usedConfig
+        val idOfButtonToCheck = envRadioGroup.children.first { currentAppConfig.name == it.tag }.id
+
+        appKeyInputLayoutEditText.setText(currentAppConfig.appKey)
+        baseURLInputLayoutEditText.setText(currentAppConfig.environment)
+        envRadioGroup.check(idOfButtonToCheck)
         listOf<View>(baseURLInputLayoutEditText, updateBaseUrlButton).forEach {
-            it.isEnabled = (myApplication.selectedEnvironment == Environment.CUSTOM)
+            it.isEnabled = (currentAppConfig.isCustom)
         }
     }
 
     private fun onEnvironmentRadioButtonChecked(checkedButtonId: Int) {
-        val newEnvironment = when (checkedButtonId) {
-            R.id.productionApi -> Environment.PRODUCTION
-            R.id.productionAPSE1 -> Environment.APSE1
-            R.id.productionEUC1 -> Environment.EUC1
-            R.id.ftest1Api -> Environment.FTEST1
-            R.id.ftest2Api -> Environment.FTEST2
-            R.id.customItemId -> Environment.CUSTOM
-            else -> throw RuntimeException("RadioButton with $checkedButtonId not handled")
-        }
-        myApplication.updateSelectedEnvironment(newEnvironment)
+        val updatedConfigName =
+            envRadioGroup.children.first { it.id == checkedButtonId }.tag.toString()
+        myApplication.updateAppConfig(updatedConfigName)
         updateGlobalConfigPropertiesLayout()
     }
 

@@ -1,34 +1,65 @@
 package com.sinch.sinchverification.utils
 
+import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.preference.PreferenceManager
-import com.sinch.sinchverification.Environment
 
-class SharedPrefsManager(context: Context) {
+class SharedPrefsManager(private val appContext: Application) {
 
     companion object {
-        private const val CUSTOM_URL_KEY = "CUSTOM_URL"
+        private const val PREFS_NAME = "sinchprefs"
+        private const val APP_KEY = "app_key"
+        private const val APP_SECRET_KEY = "app_secret"
+        private const val ENV_KEY = "environment"
+        private const val USED_DEF_NAME_KEY = "def_pos_key"
     }
 
-    private val preferences = defaultPrefs(context)
+    private val preferences = customPrefs(appContext, PREFS_NAME)
 
-    fun appKey(environment: Environment): String {
-        return preferences[environment.name]
+    private val defaultConfigs by lazy {
+        appContext.defaultConfigs
     }
 
-    fun setAppKey(environment: Environment, appKey: String) {
-        preferences[environment.name] = appKey
-    }
-
-    var customURL: String
-        get() = preferences[CUSTOM_URL_KEY]
+    var usedConfig: AppConfig
+        get() {
+            val usedConfigName = usedConfigName
+            return AppConfig(
+                name = this.usedConfigName,
+                appKey = appKey(usedConfigName),
+                appSecret = "",
+                environment = environment(usedConfigName),
+                isCustom = usedConfigName == AppConfig.CUSTOM_CONFIG_NAME
+            )
+        }
         set(value) {
-            preferences[CUSTOM_URL_KEY] = value
+            value.let {
+                usedConfigName = it.name
+                updateAppKey(it.name, it.appKey)
+                updateEnvironment(it.name, it.environment)
+            }
         }
 
-    private fun defaultPrefs(context: Context): SharedPreferences =
-        PreferenceManager.getDefaultSharedPreferences(context)
+    var usedConfigName: String
+        get() = preferences[USED_DEF_NAME_KEY, defaultConfigs.first().name]
+        set(value) {
+            preferences[USED_DEF_NAME_KEY] = value
+        }
+
+    private fun appKey(configName: String): String =
+        preferences["${APP_KEY}_$configName", defaultConfigWithName(configName)?.appKey.orEmpty()]
+
+    private fun updateAppKey(configName: String, newKey: String) {
+        preferences["${APP_KEY}_$configName"] = newKey
+    }
+
+    private fun environment(configName: String): String =
+        preferences["${ENV_KEY}_$configName", defaultConfigWithName(configName)?.environment.orEmpty()]
+
+    private fun updateEnvironment(configName: String, newEnv: String) {
+        preferences["${ENV_KEY}_$configName"] = newEnv
+    }
+
+    private fun defaultConfigWithName(name: String) = defaultConfigs.firstOrNull { it.name == name }
 
     private fun customPrefs(context: Context, name: String): SharedPreferences =
         context.getSharedPreferences(name, Context.MODE_PRIVATE)

@@ -29,8 +29,6 @@ class MainActivity : AppCompatActivity() {
         get() =
             application as VerificationSampleApp
 
-    private val isApplicationKeyEntered: Boolean get() = myApplication.usedApplicationKey.isNotEmpty()
-
     private val buttonToMethodMap by lazy {
         mapOf(
             smsButton.id to VerificationMethodType.SMS,
@@ -83,7 +81,6 @@ class MainActivity : AppCompatActivity() {
             phoneInput.error = null
         }
         toggleOptionalConfig()
-        performAppKeyCheck()
     }
 
     override fun onRequestPermissionsResult(
@@ -112,9 +109,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun checkFields() {
         when {
-            !isApplicationKeyEntered -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
-            }
             phoneInput.editText?.text.isNullOrEmpty() -> {
                 phoneInput.error = getString(R.string.phoneEmptyError)
             }
@@ -125,12 +119,6 @@ class MainActivity : AppCompatActivity() {
                         show(supportFragmentManager, "dialog")
                     }
             }
-        }
-    }
-
-    private fun performAppKeyCheck() {
-        if (!isApplicationKeyEntered) {
-            startActivity(Intent(this, SettingsActivity::class.java))
         }
     }
 
