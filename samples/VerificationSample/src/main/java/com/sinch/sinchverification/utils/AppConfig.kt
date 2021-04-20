@@ -7,7 +7,6 @@ import kotlinx.serialization.Transient
 data class AppConfig(
     val name: String,
     val appKey: String,
-    val appSecret: String,
     val environment: String,
     @Transient val isCustom: Boolean = false
 ) {

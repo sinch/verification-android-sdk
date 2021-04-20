@@ -26,7 +26,6 @@ class SharedPrefsManager(private val appContext: Application) {
             return AppConfig(
                 name = this.usedConfigName,
                 appKey = appKey(usedConfigName),
-                appSecret = "",
                 environment = environment(usedConfigName),
                 isCustom = usedConfigName == AppConfig.CUSTOM_CONFIG_NAME
             )
