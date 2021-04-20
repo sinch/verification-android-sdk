@@ -31,7 +31,7 @@ object Versions {
 
     const val dokka = "1.4.10.2"
 
-    const val defaultSinchSdk = "2.1.4"
+    const val defaultSinchSdk = "2.1.5"
 
     const val nexusStagingPluginVersion = "0.22.0"
 }

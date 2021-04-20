@@ -42,6 +42,7 @@ afterEvaluate {
         publications {
             Production(MavenPublication) {
                 from components.productionRelease
+                artifact androidSourcesJar
 
                 groupId = 'com.sinch.android.sdk.verification'
                 artifactId = bintrayName
