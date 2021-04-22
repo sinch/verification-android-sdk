@@ -12,4 +12,5 @@
 
     <color name="red">@android:color/holo_red_dark</color>
     <color name="green">@android:color/holo_green_dark</color>
+    <color name="overlay">#1F000000</color>
 </resources>

@@ -11,7 +11,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.sinch.logging.logger
-import com.sinch.sinchverification.LogMessageEvent
+import com.sinch.sinchverification.utils.appenders.LogMessageEvent
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.sinchverification.utils.AppSignatureHelper

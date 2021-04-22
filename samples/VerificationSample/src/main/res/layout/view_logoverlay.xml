@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/overlay">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/overlayRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/overlay" />
+
+    <ImageButton
+        android:id="@+id/toggleOverlayButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_baseline_history_toggle_off_24" />
+
+</merge>
