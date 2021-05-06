@@ -1,5 +1,6 @@
 package com.sinch.sinchverification.utils.logoverlay
 
+import android.Manifest
 import android.Manifest.permission.SYSTEM_ALERT_WINDOW
 import android.app.Application
 import android.content.Context
@@ -9,6 +10,7 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -33,14 +35,21 @@ object LogOverlay {
         appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
 
+    private val areOverlayPermissionsGranted: Boolean get() =
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Settings.canDrawOverlays(appContext)
+        } else {
+            ContextCompat.checkSelfPermission(appContext, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED
+        }
+
     fun init(app: Application) {
         this.appContext = app
         this.overlayView = LogOverlayView(appContext)
     }
 
-    fun log(tag: String, message: String) {
+    fun log(tag: String, message: String, level: LogOverlayItemLevel) {
         mainThreadHandler.post {
-            overlayAdapter.addItem(LogOverlayItem(tag, message))
+            overlayAdapter.addItem(LogOverlayItem(tag, message, level))
             linearLayoutManager.scrollToPosition(overlayAdapter.itemCount - 1)
         }
     }
@@ -77,7 +86,7 @@ object LogOverlay {
         ).apply {
             gravity = Gravity.BOTTOM
         }
-        if (ContextCompat.checkSelfPermission(appContext, SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED) {
+        if (areOverlayPermissionsGranted) {
             windowManager.addView(overlayView, windowParams)
         } else {
             logger().debug("To use the overlay log view, please grant required permissions explicitly (via app settings).")

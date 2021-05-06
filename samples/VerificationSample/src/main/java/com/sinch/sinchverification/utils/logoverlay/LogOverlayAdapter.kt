@@ -21,9 +21,11 @@ class LogOverlayAdapter() : RecyclerView.Adapter<LogOverlayAdapter.ViewHolder>()
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        fun bind(tag: String, message: String) {
-            itemView.logTagTextView.text = tag
-            itemView.logMessageTextView.text = message
+        fun bind(item: LogOverlayItem) {
+            itemView.logTagTextView.text = item.tag
+            itemView.logTagTextView.setTextColor(item.level.getColor(itemView.context))
+            itemView.logMessageTextView.text = item.message
+            itemView.logMessageTextView.setTextColor(item.level.getColor(itemView.context))
         }
 
     }
@@ -35,7 +37,7 @@ class LogOverlayAdapter() : RecyclerView.Adapter<LogOverlayAdapter.ViewHolder>()
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(items[position].tag, items[position].message)
+        holder.bind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
