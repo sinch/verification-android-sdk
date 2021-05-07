@@ -1,3 +1,3 @@
-package com.sinch.sinchverification.utils.logoverlay
+package com.sinch.verification.utils.overlay
 
 data class LogOverlayItem(val tag: String, val message: String, val level: LogOverlayItemLevel)

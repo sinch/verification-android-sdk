@@ -1,7 +1,6 @@
-package com.sinch.sinchverification.utils.logoverlay
+package com.sinch.verification.utils.overlay
 
 import android.Manifest
-import android.Manifest.permission.SYSTEM_ALERT_WINDOW
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
@@ -18,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinch.logging.logger
 import kotlinx.android.synthetic.main.view_logoverlay.view.*
-import java.lang.Exception
 
 object LogOverlay {
 
@@ -43,8 +41,8 @@ object LogOverlay {
         }
 
     fun init(app: Application) {
-        this.appContext = app
-        this.overlayView = LogOverlayView(appContext)
+        appContext = app
+        overlayView = LogOverlayView(appContext)
     }
 
     fun log(tag: String, message: String, level: LogOverlayItemLevel) {

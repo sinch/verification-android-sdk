@@ -13,8 +13,7 @@ import androidx.core.widget.addTextChangedListener
 import com.sinch.logging.logger
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
-import com.sinch.sinchverification.utils.logoverlay.LogOverlay
-import com.sinch.sinchverification.utils.logoverlay.LogOverlayView
+import com.sinch.verification.utils.overlay.LogOverlay
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.VerificationLanguage

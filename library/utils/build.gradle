@@ -6,8 +6,19 @@ ext {
 }
 
 apply from: '../publish-mavencentral.gradle'
+apply plugin: 'kotlin-android-extensions'
 
 android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
+
     defaultConfig {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName versionNameFull
@@ -16,4 +27,5 @@ android {
 
 dependencies {
     api "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
+    implementation "androidx.recyclerview:recyclerview:${Versions.appCompat}"
 }

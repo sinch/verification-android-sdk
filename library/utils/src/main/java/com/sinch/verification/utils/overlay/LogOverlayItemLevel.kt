@@ -1,8 +1,8 @@
-package com.sinch.sinchverification.utils.logoverlay
+package com.sinch.verification.utils.overlay
 
 import android.content.Context
 import androidx.core.content.ContextCompat
-import com.sinch.sinchverification.R
+import com.sinch.verification.utils.R
 
 enum class LogOverlayItemLevel {
     Trace,

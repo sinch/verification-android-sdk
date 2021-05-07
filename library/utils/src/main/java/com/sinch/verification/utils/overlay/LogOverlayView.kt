@@ -1,4 +1,4 @@
-package com.sinch.sinchverification.utils.logoverlay
+package com.sinch.verification.utils.overlay
 
 import android.content.Context
 import android.util.AttributeSet
@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
-import com.sinch.sinchverification.R
+import com.sinch.verification.utils.R
 import kotlinx.android.synthetic.main.view_logoverlay.view.*
 
 

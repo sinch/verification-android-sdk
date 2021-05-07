@@ -1,8 +1,8 @@
 package com.sinch.sinchverification.utils.appenders
 
 import com.sinch.logging.Appender
-import com.sinch.sinchverification.utils.logoverlay.LogOverlay
-import com.sinch.sinchverification.utils.logoverlay.LogOverlayItemLevel
+import com.sinch.verification.utils.overlay.LogOverlay
+import com.sinch.verification.utils.overlay.LogOverlayItemLevel
 
 class LogOverlayAppender : Appender {
 

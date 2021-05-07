@@ -1,10 +1,10 @@
-package com.sinch.sinchverification.utils.logoverlay
+package com.sinch.verification.utils.overlay
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sinch.sinchverification.R
+import com.sinch.verification.utils.R
 import kotlinx.android.synthetic.main.item_overlay_log.view.*
 
 class LogOverlayAdapter() : RecyclerView.Adapter<LogOverlayAdapter.ViewHolder>() {

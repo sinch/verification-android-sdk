@@ -9,7 +9,7 @@ import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.HttpFileLogger
 import com.sinch.sinchverification.utils.SharedPrefsManager
 import com.sinch.sinchverification.utils.appenders.LogOverlayAppender
-import com.sinch.sinchverification.utils.logoverlay.LogOverlay
+import com.sinch.verification.utils.overlay.LogOverlay
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.general.SinchGlobalConfig
