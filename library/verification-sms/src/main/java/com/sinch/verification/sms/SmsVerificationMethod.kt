@@ -90,8 +90,9 @@ class SmsVerificationMethod private constructor(
         sourceType: VerificationSourceType,
         method: VerificationMethodType?
     ) {
-        verificationService.verifyNumber(
-            number = config.number,
+        val id = id ?: return
+        verificationService.verifyById(
+            verificationId = id,
             data = SmsVerificationData(sourceType, SmsVerificationDetails(verificationCode))
         ).enqueue(retrofit, VerificationApiCallback(verificationListener, this))
     }

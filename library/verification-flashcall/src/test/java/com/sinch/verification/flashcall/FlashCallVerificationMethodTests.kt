@@ -83,7 +83,7 @@ class FlashCallVerificationMethodTests {
             Constants.phoneMatchingTemplate1
         )
         verify {
-            mockedService.verifyNumber(Constants.phone, match {
+            mockedService.verifyById(Constants.testID, match {
                 it.flashcallDetails?.cli == Constants.phoneMatchingTemplate1
             })
         }
@@ -176,7 +176,7 @@ class FlashCallVerificationMethodTests {
         reportTimeout: Long = ApiTimeouts.reportTimeout
     ) {
         val mockedInitResponse = FlashCallInitializationResponseData(
-            id = "",
+            id = Constants.testID,
             details = FlashCallInitializationDetails(
                 cliFilter = CliTemplates.template1,
                 interceptionTimeoutApi = interceptionTimeout,
@@ -194,11 +194,11 @@ class FlashCallVerificationMethodTests {
             every { status } returns VerificationStatus.SUCCESSFUL
         }
 
-        every { mockedService.verifyNumber(any(), any()) }.returns(
+        every { mockedService.verifyById(any(), any()) }.returns(
             Calls.failure(mockk())
         )
         every {
-            mockedService.verifyNumber(any(), match {
+            mockedService.verifyById(any(), match {
                 it.flashcallDetails?.cli == usedCode
             })
         }.returns(

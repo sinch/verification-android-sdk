@@ -130,7 +130,7 @@ class CalloutVerificationMethodTests {
     }
 
     private fun setupDefaultVerificationResponse() {
-        every { mockedService.verifyNumber(any(), any()) } answers {
+        every { mockedService.verifyById(any(), any()) } answers {
             if (secondArg<CalloutVerificationData>().calloutDetails.code == SUCCESS_CODE) {
                 Calls.response(
                     VerificationResponseData(

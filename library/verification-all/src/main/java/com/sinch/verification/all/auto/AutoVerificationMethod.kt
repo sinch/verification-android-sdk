@@ -146,7 +146,7 @@ class AutoVerificationMethod private constructor(
         )
 
         verificationService.verifyById(
-            subVerificationId = currentSubVerificationId,
+            verificationId = currentSubVerificationId,
             data = verificationData
         ).enqueue(retrofit, VerificationApiCallback(verificationListener, this))
 

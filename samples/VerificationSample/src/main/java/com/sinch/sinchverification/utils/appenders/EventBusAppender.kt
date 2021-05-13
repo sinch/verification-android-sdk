@@ -1,4 +1,4 @@
-package com.sinch.sinchverification
+package com.sinch.sinchverification.utils.appenders
 
 import com.sinch.logging.Appender
 import org.greenrobot.eventbus.EventBus

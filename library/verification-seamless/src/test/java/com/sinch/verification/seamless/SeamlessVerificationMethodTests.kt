@@ -103,7 +103,7 @@ class SeamlessVerificationMethodTests {
         verify { mockedVerificationListener wasNot Called }
 
         assertEquals(
-            VerificationState.Initialization(VerificationStateStatus.ERROR),
+            VerificationState.Initialization(VerificationStateStatus.ERROR, null),
             verification.verificationState
         )
     }

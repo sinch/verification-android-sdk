@@ -31,11 +31,10 @@ class MockedSmsVerificationService(private val delegate: BehaviorDelegate<SmsVer
         delegate.returning(verifyCallCallback(number, data)).verifyNumber(number, data)
 
     override fun verifyById(
-        subVerificationId: String,
+        verificationId: String,
         data: VerificationData
-    ): Call<VerificationResponseData> {
-        TODO("Not used in tests")
-    }
+    ): Call<VerificationResponseData> =
+        delegate.returning(verifyCallCallback(verificationId, data)).verifyById(verificationId, data)
 
     override fun verifySeamless(url: String): Call<VerificationResponseData> {
         TODO("Not used in tests")

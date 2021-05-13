@@ -81,7 +81,7 @@ class SmsVerificationMethodTests {
     fun testStateAfterInitialization() {
         basicSmsMethod.initiate()
         Assert.assertEquals(
-            VerificationState.Initialization(VerificationStateStatus.ONGOING),
+            VerificationState.Initialization(VerificationStateStatus.ONGOING, null),
             basicSmsMethod.verificationState
         )
     }
@@ -93,9 +93,9 @@ class SmsVerificationMethodTests {
             Calls.response(mockedResponse)
         )
         basicSmsMethod.initiate()
-        Assert.assertEquals(
-            VerificationState.Initialization(VerificationStateStatus.SUCCESS),
-            basicSmsMethod.verificationState
+        Assert.assertTrue(
+            basicSmsMethod.verificationState is VerificationState.Initialization &&
+                    (basicSmsMethod.verificationState as VerificationState.Initialization).status == VerificationStateStatus.SUCCESS
         )
         verify { mockedInitListener.onInitiated(any()) }
     }
@@ -108,7 +108,7 @@ class SmsVerificationMethodTests {
         )
         basicSmsMethod.initiate()
         Assert.assertEquals(
-            VerificationState.Initialization(VerificationStateStatus.ERROR),
+            VerificationState.Initialization(VerificationStateStatus.ERROR, null),
             basicSmsMethod.verificationState
         )
         verify { mockedInitListener.onInitializationFailed(error) }
@@ -238,11 +238,11 @@ class SmsVerificationMethodTests {
             Calls.response(mockedInitResponse)
         )
 
-        every { mockedService.verifyNumber(any(), any()) }.returns(
+        every { mockedService.verifyById(any(), any()) }.returns(
             Calls.failure(mockk())
         )
         every {
-            mockedService.verifyNumber(any(), match {
+            mockedService.verifyById(any(), match {
                 it.smsDetails?.code == VERIFICATION_CODE
             })
         }.returns(

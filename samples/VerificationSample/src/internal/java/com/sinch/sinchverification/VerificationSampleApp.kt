@@ -5,8 +5,11 @@ import android.webkit.URLUtil
 import com.sinch.logging.Log
 import com.sinch.logging.appenders.FileAppender
 import com.sinch.logging.appenders.LogcatAppender
+import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.HttpFileLogger
 import com.sinch.sinchverification.utils.SharedPrefsManager
+import com.sinch.sinchverification.utils.appenders.LogOverlayAppender
+import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.general.SinchGlobalConfig
@@ -36,7 +39,8 @@ class VerificationSampleApp : Application() {
     }
 
     private fun initLogger() {
-        Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this))
+        LogOverlay.init(this)
+        Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this), LogOverlayAppender())
     }
 
     private fun buildGlobalConfig(apiHost: String, appKey: String): GlobalConfig =

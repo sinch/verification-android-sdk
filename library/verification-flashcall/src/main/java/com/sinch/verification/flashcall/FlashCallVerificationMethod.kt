@@ -89,8 +89,9 @@ class FlashCallVerificationMethod private constructor(
         sourceType: VerificationSourceType,
         method: VerificationMethodType?
     ) {
-        verificationService.verifyNumber(
-            number = config.number,
+        val id = id ?: return
+        verificationService.verifyById(
+            verificationId = id,
             data = FlashCallVerificationData(
                 sourceType,
                 FlashCallVerificationDetails(verificationCode)

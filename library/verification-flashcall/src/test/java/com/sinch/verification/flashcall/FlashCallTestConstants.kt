@@ -17,6 +17,7 @@ internal object CallHistory {
 }
 
 internal object Constants {
+    const val testID = "testID"
     const val phone = "+48123456789"
     const val phoneMatchingTemplate1 = "01234"
     const val phoneNonMatchingTemplate1 = "024"

@@ -64,8 +64,9 @@ class CalloutVerificationMethod private constructor(
         sourceType: VerificationSourceType,
         method: VerificationMethodType?
     ) {
-        verificationService.verifyNumber(
-            number = config.number,
+        val id = id ?: return
+        verificationService.verifyById(
+            verificationId = id,
             data = CalloutVerificationData(calloutDetails = CalloutVerificationDetails(code = verificationCode))
         ).enqueue(
             retrofit = retrofit,

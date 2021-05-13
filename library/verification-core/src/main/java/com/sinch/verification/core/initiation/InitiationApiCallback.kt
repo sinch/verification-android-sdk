@@ -30,7 +30,7 @@ open class InitiationApiCallback<T : InitiationResponseData>(
         ifNotManuallyStopped {
             val modifiedData = dataModifier(data, response)
             logger.debug("Verification initiated data is $data")
-            statusListener.update(VerificationState.Initialization(VerificationStateStatus.SUCCESS))
+            statusListener.update(VerificationState.Initialization(VerificationStateStatus.SUCCESS, modifiedData))
             listener.onInitiated(modifiedData)
             successCallback(modifiedData)
         }
@@ -39,7 +39,7 @@ open class InitiationApiCallback<T : InitiationResponseData>(
     override fun onError(t: Throwable) {
         ifNotManuallyStopped {
             logger.debug("Verification initiation failed error is is $t")
-            statusListener.update(VerificationState.Initialization(VerificationStateStatus.ERROR))
+            statusListener.update(VerificationState.Initialization(VerificationStateStatus.ERROR, null))
             listener.onInitializationFailed(t)
         }
     }

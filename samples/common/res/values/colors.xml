@@ -12,4 +12,12 @@
 
     <color name="red">@android:color/holo_red_dark</color>
     <color name="green">@android:color/holo_green_dark</color>
+    <color name="overlay">#1F000000</color>
+
+    <color name="log_level_trace">#660066</color>
+    <color name="log_level_info">#0000FF</color>
+    <color name="log_level_debug">#404040</color>
+    <color name="log_level_warn">#FFFF00</color>
+    <color name="log_level_error">#FF0000</color>
+
 </resources>
