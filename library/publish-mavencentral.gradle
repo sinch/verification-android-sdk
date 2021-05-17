@@ -70,20 +70,6 @@ afterEvaluate {
                         developerConnection = 'scm:git:git@github.com:sinch/verification-android-sdk.git'
                         url = 'https://github.com/sinch/verification-android-sdk'
                     }
-                    withXml {
-                        def dependenciesNode = asNode().getAt('dependencies')[0] ?: asNode().appendNode('dependencies')
-
-                        // Iterate over the implementation dependencies (we don't want the test ones), adding a <dependency> node for each
-                        configurations.implementation.allDependencies.each {
-                            // Ensure dependencies such as fileTree are not included.
-                            if (it.name != 'unspecified') {
-                                def dependencyNode = dependenciesNode.appendNode('dependency')
-                                dependencyNode.appendNode('groupId', it.group)
-                                dependencyNode.appendNode('artifactId', it.name)
-                                dependencyNode.appendNode('version', it.version)
-                            }
-                        }
-                    }
                 }
             }
         }
