@@ -53,7 +53,7 @@
     script:
         - *before_script_android
         - ./gradlew clean
-        - ./gradlew :app:assembleInternalProductionDebug
+        - ./gradlew assembleInternalProductionDebug
 
     interruptible: true
 
