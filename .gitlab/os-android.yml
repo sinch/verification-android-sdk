@@ -40,7 +40,7 @@
 
 .before_script_android: &before_script_android
     - pwd
-    - ./android/gradlew --version
+    - ./gradlew --version
     - echo $PATH
     - echo $JAVA_HOME
     - echo $ANDROID_HOME
@@ -52,9 +52,8 @@
 
     script:
         - *before_script_android
-        - cd android
         - ./gradlew clean
-        - ./gradlew :app:assembleRelease
+        - ./gradlew :app:assembleInternalProductionDebug
 
     interruptible: true
 
