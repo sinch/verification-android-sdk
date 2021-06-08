@@ -38,6 +38,13 @@
     variables:
         CONFIGURATION: "Release"
 
+.conf:release:testSDK:
+    extends:
+        - .conf:env
+        - .conf:release
+        - .conf:runner:tags
+        - .conf:rule:default
+
 .before_script_android: &before_script_android
     - pwd
     - ./gradlew --version
@@ -45,7 +52,6 @@
     - echo $JAVA_HOME
     - echo $ANDROID_HOME
     - echo $RELEASE_STORE_FILE
-
 
 .buildSample:do:
     stage: Build Sample
@@ -62,13 +68,87 @@
 
     interruptible: true
 
-.testSDK:do:
+.testLoggingSDK:do:
     stage: Test SDK
 
     script:
         - *before_script_android
         - ./gradlew clean
-        - ./gradlew testProductionRelease
+        - ./gradlew library:logging:testProductionRelease
+
+    interruptible: true
+
+.testMetadataCollectorSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew clean
+        - ./gradlew library:metadata-collector:testProductionRelease
+
+    interruptible: true
+
+.testUtilsSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew clean
+        - ./gradlew library:utils:testProductionRelease
+
+    interruptible: true
+
+.testVerAllSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew library:verification-all:testProductionRelease
+
+    interruptible: true
+
+.testCalloutSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew library:verification-callout:testProductionRelease
+
+    interruptible: true
+
+.testVerCoreSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew library:verification-core:testProductionRelease
+
+    interruptible: true
+
+.testFlashcallSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew library:verification-flashcall:testProductionRelease
+
+    interruptible: true
+
+.testSeamlessSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew library:verification-seamless:testProductionRelease
+
+    interruptible: true
+
+.testSmsSDK:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew library:verification-sms:testProductionRelease
 
     interruptible: true
 
