@@ -3,6 +3,20 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 
+def configFilePath = "./src/main/assets/config.json"
+def configFileEmptyMessage = "You are building Sinch Android Verification Sample Application project that requires presence of a configuration file with your auhthorization data.\n" +
+        "Create and place your config.json file inside the " +
+        "assets folder (app/src/main/assets) and re-build the application\n" +
+        "Example of config.json:\n" +
+        "[{\n" +
+        "  \"name\": \"<ENVIRONMENT NAME\",\n" +
+        "  \"appKey\": \"<YOUR SINCH APP KEY>\",\n" +
+        "  \"environment\": \"ocra.api.sinch.com\"\n" +
+        "}]\n"
+
+def requiredConfigFileParamsMissingMessage = "You are building Sinch Android Verification Sample Application project that requires your application specific authorization data (key).\n" +
+        "Check config.json file located in app/src/main/assets folder and fill it with these values copied from Sinch portal website of your application.\n"
+
 android {
     compileSdkVersion(Versions.compileSdk)
     buildToolsVersion "$Versions.buildTools"
@@ -74,6 +88,16 @@ android {
         jvmTarget = "1.8"
     }
 
+}
+
+preBuild.doFirst {
+    def configFile = file(configFilePath)
+    if (!configFile.exists()) {
+        ant.fail(configFileEmptyMessage)
+    }
+    if (configFile.text.contains("<YOUR APP KEY")) {
+        ant.fail(requiredConfigFileParamsMissingMessage)
+    }
 }
 
 dependencies {
