@@ -5,5 +5,4 @@
         expire_in: 5d
         name: "$CI_JOB_NAME-$CI_JOB_STAGE-$CI_COMMIT_REF_NAME"
         paths:
-            - android/app/build/outputs/apk/debug/app-debug.apk
-            - android/app/google-services.json
+            - /samples/VerificationSample/build/outputs/apk/internalProduction/debug/VerificationSample-internal-production-debug.apk
