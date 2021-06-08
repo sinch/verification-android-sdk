@@ -14,8 +14,6 @@ include:
 default:
   before_script:
     - cp -v $CI_GRADLE_PROPERTIES_PATH .
-    - cp -rf -v $CI_REF_APP_GOOGLE_SERVICE_PATH ./android/app
-    - cp -rf -v $CI_REF_APP_CONFIG_PATH ./android/app/src/main/assets
 
 stages:
     - Cut Release
