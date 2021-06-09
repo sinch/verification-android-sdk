@@ -34,6 +34,14 @@ build:device:release:
         - .testSDK:do
         - .build:do
 
+testSDK:device:release:
+    extends:
+        - .conf:env
+        - .conf:release
+        - .conf:runner:tags
+        - .conf:rule:default
+        - .testSDK:do
+
 test:dist:samples:
     extends:
         - .conf:env
