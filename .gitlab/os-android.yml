@@ -62,6 +62,16 @@
 
     interruptible: true
 
+.testSDK:do:
+    stage: testSDK
+
+    script:
+        - *before_script_android
+        - ./gradlew clean
+        - ./gradlew testProductionRelease
+
+    interruptible: true
+
 .test:do:
     stage: Test Dist Sample Apps
 

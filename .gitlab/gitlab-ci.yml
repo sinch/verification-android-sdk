@@ -17,6 +17,7 @@ default:
 
 stages:
     - Cut Release
+    - testSDK
     - build
     # Add test stage when build system will be ready for it
     - Test Dist Sample Apps
