@@ -40,7 +40,7 @@ testSDK:release:
         - .testSDK:do
 
 testSMSSDK:release:
-  extends:
+    extends:
         - .conf:env
         - .conf:release
         - .conf:runner:tags
