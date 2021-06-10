@@ -31,21 +31,54 @@ buildSample:debug:
         - .conf:rule:default
         - .buildSample:do
 
-testSDK:release:
-    extends:
-        - .conf:env
-        - .conf:release
-        - .conf:runner:tags
-        - .conf:rule:default
-        - .testSDK:do
+############################################## Module Tests
 
-testSMSSDK:release:
+testLoggingSDK:release:
     extends:
-        - .conf:env
-        - .conf:release
-        - .conf:runner:tags
-        - .conf:rule:default
-        - .testSMSSDK:do
+        - .conf:release:testSDK
+        - .testLoggingSDK:do
+
+testMetadataCollectorSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testMetadataCollectorSDK:do
+
+testUtilsSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testUtilsSDK:do
+
+testVerAllSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testVerAllSDK:do
+
+testCalloutSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testCalloutSDK:do
+
+testVerCoreSDK:release:
+  extends:
+        - .conf:release:testSDK
+        - .testVerCoreSDK:do
+
+testFlashcallSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testFlashcallSDK:do
+
+testSeamlessSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testSeamlessSDK:do
+
+testSmsSDK:release:
+    extends:
+        - .conf:release:testSDK
+        - .testSmsSDK:do
+
+############################################## Sample Tests
 
 testSample:debug:samples:
     extends:
