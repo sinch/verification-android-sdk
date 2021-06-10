@@ -5,7 +5,6 @@ include:
 
     # OS builds
     - local: .gitlab/os-android.yml
-    - local: .gitlab/release.yml
 
 
 # NOTE: It’s possible to overwrite a globally defined before_script or after_script with per-job actions
