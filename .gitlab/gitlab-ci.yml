@@ -39,6 +39,14 @@ testSDK:release:
         - .conf:rule:default
         - .testSDK:do
 
+testSMSSDK:release:
+  extends:
+        - .conf:env
+        - .conf:release
+        - .conf:runner:tags
+        - .conf:rule:default
+        - .testSMSSDK:do
+
 testSample:debug:samples:
     extends:
         - .conf:env

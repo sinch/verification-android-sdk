@@ -72,6 +72,16 @@
 
     interruptible: true
 
+.testSMSSdk:do:
+    stage: Test SDK
+
+    script:
+        - *before_script_android
+        - ./gradlew clean
+        - ./gradlew library:verification-sms:testProductionRelease
+
+    interruptible: true
+
 .testSample:do:
     stage: Test Sample
 
