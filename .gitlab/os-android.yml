@@ -47,8 +47,8 @@
     - echo $RELEASE_STORE_FILE
 
 
-.build:do:
-    stage: build
+.buildSample:do:
+    stage: Build Sample
 
     script:
         - *before_script_android
@@ -63,7 +63,7 @@
     interruptible: true
 
 .testSDK:do:
-    stage: testSDK
+    stage: Test SDK
 
     script:
         - *before_script_android
@@ -72,8 +72,8 @@
 
     interruptible: true
 
-.test:do:
-    stage: Test Dist Sample Apps
+.testSample:do:
+    stage: Test Sample
 
     script:
         - *before_script_android

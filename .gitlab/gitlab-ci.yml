@@ -16,25 +16,23 @@ default:
     - cp -v $CI_GRADLE_PROPERTIES_PATH .
 
 stages:
-    - Cut Release
-    - testSDK
-    - build
+    - Test SDK
+    - Build Sample
     # Add test stage when build system will be ready for it
-    - Test Dist Sample Apps
+    - Test Sample
 
 ############################################## pipeline jobs
 
-build:device:release:
+buildSample:debug:
     extends:
         - .conf:env
-        - .conf:release
+        - .conf:debug
         - .conf:artifacts
         - .conf:runner:tags
         - .conf:rule:default
-        - .testSDK:do
-        - .build:do
+        - .buildSample:do
 
-testSDK:device:release:
+testSDK:release:
     extends:
         - .conf:env
         - .conf:release
@@ -42,13 +40,13 @@ testSDK:device:release:
         - .conf:rule:default
         - .testSDK:do
 
-test:dist:samples:
+testSample:debug:samples:
     extends:
         - .conf:env
         - .conf:release
         - .conf:runner:tags
         - .conf:rule:default
-        - .test:do
+        - .testSample:do
 
     dependencies:
-        - build:device:release
+        - buildSample:debug
