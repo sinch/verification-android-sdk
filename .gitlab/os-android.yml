@@ -152,6 +152,17 @@
 
     interruptible: true
 
+.publishMaven:do:
+    stage: Publish To Maven
+
+    script:
+        - *before_script_android
+        - echo -e "signing.keyId=$SIGNING_KEYID\nsigning.password=$SIGNING_PASSWORD\nsigning.secretKeyRingFile=$SIGNING_SECRETKEYRINGFILE\nossrhUsername=$OSSRH_USERNAME\nossrhPassword=$OSSRH_PASSWORD\nsonatypeStagingProfileId=$SONATYPE_STAGING_PROFILE_ID" >> local.properties
+        - echo "$SIGNING_KEY_CONTENT" | base64 -d > "ver_key.gpg"
+        - ./gradlew publishProductionPublicationToSonatypeRepository -max-workers 1 closeAndReleaseRepository
+
+    interruptible: true
+
 .testSample:do:
     stage: Test Sample
 

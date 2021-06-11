@@ -19,6 +19,7 @@ stages:
     - Build Sample
     # Add test stage when build system will be ready for it
     - Test Sample
+    - Publish To Maven
 
 ############################################## pipeline jobs
 
@@ -30,6 +31,14 @@ buildSample:debug:
         - .conf:runner:tags
         - .conf:rule:default
         - .buildSample:do
+
+publishToMaven:release:
+  extends:
+    - .conf:env
+    - .conf:release
+    - .conf:runner:tags
+    - .conf:rule:release
+    - .publishMaven:do
 
 ############################################## Module Tests
 
