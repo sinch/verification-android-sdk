@@ -9,8 +9,7 @@ import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
 import com.sinch.verification.core.initiation.VerificationIdentity
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
-import com.sinch.verification.core.internal.Verification
-import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.*
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
@@ -74,7 +73,19 @@ class SeamlessVerificationMethod private constructor(
                 apiCallback = SimpleInitializationSeamlessApiCallback(
                     listener = initializationListener,
                     statusListener = this,
-                    successCallback = { verify(it.details.targetUri) }
+                    successCallback = {
+                        if (it.details.status == VerificationStatus.SUCCESSFUL) {
+                            //No need for verify block - verified after initiation
+                            update(
+                                VerificationState.Verification(
+                                    VerificationStateStatus.SUCCESS
+                                )
+                            )
+                            verificationListener.onVerified()
+                        } else {
+                            verify(it.details.targetUri.orEmpty())
+                        }
+                    }
                 ))
     }
 

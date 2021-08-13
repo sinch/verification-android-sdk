@@ -2,6 +2,7 @@ package com.sinch.verification.seamless.initialization
 
 import com.sinch.verification.core.initiation.response.InitiationDetails
 import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.VerificationStatus
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -12,6 +13,7 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class SeamlessInitializationDetails(
-    @SerialName("targetUri") val targetUri: String,
+    @SerialName("targetUri") val targetUri: String? = null,
+    @SerialName("status") val status: VerificationStatus,
     @SerialName("subVerificationId") override val subVerificationId: String? = null
 ) : InitiationDetails

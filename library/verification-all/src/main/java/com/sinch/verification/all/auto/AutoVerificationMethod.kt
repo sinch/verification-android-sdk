@@ -99,7 +99,7 @@ class AutoVerificationMethod private constructor(
                     VerificationMethodType.SEAMLESS
                 )
             )
-            verificationService.verifySeamless(it.targetUri)
+            verificationService.verifySeamless(it.targetUri.orEmpty())
                 .enqueue(
                     retrofit = retrofit,
                     apiCallback = VerificationApiCallback(
