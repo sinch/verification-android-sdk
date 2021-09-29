@@ -24,7 +24,7 @@ android {
             buildConfigField "String", "API_BASE_URL", "\"https://ft1-verification.api.sinchlab.com/\""
         }
         ftest2 {
-            buildConfigField "String", "API_BASE_URL", "\"https://ft1-verification.api.sinchlab.com/\""
+            buildConfigField "String", "API_BASE_URL", "\"https://ft2-verification.api.sinchlab.com/\""
         }
     }
 
