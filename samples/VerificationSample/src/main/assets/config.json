@@ -2,7 +2,7 @@
   {
     "name":"PRODUCTION",
     "appKey":"<YOUR APP KEY - PRODUCTION>",
-    "environment":"https://verificationapi-v1.sinch.com/"
+    "environment":"https://verification.api.sinch.com/"
   },
   {
     "name":"APSE1",
