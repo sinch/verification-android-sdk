@@ -39,7 +39,8 @@ class SeamlessVerificationMethodTests {
         val correctInitResponse = SeamlessInitiationResponseData(
             id = "",
             details = SeamlessInitializationDetails(
-                targetUri = targetUri
+                targetUri = targetUri,
+                status = VerificationStatus.PENDING
             )
         )
     }
@@ -114,7 +115,7 @@ class SeamlessVerificationMethodTests {
         every { mockedService.initializeVerification(any()) }.returns(
             Calls.response(
                 correctInitResponse.copy(
-                    details = SeamlessInitializationDetails("badUri")
+                    details = SeamlessInitializationDetails("badUri", status = VerificationStatus.PENDING)
                 )
             )
         )
