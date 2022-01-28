@@ -74,17 +74,7 @@ class SeamlessVerificationMethod private constructor(
                     listener = initializationListener,
                     statusListener = this,
                     successCallback = {
-                        if (it.details.status == VerificationStatus.SUCCESSFUL) {
-                            //No need for verify block - verified after initiation
-                            update(
-                                VerificationState.Verification(
-                                    VerificationStateStatus.SUCCESS
-                                )
-                            )
-                            verificationListener.onVerified()
-                        } else {
-                            verify(it.details.targetUri.orEmpty())
-                        }
+                        verify(it.details.targetUri.orEmpty())
                     }
                 ))
     }
