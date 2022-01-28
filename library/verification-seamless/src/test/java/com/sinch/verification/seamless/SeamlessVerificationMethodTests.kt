@@ -40,7 +40,6 @@ class SeamlessVerificationMethodTests {
             id = "",
             details = SeamlessInitializationDetails(
                 targetUri = targetUri,
-                status = VerificationStatus.PENDING
             )
         )
     }
@@ -115,7 +114,7 @@ class SeamlessVerificationMethodTests {
         every { mockedService.initializeVerification(any()) }.returns(
             Calls.response(
                 correctInitResponse.copy(
-                    details = SeamlessInitializationDetails("badUri", status = VerificationStatus.PENDING)
+                    details = SeamlessInitializationDetails("badUri")
                 )
             )
         )

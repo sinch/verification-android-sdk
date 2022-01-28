@@ -14,6 +14,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SeamlessInitializationDetails(
     @SerialName("targetUri") val targetUri: String? = null,
-    @SerialName("status") val status: VerificationStatus,
     @SerialName("subVerificationId") override val subVerificationId: String? = null
 ) : InitiationDetails
