@@ -2,7 +2,11 @@ package com.sinch.verification.seamless
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
+import android.os.Handler
+import android.os.Looper
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
@@ -44,6 +48,8 @@ class SeamlessVerificationMethod private constructor(
         config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
+    private val networkRequestHandler = Handler(Looper.getMainLooper())
+
     private val requestData: SeamlessInitiationData
         get() =
             SeamlessInitiationData(
@@ -84,12 +90,38 @@ class SeamlessVerificationMethod private constructor(
         sourceType: VerificationSourceType,
         method: VerificationMethodType?
     ) {
-        val cellularNetwork = connectivityManager.allNetworks.firstOrNull {
-            connectivityManager.getNetworkCapabilities(it)
-                ?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false
-        }
-        connectivityManager.changeProcessNetworkTo(cellularNetwork)
-        executeVerificationRequest(verificationCode)
+
+        val cellularRequest = NetworkRequest.Builder()
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.requestNetwork(
+            cellularRequest,
+            object: ConnectivityManager.NetworkCallback() {
+
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    logger.debug("Cellular network available $network.n")
+                    networkRequestHandler.removeCallbacksAndMessages(null)
+                    networkRequestHandler.post {
+                        val ignored = connectivityManager.changeProcessNetworkTo(network)
+                        executeVerificationRequest(verificationCode)
+                    }
+                }
+
+                override fun onUnavailable() {
+                    super.onUnavailable()
+                    logger.error("Cellular network not available")
+                    networkRequestHandler.removeCallbacksAndMessages(null)
+                    networkRequestHandler.post {
+                        executeVerificationRequest(verificationCode)
+                    }
+                }
+        })
+        networkRequestHandler.postDelayed({
+            executeVerificationRequest(verificationCode)
+        },5000)
     }
 
     override fun onCodeIntercepted(code: String, source: VerificationSourceType) {}
