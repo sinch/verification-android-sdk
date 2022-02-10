@@ -13,7 +13,8 @@ import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
 import com.sinch.verification.core.initiation.VerificationIdentity
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
-import com.sinch.verification.core.internal.*
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
@@ -43,6 +44,10 @@ class SeamlessVerificationMethod private constructor(
     verificationListener: VerificationListener = EmptyVerificationListener()
 
 ) : VerificationMethod<SeamlessVerificationService>(config, verificationListener) {
+
+    companion object {
+        const val MAX_REQUEST_DELAY = 3000L // in ms
+    }
 
     private val connectivityManager by lazy {
         config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -98,14 +103,15 @@ class SeamlessVerificationMethod private constructor(
 
         connectivityManager.requestNetwork(
             cellularRequest,
-            object: ConnectivityManager.NetworkCallback() {
+            object : ConnectivityManager.NetworkCallback() {
 
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
-                    logger.debug("Cellular network available $network.n")
+                    logger.debug("Cellular network available $network")
                     networkRequestHandler.removeCallbacksAndMessages(null)
+                    networkRequestHandler
                     networkRequestHandler.post {
-                        val ignored = connectivityManager.changeProcessNetworkTo(network)
+                        connectivityManager.changeProcessNetworkTo(network)
                         executeVerificationRequest(verificationCode)
                     }
                 }
@@ -118,10 +124,10 @@ class SeamlessVerificationMethod private constructor(
                         executeVerificationRequest(verificationCode)
                     }
                 }
-        })
+            })
         networkRequestHandler.postDelayed({
             executeVerificationRequest(verificationCode)
-        },5000)
+        }, MAX_REQUEST_DELAY)
     }
 
     override fun onCodeIntercepted(code: String, source: VerificationSourceType) {}
