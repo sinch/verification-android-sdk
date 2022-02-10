@@ -2,14 +2,19 @@ package com.sinch.verification.seamless
 
 import android.content.Context
 import android.net.ConnectivityManager
+import android.net.Network
 import android.net.NetworkCapabilities
+import android.net.NetworkRequest
+import android.os.Handler
+import android.os.Looper
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
 import com.sinch.verification.core.initiation.InitiationApiCallback
 import com.sinch.verification.core.initiation.VerificationIdentity
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
-import com.sinch.verification.core.internal.*
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
@@ -40,9 +45,15 @@ class SeamlessVerificationMethod private constructor(
 
 ) : VerificationMethod<SeamlessVerificationService>(config, verificationListener) {
 
+    companion object {
+        const val MAX_REQUEST_DELAY = 3000L // in ms
+    }
+
     private val connectivityManager by lazy {
         config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
+
+    private val networkRequestHandler = Handler(Looper.getMainLooper())
 
     private val requestData: SeamlessInitiationData
         get() =
@@ -84,12 +95,38 @@ class SeamlessVerificationMethod private constructor(
         sourceType: VerificationSourceType,
         method: VerificationMethodType?
     ) {
-        val cellularNetwork = connectivityManager.allNetworks.firstOrNull {
-            connectivityManager.getNetworkCapabilities(it)
-                ?.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ?: false
-        }
-        connectivityManager.changeProcessNetworkTo(cellularNetwork)
-        executeVerificationRequest(verificationCode)
+
+        val cellularRequest = NetworkRequest.Builder()
+            .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
+            .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .build()
+
+        connectivityManager.requestNetwork(
+            cellularRequest,
+            object : ConnectivityManager.NetworkCallback() {
+
+                override fun onAvailable(network: Network) {
+                    super.onAvailable(network)
+                    logger.debug("Cellular network available $network")
+                    networkRequestHandler.removeCallbacksAndMessages(null)
+                    networkRequestHandler.post {
+                        connectivityManager.changeProcessNetworkTo(network)
+                        executeVerificationRequest(verificationCode)
+                    }
+                }
+
+                override fun onUnavailable() {
+                    super.onUnavailable()
+                    logger.error("Cellular network not available")
+                    networkRequestHandler.removeCallbacksAndMessages(null)
+                    networkRequestHandler.post {
+                        executeVerificationRequest(verificationCode)
+                    }
+                }
+            })
+        networkRequestHandler.postDelayed({
+            executeVerificationRequest(verificationCode)
+        }, MAX_REQUEST_DELAY)
     }
 
     override fun onCodeIntercepted(code: String, source: VerificationSourceType) {}

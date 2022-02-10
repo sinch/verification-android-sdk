@@ -13,8 +13,8 @@ fun TimeUnit.toMillisOrNull(duration: Long?) =
 
 fun String.prefixed(prefix: String): String? = "$prefix$this"
 
-fun ConnectivityManager.changeProcessNetworkTo(network: Network?) {
-    if (ApiLevelUtils.isApi23OrLater) {
+fun ConnectivityManager.changeProcessNetworkTo(network: Network?): Boolean {
+    return if (ApiLevelUtils.isApi23OrLater) {
         bindProcessToNetwork(network)
     } else {
         @Suppress("DEPRECATION") //Suppress annotation is required here as Android Studio doesn't process if/else statement correctly.
