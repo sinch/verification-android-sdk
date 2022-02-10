@@ -109,7 +109,6 @@ class SeamlessVerificationMethod private constructor(
                     super.onAvailable(network)
                     logger.debug("Cellular network available $network")
                     networkRequestHandler.removeCallbacksAndMessages(null)
-                    networkRequestHandler
                     networkRequestHandler.post {
                         connectivityManager.changeProcessNetworkTo(network)
                         executeVerificationRequest(verificationCode)
