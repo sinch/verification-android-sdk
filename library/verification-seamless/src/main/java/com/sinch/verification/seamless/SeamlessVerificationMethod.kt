@@ -54,7 +54,6 @@ class SeamlessVerificationMethod private constructor(
     }
 
     private val networkRequestHandler = Handler(Looper.getMainLooper())
-
     private val requestData: SeamlessInitiationData
         get() =
             SeamlessInitiationData(
@@ -64,6 +63,8 @@ class SeamlessVerificationMethod private constructor(
                 reference = config.reference,
                 metadata = config.metadataFactory.create()
             )
+
+    private var lastNetworkCallback: ConnectivityManager.NetworkCallback? = null
 
     override fun onPreInitiate(): Boolean {
         if (!PermissionUtils.isPermissionGranted(
@@ -101,29 +102,32 @@ class SeamlessVerificationMethod private constructor(
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
             .build()
 
-        connectivityManager.requestNetwork(
-            cellularRequest,
-            object : ConnectivityManager.NetworkCallback() {
+        lastNetworkCallback = object : ConnectivityManager.NetworkCallback() {
 
-                override fun onAvailable(network: Network) {
-                    super.onAvailable(network)
-                    logger.debug("Cellular network available $network")
-                    networkRequestHandler.removeCallbacksAndMessages(null)
-                    networkRequestHandler.post {
-                        connectivityManager.changeProcessNetworkTo(network)
-                        executeVerificationRequest(verificationCode)
-                    }
+            override fun onAvailable(network: Network) {
+                super.onAvailable(network)
+                logger.debug("Cellular network available $network")
+                networkRequestHandler.removeCallbacksAndMessages(null)
+                networkRequestHandler.post {
+                    connectivityManager.changeProcessNetworkTo(network)
+                    executeVerificationRequest(verificationCode)
                 }
+            }
 
-                override fun onUnavailable() {
-                    super.onUnavailable()
-                    logger.error("Cellular network not available")
-                    networkRequestHandler.removeCallbacksAndMessages(null)
-                    networkRequestHandler.post {
-                        executeVerificationRequest(verificationCode)
-                    }
+            override fun onUnavailable() {
+                super.onUnavailable()
+                logger.error("Cellular network not available")
+                networkRequestHandler.removeCallbacksAndMessages(null)
+                networkRequestHandler.post {
+                    executeVerificationRequest(verificationCode)
                 }
-            })
+            }
+        }
+
+        lastNetworkCallback?.let {
+            connectivityManager.requestNetwork(cellularRequest, it)
+        }
+
         networkRequestHandler.postDelayed({
             executeVerificationRequest(verificationCode)
         }, MAX_REQUEST_DELAY)
@@ -149,6 +153,9 @@ class SeamlessVerificationMethod private constructor(
 
     private fun resetNetworkBindings() {
         connectivityManager.changeProcessNetworkTo(null)
+        lastNetworkCallback?.let {
+            connectivityManager.unregisterNetworkCallback(it)
+        }
     }
 
     /**
