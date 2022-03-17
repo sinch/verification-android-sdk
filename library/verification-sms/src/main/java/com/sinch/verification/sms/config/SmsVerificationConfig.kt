@@ -1,7 +1,6 @@
 package com.sinch.verification.sms.config
 
 import com.sinch.metadata.AndroidMetadataFactory
-import com.sinch.smsverification.BuildConfig
 import com.sinch.verification.core.BaseVerificationMethodConfigBuilder
 import com.sinch.verification.core.config.GlobalConfigSetter
 import com.sinch.verification.core.config.InitialSetter
@@ -10,6 +9,7 @@ import com.sinch.verification.core.config.method.VerificationMethodConfig
 import com.sinch.verification.core.verification.VerificationLanguage
 import com.sinch.verification.sms.SmsVerificationMethod
 import com.sinch.verification.sms.SmsVerificationService
+import com.sinch.verificationcore.BuildConfig
 
 /**
  * Configuration used by [SmsVerificationMethod] to handle sms verification.
@@ -39,7 +39,7 @@ class SmsVerificationConfig internal constructor(
     acceptedLanguages = acceptedLanguages,
     metadataFactory = AndroidMetadataFactory(
         globalConfig.context,
-        BuildConfig.VERSION_NAME,
+        BuildConfig.SINCH_SDK_VERSION_NAME,
         BuildConfig.FLAVOR
     )
 ) {

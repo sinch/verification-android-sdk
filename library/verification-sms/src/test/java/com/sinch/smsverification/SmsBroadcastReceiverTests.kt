@@ -20,10 +20,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
 
 @RunWith(
     RobolectricTestRunner::class
 )
+@LooperMode(LooperMode.Mode.LEGACY)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class SmsBroadcastReceiverTests {
 

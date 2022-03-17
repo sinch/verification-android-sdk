@@ -11,6 +11,7 @@ import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.sinchverification.utils.AppConfig
 import com.sinch.sinchverification.utils.defaultConfigs
+import com.sinch.verificationcore.BuildConfig.SINCH_SDK_VERSION_NAME
 import kotlinx.android.synthetic.main.activity_settings.*
 
 class SettingsActivity : AppCompatActivity() {
@@ -81,7 +82,7 @@ class SettingsActivity : AppCompatActivity() {
         versionTextView.text = getString(
             R.string.versionPlaceholder,
             BuildConfig.VERSION_NAME,
-            com.sinch.verification.all.BuildConfig.VERSION_NAME
+            SINCH_SDK_VERSION_NAME
         )
     }
 

@@ -22,11 +22,13 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
 import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class
 )
+@LooperMode(LooperMode.Mode.LEGACY)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class SmsCodeInterceptorTests {
 

@@ -34,7 +34,7 @@ class CalloutVerificationConfig internal constructor(
     acceptedLanguages = emptyList(),
     metadataFactory = AndroidMetadataFactory(
         globalConfig.context,
-        BuildConfig.VERSION_NAME,
+        BuildConfig.SINCH_SDK_VERSION_NAME,
         BuildConfig.FLAVOR
     )
 ) {
