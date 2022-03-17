@@ -46,6 +46,7 @@
         - .conf:rule:default
 
 .before_script_android: &before_script_android
+    - cp -v $CI_GRADLE_PROPERTIES_PATH .
     - pwd
     - ./gradlew --version
     - echo $PATH
