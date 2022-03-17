@@ -33,12 +33,14 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
+import org.robolectric.annotation.LooperMode
 import retrofit2.mock.Calls
 import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class
 )
+@LooperMode(LooperMode.Mode.LEGACY)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class SmsVerificationMethodTests {
 
