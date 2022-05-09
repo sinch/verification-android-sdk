@@ -3,6 +3,8 @@ package com.sinch.sinchverification.view
 import android.Manifest
 import android.content.Intent
 import android.os.Bundle
+import android.os.CountDownTimer
+import android.os.Handler
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -10,11 +12,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.DialogFragment
 import com.sinch.logging.logger
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
-import com.sinch.sinchverification.utils.logoverlay.LogOverlayView
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.VerificationLanguage
@@ -24,9 +26,11 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val PERMISSION_REQUEST_CODE = 5
+        const val VERIFICATION_DIALOG_TAG = "ver_dialog"
     }
 
     private val logger = logger()
+    private val mainThreadHandler = Handler()
     private val myApplication: VerificationSampleApp
         get() =
             application as VerificationSampleApp
@@ -39,6 +43,20 @@ class MainActivity : AppCompatActivity() {
             seamlessButton.id to VerificationMethodType.SEAMLESS,
             autoButton.id to VerificationMethodType.AUTO
         )
+    }
+
+    private val intervalTestingRunnable = object : Runnable {
+        override fun run() {
+            if (checkFields(autoCloseVerificationDialog = true)) {
+                val nextVerificationDelayMS: Long = intervalTestingMinutes * 60 * 1000;
+                mainThreadHandler.postDelayed(this, nextVerificationDelayMS)
+                startCountDownTimerForIntervalVerification(nextVerificationDelayMS)
+                logger.debug("Next interval testing scheduled in $intervalTestingMinutes minutes from now")
+            } else {
+                setIntervalTestingUI(false)
+                logger.error("Did not schedule next verification call as checking fields failed")
+            }
+        }
     }
 
     private val initData: VerificationInitData
@@ -70,11 +88,33 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    private val intervalTestingMinutes: Long
+        get() {
+            return try {
+                intervalInputEditText.text.toString().toLong()
+            } catch (e: NumberFormatException) {
+                logger.error(
+                    "Error while parsing input interval in minutes returning default (3 minutes)",
+                    e
+                )
+                3
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         initButton.setOnClickListener {
             ActivityCompat.requestPermissions(this, requestedPermissions, PERMISSION_REQUEST_CODE)
+        }
+        intervalTestingButton.setOnClickListener {
+            mainThreadHandler.post(intervalTestingRunnable)
+            setIntervalTestingUI(true)
+
+        }
+        intervalTestingButtonStop.setOnClickListener {
+            setIntervalTestingUI(false)
+            mainThreadHandler.removeCallbacks(intervalTestingRunnable)
         }
         optionalConfigButton.setOnClickListener {
             toggleOptionalConfig()
@@ -119,17 +159,19 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkFields() {
-        when {
+    private fun checkFields(autoCloseVerificationDialog: Boolean = false): Boolean {
+        return when {
             phoneInput.editText?.text.isNullOrEmpty() -> {
                 phoneInput.error = getString(R.string.phoneEmptyError)
+                false
             }
             else -> {
-                logger.debug("Showing verification dialog with data: $initData")
-                VerificationDialog.newInstance(initData)
+                dismissVerificationDialogIfShown()
+                VerificationDialog.newInstance(initData, autoCloseVerificationDialog)
                     .apply {
-                        show(supportFragmentManager, "dialog")
+                        show(supportFragmentManager, VERIFICATION_DIALOG_TAG)
                     }
+                true
             }
         }
     }
@@ -140,6 +182,33 @@ class MainActivity : AppCompatActivity() {
         optionalConfigLayout.children.forEach {
             it.isVisible = !shouldHide
         }
+    }
+
+    private fun dismissVerificationDialogIfShown() {
+        val currentVerificationDialogFragment =
+            supportFragmentManager.findFragmentByTag(VERIFICATION_DIALOG_TAG)
+        (currentVerificationDialogFragment as? DialogFragment)?.dismiss()
+    }
+
+    private fun setIntervalTestingUI(isOngoing: Boolean) {
+        intervalTestingButton.isEnabled = !isOngoing
+        intervalTestingButtonStop.isEnabled = isOngoing
+        nextVerificationCallText.isVisible = isOngoing
+    }
+
+    private fun startCountDownTimerForIntervalVerification(countDownMs: Long) {
+        object : CountDownTimer(countDownMs, 1000) {
+
+            override fun onTick(millisUntilFinished: Long) {
+                nextVerificationCallText.text = String.format(
+                    getString(R.string.nextVerificationTemplate),
+                    millisUntilFinished / 1000
+                )
+            }
+
+            override fun onFinish() {}
+
+        }.start()
     }
 
     private fun String.toLocaleList() = split(",")

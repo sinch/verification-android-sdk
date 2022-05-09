@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:keepScreenOn="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -206,6 +208,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/initialize" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/intervalInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/intervalsHint">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/intervalInputEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="3" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/intervalTestingButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/intervalTesting" />
+
+        <TextView
+            android:id="@+id/nextVerificationCallText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:visibility="gone"
+            tools:text="Next verification call in 59 s"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/intervalTestingButtonStop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:text="@string/intervalTestingStop" />
 
     </LinearLayout>
 

@@ -2,6 +2,7 @@ package com.sinch.sinchverification.view
 
 import android.app.Dialog
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,10 +12,10 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
 import com.sinch.logging.logger
-import com.sinch.sinchverification.utils.appenders.LogMessageEvent
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.sinchverification.utils.AppSignatureHelper
+import com.sinch.sinchverification.utils.appenders.LogMessageEvent
 import com.sinch.verification.all.BasicVerificationMethodBuilder
 import com.sinch.verification.all.CommonVerificationInitializationParameters
 import com.sinch.verification.all.auto.initialization.AutoInitializationResponseData
@@ -35,15 +36,24 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
     companion object {
         private const val DATA_TAG = "data"
-        fun newInstance(initData: VerificationInitData) = VerificationDialog().apply {
-            arguments = Bundle().apply { putParcelable(DATA_TAG, initData) }
-        }
+        private const val AUTO_CLOSE_TAG = "auto_close"
+        fun newInstance(initData: VerificationInitData, autoClose: Boolean = false) =
+            VerificationDialog().apply {
+                arguments = Bundle().apply {
+                    putParcelable(DATA_TAG, initData)
+                    putBoolean(AUTO_CLOSE_TAG, autoClose)
+                }
+            }
     }
 
     protected val logger = logger()
     private val app: VerificationSampleApp get() = activity?.application as VerificationSampleApp
     private val initData by lazy {
         arguments?.get(DATA_TAG) as VerificationInitData
+    }
+
+    private val autoClose by lazy {
+        arguments?.getBoolean(AUTO_CLOSE_TAG, false) ?: false
     }
 
     private val initListener = object : InitiationListener<InitiationResponseData> {
@@ -141,6 +151,9 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             inputToMethodMap.keys.forEach { it.visibility = View.GONE }
             verifyButton.visibility = View.GONE
         }
+        if (autoClose) {
+            Handler().postDelayed({ dismiss() }, 2000)
+        }
     }
 
     override fun onVerificationFailed(t: Throwable) {
@@ -149,6 +162,9 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             appendLoggerText(t.message ?: "Verification error")
         } else {
             showErrorWithMessage(t.message.orEmpty())
+        }
+        if (autoClose) {
+            dismiss()
         }
     }
 

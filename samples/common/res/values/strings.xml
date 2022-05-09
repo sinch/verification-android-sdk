@@ -5,9 +5,12 @@
 
     <!--Main screen-->
     <string name="initialize">Initialize</string>
+    <string name="intervalTesting">Start Interval Testing</string>
+    <string name="intervalTestingStop">Stop Interval Testing</string>
     <string name="verify">Verify</string>
     <string name="enterNumberHint">Phone number</string>
     <string name="verificationCodeHint">Enter code</string>
+    <string name="nextVerificationTemplate">Next verification in %d seconds</string>
     <string name="sms">SMS</string>
     <string name="flashcall">Flashcall</string>
     <string name="callout">Callout</string>
@@ -19,6 +22,7 @@
     <string name="reference">Reference</string>
     <string name="honorEarlyReject">Honor early reject</string>
     <string name="acceptedLanguages">Accepted languages</string>
+    <string name="intervalsHint">Intervals (min)</string>
     <string name="smsVerificationCode">Sms verification code</string>
     <string name="flashCallNumber">Flashcall number</string>
     <string name="calloutCode">Callout verification code</string>
