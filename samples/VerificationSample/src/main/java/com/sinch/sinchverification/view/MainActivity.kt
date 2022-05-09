@@ -59,6 +59,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private var countDownTimer: CountDownTimer? = null
+
     private val initData: VerificationInitData
         get() =
             VerificationInitData(
@@ -197,7 +199,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startCountDownTimerForIntervalVerification(countDownMs: Long) {
-        object : CountDownTimer(countDownMs, 1000) {
+        countDownTimer?.cancel()
+        countDownTimer = object : CountDownTimer(countDownMs, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
                 nextVerificationCallText.text = String.format(
