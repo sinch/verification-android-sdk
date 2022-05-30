@@ -10,6 +10,11 @@
     "environment":"https://dc-apse1-std.verification.api.sinch.com/"
   },
   {
+    "name":"APS1",
+    "appKey":"<YOUR APP KEY - APS1>",
+    "environment":"https://dc-aps1-std.verification.api.sinch.com/"
+  },
+  {
     "name":"EUC1",
     "appKey":"<YOUR APP KEY - EUC1>",
     "environment":"https://dc-euc1-std.verification.api.sinch.com/"
