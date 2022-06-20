@@ -17,9 +17,9 @@ object Versions {
     const val mockk = "1.9.3.kotlin12"
 
     const val buildTools = "29.0.3"
-    const val compileSdk = 29
-    const val targetSdk = 29
-    const val minSdk = 21
+    const val compileSdk = 33
+    const val targetSdk = 33
+    const val minSdk = 23
 
     const val retrofit = "2.8.1"
     const val okhttp = "4.5.0"

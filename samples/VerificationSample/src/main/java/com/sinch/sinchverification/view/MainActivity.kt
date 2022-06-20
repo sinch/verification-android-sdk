@@ -2,6 +2,7 @@ package com.sinch.sinchverification.view
 
 import android.Manifest
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
@@ -79,10 +80,13 @@ class MainActivity : AppCompatActivity() {
 
     private val requestedPermissions: Array<String>
         get() {
-            val optionalPerms = arrayOf(
+            var optionalPerms = arrayOf(
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.ACCESS_NETWORK_STATE
             )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                optionalPerms += Manifest.permission.READ_PHONE_NUMBERS
+            }
             return if (selectedVerificationMethod == VerificationMethodType.FLASHCALL || selectedVerificationMethod == VerificationMethodType.AUTO) {
                 optionalPerms + Manifest.permission.READ_CALL_LOG
             } else {
