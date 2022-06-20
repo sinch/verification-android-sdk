@@ -82,7 +82,8 @@ class MainActivity : AppCompatActivity() {
         get() {
             var optionalPerms = arrayOf(
                 Manifest.permission.READ_PHONE_STATE,
-                Manifest.permission.ACCESS_NETWORK_STATE
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 optionalPerms += Manifest.permission.READ_PHONE_NUMBERS

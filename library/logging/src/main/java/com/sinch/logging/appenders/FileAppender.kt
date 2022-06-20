@@ -1,17 +1,21 @@
 package com.sinch.logging.appenders
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.os.Environment
 import com.sinch.logging.Appender
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class FileAppender(private val appContext: Context) : Appender {
 
     companion object {
-        const val LOG_FILE_NAME = "sinchLogs.log"
+        const val LOG_FILE_NAME = "applogs"
     }
 
     private enum class LogLevel(val fileString: String) {
@@ -22,11 +26,18 @@ class FileAppender(private val appContext: Context) : Appender {
         Error("---ERROR---")
     }
 
-    private val logFileDir = appContext.getExternalFilesDir(null)
+    private val logFileDir =
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
     private val dateFormatter = SimpleDateFormat.getDateTimeInstance()
+    private val dateOnlyFormatter = SimpleDateFormat.getDateInstance(DateFormat.SHORT, Locale.US)
 
     private val logFile: File? by lazy {
-        val file = File(logFileDir, LOG_FILE_NAME)
+        val sinchLogsSubDir = File(logFileDir.absolutePath + File.separator + "sinchlogs")
+        sinchLogsSubDir.mkdirs()
+        val file = File(
+            sinchLogsSubDir,
+            "${LOG_FILE_NAME}_${dateOnlyFormatter.format(Date()).replace("/", "_")}"
+        )
         if (file.exists()) {
             file
         } else {
@@ -55,6 +66,9 @@ class FileAppender(private val appContext: Context) : Appender {
     }
 
     private fun appendWithLevel(logLevel: LogLevel, tag: String, msg: String, t: Throwable?) {
+        if (appContext.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            return
+        }
         val fileToLog = logFile ?: return
         try {
             BufferedWriter(FileWriter(fileToLog, true)).use { writer ->

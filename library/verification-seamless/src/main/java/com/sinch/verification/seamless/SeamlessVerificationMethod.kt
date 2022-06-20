@@ -31,6 +31,7 @@ import com.sinch.verification.seamless.initialization.SeamlessInitiationResponse
 import com.sinch.verification.utils.changeProcessNetworkTo
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
+import retrofit2.Retrofit
 
 typealias  EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
 typealias  SimpleInitializationSeamlessApiCallback = InitiationApiCallback<SeamlessInitiationResponseData>
@@ -118,9 +119,39 @@ class SeamlessVerificationMethod private constructor(
                 logger.debug("Cellular network available $network")
                 networkRequestHandler.removeCallbacksAndMessages(null)
                 networkRequestHandler.post {
-                    connectivityManager.changeProcessNetworkTo(network)
+                    val changeNetworkReturnCode =
+                        connectivityManager.changeProcessNetworkTo(network)
+                    logger.debug("changeProcessNetworkTo returned: $changeNetworkReturnCode")
                     executeVerificationRequest(verificationCode)
                 }
+            }
+
+            override fun onLosing(network: Network, maxMsToLive: Int) {
+                super.onLosing(network, maxMsToLive)
+                logger.debug("Cellular onLosing")
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                logger.debug("Cellular onLost")
+            }
+
+            override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
+                super.onBlockedStatusChanged(network, blocked)
+                logger.debug("onBlockedStatusChanged")
+            }
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                logger.debug("onCapabilitiesChanged")
+            }
+
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+                super.onLinkPropertiesChanged(network, linkProperties)
+                logger.debug("onLinkPropertiesChanged")
             }
 
             override fun onUnavailable() {
@@ -148,10 +179,18 @@ class SeamlessVerificationMethod private constructor(
         verificationListener.onVerificationFailed(e)
     }
 
-    private fun executeVerificationRequest(verificationCode: String) {
-        verificationService.verifySeamless(verificationCode)
+    private fun executeVerificationRequest(
+        verificationCode: String,
+        specificRetrofit: Retrofit? = null
+    ) {
+        val usedRetrofit = specificRetrofit ?: retrofit
+
+        val service: SeamlessVerificationService =
+            if (specificRetrofit != null) specificRetrofit.create(SeamlessVerificationService::class.java) else verificationService
+
+        service.verifySeamless(verificationCode)
             .enqueue(
-                retrofit = retrofit,
+                retrofit = usedRetrofit,
                 apiCallback = VerificationApiCallback(
                     listener = verificationListener,
                     verificationStateListener = this,
@@ -161,6 +200,7 @@ class SeamlessVerificationMethod private constructor(
     }
 
     private fun resetNetworkBindings() {
+        logger.debug("Resetting network bindings")
         connectivityManager.changeProcessNetworkTo(null)
         lastNetworkCallback?.let {
             connectivityManager.unregisterNetworkCallback(it)
