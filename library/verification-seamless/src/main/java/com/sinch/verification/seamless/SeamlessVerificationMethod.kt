@@ -1,12 +1,15 @@
 package com.sinch.verification.seamless
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
-import android.net.ConnectivityManager
-import android.net.Network
-import android.net.NetworkCapabilities
-import android.net.NetworkRequest
+import android.content.pm.PackageManager
+import android.net.*
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
+import android.telephony.SubscriptionManager
+import androidx.core.app.ActivityCompat
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
@@ -53,6 +56,10 @@ class SeamlessVerificationMethod private constructor(
         config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     }
 
+    private val subscriptionManager by lazy {
+        config.globalConfig.context.getSystemService(Context.TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+    }
+
     private val networkRequestHandler = Handler(Looper.getMainLooper())
     private val requestData: SeamlessInitiationData
         get() =
@@ -91,6 +98,7 @@ class SeamlessVerificationMethod private constructor(
                 ))
     }
 
+    @SuppressLint("NewApi")
     override fun onVerify(
         verificationCode: String,
         sourceType: VerificationSourceType,
@@ -100,6 +108,7 @@ class SeamlessVerificationMethod private constructor(
         val cellularRequest = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
             .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+            .setSpecificTelephonyNetworkIfCapable()
             .build()
 
         lastNetworkCallback = object : ConnectivityManager.NetworkCallback() {
@@ -155,6 +164,33 @@ class SeamlessVerificationMethod private constructor(
         connectivityManager.changeProcessNetworkTo(null)
         lastNetworkCallback?.let {
             connectivityManager.unregisterNetworkCallback(it)
+        }
+    }
+
+    private fun NetworkRequest.Builder.setSpecificTelephonyNetworkIfCapable(): NetworkRequest.Builder {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            logger.debug("Cannot set specific telephony network in the request as device does not run Android 10+")
+            return this
+        }
+        if (ActivityCompat.checkSelfPermission(
+                globalConfig.context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            logger.debug("Cannot set specific telephony network in the request as the app doesn't have required permissions")
+            return this
+        }
+        @Suppress("DEPRECATION") val usedNumberSubId = subscriptionManager.activeSubscriptionInfoList.firstOrNull {
+            it.number == requestData.identity.endpoint
+        }?.subscriptionId
+        return if (usedNumberSubId == null) {
+            logger.debug("Cannot set specific telephony network request, did not find subscription with number ${requestData.identity.endpoint}")
+            this
+        } else {
+            logger.debug("Setting TelephonyNetworkSpecifier with subscription id $usedNumberSubId")
+            setNetworkSpecifier(
+                TelephonyNetworkSpecifier.Builder().setSubscriptionId(usedNumberSubId).build()
+            )
         }
     }
 
