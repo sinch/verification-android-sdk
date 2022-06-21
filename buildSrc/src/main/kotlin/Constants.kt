@@ -1,7 +1,7 @@
 object Versions {
 
     const val kotlin = "1.4.31"
-    const val gradleBuildTools = "7.0.3"
+    const val gradleBuildTools = "7.2.0"
 
     const val appCompat = "1.1.0"
     const val ktx = "1.3.0"
