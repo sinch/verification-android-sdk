@@ -8,6 +8,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.sinch.metadata.model.network.NetworkType
 import com.sinch.verification.utils.permission.Permission
 import org.junit.Assert
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -41,6 +42,7 @@ class NetworkInfoCollectorTests {
         Assert.assertNotNull(data)
     }
 
+    @Ignore("Minimum support bumped from 21 -> 23")
     @Test
     @Config(sdk = [Build.VERSION_CODES.LOLLIPOP])
     fun testVoiceCapableNullOnApi21() {
