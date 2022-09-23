@@ -10,6 +10,7 @@ import android.os.Handler
 import android.os.Looper
 import android.telephony.SubscriptionManager
 import androidx.core.app.ActivityCompat
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.method.VerificationMethod
 import com.sinch.verification.core.config.method.VerificationMethodCreator
@@ -21,6 +22,7 @@ import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.internal.error.VerificationException
 import com.sinch.verification.core.internal.utils.enqueue
 import com.sinch.verification.core.verification.VerificationApiCallback
+import com.sinch.verification.core.verification.VerificationService
 import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
@@ -31,6 +33,11 @@ import com.sinch.verification.seamless.initialization.SeamlessInitiationResponse
 import com.sinch.verification.utils.changeProcessNetworkTo
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import retrofit2.Retrofit
+import kotlin.math.log
 
 typealias  EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
 typealias  SimpleInitializationSeamlessApiCallback = InitiationApiCallback<SeamlessInitiationResponseData>
@@ -115,12 +122,58 @@ class SeamlessVerificationMethod private constructor(
 
             override fun onAvailable(network: Network) {
                 super.onAvailable(network)
+
+                network.socketFactory
+//                globalConfig.retrofit.newBuilder().client(globalConfig.retrofit.)
+//                val retrofit2 = Retrofit.Builder()
+//                    .baseUrl("http://localhost/")
+//                    .client(OkHttpClient.Builder().socketFactory(network.socketFactory)
+//                        .build())
+//                    .addConverterFactory(
+//                        Json {
+//                            encodeDefaults = true
+//                            ignoreUnknownKeys = true
+//                        }
+//                            .asConverterFactory("application/json".toMediaType())
+//                    )
+//                    .build()
+
+
                 logger.debug("Cellular network available $network")
                 networkRequestHandler.removeCallbacksAndMessages(null)
                 networkRequestHandler.post {
-                    connectivityManager.changeProcessNetworkTo(network)
+                    val returned = connectivityManager.changeProcessNetworkTo(network)
+                    logger.debug("changeProcessNetworkTo returned $returned")
                     executeVerificationRequest(verificationCode)
                 }
+            }
+
+            override fun onLosing(network: Network, maxMsToLive: Int) {
+                super.onLosing(network, maxMsToLive)
+                logger.debug("Cellular onLosing")
+            }
+
+            override fun onLost(network: Network) {
+                super.onLost(network)
+                logger.debug("Cellular onLost")
+            }
+
+            override fun onBlockedStatusChanged(network: Network, blocked: Boolean) {
+                super.onBlockedStatusChanged(network, blocked)
+                logger.debug("onBlockedStatusChanged")
+            }
+
+            override fun onCapabilitiesChanged(
+                network: Network,
+                networkCapabilities: NetworkCapabilities
+            ) {
+                super.onCapabilitiesChanged(network, networkCapabilities)
+                logger.debug("onCapabilitiesChanged")
+            }
+
+            override fun onLinkPropertiesChanged(network: Network, linkProperties: LinkProperties) {
+                super.onLinkPropertiesChanged(network, linkProperties)
+                logger.debug("onLinkPropertiesChanged")
             }
 
             override fun onUnavailable() {
@@ -148,10 +201,14 @@ class SeamlessVerificationMethod private constructor(
         verificationListener.onVerificationFailed(e)
     }
 
-    private fun executeVerificationRequest(verificationCode: String) {
-        verificationService.verifySeamless(verificationCode)
+    private fun executeVerificationRequest(verificationCode: String, specificRetrofit: Retrofit? = null) {
+        val usedRetrofit = specificRetrofit ?: retrofit
+
+        val service:SeamlessVerificationService  = if(specificRetrofit != null) specificRetrofit.create(SeamlessVerificationService::class.java) else  verificationService
+
+        service.verifySeamless(verificationCode)
             .enqueue(
-                retrofit = retrofit,
+                retrofit = usedRetrofit,
                 apiCallback = VerificationApiCallback(
                     listener = verificationListener,
                     verificationStateListener = this,
@@ -161,6 +218,7 @@ class SeamlessVerificationMethod private constructor(
     }
 
     private fun resetNetworkBindings() {
+        logger.debug("Resetting network bindings")
         connectivityManager.changeProcessNetworkTo(null)
         lastNetworkCallback?.let {
             connectivityManager.unregisterNetworkCallback(it)
@@ -180,6 +238,12 @@ class SeamlessVerificationMethod private constructor(
             logger.debug("Cannot set specific telephony network in the request as the app doesn't have required permissions")
             return this
         }
+        val allSubs = subscriptionManager.activeSubscriptionInfoList
+        val subData = SubscriptionManager.getActiveDataSubscriptionId()
+        val subDataDefault = SubscriptionManager.getDefaultDataSubscriptionId()
+        val activePhone = SubscriptionManager.getDefaultVoiceSubscriptionId()
+
+        logger.debug("Subscription id uses for cellular is $subData $subDataDefault")
         @Suppress("DEPRECATION") val usedNumberSubId = subscriptionManager.activeSubscriptionInfoList.firstOrNull {
             it.number == requestData.identity.endpoint
         }?.subscriptionId

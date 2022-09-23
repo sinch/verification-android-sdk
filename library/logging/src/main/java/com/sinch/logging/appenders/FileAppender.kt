@@ -11,7 +11,7 @@ import java.util.*
 class FileAppender(private val appContext: Context) : Appender {
 
     companion object {
-        const val LOG_FILE_NAME = "sinchLogs.log"
+        const val LOG_FILE_NAME = "applogs"
     }
 
     private enum class LogLevel(val fileString: String) {

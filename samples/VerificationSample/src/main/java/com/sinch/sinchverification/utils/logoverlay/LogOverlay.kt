@@ -1,7 +1,6 @@
 package com.sinch.sinchverification.utils.logoverlay
 
 import android.Manifest
-import android.Manifest.permission.SYSTEM_ALERT_WINDOW
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
@@ -18,7 +17,6 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinch.logging.logger
 import kotlinx.android.synthetic.main.view_logoverlay.view.*
-import java.lang.Exception
 
 object LogOverlay {
 
@@ -35,12 +33,16 @@ object LogOverlay {
         appContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
 
-    private val areOverlayPermissionsGranted: Boolean get() =
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            Settings.canDrawOverlays(appContext)
-        } else {
-            ContextCompat.checkSelfPermission(appContext, Manifest.permission.SYSTEM_ALERT_WINDOW) == PackageManager.PERMISSION_GRANTED
-        }
+    private val areOverlayPermissionsGranted: Boolean
+        get() =
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                Settings.canDrawOverlays(appContext)
+            } else {
+                ContextCompat.checkSelfPermission(
+                    appContext,
+                    Manifest.permission.SYSTEM_ALERT_WINDOW
+                ) == PackageManager.PERMISSION_GRANTED
+            }
 
     fun init(app: Application) {
         this.appContext = app
@@ -49,7 +51,13 @@ object LogOverlay {
 
     fun log(tag: String, message: String, level: LogOverlayItemLevel) {
         mainThreadHandler.post {
-            overlayAdapter.addItem(LogOverlayItem(tag, message, level))
+            overlayAdapter.addItem(
+                LogOverlayItem(
+                    tag,
+                    if (message.length > 1000) message.substring(0, 1000) else message,
+                    level
+                )
+            )
             linearLayoutManager.scrollToPosition(overlayAdapter.itemCount - 1)
         }
     }

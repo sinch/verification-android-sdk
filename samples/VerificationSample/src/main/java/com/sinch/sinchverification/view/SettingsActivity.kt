@@ -1,6 +1,9 @@
 package com.sinch.sinchverification.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.provider.Settings.ACTION_MANAGE_OVERLAY_PERMISSION
 import android.view.View
 import android.widget.RadioButton
 import androidx.appcompat.app.AlertDialog
@@ -11,8 +14,10 @@ import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.sinchverification.utils.AppConfig
 import com.sinch.sinchverification.utils.defaultConfigs
+import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verificationcore.BuildConfig.SINCH_SDK_VERSION_NAME
 import kotlinx.android.synthetic.main.activity_settings.*
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -30,6 +35,9 @@ class SettingsActivity : AppCompatActivity() {
         populateVersionText()
         if (myApplication.usedConfig.appKey.isEmpty()) {
             showInsertAppKeyPrompt()
+        }
+        if (!Settings.canDrawOverlays(this)) {
+            startActivity(Intent(ACTION_MANAGE_OVERLAY_PERMISSION))
         }
     }
 

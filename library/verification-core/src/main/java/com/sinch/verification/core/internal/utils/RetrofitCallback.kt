@@ -35,7 +35,11 @@ open class RetrofitCallback<T>(
     private fun ResponseBody.convertToError() {
         val responseBodyConverter =
             retrofit.responseBodyConverter<ApiErrorData>(ApiErrorData::class.java, emptyArray())
-        responseBodyConverter.convert(this)?.let { apiCallback.onError(ApiCallException(it)) }
+        try {
+            responseBodyConverter.convert(this)?.let { apiCallback.onError(ApiCallException(it)) }
+        } catch (e: Exception) {
+            apiCallback.onError(e)
+        }
     }
 
 }
