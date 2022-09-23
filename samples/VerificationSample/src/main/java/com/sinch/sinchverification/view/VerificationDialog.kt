@@ -3,14 +3,17 @@ package com.sinch.sinchverification.view
 import android.app.Dialog
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.storage.FirebaseStorage
 import com.sinch.logging.logger
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
@@ -29,6 +32,7 @@ import kotlinx.android.synthetic.main.dialog_verification.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
+import java.io.File
 import java.util.*
 
 
@@ -59,6 +63,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     private val initListener = object : InitiationListener<InitiationResponseData> {
         override fun onInitializationFailed(t: Throwable) {
             logger.error("onInitializationFailed callback executed with", t)
+            tryUpload()
             showErrorWithMessage(t.message.orEmpty())
         }
 
@@ -143,6 +148,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
     override fun onVerified() {
         logger.debug("onVerified called")
+        tryUpload()
         progressBar.hide()
         messageText.apply {
             setTextColor(ContextCompat.getColor(app, R.color.green))
@@ -158,6 +164,7 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
     override fun onVerificationFailed(t: Throwable) {
         logger.error("onVerificationFailed called", t)
+        tryUpload()
         if (initData.usedMethod == VerificationMethodType.AUTO) {
             appendLoggerText(t.message ?: "Verification error")
         } else {
@@ -165,6 +172,18 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         }
         if (autoClose) {
             dismiss()
+        }
+    }
+
+    private fun tryUpload() {
+        val storage = FirebaseStorage.getInstance()
+        val ref = storage.reference.child("logs"+System.currentTimeMillis())
+        val logFile = File(requireContext().getExternalFilesDir(null), "applogs")
+        val task = ref.putFile(logFile.toUri())
+        task.addOnFailureListener {
+            logger.error("Uplaoding failed",it)
+        }.addOnSuccessListener {
+            logger.debug("Uploading success")
         }
     }
 

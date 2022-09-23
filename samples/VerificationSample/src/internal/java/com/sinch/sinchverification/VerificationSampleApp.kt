@@ -2,12 +2,14 @@ package com.sinch.sinchverification
 
 import android.app.Application
 import android.webkit.URLUtil
+import com.google.firebase.FirebaseApp
 import com.sinch.logging.Log
 import com.sinch.logging.appenders.FileAppender
 import com.sinch.logging.appenders.LogcatAppender
 import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.HttpFileLogger
 import com.sinch.sinchverification.utils.SharedPrefsManager
+import com.sinch.sinchverification.utils.appenders.FirebaseAnalyticsAppender
 import com.sinch.sinchverification.utils.appenders.LogOverlayAppender
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
@@ -29,6 +31,7 @@ class VerificationSampleApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        FirebaseApp.initializeApp(this)
         initFlipper()
         initLogger()
         rebuildGlobalConfig()
@@ -40,7 +43,7 @@ class VerificationSampleApp : Application() {
 
     private fun initLogger() {
         LogOverlay.init(this)
-        Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this), LogOverlayAppender())
+        Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this), LogOverlayAppender(), FirebaseAnalyticsAppender())
     }
 
     private fun buildGlobalConfig(apiHost: String, appKey: String): GlobalConfig =
