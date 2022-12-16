@@ -19,7 +19,7 @@ android {
 
     productFlavors {
         production {
-            buildConfigField "String", "API_BASE_URL", "\"https://verification.api.sinch.com//\""
+            buildConfigField "String", "API_BASE_URL", "\"https://verification.api.sinch.com/\""
         }
         ftest1 {
             buildConfigField "String", "API_BASE_URL", "\"https://ft1-verification.api.sinchlab.com/\""
