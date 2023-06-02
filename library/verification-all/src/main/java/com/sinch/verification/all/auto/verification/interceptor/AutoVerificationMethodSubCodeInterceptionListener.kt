@@ -20,7 +20,7 @@ internal class AutoVerificationMethodSubCodeInterceptionListener(
     override fun onCodeIntercepted(code: String, source: VerificationSourceType) {
         logger.debug(
             "Intercepted verification results from method: $method, " +
-                    "verification code is $code"
+                "verification code is $code"
         )
         subCodeInterceptionListener.onSubCodeIntercepted(
             code,

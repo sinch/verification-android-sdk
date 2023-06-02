@@ -12,14 +12,15 @@ import androidx.core.view.children
 import com.sinch.sinchverification.BuildConfig
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
+import com.sinch.sinchverification.databinding.ActivitySettingsBinding
 import com.sinch.sinchverification.utils.AppConfig
 import com.sinch.sinchverification.utils.defaultConfigs
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verificationcore.BuildConfig.SINCH_SDK_VERSION_NAME
-import kotlinx.android.synthetic.main.activity_settings.*
-
 
 class SettingsActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySettingsBinding
 
     private val myApplication: VerificationSampleApp
         get() =
@@ -27,7 +28,8 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         attachUpdateGlobalConfigListeners()
         buildRadioButtons()
         updateGlobalConfigPropertiesLayout()
@@ -42,25 +44,25 @@ class SettingsActivity : AppCompatActivity() {
     }
 
     private fun attachUpdateGlobalConfigListeners() {
-        updateBaseUrlButton.setOnClickListener {
+        binding.updateBaseUrlButton.setOnClickListener {
             myApplication.updateCurrentConfigBaseURL(
-                baseURLInputLayoutEditText.text.toString()
+                binding.baseURLInputLayoutEditText.text.toString()
             )
         }
-        updateAppKeyButton.setOnClickListener {
-            myApplication.updateCurrentConfigKey(appKeyInputLayoutEditText.text.toString())
+        binding.updateAppKeyButton.setOnClickListener {
+            myApplication.updateCurrentConfigKey(binding.appKeyInputLayoutEditText.text.toString())
         }
     }
 
     private fun attachRadioGroupChangeListener() {
-        envRadioGroup.setOnCheckedChangeListener { _, checkedItemId ->
+        binding.envRadioGroup.setOnCheckedChangeListener { _, checkedItemId ->
             onEnvironmentRadioButtonChecked(checkedItemId)
         }
     }
 
     private fun buildRadioButtons() {
         (defaultConfigs.map { it.name } + listOf(AppConfig.CUSTOM_CONFIG_NAME)).forEach {
-            envRadioGroup.addView(RadioButton(this).apply {
+            binding.envRadioGroup.addView(RadioButton(this).apply {
                 text = it
                 tag = it
             })
@@ -69,25 +71,27 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun updateGlobalConfigPropertiesLayout() {
         val currentAppConfig = myApplication.usedConfig
-        val idOfButtonToCheck = envRadioGroup.children.first { currentAppConfig.name == it.tag }.id
+        val idOfButtonToCheck = binding.envRadioGroup.children.first { currentAppConfig.name == it.tag }.id
 
-        appKeyInputLayoutEditText.setText(currentAppConfig.appKey)
-        baseURLInputLayoutEditText.setText(currentAppConfig.environment)
-        envRadioGroup.check(idOfButtonToCheck)
-        listOf<View>(baseURLInputLayoutEditText, updateBaseUrlButton).forEach {
-            it.isEnabled = (currentAppConfig.isCustom)
+        with(binding) {
+            appKeyInputLayoutEditText.setText(currentAppConfig.appKey)
+            baseURLInputLayoutEditText.setText(currentAppConfig.environment)
+            envRadioGroup.check(idOfButtonToCheck)
+            listOf<View>(baseURLInputLayoutEditText, updateBaseUrlButton).forEach {
+                it.isEnabled = (currentAppConfig.isCustom)
+            }
         }
     }
 
     private fun onEnvironmentRadioButtonChecked(checkedButtonId: Int) {
         val updatedConfigName =
-            envRadioGroup.children.first { it.id == checkedButtonId }.tag.toString()
+            binding.envRadioGroup.children.first { it.id == checkedButtonId }.tag.toString()
         myApplication.updateAppConfig(updatedConfigName)
         updateGlobalConfigPropertiesLayout()
     }
 
     private fun populateVersionText() {
-        versionTextView.text = getString(
+        binding.versionTextView.text = getString(
             R.string.versionPlaceholder,
             BuildConfig.VERSION_NAME,
             SINCH_SDK_VERSION_NAME

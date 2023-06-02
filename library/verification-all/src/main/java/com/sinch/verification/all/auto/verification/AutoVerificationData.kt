@@ -28,16 +28,19 @@ data class AutoVerificationData(
                 source = source,
                 smsDetails = SmsVerificationDetails(code = code)
             )
+
             VerificationMethodType.FLASHCALL -> AutoVerificationData(
                 method = method,
                 source = source,
                 flashcallDetails = FlashCallVerificationDetails(cli = code)
             )
+
             VerificationMethodType.CALLOUT -> AutoVerificationData(
                 method = method,
                 source = source,
                 calloutDetails = CalloutVerificationDetails(code = code)
             )
+
             else -> error("Cannot construct verification data for method $method)")
         }
 

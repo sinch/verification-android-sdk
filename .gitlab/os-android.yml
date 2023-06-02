@@ -2,174 +2,174 @@
 
 # Base config
 .base:
-    variables:
-        ANDROID_NDK_ROOT: "$HOME/android-ndk-r16b"
+  variables:
+    ANDROID_NDK_ROOT: "$HOME/android-ndk-r16b"
 
-        # WARNING: This is only for debugging and must not be enabled on real builds as it leak
-        # secrets and keys in the log
-        # CI_DEBUG_TRACE: "true"
+    # WARNING: This is only for debugging and must not be enabled on real builds as it leak
+    # secrets and keys in the log
+    # CI_DEBUG_TRACE: "true"
 
 .conf:env:
-    extends: .base
+  extends: .base
 
-    variables:
-        # Note that shell runners only support runners with a single
-        # concurrency level. We can't use `$CI_CONCURRENT_ID` because this may
-        # change between the build and test stages which we doesn't support.
-        # Even if we could, it could change if other runners on the machine
-        # could run at the same time, so we drop it.
-        # GIT_CLONE_PATH: ""
+  variables:
+    # Note that shell runners only support runners with a single
+    # concurrency level. We can't use `$CI_CONCURRENT_ID` because this may
+    # change between the build and test stages which we doesn't support.
+    # Even if we could, it could change if other runners on the machine
+    # could run at the same time, so we drop it.
+    # GIT_CLONE_PATH: ""
 
-        GIT_SUBMODULE_STRATEGY: "recursive"
-        # technique to avoid downloading NDK from internet during build
-        DOWNLOAD_NDK: "false"
+    GIT_SUBMODULE_STRATEGY: "recursive"
+    # technique to avoid downloading NDK from internet during build
+    DOWNLOAD_NDK: "false"
 
 .conf:runner:tags:
-    tags:
-        - shell
-        - concurrent
-        - android-ndk-r16b
+  tags:
+    - shell
+    - concurrent
+    - android-ndk-r16b
 
 .conf:debug:
-    variables:
-        CONFIGURATION: "Debug"
+  variables:
+    CONFIGURATION: "Debug"
 
 .conf:release:
-    variables:
-        CONFIGURATION: "Release"
+  variables:
+    CONFIGURATION: "Release"
 
 .conf:release:testSDK:
-    extends:
-        - .conf:env
-        - .conf:release
-        - .conf:runner:tags
-        - .conf:rule:default
+  extends:
+    - .conf:env
+    - .conf:release
+    - .conf:runner:tags
+    - .conf:rule:default
 
 .before_script_android: &before_script_android
-    - cp -v $CI_GRADLE_PROPERTIES_PATH .
-    - pwd
-    - ./gradlew --version
-    - echo $PATH
-    - echo $JAVA_HOME
-    - echo $ANDROID_HOME
-    - echo $RELEASE_STORE_FILE
+  - cp -v $CI_GRADLE_PROPERTIES_PATH .
+  - pwd
+  - ./gradlew --version
+  - echo $PATH
+  - echo $JAVA_HOME
+  - echo $ANDROID_HOME
+  - echo $RELEASE_STORE_FILE
 
 .buildSample:do:
-    stage: Build Sample
+  stage: Build Sample
 
-    script:
-        - *before_script_android
-        - sed -i '' "s/<YOUR APP KEY - PRODUCTION>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
-        - sed -i '' "s/<YOUR APP KEY - APSE1>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
-        - sed -i '' "s/<YOUR APP KEY - APS1>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
-        - sed -i '' "s/<YOUR APP KEY - EUC1>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
-        - sed -i '' "s/<YOUR APP KEY - FTEST1>/$FTEST1_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
-        - sed -i '' "s/<YOUR APP KEY - FTEST2>/$FTEST2_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
-        - ./gradlew clean
-        - ./gradlew assembleInternalProductionDebug
+  script:
+    - *before_script_android
+    - sed -i '' "s/<YOUR APP KEY - PRODUCTION>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
+    - sed -i '' "s/<YOUR APP KEY - APSE1>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
+    - sed -i '' "s/<YOUR APP KEY - APS1>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
+    - sed -i '' "s/<YOUR APP KEY - EUC1>/$PRODUCTION_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
+    - sed -i '' "s/<YOUR APP KEY - FTEST1>/$FTEST1_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
+    - sed -i '' "s/<YOUR APP KEY - FTEST2>/$FTEST2_KEY_SAMPLE_APP/g" samples/VerificationSample/src/main/assets/config.json
+    - ./gradlew clean
+    - ./gradlew assembleInternalProductionDebug
 
-    interruptible: true
+  interruptible: true
 
 .testLoggingSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew clean
-        - ./gradlew library:logging:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew clean
+    - ./gradlew library:logging:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testMetadataCollectorSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew clean
-        - ./gradlew library:metadata-collector:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew clean
+    - ./gradlew library:metadata-collector:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testUtilsSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew clean
-        - ./gradlew library:utils:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew clean
+    - ./gradlew library:utils:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testVerAllSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew library:verification-all:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew library:verification-all:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testCalloutSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew library:verification-callout:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew library:verification-callout:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testVerCoreSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew library:verification-core:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew library:verification-core:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testFlashcallSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew library:verification-flashcall:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew library:verification-flashcall:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testSeamlessSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew library:verification-seamless:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew library:verification-seamless:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .testSmsSDK:do:
-    stage: Test SDK
+  stage: Test SDK
 
-    script:
-        - *before_script_android
-        - ./gradlew library:verification-sms:testProductionRelease
+  script:
+    - *before_script_android
+    - ./gradlew library:verification-sms:testProductionRelease
 
-    interruptible: true
+  interruptible: true
 
 .publishMaven:do:
-    stage: Publish To Maven
+  stage: Publish To Maven
 
-    script:
-        - *before_script_android
-        - echo -e "signing.keyId=$SIGNING_KEYID\nsigning.password=$SIGNING_PASSWORD\nsigning.secretKeyRingFile=$SIGNING_SECRETKEYRINGFILE\nossrhUsername=$OSSRH_USERNAME\nossrhPassword=$OSSRH_PASSWORD\nsonatypeStagingProfileId=$SONATYPE_STAGING_PROFILE_ID" >> local.properties
-        - echo "$SIGNING_KEY_CONTENT" | base64 -d > "ver_key.gpg"
-        - ./gradlew publishProductionPublicationToSonatypeRepository -max-workers 1 closeAndReleaseRepository
+  script:
+    - *before_script_android
+    - echo -e "signing.keyId=$SIGNING_KEYID\nsigning.password=$SIGNING_PASSWORD\nsigning.secretKeyRingFile=$SIGNING_SECRETKEYRINGFILE\nossrhUsername=$OSSRH_USERNAME\nossrhPassword=$OSSRH_PASSWORD\nsonatypeStagingProfileId=$SONATYPE_STAGING_PROFILE_ID" >> local.properties
+    - echo "$SIGNING_KEY_CONTENT" | base64 -d > "ver_key.gpg"
+    - ./gradlew publishProductionPublicationToSonatypeRepository -max-workers 1 closeAndReleaseRepository
 
-    interruptible: true
+  interruptible: true
 
 .testSample:do:
-    stage: Test Sample
+  stage: Test Sample
 
-    script:
-        - *before_script_android
-        - echo Sample app tests not implemented yet
+  script:
+    - *before_script_android
+    - echo Sample app tests not implemented yet
 
-    interruptible: true
+  interruptible: true

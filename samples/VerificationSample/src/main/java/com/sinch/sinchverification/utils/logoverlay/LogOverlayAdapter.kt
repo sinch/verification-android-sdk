@@ -1,11 +1,9 @@
 package com.sinch.sinchverification.utils.logoverlay
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.sinch.sinchverification.R
-import kotlinx.android.synthetic.main.item_overlay_log.view.*
+import com.sinch.sinchverification.databinding.ItemOverlayLogBinding
 
 class LogOverlayAdapter() : RecyclerView.Adapter<LogOverlayAdapter.ViewHolder>() {
 
@@ -19,21 +17,21 @@ class LogOverlayAdapter() : RecyclerView.Adapter<LogOverlayAdapter.ViewHolder>()
         items = items.plus(item)
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(private val binding: ItemOverlayLogBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: LogOverlayItem) {
-            itemView.logTagTextView.text = item.tag
-            itemView.logTagTextView.setTextColor(item.level.getColor(itemView.context))
-            itemView.logMessageTextView.text = item.message
-            itemView.logMessageTextView.setTextColor(item.level.getColor(itemView.context))
+            with(binding) {
+                logTagTextView.text = item.tag
+                logTagTextView.setTextColor(item.level.getColor(itemView.context))
+                logMessageTextView.text = item.message
+                logMessageTextView.setTextColor(item.level.getColor(itemView.context))
+            }
         }
 
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder = ViewHolder(
-        LayoutInflater.from(parent.context).inflate(
-            R.layout.item_overlay_log, parent, false
-        )
+        ItemOverlayLogBinding.inflate(LayoutInflater.from(parent.context), parent, false)
     )
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

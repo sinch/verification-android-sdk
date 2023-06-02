@@ -97,7 +97,7 @@ class SmsVerificationMethodTests {
         basicSmsMethod.initiate()
         Assert.assertTrue(
             basicSmsMethod.verificationState is VerificationState.Initialization &&
-                    (basicSmsMethod.verificationState as VerificationState.Initialization).status == VerificationStateStatus.SUCCESS
+                (basicSmsMethod.verificationState as VerificationState.Initialization).status == VerificationStateStatus.SUCCESS
         )
         verify { mockedInitListener.onInitiated(any()) }
     }

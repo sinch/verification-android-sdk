@@ -32,19 +32,19 @@ class AutoInterceptorTests {
 
     @MockK(relaxed = true)
     lateinit var
-            mockedInterceptionListener: CodeInterceptionListener
+        mockedInterceptionListener: CodeInterceptionListener
 
     @MockK(relaxed = true)
     lateinit var
-            subCodeInterceptionListener: SubCodeInterceptionListener
+        subCodeInterceptionListener: SubCodeInterceptionListener
 
     @MockK(relaxed = true)
     lateinit var
-            mockedSubCodeInterceptorFactory: SubCodeInterceptorFactory
+        mockedSubCodeInterceptorFactory: SubCodeInterceptorFactory
 
     @MockK(relaxed = true)
     lateinit var
-            mockedVerificationListener: VerificationListener
+        mockedVerificationListener: VerificationListener
 
     @Before
     fun setUp() {

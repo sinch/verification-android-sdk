@@ -21,7 +21,10 @@ sealed class VerificationState {
      * The process of initialization has started.
      * @property status Current status of initialization.
      */
-    data class Initialization(val status: VerificationStateStatus, val initiationResponseData: InitiationResponseData?) : VerificationState()
+    data class Initialization(
+        val status: VerificationStateStatus,
+        val initiationResponseData: InitiationResponseData?
+    ) : VerificationState()
 
     /**
      * The process of verification has started. This state is set once the [Verification] verify method is called.

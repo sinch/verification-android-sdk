@@ -23,8 +23,8 @@ enum class VerificationMethodType(val value: String) {
     /**
      * FlashCall verification. [More](https://www.sinch.com/products/apis/verification/flash-call/)
      */
-    @SerialName("flashCall")
-    FLASHCALL("flashCall"),
+    @SerialName("flashcall")
+    FLASHCALL("flashcall"),
 
     /**
      * Callout verification. [More](https://www.sinch.com/products/apis/verification/)

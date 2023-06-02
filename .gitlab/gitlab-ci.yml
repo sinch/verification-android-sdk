@@ -1,10 +1,10 @@
 include:
-    # Metadata shared by many jobs
-    - local: .gitlab/rules.yml
-    - local: .gitlab/artifacts.yml
+  # Metadata shared by many jobs
+  - local: .gitlab/rules.yml
+  - local: .gitlab/artifacts.yml
 
-    # OS builds
-    - local: .gitlab/os-android.yml
+  # OS builds
+  - local: .gitlab/os-android.yml
 
 
 # NOTE: It’s possible to overwrite a globally defined before_script or after_script with per-job actions
@@ -15,22 +15,22 @@ default:
     - cp -v $CI_GRADLE_PROPERTIES_PATH .
 
 stages:
-    - Test SDK
-    - Build Sample
-    # Add test stage when build system will be ready for it
-    - Test Sample
-    - Publish To Maven
+  - Test SDK
+  - Build Sample
+  # Add test stage when build system will be ready for it
+  - Test Sample
+  - Publish To Maven
 
 ############################################## pipeline jobs
 
 buildSample:debug:
-    extends:
-        - .conf:env
-        - .conf:debug
-        - .conf:artifacts
-        - .conf:runner:tags
-        - .conf:rule:default
-        - .buildSample:do
+  extends:
+    - .conf:env
+    - .conf:debug
+    - .conf:artifacts
+    - .conf:runner:tags
+    - .conf:rule:default
+    - .buildSample:do
 
 publishToMaven:release:
   extends:
@@ -43,59 +43,59 @@ publishToMaven:release:
 ############################################## Module Tests
 
 testLoggingSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testLoggingSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testLoggingSDK:do
 
 testMetadataCollectorSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testMetadataCollectorSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testMetadataCollectorSDK:do
 
 testUtilsSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testUtilsSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testUtilsSDK:do
 
 testVerAllSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testVerAllSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testVerAllSDK:do
 
 testCalloutSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testCalloutSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testCalloutSDK:do
 
 testVerCoreSDK:release:
   extends:
-        - .conf:release:testSDK
-        - .testVerCoreSDK:do
+    - .conf:release:testSDK
+    - .testVerCoreSDK:do
 
 testFlashcallSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testFlashcallSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testFlashcallSDK:do
 
 testSeamlessSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testSeamlessSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testSeamlessSDK:do
 
 testSmsSDK:release:
-    extends:
-        - .conf:release:testSDK
-        - .testSmsSDK:do
+  extends:
+    - .conf:release:testSDK
+    - .testSmsSDK:do
 
 ############################################## Sample Tests
 
 testSample:debug:samples:
-    extends:
-        - .conf:env
-        - .conf:release
-        - .conf:runner:tags
-        - .conf:rule:default
-        - .testSample:do
+  extends:
+    - .conf:env
+    - .conf:release
+    - .conf:runner:tags
+    - .conf:rule:default
+    - .testSample:do
 
-    dependencies:
-        - buildSample:debug
+  dependencies:
+    - buildSample:debug

@@ -237,7 +237,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:visibility="gone"
-            tools:text="Next verification call in 59 s"/>
+            tools:text="Next verification call in 59 s" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/intervalTestingButtonStop"

@@ -25,7 +25,7 @@ val Context.defaultConfigs: List<AppConfig>
         } catch (e: FileNotFoundException) {
             throw RuntimeException(
                 "Config file not present. Put config.json file inside assets " +
-                        "folder first then re-run the application."
+                    "folder first then re-run the application."
             )
         }
     }

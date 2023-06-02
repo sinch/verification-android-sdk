@@ -46,6 +46,7 @@ object BasicVerificationMethodBuilder {
         VerificationMethodType.SMS -> commonVerificationInitializationParameters.asSmsVerification(
             appHash = appHash
         )
+
         VerificationMethodType.FLASHCALL -> commonVerificationInitializationParameters.asFlashcallVerification()
         VerificationMethodType.CALLOUT -> commonVerificationInitializationParameters.asCalloutVerification()
         VerificationMethodType.SEAMLESS -> commonVerificationInitializationParameters.asSeamlessVerification()

@@ -3,25 +3,29 @@ package com.sinch.sinchverification.utils.logoverlay
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.widget.FrameLayout
 import androidx.core.view.isVisible
-import com.sinch.sinchverification.R
-import kotlinx.android.synthetic.main.view_logoverlay.view.*
-
+import androidx.recyclerview.widget.RecyclerView
+import com.sinch.sinchverification.databinding.ViewLogoverlayBinding
 
 class LogOverlayView @JvmOverloads internal constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
+
+    private val binding: ViewLogoverlayBinding
+
+    val overlayRecycler: RecyclerView get() = binding.overlayRecycler
 
     companion object {
         const val TAG = "LogOverlayView"
     }
 
     init {
-        inflate(context, R.layout.view_logoverlay, this)
-        toggleOverlayButton.setOnClickListener {
-            overlayRecycler.isVisible = !overlayRecycler.isVisible
+        binding = ViewLogoverlayBinding.inflate(LayoutInflater.from(context), this)
+        binding.toggleOverlayButton.setOnClickListener {
+            binding.overlayRecycler.isVisible = !binding.overlayRecycler.isVisible
         }
     }
 

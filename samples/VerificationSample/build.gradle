@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlinx-serialization'
 
 def configFilePath = "./src/main/assets/config.json"
@@ -20,6 +19,10 @@ def requiredConfigFileParamsMissingMessage = "You are building Sinch Android Ver
 android {
     compileSdkVersion(Versions.compileSdk)
     buildToolsVersion "$Versions.buildTools"
+
+    buildFeatures {
+        viewBinding true
+    }
 
     testOptions {
         unitTests {
@@ -75,10 +78,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-
-// To inline the bytecode built with JVM target 1.8 into
-// bytecode that is being built with JVM target 1.6. (e.g. navArgs)
-
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8

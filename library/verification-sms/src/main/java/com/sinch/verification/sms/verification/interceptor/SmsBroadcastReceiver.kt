@@ -30,8 +30,10 @@ class SmsBroadcastReceiver(private val listener: SmsBroadcastListener) : Broadca
             when (status?.statusCode) {
                 CommonStatusCodes.SUCCESS ->
                     listener.onMessageReceived(extras[SmsRetriever.EXTRA_SMS_MESSAGE] as String)
+
                 CommonStatusCodes.TIMEOUT ->
                     listener.onMessageFailedToReceive(SmsReceiverException("Exceeded GMS's retrieval window (t = 5 min)"))
+
                 null -> listener.onMessageFailedToReceive(SmsReceiverException("Received bundle was malformed."))
             }
         } else {

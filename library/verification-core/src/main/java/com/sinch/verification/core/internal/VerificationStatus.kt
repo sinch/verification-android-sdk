@@ -43,8 +43,8 @@ enum class VerificationStatus(val value: String) {
     /**
      * Verification attempt was aborted.
      */
-    @SerialName("DENIED")
-    ABORTED("DENIED"),
+    @SerialName("ABORTED")
+    ABORTED("ABORTED"),
 
     /**
      * Verification attempt could not be completed due to a network error or the number being unreachable.

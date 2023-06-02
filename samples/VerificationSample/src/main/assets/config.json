@@ -1,32 +1,32 @@
 [
   {
-    "name":"PRODUCTION",
-    "appKey":"<YOUR APP KEY - PRODUCTION>",
-    "environment":"https://verificationapi-v1.sinch.com/"
+    "name": "PRODUCTION",
+    "appKey": "9e556452-e462-4006-aab0-8165ca04de66",
+    "environment": "https://verificationapi-v1.sinch.com/"
   },
   {
-    "name":"APSE1",
-    "appKey":"<YOUR APP KEY - APSE1>",
-    "environment":"https://dc-apse1-std.verification.api.sinch.com/"
+    "name": "APSE1",
+    "appKey": "9e556452-e462-4006-aab0-8165ca04de66",
+    "environment": "https://dc-apse1-std.verification.api.sinch.com/"
   },
   {
-    "name":"APS1",
-    "appKey":"<YOUR APP KEY - APS1>",
-    "environment":"https://dc-aps1-std.verification.api.sinch.com/"
+    "name": "APS1",
+    "appKey": "9e556452-e462-4006-aab0-8165ca04de66",
+    "environment": "https://dc-aps1-std.verification.api.sinch.com/"
   },
   {
-    "name":"EUC1",
-    "appKey":"<YOUR APP KEY - EUC1>",
-    "environment":"https://dc-euc1-std.verification.api.sinch.com/"
+    "name": "EUC1",
+    "appKey": "9e556452-e462-4006-aab0-8165ca04de66",
+    "environment": "https://dc-euc1-std.verification.api.sinch.com/"
   },
   {
-    "name":"FTEST1",
-    "appKey":"<YOUR APP KEY - FTEST1>",
-    "environment":"https://ft1-verification.api.sinchlab.com/"
+    "name": "FTEST1",
+    "appKey": "9e556452-e462-4006-aab0-8165ca04de66",
+    "environment": "https://ft1-verification.api.sinchlab.com/"
   },
   {
-    "name":"FTEST2",
-    "appKey":"<YOUR APP KEY - FTEST2>",
-    "environment":"https://ft2-verification.api.sinchlab.com/"
+    "name": "FTEST2",
+    "appKey": "9e556452-e462-4006-aab0-8165ca04de66",
+    "environment": "https://ft2-verification.api.sinchlab.com/"
   }
 ]

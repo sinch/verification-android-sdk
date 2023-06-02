@@ -56,7 +56,8 @@ class SeamlessVerificationMethodTests {
     }
 
     private val appContext = ApplicationProvider.getApplicationContext<Application>()
-    private val connectivityManager = Shadows.shadowOf(appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
+    private val connectivityManager =
+        Shadows.shadowOf(appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager)
 
     private val mockedService = mockk<SeamlessVerificationService>(relaxed = true)
 

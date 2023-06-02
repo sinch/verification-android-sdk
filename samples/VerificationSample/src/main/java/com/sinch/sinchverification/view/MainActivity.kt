@@ -17,11 +17,11 @@ import androidx.fragment.app.DialogFragment
 import com.sinch.logging.logger
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
+import com.sinch.sinchverification.databinding.ActivityMainBinding
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.VerificationLanguage
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
         const val VERIFICATION_DIALOG_TAG = "ver_dialog"
     }
 
+    private lateinit var binding: ActivityMainBinding
+
     private val logger = logger()
     private val mainThreadHandler = Handler()
     private val myApplication: VerificationSampleApp
@@ -37,13 +39,15 @@ class MainActivity : AppCompatActivity() {
             application as VerificationSampleApp
 
     private val buttonToMethodMap by lazy {
-        mapOf(
-            smsButton.id to VerificationMethodType.SMS,
-            flashcallButton.id to VerificationMethodType.FLASHCALL,
-            calloutButton.id to VerificationMethodType.CALLOUT,
-            seamlessButton.id to VerificationMethodType.SEAMLESS,
-            autoButton.id to VerificationMethodType.AUTO
-        )
+        with(binding) {
+            mapOf(
+                smsButton.id to VerificationMethodType.SMS,
+                flashcallButton.id to VerificationMethodType.FLASHCALL,
+                calloutButton.id to VerificationMethodType.CALLOUT,
+                seamlessButton.id to VerificationMethodType.SEAMLESS,
+                autoButton.id to VerificationMethodType.AUTO
+            )
+        }
     }
 
     private val intervalTestingRunnable = object : Runnable {
@@ -65,17 +69,17 @@ class MainActivity : AppCompatActivity() {
     private val initData: VerificationInitData
         get() =
             VerificationInitData(
-                usedMethod = buttonToMethodMap[methodToggle.checkedButtonId]
+                usedMethod = buttonToMethodMap[binding.methodToggle.checkedButtonId]
                     ?: VerificationMethodType.SMS,
-                number = phoneInput.editText?.text.toString(),
-                custom = customInput.editText?.text.toString(),
-                reference = referenceInput.editText?.text.toString(),
-                honourEarlyReject = honoursEarlyCheckbox.isChecked,
-                acceptedLanguages = acceptedLanguagesInput?.editText?.text.toString().toLocaleList()
+                number = binding.phoneInput.editText?.text.toString(),
+                custom = binding.customInput.editText?.text.toString(),
+                reference = binding.referenceInput.editText?.text.toString(),
+                honourEarlyReject = binding.honoursEarlyCheckbox.isChecked,
+                acceptedLanguages = binding.acceptedLanguagesInput.editText?.text.toString().toLocaleList()
             )
 
     private val selectedVerificationMethod: VerificationMethodType
-        get() = buttonToMethodMap[methodToggle.checkedButtonId]
+        get() = buttonToMethodMap[binding.methodToggle.checkedButtonId]
             ?: VerificationMethodType.SMS
 
     private val requestedPermissions: Array<String>
@@ -98,7 +102,7 @@ class MainActivity : AppCompatActivity() {
     private val intervalTestingMinutes: Long
         get() {
             return try {
-                intervalInputEditText.text.toString().toLong()
+                binding.intervalInputEditText.text.toString().toLong()
             } catch (e: NumberFormatException) {
                 logger.error(
                     "Error while parsing input interval in minutes returning default (3 minutes)",
@@ -110,24 +114,25 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        initButton.setOnClickListener {
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.initButton.setOnClickListener {
             ActivityCompat.requestPermissions(this, requestedPermissions, PERMISSION_REQUEST_CODE)
         }
-        intervalTestingButton.setOnClickListener {
+        binding.intervalTestingButton.setOnClickListener {
             mainThreadHandler.post(intervalTestingRunnable)
             setIntervalTestingUI(true)
 
         }
-        intervalTestingButtonStop.setOnClickListener {
+        binding.intervalTestingButtonStop.setOnClickListener {
             setIntervalTestingUI(false)
             mainThreadHandler.removeCallbacks(intervalTestingRunnable)
         }
-        optionalConfigButton.setOnClickListener {
+        binding.optionalConfigButton.setOnClickListener {
             toggleOptionalConfig()
         }
-        phoneInput.editText?.addTextChangedListener {
-            phoneInput.error = null
+        binding.phoneInput.editText?.addTextChangedListener {
+            binding.phoneInput.error = null
         }
         toggleOptionalConfig()
     }
@@ -162,16 +167,18 @@ class MainActivity : AppCompatActivity() {
                 startActivity(Intent(this, SettingsActivity::class.java))
                 true
             }
+
             else -> false
         }
     }
 
     private fun checkFields(autoCloseVerificationDialog: Boolean = false): Boolean {
         return when {
-            phoneInput.editText?.text.isNullOrEmpty() -> {
-                phoneInput.error = getString(R.string.phoneEmptyError)
+            binding.phoneInput.editText?.text.isNullOrEmpty() -> {
+                binding.phoneInput.error = getString(R.string.phoneEmptyError)
                 false
             }
+
             else -> {
                 dismissVerificationDialogIfShown()
                 VerificationDialog.newInstance(initData, autoCloseVerificationDialog)
@@ -184,9 +191,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun toggleOptionalConfig() {
-        val shouldHide = optionalConfigLayout.children.first().isVisible
-        optionalConfigButton.setText(if (shouldHide) R.string.show else R.string.hide)
-        optionalConfigLayout.children.forEach {
+        val shouldHide = binding.optionalConfigLayout.children.first().isVisible
+        binding.optionalConfigButton.setText(if (shouldHide) R.string.show else R.string.hide)
+        binding.optionalConfigLayout.children.forEach {
             it.isVisible = !shouldHide
         }
     }
@@ -198,9 +205,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setIntervalTestingUI(isOngoing: Boolean) {
-        intervalTestingButton.isEnabled = !isOngoing
-        intervalTestingButtonStop.isEnabled = isOngoing
-        nextVerificationCallText.isVisible = isOngoing
+        with(binding) {
+            intervalTestingButton.isEnabled = !isOngoing
+            intervalTestingButtonStop.isEnabled = isOngoing
+            nextVerificationCallText.isVisible = isOngoing
+        }
     }
 
     private fun startCountDownTimerForIntervalVerification(countDownMs: Long) {
@@ -208,7 +217,7 @@ class MainActivity : AppCompatActivity() {
         countDownTimer = object : CountDownTimer(countDownMs, 1000) {
 
             override fun onTick(millisUntilFinished: Long) {
-                nextVerificationCallText.text = String.format(
+                binding.nextVerificationCallText.text = String.format(
                     getString(R.string.nextVerificationTemplate),
                     millisUntilFinished / 1000
                 )

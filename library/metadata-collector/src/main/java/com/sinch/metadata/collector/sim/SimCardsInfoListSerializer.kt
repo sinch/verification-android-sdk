@@ -40,6 +40,7 @@ object SimCardsInfoListSerializer :
             element.size == 0 -> buildJsonObject {
                 put(COUNT_FIELD_NAME, 0)
             }
+
             else -> buildJsonObject {
                 for (i in 0 until element.size) {
                     put("${i + 1}", element[i])

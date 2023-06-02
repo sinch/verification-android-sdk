@@ -27,6 +27,6 @@ abstract class VerificationMethodConfig<ApiService>(
 ) : VerificationMethodProperties {
 
     override fun toString(): String = "Number: $number " +
-            "custom: $custom reference: $reference honourEarlyReject: $honourEarlyReject " +
-            "acceptedLanguages: $acceptedLanguages"
+        "custom: $custom reference: $reference honourEarlyReject: $honourEarlyReject " +
+        "acceptedLanguages: $acceptedLanguages"
 }

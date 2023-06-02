@@ -14,6 +14,7 @@ import com.google.android.material.textfield.TextInputLayout
 import com.sinch.logging.logger
 import com.sinch.sinchverification.R
 import com.sinch.sinchverification.VerificationSampleApp
+import com.sinch.sinchverification.databinding.DialogVerificationBinding
 import com.sinch.sinchverification.utils.AppSignatureHelper
 import com.sinch.sinchverification.utils.appenders.LogMessageEvent
 import com.sinch.verification.all.BasicVerificationMethodBuilder
@@ -25,12 +26,10 @@ import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.response.VerificationListener
-import kotlinx.android.synthetic.main.dialog_verification.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import java.util.*
-
 
 class VerificationDialog : DialogFragment(), VerificationListener {
 
@@ -45,6 +44,11 @@ class VerificationDialog : DialogFragment(), VerificationListener {
                 }
             }
     }
+
+    private var _binding: DialogVerificationBinding? = null
+
+    // This property is only valid between onCreateView and onDestroyView.
+    private val binding get() = _binding!!
 
     protected val logger = logger()
     private val app: VerificationSampleApp get() = activity?.application as VerificationSampleApp
@@ -71,11 +75,13 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     }
 
     private val inputToMethodMap: Map<TextInputLayout, VerificationMethodType> by lazy {
-        mapOf(
-            smsVerificationCodeInput to VerificationMethodType.SMS,
-            flashcallVerificationCodeInput to VerificationMethodType.FLASHCALL,
-            calloutVerificationCodeInput to VerificationMethodType.CALLOUT
-        )
+        with(binding) {
+            mapOf(
+                smsVerificationCodeInput to VerificationMethodType.SMS,
+                flashcallVerificationCodeInput to VerificationMethodType.FLASHCALL,
+                calloutVerificationCodeInput to VerificationMethodType.CALLOUT
+            )
+        }
     }
 
     private val inputWithTypedCode: TextInputLayout?
@@ -96,7 +102,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_verification, container, false)
+        _binding = DialogVerificationBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onStart() {
@@ -122,18 +129,18 @@ class VerificationDialog : DialogFragment(), VerificationListener {
             appHash = AppSignatureHelper(app).appSignatures[0]
         ).also { it.initiate() }
         addInputTextWatchers()
-        verifyButton.setOnClickListener {
+        binding.verifyButton.setOnClickListener {
             verification.verify(
                 inputWithTypedCode?.editText?.text.toString(),
                 inputToMethodMap[inputWithTypedCode]
             )
         }
-        quitButton.setOnClickListener {
+        binding.quitButton.setOnClickListener {
             verification.stop()
             dismiss()
         }
         showInputsForMethod(initData.usedMethod)
-        verifyButton.isVisible = initData.usedMethod.allowsManualVerification
+        binding.verifyButton.isVisible = initData.usedMethod.allowsManualVerification
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -143,13 +150,13 @@ class VerificationDialog : DialogFragment(), VerificationListener {
 
     override fun onVerified() {
         logger.debug("onVerified called")
-        progressBar.hide()
-        messageText.apply {
+        binding.progressBar.hide()
+        binding.messageText.apply {
             setTextColor(ContextCompat.getColor(app, R.color.green))
             text = getString(R.string.successfullyVerified)
-            quitButton.text = getString(R.string.close)
+            binding.quitButton.text = getString(R.string.close)
             inputToMethodMap.keys.forEach { it.visibility = View.GONE }
-            verifyButton.visibility = View.GONE
+            binding.verifyButton.visibility = View.GONE
         }
         if (autoClose) {
             Handler().postDelayed({ dismiss() }, 2000)
@@ -169,16 +176,16 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     }
 
     private fun appendLoggerText(txt: String) {
-        val initialText = if (loggerText.text.isNullOrBlank()) "" else "${loggerText.text}\n"
-        loggerText.text = "$initialText${txt}"
-        debugScrollView.post {
-            debugScrollView.fullScroll(View.FOCUS_DOWN)
+        val initialText = if (binding.loggerText.text.isNullOrBlank()) "" else "${binding.loggerText.text}\n"
+        binding.loggerText.text = "$initialText${txt}"
+        binding.debugScrollView.post {
+            binding.debugScrollView.fullScroll(View.FOCUS_DOWN)
         }
     }
 
     private fun showErrorWithMessage(text: String) {
-        progressBar.hide()
-        messageText.apply {
+        binding.progressBar.hide()
+        binding.messageText.apply {
             setTextColor(ContextCompat.getColor(app, R.color.red))
             this.text =
                 String.format(Locale.US, getString(R.string.verificationFailedPlaceholder), text)
@@ -195,9 +202,11 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     }
 
     private fun adjustVisibilityIfAutoMethodInitiated(data: AutoInitializationResponseData) {
-        smsVerificationCodeInput.isVisible = data.smsDetails != null
-        flashcallVerificationCodeInput.isVisible = data.flashcallDetails != null
-        calloutVerificationCodeInput.isVisible = data.calloutDetails != null
+        with(binding) {
+            smsVerificationCodeInput.isVisible = data.smsDetails != null
+            flashcallVerificationCodeInput.isVisible = data.flashcallDetails != null
+            calloutVerificationCodeInput.isVisible = data.calloutDetails != null
+        }
         inputToMethodMap.keys.first { it.isVisible }.let { it.isSelected = true }
     }
 

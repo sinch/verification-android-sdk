@@ -48,16 +48,16 @@ class VerificationSampleApp : Application() {
             .authorizationMethod(AppKeyAuthorizationMethod(appKey))
             .apiHost(apiHost)
             .interceptors(FlipperInitializer.okHttpFlipperInterceptors +
-                    HttpLoggingInterceptor().apply {
-                        setLevel(
-                            HttpLoggingInterceptor.Level.BODY
-                        )
-                    } +
-                    HttpLoggingInterceptor(HttpFileLogger()).apply {
-                        setLevel(
-                            HttpLoggingInterceptor.Level.BODY
-                        )
-                    })
+                HttpLoggingInterceptor().apply {
+                    setLevel(
+                        HttpLoggingInterceptor.Level.BODY
+                    )
+                } +
+                HttpLoggingInterceptor(HttpFileLogger()).apply {
+                    setLevel(
+                        HttpLoggingInterceptor.Level.BODY
+                    )
+                })
             .build()
 
     fun updateCurrentConfigKey(newAppKey: String) {

@@ -35,6 +35,7 @@ class SinchSubCodeInterceptorFactory(
                     ),
                     interceptionTimeout = interceptionTimeout
                 )
+
                 is FlashCallInitializationDetails -> FlashCallInterceptor(
                     context = context,
                     interceptionTimeout = interceptionTimeout,
@@ -47,6 +48,7 @@ class SinchSubCodeInterceptorFactory(
                     callHistoryReader = ContentProviderCallHistoryReader(context.contentResolver),
                     callHistoryStartDate = Date() //TODO change to actual start of the initiation
                 )
+
                 else -> null
             }
         }

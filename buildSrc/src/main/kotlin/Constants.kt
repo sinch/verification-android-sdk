@@ -1,7 +1,7 @@
 object Versions {
 
-    const val kotlin = "1.4.31"
-    const val gradleBuildTools = "7.0.3"
+    const val kotlin = "1.8.21"
+    const val gradleBuildTools = "7.4.2"
 
     const val appCompat = "1.1.0"
     const val ktx = "1.3.0"
@@ -17,14 +17,14 @@ object Versions {
     const val mockk = "1.9.3.kotlin12"
 
     const val buildTools = "29.0.3"
-    const val compileSdk = 30
-    const val targetSdk = 30
+    const val compileSdk = 33
+    const val targetSdk = 33
     const val minSdk = 23
 
     const val retrofit = "2.8.1"
     const val okhttp = "4.5.0"
-    const val xSerialization = "1.1.0"
-    const val kotlinXConverter = "0.8.0"
+    const val xSerialization = "1.5.1"
+    const val kotlinXConverter = "1.0.0"
 
     const val playAuth = "18.0.0"
     const val playAuthPhone = "17.4.0"

@@ -16,7 +16,6 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.sinch.logging.logger
-import kotlinx.android.synthetic.main.view_logoverlay.view.*
 
 object LogOverlay {
 
