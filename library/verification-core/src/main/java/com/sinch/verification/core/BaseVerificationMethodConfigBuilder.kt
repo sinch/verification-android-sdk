@@ -14,8 +14,7 @@ abstract class BaseVerificationMethodConfigBuilder<T : VerificationMethodConfigC
 
     protected val logger = logger()
 
-    protected lateinit var number: String
-
+    protected var number: String? = null
     protected var honourEarlyReject: Boolean = true
     protected var custom: String? = null
     protected var reference: String? = null

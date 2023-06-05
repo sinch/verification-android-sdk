@@ -59,7 +59,7 @@ class AutoVerificationConfig internal constructor(
         override fun build(): AutoVerificationConfig =
             AutoVerificationConfig(
                 globalConfig = globalConfig,
-                number = number,
+                number = number.orEmpty(),
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
                 reference = reference,
@@ -120,6 +120,13 @@ class AutoVerificationConfig internal constructor(
         @Deprecated("For security purposes configure your application hash directly on the Sinch web portal.")
         override fun appHash(appHash: String?) = apply {
             this.appHash = appHash
+        }
+
+        override fun skipLocalInitialization(): AutoVerificationConfigCreator {
+            throw UnsupportedOperationException(
+                "Skipping local initialization is not yet supported for Auto " +
+                    "verification"
+            )
         }
 
         override fun acceptedLanguages(acceptedLanguages: List<VerificationLanguage>) =

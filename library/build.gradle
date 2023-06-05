@@ -14,8 +14,8 @@ subprojects {
 
     ext {
         versionMajor = 2
-        versionMinor = 1
-        versionPatch = 14
+        versionMinor = 2
+        versionPatch = 0
         versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
     }
 

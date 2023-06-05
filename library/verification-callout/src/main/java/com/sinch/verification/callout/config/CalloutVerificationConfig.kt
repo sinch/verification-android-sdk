@@ -65,7 +65,7 @@ class CalloutVerificationConfig internal constructor(
         override fun build(): CalloutVerificationConfig =
             CalloutVerificationConfig(
                 globalConfig = globalConfig,
-                number = number,
+                number = number.orEmpty(),
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
                 reference = reference
@@ -115,6 +115,13 @@ class CalloutVerificationConfig internal constructor(
          */
         override fun number(number: String): CalloutVerificationConfigCreator = apply {
             this.number = number
+        }
+
+        override fun skipLocalInitialization(): CalloutVerificationConfigCreator {
+            throw UnsupportedOperationException(
+                "Skipping local initialization is not yet supported for Callout " +
+                    "verification"
+            )
         }
 
         override fun acceptedLanguages(acceptedLanguages: List<VerificationLanguage>): CalloutVerificationConfigCreator =

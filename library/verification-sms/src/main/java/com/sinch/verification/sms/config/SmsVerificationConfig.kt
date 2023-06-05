@@ -74,7 +74,7 @@ class SmsVerificationConfig internal constructor(
         override fun build(): SmsVerificationConfig =
             SmsVerificationConfig(
                 globalConfig = globalConfig,
-                number = number,
+                number = number.orEmpty(),
                 acceptedLanguages = acceptedLanguages,
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
@@ -145,6 +145,13 @@ class SmsVerificationConfig internal constructor(
          */
         override fun number(number: String): SmsVerificationConfigCreator = apply {
             this.number = number
+        }
+
+        override fun skipLocalInitialization(): SmsVerificationConfigCreator {
+            throw UnsupportedOperationException(
+                "Skipping local initialization is not yet supported for SMS " +
+                    "verification"
+            )
         }
 
     }

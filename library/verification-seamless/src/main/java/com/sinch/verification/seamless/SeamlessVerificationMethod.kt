@@ -31,6 +31,7 @@ import com.sinch.verification.seamless.initialization.SeamlessInitiationResponse
 import com.sinch.verification.utils.changeProcessNetworkTo
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
 typealias  EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
@@ -65,7 +66,11 @@ class SeamlessVerificationMethod private constructor(
     private val requestData: SeamlessInitiationData
         get() =
             SeamlessInitiationData(
-                identity = VerificationIdentity(config.number),
+                identity = VerificationIdentity(
+                    config.number ?: throw IllegalArgumentException(
+                        "Phone number to verify not set"
+                    )
+                ),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
                 reference = config.reference,
@@ -119,10 +124,12 @@ class SeamlessVerificationMethod private constructor(
                 logger.debug("Cellular network available $network")
                 networkRequestHandler.removeCallbacksAndMessages(null)
                 networkRequestHandler.post {
-                    val changeNetworkReturnCode =
-                        connectivityManager.changeProcessNetworkTo(network)
-                    logger.debug("changeProcessNetworkTo returned: $changeNetworkReturnCode")
-                    executeVerificationRequest(verificationCode)
+                    val targetUrlRequestRetrofit =
+                        retrofit.newBuilder().client(
+                            OkHttpClient.Builder().socketFactory(network.socketFactory)
+                                .build()
+                        ).build()
+                    executeVerificationRequest(verificationCode, targetUrlRequestRetrofit)
                 }
             }
 
@@ -186,7 +193,7 @@ class SeamlessVerificationMethod private constructor(
         val usedRetrofit = specificRetrofit ?: retrofit
 
         val service: SeamlessVerificationService =
-            if (specificRetrofit != null) specificRetrofit.create(SeamlessVerificationService::class.java) else verificationService
+            specificRetrofit?.create(SeamlessVerificationService::class.java) ?: verificationService
 
         service.verifySeamless(verificationCode)
             .enqueue(
@@ -201,7 +208,6 @@ class SeamlessVerificationMethod private constructor(
 
     private fun resetNetworkBindings() {
         logger.debug("Resetting network bindings")
-        connectivityManager.changeProcessNetworkTo(null)
         lastNetworkCallback?.let {
             connectivityManager.unregisterNetworkCallback(it)
         }
@@ -221,10 +227,13 @@ class SeamlessVerificationMethod private constructor(
             return this
         }
         @Suppress("DEPRECATION") val usedNumberSubId = subscriptionManager.activeSubscriptionInfoList.firstOrNull {
-            it.number == requestData.identity.endpoint
+            (it.number == config.number) && config.number != null
         }?.subscriptionId
         return if (usedNumberSubId == null) {
-            logger.debug("Cannot set specific telephony network request, did not find subscription with number ${requestData.identity.endpoint}")
+            logger.debug(
+                "Cannot set specific telephony network request, did not find subscription with number " +
+                    "${config.number}"
+            )
             this
         } else {
             logger.debug("Setting TelephonyNetworkSpecifier with subscription id $usedNumberSubId")

@@ -11,7 +11,7 @@ import com.sinch.verification.core.verification.VerificationLanguage
  * @property acceptedLanguages List of languages the verification process can use during the verification process.
  */
 interface VerificationMethodProperties {
-    val number: String
+    val number: String?
     val custom: String?
     val reference: String?
     val honourEarlyReject: Boolean

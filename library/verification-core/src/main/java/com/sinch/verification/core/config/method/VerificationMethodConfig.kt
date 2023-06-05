@@ -16,7 +16,7 @@ import com.sinch.verification.core.verification.VerificationLanguage
  * @property metadataFactory Factory to be used for collecting phone metadata.
  */
 abstract class VerificationMethodConfig<ApiService>(
-    override val number: String,
+    override val number: String?,
     override val custom: String?,
     override val reference: String?,
     override val honourEarlyReject: Boolean,

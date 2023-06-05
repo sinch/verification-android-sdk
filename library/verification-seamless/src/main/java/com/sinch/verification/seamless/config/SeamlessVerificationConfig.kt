@@ -6,6 +6,7 @@ import com.sinch.verification.core.config.GlobalConfigSetter
 import com.sinch.verification.core.config.InitialSetter
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.method.VerificationMethodConfig
+import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.verification.VerificationLanguage
 import com.sinch.verification.seamless.SeamlessVerificationMethod
 import com.sinch.verification.seamless.SeamlessVerificationService
@@ -20,7 +21,7 @@ import com.sinch.verificationcore.BuildConfig
  */
 class SeamlessVerificationConfig internal constructor(
     globalConfig: GlobalConfig,
-    number: String,
+    number: String?,
     honourEarlyReject: Boolean = true,
     custom: String? = null,
     reference: String? = null
@@ -116,6 +117,15 @@ class SeamlessVerificationConfig internal constructor(
         override fun number(number: String): SeamlessVerificationConfigCreator = apply {
             this.number = number
         }
+
+        /**
+         * Allows to build a [Verification] that skips local verification initialization request (POST /verifications).
+         * In such a case it's not needed to pass a number to verify and app can proceed to verify the number directly.
+         * In such a flow a verification could be initialized externally and the SDK can used to execute just the
+         * verification request. To do that pass the received 'targetUrl' parameter directly to the
+         * [Verification.verify] method.
+         */
+        override fun skipLocalInitialization(): SeamlessVerificationConfigCreator = this
 
         override fun acceptedLanguages(acceptedLanguages: List<VerificationLanguage>) =
             this.also {

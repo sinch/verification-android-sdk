@@ -68,7 +68,7 @@ class FlashCallVerificationConfig internal constructor(
         override fun build(): FlashCallVerificationConfig =
             FlashCallVerificationConfig(
                 globalConfig = globalConfig,
-                number = number,
+                number = number.orEmpty(),
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
                 reference = reference
@@ -118,6 +118,13 @@ class FlashCallVerificationConfig internal constructor(
          */
         override fun number(number: String): FlashCallVerificationConfigCreator = apply {
             this.number = number
+        }
+
+        override fun skipLocalInitialization(): FlashCallVerificationConfigCreator {
+            throw UnsupportedOperationException(
+                "Skipping local initialization is not yet supported for Flashcall " +
+                    "verification"
+            )
         }
 
         override fun acceptedLanguages(acceptedLanguages: List<VerificationLanguage>) =
