@@ -39,7 +39,7 @@ class AutoVerificationMethod private constructor(
     private val requestData: AutoInitializationData
         get() =
             AutoInitializationData(
-                identity = VerificationIdentity(config.number),
+                identity = VerificationIdentity(config.number.orEmpty()),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
                 reference = config.reference,

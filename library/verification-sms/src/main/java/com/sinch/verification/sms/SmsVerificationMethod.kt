@@ -52,7 +52,7 @@ class SmsVerificationMethod private constructor(
     private val requestData: SmsVerificationInitiationData
         get() =
             SmsVerificationInitiationData(
-                identity = VerificationIdentity(config.number),
+                identity = VerificationIdentity(config.number.orEmpty()),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
                 reference = config.reference,

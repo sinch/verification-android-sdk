@@ -55,7 +55,7 @@ class FlashCallVerificationMethod private constructor(
     private val requestData: FlashCallVerificationInitializationData
         get() =
             FlashCallVerificationInitializationData(
-                identity = VerificationIdentity(config.number),
+                identity = VerificationIdentity(config.number.orEmpty()),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
                 reference = config.reference,
@@ -103,7 +103,7 @@ class FlashCallVerificationMethod private constructor(
         super.report()
         codeInterceptor?.let {
             verificationService.reportVerification(
-                config.number, FlashCallReportData(
+                config.number.orEmpty(), FlashCallReportData(
                     FlashCallReportDetails(
                         isLateCall = it.codeInterceptionState == CodeInterceptionState.LATE,
                         isNoCall = it.codeInterceptionState == CodeInterceptionState.NONE

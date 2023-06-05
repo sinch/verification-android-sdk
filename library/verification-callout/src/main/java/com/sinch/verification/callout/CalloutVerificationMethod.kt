@@ -42,7 +42,7 @@ class CalloutVerificationMethod private constructor(
     private val requestDataData: CalloutVerificationInitializationData
         get() =
             CalloutVerificationInitializationData(
-                identity = VerificationIdentity(config.number),
+                identity = VerificationIdentity(config.number.orEmpty()),
                 honourEarlyReject = config.honourEarlyReject,
                 custom = config.custom,
                 reference = config.reference,
