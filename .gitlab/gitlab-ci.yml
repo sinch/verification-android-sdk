@@ -6,14 +6,6 @@ include:
   # OS builds
   - local: .gitlab/os-android.yml
 
-
-# NOTE: It’s possible to overwrite a globally defined before_script or after_script with per-job actions
-# Deploy host gradle.properties to the root of the repo
-# CI_GRADLE_PROPERTIES_PATH is set in runner config
-default:
-  before_script:
-    - cp -v $CI_GRADLE_PROPERTIES_PATH .
-
 stages:
   - Test SDK
   - Build Sample
@@ -40,52 +32,12 @@ publishToMaven:release:
     - .conf:rule:release
     - .publishMaven:do
 
-############################################## Module Tests
+############################################## Module (SDK) Tests
 
-testLoggingSDK:release:
+testSDK:release:
   extends:
     - .conf:release:testSDK
-    - .testLoggingSDK:do
-
-testMetadataCollectorSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testMetadataCollectorSDK:do
-
-testUtilsSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testUtilsSDK:do
-
-testVerAllSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testVerAllSDK:do
-
-testCalloutSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testCalloutSDK:do
-
-testVerCoreSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testVerCoreSDK:do
-
-testFlashcallSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testFlashcallSDK:do
-
-testSeamlessSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testSeamlessSDK:do
-
-testSmsSDK:release:
-  extends:
-    - .conf:release:testSDK
-    - .testSmsSDK:do
+    - .testSDK:do
 
 ############################################## Sample Tests
 

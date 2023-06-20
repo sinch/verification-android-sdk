@@ -32,9 +32,9 @@ android {
 }
 
 dependencies {
-    api "com.sinch.android.sdk.verification:metadata-collector:${Versions.defaultSinchSdk}"
-    api "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
-    api "com.sinch.android.sdk.verification:utils:${Versions.defaultSinchSdk}"
+    api project(":library:metadata-collector")
+    api project(":library:logging")
+    api project(":library:utils")
     api "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.xSerialization}"
 
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"

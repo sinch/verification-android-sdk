@@ -1,16 +1,34 @@
 package com.sinch.verification.seamless
 
+import android.os.Build
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.method.VerificationMethodProperties
 import com.sinch.verification.core.verification.VerificationLanguage
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
+@RunWith(
+    RobolectricTestRunner::class
+)
+@Config(sdk = [Build.VERSION_CODES.O_MR1])
 class SeamlessVerificationConfigBuilderTest {
 
     private val globalConfig = mockk<GlobalConfig>(relaxed = true)
+
+    @Before
+    fun setUp() {
+        every { globalConfig.retrofit } returns mockk {
+            every { create(SeamlessVerificationService::class.java) } returns mockk()
+        }
+    }
 
     @Test
     fun testBuilderPropertiesAllSet() {

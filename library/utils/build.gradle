@@ -15,5 +15,5 @@ android {
 }
 
 dependencies {
-    api "com.sinch.android.sdk.verification:logging:${Versions.defaultSinchSdk}"
+    api project(":library:logging")
 }

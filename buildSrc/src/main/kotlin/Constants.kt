@@ -9,14 +9,14 @@ object Versions {
     const val constraintLayout = "1.1.3"
     const val navigation = "2.2.2"
 
-    const val jUnit = "4.12"
+    const val jUnit = "4.13.2"
     const val jUnitAndroidX = "1.4.0"
-    const val robolectric = "4.6.1"
+    const val robolectric = "4.10.3"
     const val espresso = "3.4.0"
-    const val androidXTestCore = "1.2.0"
-    const val mockk = "1.9.3.kotlin12"
+    const val androidXTestCore = "1.5.0"
+    const val mockk = "1.13.5"
 
-    const val buildTools = "29.0.3"
+    const val buildTools = "33.0.2"
     const val compileSdk = 33
     const val targetSdk = 33
     const val minSdk = 23
@@ -30,8 +30,6 @@ object Versions {
     const val playAuthPhone = "17.4.0"
 
     const val dokka = "1.4.10.2"
-
-    const val defaultSinchSdk = "2.1.14"
 
     const val nexusStagingPluginVersion = "0.22.0"
 }
