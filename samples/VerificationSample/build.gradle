@@ -46,7 +46,9 @@ android {
     defaultConfig {
         applicationId "com.sinch.sinchverification"
         minSdkVersion(Versions.minSdk)
-        targetSdkVersion(Versions.targetSdk)
+        // Keep target SDK at 32 to allow creating and logging to file located at Documents directory easily:
+        // See https://stackoverflow.com/questions/73620790/android-13-how-to-request-write-external-storage
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 
