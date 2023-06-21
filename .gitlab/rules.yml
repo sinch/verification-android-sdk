@@ -23,6 +23,6 @@ workflow:
 
 .conf:rule:release:
   rules:
-    - if: '$CI_BRANCH_RELEASE == "true"'
-      when: on_success
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: manual
     - when: never
