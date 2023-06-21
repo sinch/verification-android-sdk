@@ -117,7 +117,6 @@ class SeamlessVerificationMethodTests {
     }
 
     @Test
-    @Ignore("Ignore till no answer found for Retrofit(#5).newBuilder() among the configured answers is fixed")
     fun testFailureVerificationNotifiesListener() {
         val error = mockk<Throwable>()
         every { mockedService.initializeVerification(any()) }.returns(
@@ -143,7 +142,6 @@ class SeamlessVerificationMethodTests {
     }
 
     @Test
-    @Ignore("Ignore till no answer found for Retrofit(#5).newBuilder() among the configured answers is fixed")
     fun testSuccessfulSeamlessVerificationListenerNotifications() {
         val verification = prepareVerification().apply { initiate() }
         mockNetworkAvailable()
@@ -159,7 +157,6 @@ class SeamlessVerificationMethodTests {
     }
 
     @Test
-    @Ignore("Ignore till no answer found for Retrofit(#5).newBuilder() among the configured answers is fixed")
     fun testManuallyStoppingFinishedVerificationKeepsStatus() {
         val verification = prepareVerification().apply { initiate() }
         mockNetworkAvailable()

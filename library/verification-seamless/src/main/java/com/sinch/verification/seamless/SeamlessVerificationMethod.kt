@@ -124,12 +124,10 @@ class SeamlessVerificationMethod private constructor(
                 logger.debug("Cellular network available $network")
                 networkRequestHandler.removeCallbacksAndMessages(null)
                 networkRequestHandler.post {
-                    val targetUrlRequestRetrofit =
-                        retrofit.newBuilder().client(
-                            OkHttpClient.Builder().socketFactory(network.socketFactory)
-                                .build()
-                        ).build()
-                    executeVerificationRequest(verificationCode, targetUrlRequestRetrofit)
+                    executeVerificationRequest(
+                        verificationCode,
+                        globalConfig.socketFactoryRetrofit(network.socketFactory)
+                    )
                 }
             }
 
