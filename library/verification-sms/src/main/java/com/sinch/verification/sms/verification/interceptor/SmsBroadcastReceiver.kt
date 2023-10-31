@@ -2,8 +2,10 @@ package com.sinch.verification.sms.verification.interceptor
 
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.RECEIVER_EXPORTED
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -20,7 +22,11 @@ class SmsBroadcastReceiver(private val listener: SmsBroadcastListener) : Broadca
     private val logger = logger()
 
     fun registerOn(context: Context) =
-        context.registerReceiver(this, IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.registerReceiver(this, IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION), RECEIVER_EXPORTED)
+        } else {
+            context.registerReceiver(this, IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION))
+        }
 
     override fun onReceive(context: Context?, intent: Intent?) {
         if (SmsRetriever.SMS_RETRIEVED_ACTION == intent?.action) {
