@@ -24,8 +24,8 @@ import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.sms.initialization.SmsOptions
 import com.sinch.verification.utils.MAX_TIMEOUT
 
-typealias  EmptyAutoInitializationListener = EmptyInitializationListener<AutoInitializationResponseData>
-typealias  SimpleInitializationAutoApiCallback = InitiationApiCallback<AutoInitializationResponseData>
+typealias EmptyAutoInitializationListener = EmptyInitializationListener<AutoInitializationResponseData>
+typealias SimpleInitializationAutoApiCallback = InitiationApiCallback<AutoInitializationResponseData>
 
 class AutoVerificationMethod private constructor(
     private val config: AutoVerificationConfig,

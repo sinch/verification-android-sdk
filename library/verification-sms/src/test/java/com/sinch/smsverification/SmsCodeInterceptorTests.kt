@@ -14,6 +14,7 @@ import com.sinch.verification.utils.MAX_TIMEOUT
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import java.util.concurrent.TimeUnit
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -23,7 +24,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
-import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class

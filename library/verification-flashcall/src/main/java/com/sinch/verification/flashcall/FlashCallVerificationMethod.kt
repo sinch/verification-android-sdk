@@ -30,7 +30,7 @@ import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterc
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
-import java.util.*
+import java.util.Date
 
 typealias EmptyFlashCallInitializationListener = EmptyInitializationListener<FlashCallInitializationResponseData>
 typealias SimpleInitializationFlashCallApiCallback = InitiationApiCallback<FlashCallInitializationResponseData>

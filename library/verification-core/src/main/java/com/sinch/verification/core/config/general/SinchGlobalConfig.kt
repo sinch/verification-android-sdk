@@ -1,18 +1,17 @@
 package com.sinch.verification.core.config.general
 
 import android.content.Context
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sinch.verification.core.auth.AuthorizationInterceptor
 import com.sinch.verification.core.auth.AuthorizationMethod
 import com.sinch.verificationcore.BuildConfig
+import java.util.concurrent.TimeUnit
+import javax.net.SocketFactory
 import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import java.util.concurrent.TimeUnit
-import javax.net.SocketFactory
-import retrofit2.Converter
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 /**
  * Sinch specific global SDK configuration.

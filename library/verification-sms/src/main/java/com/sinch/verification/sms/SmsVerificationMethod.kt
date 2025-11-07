@@ -26,8 +26,8 @@ import com.sinch.verification.sms.verification.SmsVerificationData
 import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
 import com.sinch.verification.utils.MAX_TIMEOUT
 
-typealias  EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
-typealias  SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>
+typealias EmptySmsInitializationListener = EmptyInitializationListener<SmsInitiationResponseData>
+typealias SimpleInitializationSmsApiCallback = InitiationApiCallback<SmsInitiationResponseData>
 
 /**
  * [Verification] that uses sms messages to verify user's phone number. The code that is received might be automatically

@@ -15,8 +15,13 @@ import com.sinch.verification.core.verification.response.VerificationListener
 import com.sinch.verification.core.verification.response.VerificationResponseData
 import com.sinch.verification.utils.MAX_TIMEOUT
 import com.sinch.verification.utils.permission.Permission
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verifySequence
+import java.util.concurrent.TimeUnit
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,7 +30,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import retrofit2.mock.Calls
-import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class

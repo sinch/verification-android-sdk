@@ -3,7 +3,11 @@ package com.sinch.verification.core.config.method
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.initiation.response.InitiationResponseData
-import com.sinch.verification.core.internal.*
+import com.sinch.verification.core.internal.Verification
+import com.sinch.verification.core.internal.VerificationMethodType
+import com.sinch.verification.core.internal.VerificationState
+import com.sinch.verification.core.internal.VerificationStateListener
+import com.sinch.verification.core.internal.VerificationStateStatus
 import com.sinch.verification.core.verification.interceptor.CodeInterceptionListener
 import com.sinch.verification.core.verification.model.VerificationSourceType
 import com.sinch.verification.core.verification.response.EmptyVerificationListener

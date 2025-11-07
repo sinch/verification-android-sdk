@@ -3,7 +3,11 @@ package com.sinch.verification.core.verification
 import com.sinch.verification.core.verification.model.VerificationData
 import com.sinch.verification.core.verification.response.VerificationResponseData
 import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.PUT
+import retrofit2.http.Path
+import retrofit2.http.Url
 
 interface VerificationService {
 

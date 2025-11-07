@@ -1,7 +1,14 @@
 package com.sinch.metadata.model
 
 import android.os.Build
-import com.sinch.metadata.collector.*
+import com.sinch.metadata.collector.BatteryLevelCollector
+import com.sinch.metadata.collector.DeviceMetadataCollector
+import com.sinch.metadata.collector.LocaleCollector
+import com.sinch.metadata.collector.MetadataCollector
+import com.sinch.metadata.collector.NetworkInfoCollector
+import com.sinch.metadata.collector.PermissionsCollector
+import com.sinch.metadata.collector.SimCardInfoCollector
+import com.sinch.metadata.collector.SimsStateCollector
 import com.sinch.metadata.collector.sim.SimCardsInfoListSerializer
 import com.sinch.metadata.model.network.NetworkInfo
 import com.sinch.metadata.model.sim.SimCardInfo

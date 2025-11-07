@@ -10,7 +10,8 @@ import java.io.File
 import java.io.FileWriter
 import java.text.DateFormat
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 class FileAppender(private val appContext: Context) : Appender {
 

@@ -8,6 +8,8 @@ ext {
 apply from: '../publish-mavencentral.gradle'
 
 android {
+    namespace "com.sinch.logging"
+
     defaultConfig {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName versionNameFull

@@ -5,9 +5,9 @@ import android.webkit.URLUtil
 import com.sinch.logging.Log
 import com.sinch.logging.appenders.FileAppender
 import com.sinch.logging.appenders.LogcatAppender
-import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.HttpFileLogger
 import com.sinch.sinchverification.utils.SharedPrefsManager
+import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.appenders.LogOverlayAppender
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
@@ -47,7 +47,8 @@ class VerificationSampleApp : Application() {
         SinchGlobalConfig.Builder.instance.applicationContext(this)
             .authorizationMethod(AppKeyAuthorizationMethod(appKey))
             .apiHost(apiHost)
-            .interceptors(FlipperInitializer.okHttpFlipperInterceptors +
+            .interceptors(
+                FlipperInitializer.okHttpFlipperInterceptors +
                 HttpLoggingInterceptor().apply {
                     setLevel(
                         HttpLoggingInterceptor.Level.BODY

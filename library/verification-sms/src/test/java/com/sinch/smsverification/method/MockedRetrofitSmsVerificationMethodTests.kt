@@ -22,6 +22,7 @@ import com.sinch.verification.sms.initialization.SmsInitiationResponseData
 import io.mockk.MockKAnnotations
 import io.mockk.impl.annotations.MockK
 import io.mockk.verify
+import java.util.concurrent.TimeUnit
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -33,7 +34,6 @@ import org.robolectric.annotation.LooperMode
 import retrofit2.mock.Calls
 import retrofit2.mock.MockRetrofit
 import retrofit2.mock.NetworkBehavior
-import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class

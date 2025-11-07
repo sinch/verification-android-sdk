@@ -14,7 +14,7 @@ subprojects {
 
     ext {
         versionMajor = 2
-        versionMinor = 7
+        versionMinor = 8
         versionPatch = 0
         versionNameFull = "${versionMajor}.${versionMinor}.${versionPatch}"
     }
@@ -41,8 +41,16 @@ subprojects {
 
     android {
 
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
+        }
+
+        kotlinOptions {
+            jvmTarget = "17"
+        }
+
         compileSdkVersion(Versions.compileSdk)
-        buildToolsVersion "$Versions.buildTools"
 
         testOptions {
             unitTests {

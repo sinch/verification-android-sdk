@@ -5,7 +5,6 @@ import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.method.VerificationMethodProperties
 import com.sinch.verification.core.verification.VerificationLanguage
 import com.sinch.verification.seamless.config.SeamlessVerificationConfig
-import io.mockk.MockKAnnotations
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.Assert

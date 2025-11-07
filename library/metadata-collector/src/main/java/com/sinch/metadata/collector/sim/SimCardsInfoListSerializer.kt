@@ -2,7 +2,11 @@ package com.sinch.metadata.collector.sim
 
 import com.sinch.metadata.model.sim.SimCardInfo
 import kotlinx.serialization.builtins.ListSerializer
-import kotlinx.serialization.json.*
+import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonTransformingSerializer
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 
 const val TRANSFORMATION_NAME = "SimCardsInfoListTransform"
 

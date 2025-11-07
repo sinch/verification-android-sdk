@@ -3,7 +3,7 @@ package com.sinch.verification.utils
 import android.content.Context
 import android.telephony.PhoneNumberUtils
 import android.telephony.TelephonyManager
-import java.util.*
+import java.util.Locale
 
 /**
  * Helper object holding methods connected with phone number validation, formatting and processing.

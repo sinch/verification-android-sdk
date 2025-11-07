@@ -4,7 +4,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
-import android.net.*
+import android.net.ConnectivityManager
+import android.net.LinkProperties
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
+import android.net.TelephonyNetworkSpecifier
 import android.os.Build
 import android.os.Handler
 import android.os.Looper
@@ -28,14 +33,12 @@ import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
 import com.sinch.verification.seamless.initialization.SeamlessInitiationData
 import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
-import com.sinch.verification.utils.changeProcessNetworkTo
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
-import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 
-typealias  EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
-typealias  SimpleInitializationSeamlessApiCallback = InitiationApiCallback<SeamlessInitiationResponseData>
+typealias EmptySeamlessInitializationListener = EmptyInitializationListener<SeamlessInitiationResponseData>
+typealias SimpleInitializationSeamlessApiCallback = InitiationApiCallback<SeamlessInitiationResponseData>
 
 /**
  * [Verification] that uses Seamless method for verification.
@@ -224,7 +227,7 @@ class SeamlessVerificationMethod private constructor(
             logger.debug("Cannot set specific telephony network in the request as the app doesn't have required permissions")
             return this
         }
-        @Suppress("DEPRECATION") val usedNumberSubId = subscriptionManager.activeSubscriptionInfoList.firstOrNull {
+        @Suppress("DEPRECATION") val usedNumberSubId = subscriptionManager.activeSubscriptionInfoList?.firstOrNull {
             (it.number == config.number) && config.number != null
         }?.subscriptionId
         return if (usedNumberSubId == null) {

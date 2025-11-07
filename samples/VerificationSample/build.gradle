@@ -17,11 +17,13 @@ def requiredConfigFileParamsMissingMessage = "You are building Sinch Android Ver
         "Check config.json file located in app/src/main/assets folder and fill it with these values copied from Sinch portal website of your application.\n"
 
 android {
+    namespace "com.sinch.sinchverification"
+
     compileSdkVersion(Versions.compileSdk)
-    buildToolsVersion "$Versions.buildTools"
 
     buildFeatures {
         viewBinding true
+        buildConfig = true
     }
 
     testOptions {
@@ -82,11 +84,11 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
 
 }
@@ -115,14 +117,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:${Versions.navigation}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
     implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
-    implementation 'org.greenrobot:eventbus:3.2.0'
-    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation 'org.greenrobot:eventbus:3.3.1'
+    implementation "androidx.preference:preference-ktx:1.2.1"
 
-    debugImplementation 'com.facebook.soloader:soloader:0.9.0'
-    debugImplementation 'com.facebook.flipper:flipper:0.41.0'
-    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.41.0'
+    debugImplementation 'com.facebook.flipper:flipper:0.247.0'
+    debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.247.0'
+    debugImplementation 'com.facebook.soloader:soloader:0.12.0'
 
-    releaseImplementation 'com.facebook.flipper:flipper-noop:0.41.0'
+    releaseImplementation 'com.facebook.flipper:flipper-noop:0.247.0'
 
     testImplementation "junit:junit:${Versions.jUnit}"
 

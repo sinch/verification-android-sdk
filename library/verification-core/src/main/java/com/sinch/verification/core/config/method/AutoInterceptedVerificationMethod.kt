@@ -1,6 +1,8 @@
 package com.sinch.verification.core.config.method
 
+import com.sinch.verification.core.internal.VerificationState
 import com.sinch.verification.core.verification.interceptor.CodeInterceptor
+import com.sinch.verification.core.verification.interceptor.InterceptorState
 import com.sinch.verification.core.verification.response.EmptyVerificationListener
 import com.sinch.verification.core.verification.response.VerificationListener
 
@@ -20,5 +22,12 @@ abstract class AutoInterceptedVerificationMethod<Service, Interceptor : CodeInte
     override fun stop() {
         super.stop()
         codeInterceptor?.stop()
+    }
+
+    override fun update(newState: VerificationState) {
+        super.update(newState)
+        if (newState.isVerificationProcessFinished && codeInterceptor?.state != InterceptorState.DONE) {
+            codeInterceptor?.stop()
+        }
     }
 }

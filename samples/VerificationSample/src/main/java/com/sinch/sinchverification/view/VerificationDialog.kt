@@ -26,10 +26,10 @@ import com.sinch.verification.core.initiation.response.InitiationResponseData
 import com.sinch.verification.core.internal.Verification
 import com.sinch.verification.core.internal.VerificationMethodType
 import com.sinch.verification.core.verification.response.VerificationListener
+import java.util.Locale
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
-import java.util.*
 
 class VerificationDialog : DialogFragment(), VerificationListener {
 

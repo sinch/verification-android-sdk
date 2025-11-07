@@ -1,6 +1,5 @@
 package com.sinch.verification.core.internal.error
 
-import com.sinch.verification.core.internal.error.ApiErrorData.ErrorCodes
 import com.sinch.verification.core.internal.error.ApiErrorData.ErrorCodes.BadRequest.NumberMissingLeadingPlus
 import com.sinch.verification.core.internal.error.ApiErrorData.ErrorCodes.BadRequest.ParameterValidation
 import kotlinx.serialization.SerialName

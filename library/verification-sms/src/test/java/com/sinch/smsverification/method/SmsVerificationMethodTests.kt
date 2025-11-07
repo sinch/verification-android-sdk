@@ -24,8 +24,13 @@ import com.sinch.verification.sms.config.SmsVerificationConfig
 import com.sinch.verification.sms.initialization.SmsInitializationDetails
 import com.sinch.verification.sms.initialization.SmsInitializationListener
 import com.sinch.verification.sms.initialization.SmsInitiationResponseData
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
 import io.mockk.impl.annotations.MockK
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
+import java.util.concurrent.TimeUnit
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
@@ -35,7 +40,6 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
 import retrofit2.mock.Calls
-import java.util.concurrent.TimeUnit
 
 @RunWith(
     RobolectricTestRunner::class

@@ -2,10 +2,10 @@ package com.sinch.verification.core.verification
 
 import android.os.Parcelable
 import com.sinch.verification.utils.prefixed
-import kotlinx.android.parcel.Parcelize
 import java.text.DecimalFormat
 import java.text.DecimalFormatSymbols
-import java.util.*
+import java.util.Locale
+import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class VerificationLanguage(

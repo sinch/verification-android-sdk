@@ -3,8 +3,14 @@ package com.sinch.metadata.collector
 import com.sinch.metadata.collector.sim.SimCardsInfoListSerializer
 import com.sinch.metadata.model.sim.OperatorInfo
 import com.sinch.metadata.model.sim.SimCardInfo
-import kotlinx.serialization.json.*
-import org.junit.Assert.*
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.jsonPrimitive
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class SimCardsInfoListSerializerTests {

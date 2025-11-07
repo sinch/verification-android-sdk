@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.pm.PackageManager;
+import static android.content.pm.PackageManager.GET_SIGNATURES;
+import static android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
 import android.os.Build;
 import android.util.Base64;
@@ -14,9 +16,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import static android.content.pm.PackageManager.GET_SIGNATURES;
-import static android.content.pm.PackageManager.NameNotFoundException;
 
 /*
   This is a helper class to generate your message hash to be included in your SMS message.

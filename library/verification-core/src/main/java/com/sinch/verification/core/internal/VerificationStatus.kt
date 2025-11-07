@@ -2,18 +2,22 @@
 
 package com.sinch.verification.core.internal
 
-import kotlinx.serialization.*
+import java.util.Locale
+import kotlinx.serialization.KSerializer
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.Serializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
-import java.util.*
 
 /**
  * Enum describing API status of the verification.
  */
-@Serializable
+@Serializable(VerificationStatus.Companion::class)
 enum class VerificationStatus(val value: String) {
 
     /**

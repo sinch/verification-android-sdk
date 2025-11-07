@@ -3,12 +3,13 @@ apply plugin: 'kotlin-android'
 apply plugin: 'org.jetbrains.dokka'
 
 android {
+    namespace "com.sinch.dokka"
+
     compileSdkVersion(Versions.compileSdk)
-    buildToolsVersion "$Versions.buildTools"
 
     defaultConfig {
         minSdkVersion(Versions.minSdk)
-        targetSdkVersion 29
+        targetSdkVersion(Versions.targetSdk)
         versionCode 1
         versionName "1.0"
 

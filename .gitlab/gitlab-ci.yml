@@ -9,8 +9,6 @@ include:
 stages:
   - Test SDK
   - Build Sample
-  # Add test stage when build system will be ready for it
-  - Test Sample
   - Publish To Maven
 
 ############################################## pipeline jobs
@@ -38,16 +36,3 @@ testSDK:release:
   extends:
     - .conf:release:testSDK
     - .testSDK:do
-
-############################################## Sample Tests
-
-testSample:debug:samples:
-  extends:
-    - .conf:env
-    - .conf:release
-    - .conf:runner:tags
-    - .conf:rule:default
-    - .testSample:do
-
-  dependencies:
-    - buildSample:debug

@@ -1,9 +1,8 @@
 package com.sinch.sinchverification.utils
 
 import android.content.Context
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 import java.io.FileNotFoundException
+import kotlinx.serialization.json.Json
 
 private const val CONFIG_ASSET_FILENAME = "config.json"
 

@@ -17,7 +17,7 @@ import com.sinch.verification.flashcall.initialization.FlashCallInitializationDe
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryChangeListener
 import com.sinch.verification.flashcall.verification.callhistory.CallHistoryReader
 import com.sinch.verification.flashcall.verification.callhistory.SinchCallHistoryChangeObserver
-import java.util.*
+import java.util.Date
 
 /**
  * Code interceptor used to handle automatic verification code interception for

@@ -10,7 +10,7 @@ import com.sinch.verification.flashcall.verification.interceptor.FlashCallInterc
 import com.sinch.verification.flashcall.verification.matcher.FlashCallPatternMatcher
 import com.sinch.verification.sms.initialization.SmsInitializationDetails
 import com.sinch.verification.sms.verification.interceptor.SmsCodeInterceptor
-import java.util.*
+import java.util.Date
 
 /**
  * [SubCodeInterceptorFactory] that creates CodeInterceptors that passes interception results

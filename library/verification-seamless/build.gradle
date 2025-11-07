@@ -11,6 +11,8 @@ ext {
 apply from: '../publish-mavencentral.gradle'
 
 android {
+    namespace "com.sinch.verification.seamless"
+
     defaultConfig {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName versionNameFull
@@ -21,6 +23,6 @@ dependencies {
     api project(":library:verification-core")
 
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
-    implementation "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:${Versions.kotlinXConverter}"
+    implementation "com.squareup.retrofit2:converter-kotlinx-serialization:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
 }

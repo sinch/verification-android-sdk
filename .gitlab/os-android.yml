@@ -92,17 +92,7 @@
 
   script:
     - *before_script_android
-    - echo -e "signing.keyId=$SIGNING_KEYID\nsigning.password=$SIGNING_PASSWORD\nsigning.secretKeyRingFile=$SIGNING_SECRETKEYRINGFILE\nossrhUsername=$OSSRH_USERNAME\nossrhPassword=$OSSRH_PASSWORD\nsonatypeStagingProfileId=$SONATYPE_STAGING_PROFILE_ID" >> local.properties
-    - echo "$SIGNING_KEY_CONTENT" | base64 -d > "ver_key.gpg"
-    - ./gradlew publishProductionPublicationToSonatypeRepository -max-workers 1 closeAndReleaseRepository
+    - ./scripts/upload_to_maven_ci.sh
 
   interruptible: true
-
-.testSample:do:
-  stage: Test Sample
-
-  script:
-    - *before_script_android
-    - echo Sample app tests not implemented yet
-
-  interruptible: true
+  allow_failure: true

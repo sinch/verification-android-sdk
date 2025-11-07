@@ -8,6 +8,7 @@ import com.sinch.verification.flashcall.CallHistory.historyNum1
 import com.sinch.verification.flashcall.CallHistory.historyNum2
 import com.sinch.verification.flashcall.CallHistory.historyNum3
 import com.sinch.verification.flashcall.verification.callhistory.ContentProviderCallHistoryReader
+import java.util.Date
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -16,7 +17,6 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.fakes.RoboCursor
 import org.robolectric.shadows.ShadowContentResolver
-import java.util.*
 
 
 @RunWith(

@@ -10,7 +10,11 @@ import com.sinch.verification.core.query.SinchVerificationQuery
 import com.sinch.verification.core.query.VerificationQueryService
 import com.sinch.verification.core.query.callback.VerificationInfoCallback
 import com.sinch.verification.core.verification.response.VerificationResponseData
-import io.mockk.*
+import io.mockk.MockKAnnotations
+import io.mockk.every
+import io.mockk.mockk
+import io.mockk.spyk
+import io.mockk.verify
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

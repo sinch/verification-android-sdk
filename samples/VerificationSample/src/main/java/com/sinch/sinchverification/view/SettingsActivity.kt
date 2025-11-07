@@ -15,7 +15,6 @@ import com.sinch.sinchverification.VerificationSampleApp
 import com.sinch.sinchverification.databinding.ActivitySettingsBinding
 import com.sinch.sinchverification.utils.AppConfig
 import com.sinch.sinchverification.utils.defaultConfigs
-import com.sinch.sinchverification.utils.logoverlay.LogOverlay
 import com.sinch.verificationcore.BuildConfig.SINCH_SDK_VERSION_NAME
 
 class SettingsActivity : AppCompatActivity() {
