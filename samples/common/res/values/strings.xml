@@ -45,5 +45,6 @@
     <string name="environmentDetails">Details</string>
     <string name="versionPlaceholder">Sample: v%s SDK: v%s</string>
     <string name="appKeyMissing">Please, enter your application key for selected environment</string>
+    <string name="invalidEnvironmentUrl">Please enter valid environment url</string>
 
 </resources>

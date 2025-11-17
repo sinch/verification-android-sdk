@@ -71,13 +71,21 @@ abstract class VerificationMethod<Service>(
     }
 
     final override fun initiate() {
-        if (onPreInitiate() && verificationState.canInitiate) {
-            logger.debug("Initiating verification")
-            update(VerificationState.Initialization(VerificationStateStatus.ONGOING, null))
-            onInitiate()
-        } else {
-            logger.warn("Initiate called however onPreInitiate or verificationState.canInitiate returned false")
+
+        if (!onPreInitiate()) {
+            logger.warn("onPreInitiate failed, updating status to ERROR")
+            update(VerificationState.Initialization(VerificationStateStatus.ERROR, null))
+            return
         }
+
+        if (!verificationState.canInitiate) {
+            logger.warn("Initiate called but verificationState.canInitiate returned false")
+            return
+        }
+
+        logger.debug("Initiating verification")
+        update(VerificationState.Initialization(VerificationStateStatus.ONGOING, null))
+        onInitiate()
     }
 
     override fun stop() {

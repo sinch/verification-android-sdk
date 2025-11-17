@@ -10,12 +10,45 @@ ext {
 
 apply from: '../publish-mavencentral.gradle'
 
+def localProps = new Properties()
+localProps.load(new FileInputStream(rootProject.file("local.properties")))
+
+def debugMSISDN = localProps.getProperty("DEBUG_MSISDN", "")
+def debugIMSI = localProps.getProperty("DEBUG_IMSI", "")
+
 android {
     namespace "com.sinch.verification.seamless"
 
     defaultConfig {
         versionCode versionMajor * 10000 + versionMinor * 100 + versionPatch
         versionName versionNameFull
+        // Default value for India endpoint (fallback if no flavor is specified)
+        buildConfigField "String", "API_BASE_URL_IN", "\"https://dkrs.aclwhatsapp.com/\""
+    }
+    buildFeatures {
+        buildConfig true
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "DEBUG_MSISDN", "\"${debugMSISDN}\""
+            buildConfigField "String", "DEBUG_IMSI", "\"${debugIMSI}\""
+        }
+        release {
+            // Release builds don't need these debug values
+            buildConfigField "String", "DEBUG_MSISDN", "\"\""
+            buildConfigField "String", "DEBUG_IMSI", "\"\""
+        }
+    }
+    productFlavors {
+        production {
+            buildConfigField "String", "API_BASE_URL_IN", "\"https://dkrs.aclwhatsapp.com/\""
+        }
+        ftest1 {
+            buildConfigField "String", "API_BASE_URL_IN", "\"https://dkrs.aclwhatsapp.com/\""
+        }
+        ftest2 {
+            buildConfigField "String", "API_BASE_URL_IN", "\"https://dkrs.aclwhatsapp.com/\""
+        }
     }
 }
 
