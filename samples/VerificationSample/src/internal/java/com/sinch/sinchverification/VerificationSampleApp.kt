@@ -2,6 +2,7 @@ package com.sinch.sinchverification
 
 import android.app.Application
 import android.webkit.URLUtil
+import android.widget.Toast
 import com.sinch.logging.Log
 import com.sinch.logging.appenders.FileAppender
 import com.sinch.logging.appenders.LogcatAppender
@@ -67,6 +68,10 @@ class VerificationSampleApp : Application() {
     }
 
     fun updateCurrentConfigBaseURL(newEnv: String) {
+        if (!URLUtil.isValidUrl(newEnv)) {
+            Toast.makeText(this, getString(R.string.invalidEnvironmentUrl), Toast.LENGTH_SHORT).show()
+            return  // Don't save invalid URL
+        }
         sharedPrefsManager.usedConfig = sharedPrefsManager.usedConfig.copy(environment = newEnv)
         rebuildGlobalConfig()
     }
