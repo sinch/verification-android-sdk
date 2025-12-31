@@ -41,7 +41,7 @@ android {
     }
     productFlavors {
         production {
-            buildConfigField "String", "API_BASE_URL_IN", "\"https://dkrs.aclwhatsapp.com/\""
+            buildConfigField "String", "API_BASE_URL_IN", "\"https://smv.sinchconverse.com/\""
         }
         ftest1 {
             buildConfigField "String", "API_BASE_URL_IN", "\"https://dkrs.aclwhatsapp.com/\""
