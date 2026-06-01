@@ -1,32 +1,38 @@
 [
   {
-    "name": "PRODUCTION",
-    "appKey": "<YOUR APP KEY - PRODUCTION>",
-    "environment": "https://verificationapi-v1.sinch.com/"
+    "name": "Default",
+    "appKey": "<YOUR APP KEY - DEFAULT>",
+    "appSecret": "<YOUR APP SECRET - DEFAULT>",
+    "environment": "https://verification.api.sinch.com/"
   },
   {
-    "name": "APSE1",
-    "appKey": "<YOUR APP KEY - APSE1>",
-    "environment": "https://dc-apse1-std.verification.api.sinch.com/"
+    "name": "US",
+    "appKey": "<YOUR APP KEY - US>",
+    "appSecret": "<YOUR APP SECRET - US>",
+    "environment": "https://dc-usw2-std.verification.api.sinch.com/"
   },
   {
-    "name": "APS1",
-    "appKey": "<YOUR APP KEY - APS1>",
+    "name": "APS",
+    "appKey": "<YOUR APP KEY - APS>",
+    "appSecret": "<YOUR APP SECRET - APS>",
     "environment": "https://dc-aps1-std.verification.api.sinch.com/"
   },
   {
-    "name": "EUC1",
-    "appKey": "<YOUR APP KEY - EUC1>",
+    "name": "EU",
+    "appKey": "<YOUR APP KEY - EU>",
+    "appSecret": "<YOUR APP SECRET - EU>",
     "environment": "https://dc-euc1-std.verification.api.sinch.com/"
   },
   {
     "name": "FTEST1",
     "appKey": "<YOUR APP KEY - FTEST1>",
-    "environment": "https://ft1-verification.api.sinchlab.com/"
+    "appSecret": "<YOUR APP SECRET - FTEST1>",
+    "environment": "<YOUR ENVIRONMENT - FTEST1>"
   },
   {
     "name": "FTEST2",
     "appKey": "<YOUR APP KEY - FTEST2>",
-    "environment": "https://ft2-verification.api.sinchlab.com/"
+    "appSecret": "<YOUR APP SECRET - FTEST2>",
+    "environment": "<YOUR ENVIRONMENT - FTEST2>"
   }
 ]

@@ -98,6 +98,7 @@
                             android:id="@+id/appKeyInputLayoutEditText"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:enabled="false"
                             android:inputType="textNoSuggestions" />
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -106,6 +107,39 @@
                         android:id="@+id/updateAppKeyButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:insetTop="@dimen/marginSmall"
+                        android:insetBottom="@dimen/marginTiny"
+                        android:text="@string/update" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/appSecretInputLayout"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/appSecret">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/appSecretInputLayoutEditText"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:inputType="textNoSuggestions" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/updateAppSecretButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
                         android:insetTop="@dimen/marginSmall"
                         android:insetBottom="@dimen/marginTiny"
                         android:text="@string/update" />

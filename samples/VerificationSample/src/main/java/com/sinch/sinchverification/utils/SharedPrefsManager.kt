@@ -26,6 +26,7 @@ class SharedPrefsManager(private val appContext: Application) {
             return AppConfig(
                 name = this.usedConfigName,
                 appKey = appKey(usedConfigName),
+                appSecret = appSecret(usedConfigName),
                 environment = environment(usedConfigName),
                 isCustom = usedConfigName == AppConfig.CUSTOM_CONFIG_NAME
             )
@@ -34,6 +35,7 @@ class SharedPrefsManager(private val appContext: Application) {
             value.let {
                 usedConfigName = it.name
                 updateAppKey(it.name, it.appKey)
+                updateAppSecret(it.name, it.appSecret)
                 updateEnvironment(it.name, it.environment)
             }
         }
@@ -49,6 +51,13 @@ class SharedPrefsManager(private val appContext: Application) {
 
     private fun updateAppKey(configName: String, newKey: String) {
         preferences["${APP_KEY}_$configName"] = newKey
+    }
+
+    private fun appSecret(configName: String): String =
+        preferences["${APP_SECRET_KEY}_$configName", defaultConfigWithName(configName)?.appSecret.orEmpty()]
+
+    private fun updateAppSecret(configName: String, newSecret: String) {
+        preferences["${APP_SECRET_KEY}_$configName"] = newSecret
     }
 
     private fun environment(configName: String): String =

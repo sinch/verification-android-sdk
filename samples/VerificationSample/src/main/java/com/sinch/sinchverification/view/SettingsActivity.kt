@@ -51,6 +51,9 @@ class SettingsActivity : AppCompatActivity() {
         binding.updateAppKeyButton.setOnClickListener {
             myApplication.updateCurrentConfigKey(binding.appKeyInputLayoutEditText.text.toString())
         }
+        binding.updateAppSecretButton.setOnClickListener {
+            myApplication.updateCurrentConfigSecret(binding.appSecretInputLayoutEditText.text.toString())
+        }
     }
 
     private fun attachRadioGroupChangeListener() {
@@ -74,10 +77,15 @@ class SettingsActivity : AppCompatActivity() {
 
         with(binding) {
             appKeyInputLayoutEditText.setText(currentAppConfig.appKey)
+            appSecretInputLayoutEditText.setText(currentAppConfig.appSecret)
             baseURLInputLayoutEditText.setText(currentAppConfig.environment)
             envRadioGroup.check(idOfButtonToCheck)
-            listOf<View>(baseURLInputLayoutEditText, updateBaseUrlButton).forEach {
-                it.isEnabled = (currentAppConfig.isCustom)
+            listOf<View>(
+                baseURLInputLayoutEditText, updateBaseUrlButton,
+                appKeyInputLayoutEditText, updateAppKeyButton,
+                appSecretInputLayoutEditText, updateAppSecretButton
+            ).forEach {
+                it.isEnabled = currentAppConfig.isCustom
             }
         }
     }

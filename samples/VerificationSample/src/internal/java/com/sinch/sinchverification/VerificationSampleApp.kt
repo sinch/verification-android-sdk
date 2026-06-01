@@ -10,7 +10,7 @@ import com.sinch.sinchverification.utils.SharedPrefsManager
 import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.appenders.LogOverlayAppender
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
-import com.sinch.verification.core.auth.AppKeyAuthorizationMethod
+import com.sinch.verification.core.auth.BasicAuthorizationMethod
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.general.SinchGlobalConfig
 import okhttp3.logging.HttpLoggingInterceptor
@@ -43,9 +43,9 @@ class VerificationSampleApp : Application() {
         Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this), LogOverlayAppender())
     }
 
-    private fun buildGlobalConfig(apiHost: String, appKey: String): GlobalConfig =
+    private fun buildGlobalConfig(apiHost: String, appKey: String, appSecret: String): GlobalConfig =
         SinchGlobalConfig.Builder.instance.applicationContext(this)
-            .authorizationMethod(AppKeyAuthorizationMethod(appKey))
+            .authorizationMethod(BasicAuthorizationMethod(appKey, appSecret))
             .apiHost(apiHost)
             .interceptors(
                 FlipperInitializer.okHttpFlipperInterceptors +
@@ -66,6 +66,11 @@ class VerificationSampleApp : Application() {
         rebuildGlobalConfig()
     }
 
+    fun updateCurrentConfigSecret(newAppSecret: String) {
+        sharedPrefsManager.usedConfig = sharedPrefsManager.usedConfig.copy(appSecret = newAppSecret)
+        rebuildGlobalConfig()
+    }
+
     fun updateCurrentConfigBaseURL(newEnv: String) {
         sharedPrefsManager.usedConfig = sharedPrefsManager.usedConfig.copy(environment = newEnv)
         rebuildGlobalConfig()
@@ -83,7 +88,8 @@ class VerificationSampleApp : Application() {
         }
         globalConfig = buildGlobalConfig(
             apiHost = usedConfig.environment,
-            appKey = usedConfig.appKey
+            appKey = usedConfig.appKey,
+            appSecret = usedConfig.appSecret
         )
     }
 

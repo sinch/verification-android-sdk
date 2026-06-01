@@ -37,6 +37,7 @@
 
     <!--Settings screen-->
     <string name="appKey">Application Key</string>
+    <string name="appSecret">Application Secret</string>
     <string name="baseUrl">Base URL</string>
     <string name="update">Update</string>
     <string name="globalSettingsTitle">Global Settings</string>
