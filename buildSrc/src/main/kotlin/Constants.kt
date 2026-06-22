@@ -10,7 +10,7 @@ object Versions {
     const val navigation = "2.8.5"
 
     const val jUnit = "4.13.2"
-    const val jUnitAndroidX = "1.4.0"
+    const val jUnitAndroidX = "1.3.0"
     const val robolectric = "4.12.2"
     const val espresso = "3.6.1"
     const val androidXTestCore = "1.6.1"
