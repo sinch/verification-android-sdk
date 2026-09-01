@@ -26,7 +26,7 @@
 
 .conf:runner:tags:
   tags:
-    - rtc-mac
+    - rtc-ci-macbook
 
 .conf:debug:
   variables:
