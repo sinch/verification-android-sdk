@@ -1,10 +1,6 @@
 //Common gradle build file for all android libraries.
 apply plugin: 'org.jetbrains.dokka'
 
-tasks.dokkaHtmlCollector.configure {
-    //TODO change module name when
-}
-
 subprojects {
     apply plugin: 'com.android.library'
     apply plugin: 'kotlin-android'
