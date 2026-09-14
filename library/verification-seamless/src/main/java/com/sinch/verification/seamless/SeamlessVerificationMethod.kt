@@ -14,6 +14,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
 import androidx.core.app.ActivityCompat
 import com.sinch.logging.logger
 import com.sinch.verification.core.config.method.VerificationMethod
@@ -33,6 +34,7 @@ import com.sinch.verification.seamless.config.SeamlessVerificationConfig
 import com.sinch.verification.seamless.initialization.SeamlessInitializationListener
 import com.sinch.verification.seamless.initialization.SeamlessInitiationData
 import com.sinch.verification.seamless.initialization.SeamlessInitiationResponseData
+import com.sinch.verification.seamless.util.SeamlessRetrofitProvider
 import com.sinch.verification.utils.permission.Permission
 import com.sinch.verification.utils.permission.PermissionUtils
 import retrofit2.Retrofit
@@ -56,6 +58,8 @@ class SeamlessVerificationMethod private constructor(
     companion object {
         const val MAX_REQUEST_DELAY = 3000L // in ms
     }
+
+    private lateinit var seamlessRetrofit: Retrofit
 
     private val connectivityManager by lazy {
         config.globalConfig.context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -82,6 +86,7 @@ class SeamlessVerificationMethod private constructor(
 
     private var lastNetworkCallback: ConnectivityManager.NetworkCallback? = null
 
+    @SuppressLint("MissingPermission")
     override fun onPreInitiate(): Boolean {
         if (!PermissionUtils.isPermissionGranted(
                 globalConfig.context,
@@ -89,30 +94,28 @@ class SeamlessVerificationMethod private constructor(
             )
         ) {
             initializationListener.onInitializationFailed(VerificationException("Missing ${Permission.CHANGE_NETWORK_STATE}"))
+            return false
+        }
+        val tm: TelephonyManager =
+            globalConfig.context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager;
+
+        // Check if mobile data is connected for Oreo & Above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+            && PermissionUtils.isPermissionGranted(
+                globalConfig.context,
+                Permission.CHANGE_NETWORK_STATE
+            )
+        ) {
+            if (!tm.isDataEnabled) {
+                initializationListener.onInitializationFailed(VerificationException("Cellular network not available"))
+                return false
+            }
         }
         return true
     }
 
     override fun onInitiate() {
         logger.info("onInitiate called with requestData: $requestData")
-        verificationService.initializeVerification(requestData)
-            .enqueue(
-                retrofit = retrofit,
-                apiCallback = SimpleInitializationSeamlessApiCallback(
-                    listener = initializationListener,
-                    statusListener = this,
-                    successCallback = {
-                        verify(it.details.targetUri.orEmpty())
-                    }
-                ))
-    }
-
-    @SuppressLint("NewApi")
-    override fun onVerify(
-        verificationCode: String,
-        sourceType: VerificationSourceType,
-        method: VerificationMethodType?
-    ) {
 
         val cellularRequest = NetworkRequest.Builder()
             .addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR)
@@ -126,11 +129,11 @@ class SeamlessVerificationMethod private constructor(
                 super.onAvailable(network)
                 logger.debug("Cellular network available $network")
                 networkRequestHandler.removeCallbacksAndMessages(null)
+
+                seamlessRetrofit = SeamlessRetrofitProvider.buildVerificationServiceRetrofitWithSocket(config, socketFactory = network.socketFactory)
+
                 networkRequestHandler.post {
-                    executeVerificationRequest(
-                        verificationCode,
-                        globalConfig.socketFactoryRetrofit(network.socketFactory)
-                    )
+                    initiateVerificationRequest()
                 }
             }
 
@@ -166,9 +169,7 @@ class SeamlessVerificationMethod private constructor(
                 super.onUnavailable()
                 logger.error("Cellular network not available")
                 networkRequestHandler.removeCallbacksAndMessages(null)
-                networkRequestHandler.post {
-                    executeVerificationRequest(verificationCode)
-                }
+                verificationListener.onVerificationFailed(VerificationException("Cellular network not available"))
             }
         }
 
@@ -177,7 +178,11 @@ class SeamlessVerificationMethod private constructor(
         }
 
         networkRequestHandler.postDelayed({
-            executeVerificationRequest(verificationCode)
+            lastNetworkCallback?.let {
+                connectivityManager.unregisterNetworkCallback(it)
+            }
+            networkRequestHandler.removeCallbacksAndMessages(null)
+            verificationListener.onVerificationFailed(VerificationException("Cellular network not available"))
         }, MAX_REQUEST_DELAY)
     }
 
@@ -187,18 +192,36 @@ class SeamlessVerificationMethod private constructor(
         verificationListener.onVerificationFailed(e)
     }
 
-    private fun executeVerificationRequest(
+    private fun initiateVerificationRequest() {
+        val service = seamlessRetrofit.create(SeamlessVerificationService::class.java)
+
+        service.initializeVerification(requestData)
+            .enqueue(
+                retrofit = seamlessRetrofit,
+                apiCallback = SimpleInitializationSeamlessApiCallback(
+                    listener = initializationListener,
+                    statusListener = this,
+                    successCallback = {
+                        verify(it.details.targetUri.orEmpty())
+                    }
+                ))
+    }
+
+    @SuppressLint("NewApi")
+    override fun onVerify(
         verificationCode: String,
-        specificRetrofit: Retrofit? = null
+        sourceType: VerificationSourceType,
+        method: VerificationMethodType?
     ) {
-        val usedRetrofit = specificRetrofit ?: retrofit
+
+        val seamlessVerificationRetrofit = SeamlessRetrofitProvider.buildSeamlessVerificationRetrofit(seamlessRetrofit, config.number)
 
         val service: SeamlessVerificationService =
-            specificRetrofit?.create(SeamlessVerificationService::class.java) ?: verificationService
+            seamlessVerificationRetrofit.create(SeamlessVerificationService::class.java)
 
         service.verifySeamless(verificationCode)
             .enqueue(
-                retrofit = usedRetrofit,
+                retrofit = seamlessVerificationRetrofit,
                 apiCallback = VerificationApiCallback(
                     listener = verificationListener,
                     verificationStateListener = this,
