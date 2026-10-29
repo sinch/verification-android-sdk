@@ -56,6 +56,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "BUGFENDER_APP_KEY", "\"${project.findProperty('bugfenderKeyVerificationSample') ?: ""}\""
     }
 
     flavorDimensions "mode", "apienv"
@@ -120,6 +122,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}"
     implementation 'org.greenrobot:eventbus:3.3.1'
     implementation "androidx.preference:preference-ktx:1.2.1"
+    implementation "com.bugfender.sdk:android:${Versions.bugfender}"
 
     debugImplementation 'com.facebook.flipper:flipper:0.247.0'
     debugImplementation 'com.facebook.flipper:flipper-network-plugin:0.247.0'

@@ -36,4 +36,5 @@ open class VerificationData(@SerialName("method") open val method: VerificationM
      */
     @SerialName("callout")
     open val calloutDetails: CalloutVerificationDetails? = null
+
 }

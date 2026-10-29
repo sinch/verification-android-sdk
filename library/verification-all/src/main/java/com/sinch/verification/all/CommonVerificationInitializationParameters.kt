@@ -1,5 +1,6 @@
 package com.sinch.verification.all
 
+import android.app.Activity
 import com.sinch.verification.core.VerificationInitData
 import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.initiation.response.EmptyInitializationListener
@@ -15,10 +16,12 @@ import com.sinch.verification.core.verification.response.VerificationListener
  * @property verificationInitData Initialization data reference.
  * @property initiationListener Initialization process listener reference.
  * @property verificationListener Verification process listener reference.
+ * @property activity Activity required for the seamless v2 digital credential picker UI. Only needed when v2 responses are expected.
  */
 class CommonVerificationInitializationParameters(
     val globalConfig: GlobalConfig,
     val verificationInitData: VerificationInitData,
     val initiationListener: InitiationListener<InitiationResponseData> = EmptyInitializationListener(),
-    val verificationListener: VerificationListener = EmptyVerificationListener()
+    val verificationListener: VerificationListener = EmptyVerificationListener(),
+    val activity: Activity? = null
 )

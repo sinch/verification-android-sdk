@@ -62,7 +62,7 @@ abstract class VerificationMethod<Service>(
         method: VerificationMethodType? = null
     ) {
         if (verificationState.canVerify) {
-            logger.info("Verify called with code: $verificationCode for method: $method acquired from source: $sourceType")
+            logger.info("Verify called with code: ${verificationCode.substringBefore("?")} for method: $method acquired from source: $sourceType")
             update(VerificationState.Verification(VerificationStateStatus.ONGOING))
             onVerify(verificationCode, sourceType, method)
         } else {

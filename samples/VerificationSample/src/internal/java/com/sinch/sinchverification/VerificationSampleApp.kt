@@ -2,11 +2,13 @@ package com.sinch.sinchverification
 
 import android.app.Application
 import android.webkit.URLUtil
+import com.bugfender.sdk.Bugfender
 import com.sinch.logging.Log
 import com.sinch.logging.appenders.FileAppender
 import com.sinch.logging.appenders.LogcatAppender
 import com.sinch.sinchverification.utils.HttpFileLogger
 import com.sinch.sinchverification.utils.SharedPrefsManager
+import com.sinch.sinchverification.utils.appenders.BugfenderAppender
 import com.sinch.sinchverification.utils.appenders.EventBusAppender
 import com.sinch.sinchverification.utils.appenders.LogOverlayAppender
 import com.sinch.sinchverification.utils.logoverlay.LogOverlay
@@ -30,6 +32,7 @@ class VerificationSampleApp : Application() {
     override fun onCreate() {
         super.onCreate()
         initFlipper()
+        initBugfender()
         initLogger()
         rebuildGlobalConfig()
     }
@@ -38,9 +41,23 @@ class VerificationSampleApp : Application() {
         FlipperInitializer.initFlipperPlugins(this)
     }
 
+    private fun initBugfender() {
+        if (BuildConfig.BUGFENDER_APP_KEY.isEmpty()) {
+            return
+        }
+        Bugfender.init(this, BuildConfig.BUGFENDER_APP_KEY, BuildConfig.DEBUG)
+        Bugfender.enableCrashReporting()
+    }
+
     private fun initLogger() {
         LogOverlay.init(this)
-        Log.init(LogcatAppender(), EventBusAppender(), FileAppender(this), LogOverlayAppender())
+        Log.init(
+            LogcatAppender(),
+            EventBusAppender(),
+            FileAppender(this),
+            LogOverlayAppender(),
+            BugfenderAppender()
+        )
     }
 
     private fun buildGlobalConfig(apiHost: String, appKey: String, appSecret: String): GlobalConfig =

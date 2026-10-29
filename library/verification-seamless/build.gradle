@@ -25,4 +25,11 @@ dependencies {
     implementation "com.squareup.retrofit2:retrofit:${Versions.retrofit}"
     implementation "com.squareup.retrofit2:converter-kotlinx-serialization:${Versions.kotlinXConverter}"
     implementation "com.squareup.okhttp3:okhttp:${Versions.okhttp}"
+
+    implementation "androidx.credentials:credentials:${Versions.credentials}"
+    implementation "androidx.credentials:credentials-play-services-auth:${Versions.credentials}"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.coroutines}"
+
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:${Versions.coroutines}"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-serialization-json:${Versions.xSerialization}"
 }

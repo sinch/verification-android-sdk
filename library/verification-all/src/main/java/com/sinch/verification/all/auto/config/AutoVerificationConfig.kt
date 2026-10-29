@@ -1,5 +1,6 @@
 package com.sinch.verification.all.auto.config
 
+import android.app.Activity
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.verification.all.auto.AutoVerificationService
 import com.sinch.verification.core.BaseVerificationMethodConfigBuilder
@@ -9,6 +10,7 @@ import com.sinch.verification.core.config.general.GlobalConfig
 import com.sinch.verification.core.config.method.VerificationMethodConfig
 import com.sinch.verification.core.verification.VerificationLanguage
 import com.sinch.verificationcore.BuildConfig
+import java.lang.ref.WeakReference
 
 class AutoVerificationConfig internal constructor(
     globalConfig: GlobalConfig,
@@ -16,7 +18,8 @@ class AutoVerificationConfig internal constructor(
     honourEarlyReject: Boolean = true,
     custom: String? = null,
     reference: String? = null,
-    val appHash: String? = null
+    val appHash: String? = null,
+    activity: Activity? = null
 ) : VerificationMethodConfig<AutoVerificationService>(
     globalConfig = globalConfig,
     number = number,
@@ -31,6 +34,9 @@ class AutoVerificationConfig internal constructor(
         BuildConfig.FLAVOR
     )
 ) {
+    private val activityRef: WeakReference<Activity>? = activity?.let { WeakReference(it) }
+
+    internal val activityContext: Activity? get() = activityRef?.get()
 
     class Builder private constructor() :
         BaseVerificationMethodConfigBuilder<AutoVerificationConfigCreator>(),
@@ -51,6 +57,7 @@ class AutoVerificationConfig internal constructor(
 
         private lateinit var globalConfig: GlobalConfig
         private var appHash: String? = null
+        private var activity: Activity? = null
 
         /**
          * Builds [AutoVerificationConfig] instance.
@@ -63,7 +70,8 @@ class AutoVerificationConfig internal constructor(
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
                 reference = reference,
-                appHash = appHash
+                appHash = appHash,
+                activity = activity
             )
 
         /**
@@ -120,6 +128,10 @@ class AutoVerificationConfig internal constructor(
         @Deprecated("For security purposes configure your application hash directly on the Sinch web portal.")
         override fun appHash(appHash: String?) = apply {
             this.appHash = appHash
+        }
+
+        override fun activity(activity: Activity): AutoVerificationConfigCreator = apply {
+            this.activity = activity
         }
 
         override fun skipLocalInitialization(): AutoVerificationConfigCreator {

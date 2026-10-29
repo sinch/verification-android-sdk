@@ -19,6 +19,9 @@ object Versions {
     const val targetSdk = 35
     const val minSdk = 23
 
+    const val coroutines = "1.9.0"
+    const val credentials = "1.6.0"
+
     const val retrofit = "2.11.0"
     const val okhttp = "4.12.0"
     const val xSerialization = "1.7.3"
@@ -30,4 +33,7 @@ object Versions {
 
     const val playAuth = "21.2.0"
     const val playAuthPhone = "18.1.0"
+
+    const val bugfender = "3.1.1"
+
 }

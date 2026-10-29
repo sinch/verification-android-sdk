@@ -21,6 +21,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
  */
 class SinchGlobalConfig private constructor(
     override val context: Context,
+    override val json: Json,
     override val retrofit: Retrofit,
     private val httpClientInterceptors: List<Interceptor>
 ) : GlobalConfig {
@@ -76,18 +77,18 @@ class SinchGlobalConfig private constructor(
                     .apply { additionalInterceptors.forEach { addInterceptor(it) } }
                     .build()
 
+            val json = Json {
+                encodeDefaults = true
+                ignoreUnknownKeys = true
+            }
             val retrofit = Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addConverterFactory(
-                    Json {
-                        encodeDefaults = true
-                        ignoreUnknownKeys = true
-                    }.asConverterFactory("application/json".toMediaType())
-                )
+                .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
                 .client(okHttpClient)
                 .build()
             return SinchGlobalConfig(
                 context,
+                json,
                 retrofit,
                 additionalInterceptors
             )

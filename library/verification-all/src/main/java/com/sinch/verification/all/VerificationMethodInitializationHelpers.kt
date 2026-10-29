@@ -90,25 +90,26 @@ private fun CommonVerificationInitializationParameters.asCalloutVerification() =
         .verificationListener(verificationListener)
         .build()
 
-private fun CommonVerificationInitializationParameters.asSeamlessVerification() =
-    SeamlessVerificationMethod.Builder().config(
-        SeamlessVerificationConfig.Builder()
-            .globalConfig(globalConfig)
-            .withVerificationProperties(verificationInitData)
-            .build()
-    )
+private fun CommonVerificationInitializationParameters.asSeamlessVerification(): Verification {
+    val configBuilder = SeamlessVerificationConfig.Builder()
+        .globalConfig(globalConfig)
+        .withVerificationProperties(verificationInitData)
+    activity?.let { configBuilder.activity(it) }
+    return SeamlessVerificationMethod.Builder().config(configBuilder.build())
         .initializationListener(initiationListener)
         .verificationListener(verificationListener)
         .build()
+}
 
-private fun CommonVerificationInitializationParameters.asAutoVerification(appHash: String? = null) =
-    AutoVerificationMethod.Builder().config(
-        AutoVerificationConfig.Builder()
-            .globalConfig(globalConfig)
-            .withVerificationProperties(verificationInitData)
-            .appHash(appHash)
-            .build()
-    )
+@Suppress("DEPRECATION")
+private fun CommonVerificationInitializationParameters.asAutoVerification(appHash: String? = null): Verification {
+    val configBuilder = AutoVerificationConfig.Builder()
+        .globalConfig(globalConfig)
+        .withVerificationProperties(verificationInitData)
+        .appHash(appHash)
+    activity?.let { configBuilder.activity(it) }
+    return AutoVerificationMethod.Builder().config(configBuilder.build())
         .initializationListener(initiationListener)
         .verificationListener(verificationListener)
         .build()
+}

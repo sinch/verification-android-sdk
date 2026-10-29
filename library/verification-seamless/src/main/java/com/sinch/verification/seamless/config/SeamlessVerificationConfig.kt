@@ -1,5 +1,6 @@
 package com.sinch.verification.seamless.config
 
+import android.app.Activity
 import com.sinch.metadata.AndroidMetadataFactory
 import com.sinch.verification.core.BaseVerificationMethodConfigBuilder
 import com.sinch.verification.core.config.GlobalConfigSetter
@@ -11,20 +12,23 @@ import com.sinch.verification.core.verification.VerificationLanguage
 import com.sinch.verification.seamless.SeamlessVerificationMethod
 import com.sinch.verification.seamless.SeamlessVerificationService
 import com.sinch.verificationcore.BuildConfig
+import java.lang.ref.WeakReference
 
 /**
- * Configuration used by [SeamlessVerificationMethod] to handle flashcall verification.
+ * Configuration used by [SeamlessVerificationMethod] to handle seamless verification.
  * @param globalConfig Global SDK configuration reference.
  * @param number Phone number that needs be verified.
  * @property honourEarlyReject Flag indicating if the verification process should honour early rejection rules.
  * @property custom Custom string that is passed with the initiation request.
+ * @property activity Activity used as context for the v2 digital credential picker UI. Not required for v1.
  */
 class SeamlessVerificationConfig internal constructor(
     globalConfig: GlobalConfig,
     number: String?,
     honourEarlyReject: Boolean = true,
     custom: String? = null,
-    reference: String? = null
+    reference: String? = null,
+    activity: Activity? = null
 ) : VerificationMethodConfig<SeamlessVerificationService>(
     globalConfig = globalConfig,
     number = number,
@@ -39,6 +43,10 @@ class SeamlessVerificationConfig internal constructor(
         BuildConfig.FLAVOR
     )
 ) {
+    private val activityRef: WeakReference<Activity>? = activity?.let { WeakReference(it) }
+
+    /** Returns the [Activity] for the v2 credential picker, or null if not set or already collected. */
+    internal val activityContext: Activity? get() = activityRef?.get()
 
     class Builder private constructor() :
         BaseVerificationMethodConfigBuilder<SeamlessVerificationConfigCreator>(),
@@ -58,6 +66,7 @@ class SeamlessVerificationConfig internal constructor(
         }
 
         private lateinit var globalConfig: GlobalConfig
+        private var activity: Activity? = null
 
         /**
          * Builds [SeamlessVerificationConfig] instance.
@@ -69,7 +78,8 @@ class SeamlessVerificationConfig internal constructor(
                 number = number,
                 honourEarlyReject = honourEarlyReject,
                 custom = custom,
-                reference = reference
+                reference = reference,
+                activity = activity
             )
 
         /**
@@ -116,6 +126,17 @@ class SeamlessVerificationConfig internal constructor(
          */
         override fun number(number: String): SeamlessVerificationConfigCreator = apply {
             this.number = number
+        }
+
+        /**
+         * Provides the Activity context needed to display the v2 credential picker UI.
+         * Call this when your app may perform a v2 seamless verification — without it,
+         * the v2 flow will fail at runtime.
+         * @param activity The currently visible Activity that will host the credential picker.
+         * @return Instance of builder with assigned activity.
+         */
+        override fun activity(activity: Activity): SeamlessVerificationConfigCreator = apply {
+            this.activity = activity
         }
 
         /**

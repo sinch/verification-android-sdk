@@ -124,7 +124,8 @@ class VerificationDialog : DialogFragment(), VerificationListener {
                 globalConfig = app.globalConfig,
                 verificationInitData = initData,
                 initiationListener = initListener,
-                verificationListener = this
+                verificationListener = this,
+                activity = requireActivity()
             ),
             appHash = AppSignatureHelper(app).appSignatures[0]
         ).also { it.initiate() }
@@ -146,6 +147,10 @@ class VerificationDialog : DialogFragment(), VerificationListener {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onMessageEvent(event: LogMessageEvent.Info) {
         appendLoggerText(event.msg)
+    }
+
+    fun handleDeepLink(url: String) {
+        verification.verify(url)
     }
 
     override fun onVerified() {

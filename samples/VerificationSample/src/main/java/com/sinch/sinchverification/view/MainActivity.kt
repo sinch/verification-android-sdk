@@ -142,6 +142,15 @@ class MainActivity : AppCompatActivity() {
         LogOverlay.show()
     }
 
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        logger.info("onNewIntent called with URI: ${intent.data}")
+        intent.data?.toString()?.let { url ->
+            val dialog = supportFragmentManager.findFragmentByTag(VERIFICATION_DIALOG_TAG) as? VerificationDialog
+            dialog?.handleDeepLink(url)
+        }
+    }
+
     override fun onStop() {
         super.onStop()
         LogOverlay.hide()

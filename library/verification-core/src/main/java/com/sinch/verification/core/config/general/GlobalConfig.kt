@@ -2,6 +2,7 @@ package com.sinch.verification.core.config.general
 
 import android.content.Context
 import javax.net.SocketFactory
+import kotlinx.serialization.json.Json
 import retrofit2.Retrofit
 
 /**
@@ -13,6 +14,11 @@ interface GlobalConfig {
      * Application context reference. DO NOT use activity as context here as it may outlive global config instances.
      */
     val context: Context
+
+    /**
+     * Shared Json instance used for serialization/deserialization across the SDK and Retrofit.
+     */
+    val json: Json
 
     /**
      * Retrofit instance used for communication with Sinch API.
